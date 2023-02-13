@@ -13,9 +13,14 @@
  */
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.PointerInfo;
+
 import java.util.LinkedList;
 
 import javax.swing.*;
+import javax.swing.JFrame;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -33,16 +38,18 @@ public class AV3DNavigator extends JComponent
 
     // Variáveis globais.
 
-    public int TamanhoPlanoX = 500;
-    public int TamanhoPlanoY = 500;
+    public int TamanhoPlanoX = 400;
+    public int TamanhoPlanoY = 400;
     public int MinTamanhoPlanoX = 300;
     public int MinTamanhoPlanoY = 300;
     public Color CorBackground = Color.BLACK;
     public Color CorLinhas = Color.WHITE;
-    public int TamanhoEspacoLabelStatus = 300;
-    public int TamanhoFonteLabelStatus = 12;
+    public int TamanhoEspacoLabelStatus = 320;
+    public int TamanhoFonteLabelStatus = 11;
     public long DistanciaTela = 1; // Mínimo valor: 1.
+    public static String MensagemErroEspacoAusente = "Entre com um arquivo de espaço.";
     public String MensagemErroEspacoInvalido = "Entre com um arquivo de espaço válido.";
+    public double FatorMouseWheel = 3;
 
     // Variáveis de funcionamento interno.
 
@@ -50,6 +57,7 @@ public class AV3DNavigator extends JComponent
     public int CorrecaoY = 0;
     public int Sair = 0;
     public String Espaco;
+    public int FlagAlteracaoStatus = 1;
 
     public double x = 0;
     public double y = 0;
@@ -61,6 +69,9 @@ public class AV3DNavigator extends JComponent
     public double zt = z;
     public double Tetat = Teta;
     public double Phit = Phi;
+    public int MouseDown = 0;
+    public int MouseX;
+    public int MouseY;
 
     private static class Line
         {
@@ -111,7 +122,7 @@ public class AV3DNavigator extends JComponent
             }
         }
 
-    public static void main (String[] args) {AV3DNavigator mainc = new AV3DNavigator(); if (args.length == 0) System.out.println("Entre com um arquivo de espaço."); else mainc.mainrun(args[0]);}
+    public static void main (String[] args) {AV3DNavigator mainc = new AV3DNavigator(); if (args.length == 0) System.out.println(MensagemErroEspacoAusente); else mainc.mainrun(args[0]);}
 
     public void mainrun (String ArquivoEspaco)
         {
@@ -141,13 +152,38 @@ public class AV3DNavigator extends JComponent
         AV3DNavigator comp = new AV3DNavigator();
         comp.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY));
         FrameEspaco.getContentPane().add(comp, BorderLayout.PAGE_START);
-        JLabel LabelStatus = new JLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ". z = " + String.valueOf(z) + ".<br> Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br><br>Setas para strafe.<br><br>Barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+        JLabel LabelStatus = new JLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ". z = " + String.valueOf(z) + ".<br> Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br><br>Setas para strafe.<br><br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
         LabelStatus.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelStatus));
         LabelStatus.setOpaque(true);
         LabelStatus.setLocation(5, TamanhoPlanoY + 5);
         FrameEspaco.add(LabelStatus);
 
-        FrameEspaco.addKeyListener(new KeyListener() {
+        FrameEspaco.addMouseListener(new MouseListener()
+            {
+            public void mousePressed(MouseEvent MouseEvento) {MouseDown = 1;}
+
+            public void mouseClicked(MouseEvent MouseEvento) {}
+            public void mouseEntered(MouseEvent MouseEvento) {}
+            public void mouseExited(MouseEvent MouseEvento) {}
+            public void mouseReleased(MouseEvent MouseEvento) {MouseDown = 0;}
+            public void mouseDragged(MouseEvent MouseEvento) {}
+            public void mouseMoved(MouseEvent MouseEvento) {}
+            });
+
+        FrameEspaco.addMouseWheelListener(e -> {
+            x -= FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.cos(-Teta);
+
+            y -= FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.sin(-Teta);
+
+            z -= FatorMouseWheel * e.getWheelRotation() * Math.sin(Phi);
+
+            xt = x; yt = y; zt = z;
+
+            FlagAlteracaoStatus = 1;
+            });
+
+        FrameEspaco.addKeyListener(new KeyListener()
+            {
             public void keyPressed(KeyEvent ke)
                 {
                 int keyCode = ke.getKeyCode();
@@ -219,9 +255,7 @@ public class AV3DNavigator extends JComponent
                     z -= Math.sin(Phi);
                     }
 
-                DesenharEspaco(comp);
-
-                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ". z = " + String.valueOf(z) + ".<br> Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br><br>Setas para strafe.<br><br>Barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+                FlagAlteracaoStatus = 1;
                 }
 
             public void keyReleased(KeyEvent ke){}
@@ -274,20 +308,45 @@ public class AV3DNavigator extends JComponent
                     zt = z;
                     Tetat = Teta;
                     Phit = Phi;
+
+                    FlagAlteracaoStatus = 1;
                     }
 
-            if (xt > x) xt -= 0.1;
-            if (yt > y) yt -= 0.1;
-            if (zt > z) zt -= 0.1;
-            if (Tetat > Teta) Tetat -= 0.05;
-            if (Phit > Phi) Phit -= 0.05;
-            if (xt < x) xt += 0.1;
-            if (yt < y) yt += 0.1;
-            if (zt < z) zt += 0.1;
-            if (Tetat < Teta) Tetat += 0.05;
-            if (Phit < Phi) Phit += 0.05;
+            Point reference = FrameEspaco.getLocationOnScreen();
+            MouseX = MouseInfo.getPointerInfo().getLocation().x - reference.x;
+            MouseY = MouseInfo.getPointerInfo().getLocation().y - reference.y;
+
+            if (MouseDown == 0)
+                {
+                if (xt > x) xt -= 0.1;
+                if (yt > y) yt -= 0.1;
+                if (zt > z) zt -= 0.1;
+                if (Tetat > Teta) Tetat -= 0.05;
+                if (Phit > Phi) Phit -= 0.05;
+                if (xt < x) xt += 0.1;
+                if (yt < y) yt += 0.1;
+                if (zt < z) zt += 0.1;
+                if (Tetat < Teta) Tetat += 0.05;
+                if (Phit < Phi) Phit += 0.05;
+                }
+            else
+                {
+                Teta = MouseX * 2 * Math.PI / TamanhoPlanoX - Math.PI;
+                Tetat = Teta;
+                Phi = MouseY * Math.PI / TamanhoPlanoY - Math.PI / 2;
+                Phit = Phi;
+
+                FlagAlteracaoStatus = 1;
+                }
 
             DesenharEspaco(comp);
+
+            if (FlagAlteracaoStatus == 1)
+                {
+                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ". z = " + String.valueOf(z) + ".<br> Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br><br>Setas para strafe.<br><br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+
+                FlagAlteracaoStatus = 0;
+                }
 
             try {Thread.sleep(10);} catch(InterruptedException e) {}
             }
