@@ -45,9 +45,9 @@ public class AV3DNavigator extends JComponent
     public double AnguloVisao = Math.PI / 2; // Default: Math.PI / 2.
     public Color CorBackground = Color.BLACK; // Default: Color.BLACK.
     public Color CorLinhas = Color.WHITE; // Default: Color.WHITE.
-    public int TamanhoEspacoLabelStatus = 320; // Default: 320.
-    public int TamanhoFonteLabelStatus = 11; // Default: 11.
-    public long DistanciaTela = 2; // Default: 2.
+    public int TamanhoEspacoLabelStatus = 310; // Default: 320.
+    public int TamanhoFonteLabelStatus = 10; // Default: 11.
+    public long DistanciaTela = 2; // Default: valor inicial: 2.
     public static String MensagemErroEspacoAusente = "Entre com um arquivo de espaço.";
     public String MensagemErroEspacoInvalido = "Entre com um arquivo de espaço válido.";
     public double FatorMouseWheel = 3; // Default: 3.
@@ -159,7 +159,7 @@ public class AV3DNavigator extends JComponent
         AV3DNavigator comp = new AV3DNavigator();
         comp.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY));
         FrameEspaco.getContentPane().add(comp, BorderLayout.PAGE_START);
-        JLabel LabelStatus = new JLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ". z = " + String.valueOf(z) + ".<br> Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br><br>Setas para strafe.<br><br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+        JLabel LabelStatus = new JLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ". z = " + String.valueOf(z) + ".<br> Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br><br>Setas para strafe.<br><br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
         LabelStatus.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelStatus));
         LabelStatus.setOpaque(true);
         LabelStatus.setLocation(5, TamanhoPlanoY + 5);
@@ -234,6 +234,12 @@ public class AV3DNavigator extends JComponent
 
                 if (keyCode == KeyEvent.VK_B)
                     {if (Math.abs(Phi) < Math.PI / 2 - AcrescimoAngular) Phi -= AcrescimoAngular;}
+
+                if (keyCode == KeyEvent.VK_Q)
+                    DistanciaTela -= 1;
+
+                if (keyCode == KeyEvent.VK_W)
+                    DistanciaTela += 1;
 
                 if (keyCode == KeyEvent.VK_UP)
                     {
@@ -351,7 +357,7 @@ public class AV3DNavigator extends JComponent
 
             if (FlagAlteracaoStatus == 1)
                 {
-                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ". z = " + String.valueOf(z) + ".<br> Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br><br>Setas para strafe.<br><br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ". z = " + String.valueOf(z) + ".<br> Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br><br>Setas para strafe.<br><br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
 
                 FlagAlteracaoStatus = 0;
                 }
@@ -364,10 +370,14 @@ public class AV3DNavigator extends JComponent
 
     public void DesenharEspaco(AV3DNavigator comp)
         {
-        comp.clearLines();
+        int FatorZ = 1;
+
+        if (Math.cos(-Teta) < 0) FatorZ = -1;
         
         String [] EspacoLinhas = Espaco.split("\\|");
-        
+
+        comp.clearLines();
+
         for (int i = 0; i < EspacoLinhas.length; i++)
             {
             String [] Pontos = EspacoLinhas[i].split(";");
@@ -379,8 +389,8 @@ public class AV3DNavigator extends JComponent
             double xd = (-Double.parseDouble(CoordenadasDest[0]) - xt);
             double yo = (Double.parseDouble(CoordenadasOrig[1]) - yt);
             double yd = (Double.parseDouble(CoordenadasDest[1]) - yt);
-            double zo = (Double.parseDouble(CoordenadasOrig[2]) - zt);
-            double zd = (Double.parseDouble(CoordenadasDest[2]) - zt);
+            double zo = FatorZ * (Double.parseDouble(CoordenadasOrig[2]) - zt);
+            double zd = FatorZ * (Double.parseDouble(CoordenadasDest[2]) - zt);
 
             int xi = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * Math.tan(Math.atan(yo / xo) + Tetat)) - CorrecaoX;
 
