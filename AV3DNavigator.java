@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 15-02-2023
+ * Última atualização: 16-02-2023
  */
 
 import java.awt.*;
@@ -243,10 +243,10 @@ public class AV3DNavigator extends JComponent
                 if (keyCode == KeyEvent.VK_V) {Teta -= DeslocamentoAngular;}
 
                 if (keyCode == KeyEvent.VK_G)
-                    {if (Math.abs(Phi) < Math.PI / 2 - DeslocamentoAngular) Phi += DeslocamentoAngular;}
+                    Phi += DeslocamentoAngular;
 
                 if (keyCode == KeyEvent.VK_B)
-                    {if (Math.abs(Phi) < Math.PI / 2 - DeslocamentoAngular) Phi -= DeslocamentoAngular;}
+                    Phi -= DeslocamentoAngular;
 
                 if (keyCode == KeyEvent.VK_Q)
                     {if (DistanciaTela > 1) DistanciaTela -= 1;}
@@ -423,9 +423,8 @@ public class AV3DNavigator extends JComponent
                 Teta = 2 * Math.PI * (MouseX - MouseXR) / TamanhoPlanoX + TetaR;
                 Tetat = Teta;
 
-                double Temp = Math.PI * (MouseY - MouseYR) / TamanhoPlanoY + PhiR;
-
-                if (Math.abs(Temp) < Math.PI / 2) {Phi = Temp; Phit = Phi;}
+                Phi = Math.PI * (MouseY - MouseYR) / TamanhoPlanoY + PhiR;
+                Phit = Phi;
 
                 FlagAlteracaoStatus = 1;
                 }
