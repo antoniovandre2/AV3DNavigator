@@ -61,11 +61,13 @@ public class AV3DNavigator extends JComponent
     public double DeslocamentoLinear = 1; // Default: 1.
     public double DeslocamentoAngular = 0.2; // Default: 0.2.
     public int FramesDeslocamento = 4; // Default: 5.
+    public double ShiftCartesianoAnular = 0.01; // Default: 0.01.
 
     // Variáveis de funcionamento interno.
 
     public int CorrecaoX = 10;
     public int CorrecaoY = 0;
+    public int FatorZ;
     public int Sair = 0;
     public String Espaco;
     public int FlagAlteracaoStatus = 1;
@@ -433,6 +435,8 @@ public class AV3DNavigator extends JComponent
                 {
                 LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar o fator redutor do ângulo de visão.<br><br>Setas para strafe.<br><br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
 
+                if (Math.cos(-Teta) > 0) FatorZ = 1; else FatorZ = -1;
+        
                 DesenharEspaco(comp);
 
                 FlagAlteracaoStatus = 0;
@@ -446,10 +450,6 @@ public class AV3DNavigator extends JComponent
 
     public void DesenharEspaco(AV3DNavigator comp)
         {
-        int FatorZ = 1;
-
-        if (Math.cos(-Teta) < 0) FatorZ = -1;
-        
         String [] EspacoLinhas = Espaco.split("\\|");
 
         comp.clearLines();
@@ -490,7 +490,7 @@ public class AV3DNavigator extends JComponent
             double zd = zda.doubleValue();
 */
 
-            if ((xo != 0) && (xd != 0) && (yo != 0) && (yd != 0) && (zo != 0) && (zd != 0))
+            if ((Math.abs(xo) > ShiftCartesianoAnular) && (Math.abs(xd) > ShiftCartesianoAnular) && (Math.abs(yo) > ShiftCartesianoAnular) && (Math.abs(yd) > ShiftCartesianoAnular) && (Math.abs(zo) > ShiftCartesianoAnular) && (Math.abs(zd) > ShiftCartesianoAnular))
                 {
                 int xi;
                 int yi;
@@ -540,7 +540,11 @@ public class AV3DNavigator extends JComponent
                     yf = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(xda.divide(zda)).multiply(new Apfloat(-1)).add(new Apfloat(Math.PI / 2)).add(new Apfloat(Phit)))).doubleValue()) - CorrecaoY;
 */
 
-                if (((xo * Math.cos(-Tetat) * Math.cos(-Phit) + yo * Math.sin(-Tetat) * Math.cos(-Phit) + zo * Math.sin(-Phit)) / Math.sqrt(xo * xo + yo * yo + zo * zo) < Math.cos(AnguloVisao)) && ((xd * Math.cos(-Tetat) * Math.cos(-Phit) + yd * Math.sin(-Tetat) * Math.cos(-Phit) + zd * Math.sin(-Phit)) / Math.sqrt(xd * xd + yd * yd + zd * zd) < Math.cos(AnguloVisao)) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi, Math.max(yi, Math.max(xf, yf))) < Math.min(TamanhoPlanoX, TamanhoPlanoY)))
+                double ProdutoEscalaro = xo * Math.cos(-Tetat) * Math.cos(-Phit) + yo * Math.sin(-Tetat) * Math.cos(-Phit) + FatorZ * zo * Math.sin(-Phit);
+
+                double ProdutoEscalard = xd * Math.cos(-Tetat) * Math.cos(-Phit) + yd * Math.sin(-Tetat) * Math.cos(-Phit) + FatorZ * zd * Math.sin(-Phit);
+
+                if ((ProdutoEscalaro < 0) && (ProdutoEscalard < 0) && (ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + FatorZ * zo * zo) < Math.cos(AnguloVisao)) && (ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd) < Math.cos(AnguloVisao)) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi, Math.max(yi, Math.max(xf, yf))) < Math.min(TamanhoPlanoX, TamanhoPlanoY)))
                     comp.addLine(xi, yi, xf, yf, CorLinhas);
 
                 }
