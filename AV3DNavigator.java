@@ -590,7 +590,7 @@ public class AV3DNavigator extends JComponent
 
                     double ProdutoEscalard = xd * Math.cos(-Tetat) * Math.cos(-Phit) + yd * Math.sin(-Tetat) * Math.cos(-Phit) + FatorZ * zd * Math.sin(-Phit);
     
-                    if ((ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo) < Math.abs(Math.cos(AnguloVisao))) && (ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd) < Math.abs(Math.cos(AnguloVisao))) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0))
+                    if ((Math.acos(-ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo)) < AnguloVisao) && (Math.acos(-ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd)) < AnguloVisao) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi, Math.max(yi, Math.max(xf, yf))) < Math.min(TamanhoPlanoX, TamanhoPlanoY)))
                         comp.addLine(xi, yi, xf, yf, CorLinhas);
                     }
                 }
@@ -641,7 +641,7 @@ public class AV3DNavigator extends JComponent
 
                     Apfloat ProdutoEscalarda = xda.multiply(ApfloatMath.cos(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit))).add(yda.multiply(ApfloatMath.sin(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit)))).add((new Apfloat(FatorZ)).multiply(zda).multiply(ApfloatMath.sin(new Apfloat(-Phit))));
 
-                    if ((ProdutoEscalaroa.divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa)))).doubleValue() < ApfloatMath.abs(ApfloatMath.cos(new Apfloat(AnguloVisao))).doubleValue()) && (ProdutoEscalarda.divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda)))).doubleValue() < ApfloatMath.abs(ApfloatMath.cos(new Apfloat(AnguloVisao))).doubleValue()))
+                    if ((ApfloatMath.acos(ProdutoEscalaroa.multiply(new Apfloat(-1)).divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).doubleValue() < AnguloVisao) && (ApfloatMath.acos(ProdutoEscalarda.multiply(new Apfloat(-1)).divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).doubleValue() < AnguloVisao) && (ApfloatMath.min(new Apfloat(xi), ApfloatMath.min(new Apfloat(yi), ApfloatMath.min(new Apfloat(xf), new Apfloat(yf)))).doubleValue() > 0) && (ApfloatMath.max(new Apfloat(xi), ApfloatMath.max(new Apfloat(yi), ApfloatMath.max(new Apfloat(xf), new Apfloat(yf)))).doubleValue() < ApfloatMath.min(new Apfloat(TamanhoPlanoX), new Apfloat(TamanhoPlanoY)).doubleValue()))
                         comp.addLine(xi, yi, xf, yf, CorLinhas);
                     }
                 }
