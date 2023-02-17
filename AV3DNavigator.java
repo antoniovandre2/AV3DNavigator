@@ -280,16 +280,16 @@ public class AV3DNavigator extends JComponent
 
                 if (keyCode == KeyEvent.VK_UP)
                     {
-                    x += Math.cos(-Phi) * Math.cos(-Teta);
-                    y += Math.cos(-Phi) * Math.sin(-Teta);
-                    z += Math.sin(-Phi);
+                    x -= Math.cos(-Phi) * Math.cos(-Teta);
+                    y -= Math.cos(-Phi) * Math.sin(-Teta);
+                    z -= Math.sin(-Phi);
                     }
 
                 if (keyCode == KeyEvent.VK_DOWN)
                     {
-                    x -= Math.cos(-Phi) * Math.cos(-Teta);
-                    y -= Math.cos(-Phi) * Math.sin(-Teta);
-                    z -= Math.sin(-Phi);
+                    x += Math.cos(-Phi) * Math.cos(-Teta);
+                    y += Math.cos(-Phi) * Math.sin(-Teta);
+                    z += Math.sin(-Phi);
                     }
 
                 if (keyCode == KeyEvent.VK_LEFT)
