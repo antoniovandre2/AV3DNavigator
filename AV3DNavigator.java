@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 16-02-2023
+ * Última atualização: 17-02-2023
  */
 
 import java.awt.*;
@@ -45,20 +45,21 @@ public class AV3DNavigator extends JComponent
 
     public int TamanhoPlanoX = 400; // Default: 400.
     public int TamanhoPlanoY = 400; // Default: 400.
-    public int MinTamanhoPlanoX = 300; // Default: 300.
-    public int MinTamanhoPlanoY = 300; // Default: 300.
+    public static int MinTamanhoPlanoX = 300; // Default: 300.
+    public static int MinTamanhoPlanoY = 300; // Default: 300.
+    public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
     public double AnguloVisao = Math.PI / 2; // Default: Math.PI / 2.
     public double FatorAnguloVisao = 1; // Default: 1.
-    public int TamanhoEspacoLabelStatus = 310; // Default: 320.
-    public int TamanhoFonteLabelStatus = 7; // Default: 11.
+    public static int TamanhoEspacoLabelStatus = 310; // Default: 320.
+    public static int TamanhoFonteLabelStatus = 7; // Default: 11.
     public long DistanciaTela = 2; // Default: valor inicial: 2.
     public static String MensagemErroEspacoAusente = "Entre com um arquivo de espaço.";
-    public String MensagemErroEspacoInvalido = "Entre com um arquivo de espaço válido.";
-    public double FatorMouseWheel = 3; // Default: 3.
-    public double DeslocamentoLinear = 1; // Default: 1.
-    public double DeslocamentoAngular = 0.2; // Default: 0.2.
-    public int FramesDeslocamento = 4; // Default: 5.
-    public double ShiftCartesianoAnular = 0.01; // Default: 0.01.
+    public static String MensagemErroEspacoInvalido = "Entre com um arquivo de espaço válido.";
+    public static double FatorMouseWheel = 3; // Default: 3.
+    public static double DeslocamentoLinear = 1; // Default: 1.
+    public static double DeslocamentoAngular = 0.2; // Default: 0.2.
+    public static int FramesDeslocamento = 4; // Default: 5.
+    public static double ShiftCartesianoAnular = 0.01; // Default: 0.01.
     public int ApfloatFlag = 0; // Default: 0.
 
     // Variáveis de funcionamento interno.
@@ -165,7 +166,7 @@ public class AV3DNavigator extends JComponent
             }
 
         JFrame FrameEspaco = new JFrame("AV3DNavigator - " + Versao);
-        FrameEspaco.setIconImage(new ImageIcon(getClass().getResource("AV3DNavigator - Logo.png")).getImage());
+        FrameEspaco.setIconImage(new ImageIcon(getClass().getResource(AV3DNavigatorIconFilePath)).getImage());
         FrameEspaco.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         FrameEspaco.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY + TamanhoEspacoLabelStatus));
         AV3DNavigator comp = new AV3DNavigator();
