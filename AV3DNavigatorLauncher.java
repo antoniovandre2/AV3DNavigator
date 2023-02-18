@@ -9,13 +9,20 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 10-02-2023.
+ * Última atualização: 18-02-2023.
  */
 
+import java.awt.*;
+
+import javax.swing.*;
+import javax.swing.JFrame;
+ 
 import java.io.*;
 import java.net.URL;
 
 import java.lang.ProcessBuilder;
+
+import AntonioVandre.*;
 
 public class AV3DNavigatorLauncher
     {
@@ -67,11 +74,26 @@ public class AV3DNavigatorLauncher
             if ((FlagSucessoVersaoLocal == 1) && (FlagSucessoVersaoNet == 1))
                 {
                 if (! (VersaoNet.equals(VersaoLocal)))
+                    {
+                    if (AntonioVandre.StringPresente(VersaoNet, "Estrutural"))
+                        {
+                        JFrame Frame = new JFrame("Nova versão estrutural.");
+                        Frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        Frame.setPreferredSize(new Dimension(100, 50));
+                        JLabel Label = new JLabel("<html>Nova versão estrutural disponível. Favor fazer download do pacote completo.</html>");
+                        Label.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 12));
+                        Label.setLocation(5, 5);
+                        Frame.add(Label);
+                        Frame.pack();
+                        Frame.setVisible(true);
+                        }
+
                     try
                         {
                         downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigator);
                         downloadUsingStream(URL3DNavigatorVersao, ArquivoAV3DNavigatorVersao);
                         } catch (IOException e) {}
+                    }
                 }
             else
                 try
