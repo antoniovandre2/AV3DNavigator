@@ -327,14 +327,14 @@ public class AV3DNavigator extends JComponent
 
                 if (keyCode == KeyEvent.VK_LEFT)
                     {
-                    x -= Math.cos(-Teta - Math.PI / 2);
-                    y -= Math.sin(-Teta - Math.PI / 2);
+                    x += Math.cos(-Teta - Math.PI / 2);
+                    y += Math.sin(-Teta - Math.PI / 2);
                     }
 
                 if (keyCode == KeyEvent.VK_RIGHT)
                     {
-                    x += Math.cos(-Teta - Math.PI / 2);
-                    y += Math.sin(-Teta - Math.PI / 2);
+                    x -= Math.cos(-Teta - Math.PI / 2);
+                    y -= Math.sin(-Teta - Math.PI / 2);
                     }
 
                 ContadorFrames = 0;

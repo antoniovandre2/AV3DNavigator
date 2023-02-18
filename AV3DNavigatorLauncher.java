@@ -9,20 +9,18 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 18-02-2023.
+ * Última atualização: 10-02-2023.
  */
+
+import java.io.*;
+import java.net.URL;
 
 import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.JFrame;
- 
-import java.io.*;
-import java.net.URL;
 
 import java.lang.ProcessBuilder;
-
-import AntonioVandre.*;
 
 public class AV3DNavigatorLauncher
     {
@@ -43,7 +41,6 @@ public class AV3DNavigatorLauncher
     public static void main(String[] args)
         {
         int FlagSucessoDownloadNet = 1;
-        int VersaoEstrutural = 0;
 
         try
             {
@@ -76,26 +73,21 @@ public class AV3DNavigatorLauncher
                 {
                 if (! (VersaoNet.equals(VersaoLocal)))
                     {
-                    if (AntonioVandre.StringPresente(VersaoNet, "Estrutural"))
+                    try
                         {
-                        JFrame Frame = new JFrame("Nova versão estrutural.");
-                        Frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                        Frame.setPreferredSize(new Dimension(250, 120));
-                        JLabel Label = new JLabel("<html>Nova versão estrutural disponível. Favor fazer download do pacote completo.</html>");
-                        Label.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 12));
-                        Label.setLocation(5, 5);
-                        Frame.add(Label);
-                        Frame.pack();
-                        Frame.setVisible(true);
+                        downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigator);
+                        downloadUsingStream(URL3DNavigatorVersao, ArquivoAV3DNavigatorVersao);
+                        } catch (IOException e) {}
 
-                        VersaoEstrutural = 1;
-                        }
-                    else
-                        try
-                            {
-                            downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigator);
-                            downloadUsingStream(URL3DNavigatorVersao, ArquivoAV3DNavigatorVersao);
-                            } catch (IOException e) {}
+                    JFrame Frame = new JFrame("Nova versão.");
+                    Frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    Frame.setPreferredSize(new Dimension(320, 130));
+                    JLabel Label = new JLabel("<html>O software jar foi atualizado, entretanto podem haver atualizações estruturais; assim sendo, pode ser necessário fazer o download de um novo pacote completo.</html>");
+                    Label.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 12));
+                    Label.setLocation(5, 5);
+                    Frame.add(Label);
+                    Frame.pack();
+                    Frame.setVisible(true);
                     }
                 }
             else
@@ -106,18 +98,15 @@ public class AV3DNavigatorLauncher
                     } catch (IOException e) {}
             }
 
-        if (VersaoEstrutural == 0)
+        try
             {
-            try
-                {
-                String ArquivoEspaco = "";
+            String ArquivoEspaco = "";
 
-                if (args.length != 0) ArquivoEspaco = args[0];
+            if (args.length != 0) ArquivoEspaco = args[0];
 
-                ProcessBuilder pb = new ProcessBuilder("java", "-jar", ArquivoAV3DNavigator, ArquivoEspaco);
-                Process p = pb.start();
-                } catch (IOException e) {System.out.println(MensagemErroExecutar);}
-            }
+            ProcessBuilder pb = new ProcessBuilder("java", "-jar", ArquivoAV3DNavigator, ArquivoEspaco);
+            Process p = pb.start();
+            } catch (IOException e) {System.out.println(MensagemErroExecutar);}
         }
 
     private static void downloadUsingStream(String urlStr, String file) throws IOException
