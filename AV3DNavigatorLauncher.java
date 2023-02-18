@@ -43,6 +43,7 @@ public class AV3DNavigatorLauncher
     public static void main(String[] args)
         {
         int FlagSucessoDownloadNet = 1;
+        int VersaoEstrutural = 0;
 
         try
             {
@@ -79,20 +80,22 @@ public class AV3DNavigatorLauncher
                         {
                         JFrame Frame = new JFrame("Nova versão estrutural.");
                         Frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                        Frame.setPreferredSize(new Dimension(100, 50));
+                        Frame.setPreferredSize(new Dimension(250, 120));
                         JLabel Label = new JLabel("<html>Nova versão estrutural disponível. Favor fazer download do pacote completo.</html>");
                         Label.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 12));
                         Label.setLocation(5, 5);
                         Frame.add(Label);
                         Frame.pack();
                         Frame.setVisible(true);
-                        }
 
-                    try
-                        {
-                        downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigator);
-                        downloadUsingStream(URL3DNavigatorVersao, ArquivoAV3DNavigatorVersao);
-                        } catch (IOException e) {}
+                        VersaoEstrutural = 1;
+                        }
+                    else
+                        try
+                            {
+                            downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigator);
+                            downloadUsingStream(URL3DNavigatorVersao, ArquivoAV3DNavigatorVersao);
+                            } catch (IOException e) {}
                     }
                 }
             else
@@ -103,15 +106,18 @@ public class AV3DNavigatorLauncher
                     } catch (IOException e) {}
             }
 
-        try
+        if (VersaoEstrutural == 0)
             {
-            String ArquivoEspaco = "";
+            try
+                {
+                String ArquivoEspaco = "";
 
-            if (args.length != 0) ArquivoEspaco = args[0];
+                if (args.length != 0) ArquivoEspaco = args[0];
 
-            ProcessBuilder pb = new ProcessBuilder("java", "-jar", ArquivoAV3DNavigator, ArquivoEspaco);
-            Process p = pb.start();
-            } catch (IOException e) {System.out.println(MensagemErroExecutar);}
+                ProcessBuilder pb = new ProcessBuilder("java", "-jar", ArquivoAV3DNavigator, ArquivoEspaco);
+                Process p = pb.start();
+                } catch (IOException e) {System.out.println(MensagemErroExecutar);}
+            }
         }
 
     private static void downloadUsingStream(String urlStr, String file) throws IOException
