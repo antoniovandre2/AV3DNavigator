@@ -50,7 +50,7 @@ public class AV3DNavigator extends JComponent
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
     public double AnguloVisao = Math.PI / 2; // Default: Math.PI / 2.
     public double FatorAnguloVisao = 1; // Default: 1.
-    public static int TamanhoEspacoLabelStatus = 310; // Default: 320.
+    public static int TamanhoEspacoLabelStatus = 325; // Default: 320.
     public static int TamanhoFonteLabelStatus = 7; // Default: 11.
     public long DistanciaTela = 2; // Default: valor inicial: 2.
     public static String MensagemErroEspacoAusente = "Entre com um arquivo de espaço.";
@@ -91,18 +91,20 @@ public class AV3DNavigator extends JComponent
     public int ContadorFrames = FramesDeslocamento;
     public Color CorBackground;
     public Color CorLinhas;
+    public Color CorPoligonosShape;
     public int ContadorCorLinhas = 0; // Default inicial: 0.
     public int ContadorCorBackground = 1; // Default inicial: 1.
+    public int ContadorCorPoligonosShape = 0; // Default inicial: 0.
 
-    private static class Line
+    private static class LineType
         {
         final int x1; 
         final int y1;
         final int x2;
-        final int y2;   
+        final int y2;
         final Color color;
 
-        public Line(int x1, int y1, int x2, int y2, Color color)
+        public LineType(int x1, int y1, int x2, int y2, Color color)
             {
             this.x1 = x1;
             this.y1 = y1;
@@ -112,34 +114,57 @@ public class AV3DNavigator extends JComponent
             }               
         }
 
-    private final LinkedList<Line> lines = new LinkedList<Line>();
-
-    public void addLine(int x1, int x2, int x3, int x4)
+    private static class PoligonoType
         {
-        addLine(x1, x2, x3, x4, CorLinhas);
+        final Polygon poligono;
+        final Color color;
+
+        public PoligonoType(Polygon poligono, Color color)
+            {
+            this.poligono = poligono;
+            this.color = color;
+            }               
         }
+
+    private final LinkedList<LineType> Linhas = new LinkedList<LineType>();
+    private final LinkedList<PoligonoType> PoligonosShape = new LinkedList<PoligonoType>();
 
     public void addLine(int x1, int x2, int x3, int x4, Color color)
         {
-        lines.add(new Line(x1,x2,x3,x4, color));        
+        Linhas.add(new LineType(x1, x2, x3, x4, color));
+        repaint();
+        }
+
+    public void addPoligonosShape(Polygon poligonoshape, Color color)
+        {
+        PoligonosShape.add(new PoligonoType(poligonoshape, color));
         repaint();
         }
 
     public void clearLines()
         {
-        lines.clear();
+        Linhas.clear();
         repaint();
         }
 
-    @Override
+    public void clearPoligonosShape()
+        {
+        PoligonosShape.clear();
+        repaint();
+        }
+
     protected void paintComponent(Graphics g)
         {
-        super.paintComponent(g);
-
-        for (Line line : lines)
+            for (int i = 0; i < Linhas.size(); i++)
             {
-            g.setColor(line.color);
-            g.drawLine(line.x1, line.y1, line.x2, line.y2);
+            g.setColor(Linhas.get(i).color);
+            g.drawLine(Linhas.get(i).x1, Linhas.get(i).y1, Linhas.get(i).x2, Linhas.get(i).y2);
+            }
+
+        for (int i = 0; i < PoligonosShape.size(); i++)
+            {
+            g.setColor(PoligonosShape.get(i).color);
+            g.fillPolygon(PoligonosShape.get(i).poligono);
             }
         }
 
@@ -172,7 +197,7 @@ public class AV3DNavigator extends JComponent
         AV3DNavigator comp = new AV3DNavigator();
         comp.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY));
         FrameEspaco.getContentPane().add(comp, BorderLayout.PAGE_START);
-        JLabel LabelStatus = new JLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar o fator redutor do ângulo de visão.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo na cor da linha.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo na cor de fundo.<br>\"O\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe.<br><br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+        JLabel LabelStatus = new JLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar o fator redutor do ângulo de visão.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo na cor da linha.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo na cor de fundo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo na cor dos polígonos preenchidos.<br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe.<br><br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
         LabelStatus.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelStatus));
         LabelStatus.setOpaque(true);
         LabelStatus.setLocation(5, TamanhoPlanoY + 5);
@@ -192,11 +217,11 @@ public class AV3DNavigator extends JComponent
             });
 
         FrameEspaco.addMouseWheelListener(e -> {
-            x += FatorMouseWheel * e.getWheelRotation() * Math.cos(-Phi) * Math.cos(-Teta);
+            x -= FatorMouseWheel * e.getWheelRotation() * Math.cos(-Phi) * Math.cos(-Teta);
 
-            y += FatorMouseWheel * e.getWheelRotation() * Math.cos(-Phi) * Math.sin(-Teta);
+            y -= FatorMouseWheel * e.getWheelRotation() * Math.cos(-Phi) * Math.sin(-Teta);
 
-            z += FatorMouseWheel * e.getWheelRotation() * Math.sin(-Phi);
+            z -= FatorMouseWheel * e.getWheelRotation() * Math.sin(-Phi);
 
             xt = x; yt = y; zt = z;
 
@@ -277,20 +302,26 @@ public class AV3DNavigator extends JComponent
                     if (ContadorCorBackground < 15) ContadorCorBackground += 1;
 
                 if (keyCode == KeyEvent.VK_O)
+                    if (ContadorCorPoligonosShape > 0) ContadorCorPoligonosShape -= 1;
+
+                if (keyCode == KeyEvent.VK_P)
+                    if (ContadorCorPoligonosShape < 15) ContadorCorPoligonosShape += 1;
+
+                if (keyCode == KeyEvent.VK_0)
                     if (ApfloatFlag == 0) ApfloatFlag = 1; else ApfloatFlag = 0;
 
                 if (keyCode == KeyEvent.VK_UP)
                     {
-                    x -= Math.cos(-Phi) * Math.cos(-Teta);
-                    y -= Math.cos(-Phi) * Math.sin(-Teta);
-                    z -= Math.sin(-Phi);
+                    x += Math.cos(-Phi) * Math.cos(-Teta);
+                    y += Math.cos(-Phi) * Math.sin(-Teta);
+                    z += Math.sin(-Phi);
                     }
 
                 if (keyCode == KeyEvent.VK_DOWN)
                     {
-                    x += Math.cos(-Phi) * Math.cos(-Teta);
-                    y += Math.cos(-Phi) * Math.sin(-Teta);
-                    z += Math.sin(-Phi);
+                    x -= Math.cos(-Phi) * Math.cos(-Teta);
+                    y -= Math.cos(-Phi) * Math.sin(-Teta);
+                    z -= Math.sin(-Phi);
                     }
 
                 if (keyCode == KeyEvent.VK_LEFT)
@@ -450,82 +481,73 @@ public class AV3DNavigator extends JComponent
 
             if (FlagAlteracaoStatus == 1)
                 {
-                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar o fator redutor do ângulo de visão.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo na cor da linha.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo na cor de fundo.<br>\"O\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe.<br><br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar o fator redutor do ângulo de visão.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo na cor da linha.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo na cor de fundo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo na cor dos polígonos preenchidos.<br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe.<br><br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
 
                 switch (ContadorCorLinhas)
                     {
                     case 15: CorLinhas = new Color(192, 192, 192); break;
-
                     case 14: CorLinhas = new Color(175, 255, 175); break;
-
                     case 13: CorLinhas = new Color(128, 128, 255); break;
-
                     case 12: CorLinhas = Color.YELLOW; break;
-
                     case 11: CorLinhas = Color.ORANGE; break;
-
                     case 10: CorLinhas = Color.PINK; break;
-
                     case 9: CorLinhas = Color.CYAN; break;
-
                     case 8: CorLinhas = Color.BLUE; break;
-
                     case 7: CorLinhas = Color.MAGENTA; break;
-
                     case 6: CorLinhas = new Color(128, 175, 175); break;
-
                     case 5: CorLinhas = Color.GRAY; break;
-
                     case 4: CorLinhas = Color.RED; break;
-
                     case 3: CorLinhas = new Color(64, 64, 64); break;
-
                     case 2: CorLinhas = new Color(64, 64, 128); break;
-
                     case 1: CorLinhas = Color.BLACK; break;
-
                     case 0: CorLinhas = Color.WHITE; break;
                     }
 
                 switch (ContadorCorBackground)
                     {
                     case 15: CorBackground = new Color(192, 192, 192); break;
-
                     case 14: CorBackground = new Color(175, 255, 175); break;
-
                     case 13: CorBackground = new Color(128, 128, 255); break;
-
                     case 12: CorBackground = Color.YELLOW; break;
-
                     case 11: CorBackground = Color.ORANGE; break;
-
                     case 10: CorBackground = Color.PINK; break;
-
                     case 9: CorBackground = Color.CYAN; break;
-
                     case 8: CorBackground = Color.BLUE; break;
-
                     case 7: CorBackground = Color.MAGENTA; break;
-
                     case 6: CorBackground = new Color(128, 175, 175); break;
-
                     case 5: CorBackground = Color.GRAY; break;
-
                     case 4: CorBackground = Color.RED; break;
-
                     case 3: CorBackground = new Color(64, 64, 64); break;
-
                     case 2: CorBackground = new Color(64, 64, 128); break;
-
                     case 1: CorBackground = Color.BLACK; break;
-
                     case 0: CorBackground = Color.WHITE; break;
+                    }
+
+                switch (ContadorCorPoligonosShape)
+                    {
+                    case 15: CorPoligonosShape = new Color(192, 192, 192); break;
+                    case 14: CorPoligonosShape = new Color(175, 255, 175); break;
+                    case 13: CorPoligonosShape = new Color(128, 128, 255); break;
+                    case 12: CorPoligonosShape = Color.YELLOW; break;
+                    case 11: CorPoligonosShape = Color.ORANGE; break;
+                    case 10: CorPoligonosShape = Color.PINK; break;
+                    case 9: CorPoligonosShape = Color.CYAN; break;
+                    case 8: CorPoligonosShape = Color.BLUE; break;
+                    case 7: CorPoligonosShape = Color.MAGENTA; break;
+                    case 6: CorPoligonosShape = new Color(128, 175, 175); break;
+                    case 5: CorPoligonosShape = Color.GRAY; break;
+                    case 4: CorPoligonosShape = Color.RED; break;
+                    case 3: CorPoligonosShape = new Color(64, 64, 64); break;
+                    case 2: CorPoligonosShape = new Color(64, 64, 128); break;
+                    case 1: CorPoligonosShape = Color.BLACK; break;
+                    case 0: CorPoligonosShape = Color.WHITE; break;
                     }
 
                 FrameEspaco.getContentPane().setBackground(CorBackground);
 
                 if (Math.cos(-Teta) > 0) FatorZ = 1; else FatorZ = -1;
-        
+                if (Math.cos(-Phi) < 0) FatorZ *= -1;
+
                 DesenharEspaco(comp);
 
                 FlagAlteracaoStatus = 0;
@@ -539,9 +561,13 @@ public class AV3DNavigator extends JComponent
 
     public void DesenharEspaco(AV3DNavigator comp)
         {
-        String [] EspacoLinhas = Espaco.split("\\|");
+        String [] EspacoStr2 = Espaco.split("@");
+
+        String [] EspacoLinhas = EspacoStr2[0].split("\\|");
+        String [] EspacoPoligonosShapePreenchidos = EspacoStr2[1].split("\\|");
 
         comp.clearLines();
+        comp.clearPoligonosShape();
 
         for (int i = 0; i < EspacoLinhas.length; i++)
             {
@@ -552,12 +578,12 @@ public class AV3DNavigator extends JComponent
 
             if (ApfloatFlag == 0)
                 {
-                double xo = (-Double.parseDouble(CoordenadasOrig[0]) - xt);
-                double xd = (-Double.parseDouble(CoordenadasDest[0]) - xt);
+                double xo = (Double.parseDouble(CoordenadasOrig[0]) - xt);
+                double xd = (Double.parseDouble(CoordenadasDest[0]) - xt);
                 double yo = (Double.parseDouble(CoordenadasOrig[1]) - yt);
                 double yd = (Double.parseDouble(CoordenadasDest[1]) - yt);
-                double zo = (FatorZ * (Double.parseDouble(CoordenadasOrig[2]) - zt));
-                double zd = (FatorZ * (Double.parseDouble(CoordenadasDest[2]) - zt));
+                double zo = (FatorZ * (-Double.parseDouble(CoordenadasOrig[2]) - zt));
+                double zd = (FatorZ * (-Double.parseDouble(CoordenadasDest[2]) - zt));
 
                 if ((Math.abs(xo) > ShiftCartesianoAnular) && (Math.abs(xd) > ShiftCartesianoAnular) && (Math.abs(yo) > ShiftCartesianoAnular) && (Math.abs(yd) > ShiftCartesianoAnular) && (Math.abs(zo) > ShiftCartesianoAnular) && (Math.abs(zd) > ShiftCartesianoAnular))
                     {
@@ -590,7 +616,7 @@ public class AV3DNavigator extends JComponent
 
                     double ProdutoEscalard = xd * Math.cos(-Tetat) * Math.cos(-Phit) + yd * Math.sin(-Tetat) * Math.cos(-Phit) + FatorZ * zd * Math.sin(-Phit);
     
-                    if ((Math.acos(-ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo)) < AnguloVisao) && (Math.acos(-ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd)) < AnguloVisao) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi, Math.max(yi, Math.max(xf, yf))) < Math.min(TamanhoPlanoX, TamanhoPlanoY)))
+                    if ((Math.acos(ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo)) < AnguloVisao) && (Math.acos(ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd)) < AnguloVisao) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi, Math.max(yi, Math.max(xf, yf))) < Math.min(TamanhoPlanoX, TamanhoPlanoY)))
                         comp.addLine(xi, yi, xf, yf, CorLinhas);
                     }
                 }
@@ -598,17 +624,17 @@ public class AV3DNavigator extends JComponent
                 {
                 // Alta precisão com o Apfloat, porém com custo computacional.
 
-                Apfloat xoa = new Apfloat(-Double.parseDouble(CoordenadasOrig[0]) - xt);
+                Apfloat xoa = new Apfloat(Double.parseDouble(CoordenadasOrig[0]) - xt);
 
-                Apfloat xda = new Apfloat(-Double.parseDouble(CoordenadasDest[0]) - xt);
+                Apfloat xda = new Apfloat(Double.parseDouble(CoordenadasDest[0]) - xt);
 
                 Apfloat yoa = new Apfloat(Double.parseDouble(CoordenadasOrig[1]) - yt);
 
                 Apfloat yda = new Apfloat(Double.parseDouble(CoordenadasDest[1]) - yt);
 
-                Apfloat zoa = new Apfloat(FatorZ * (Double.parseDouble(CoordenadasOrig[2]) - zt));
+                Apfloat zoa = new Apfloat(FatorZ * (-Double.parseDouble(CoordenadasOrig[2]) - zt));
 
-                Apfloat zda = new Apfloat(FatorZ * (Double.parseDouble(CoordenadasDest[2]) - zt));
+                Apfloat zda = new Apfloat(FatorZ * (-Double.parseDouble(CoordenadasDest[2]) - zt));
 
                 if ((ApfloatMath.abs(xoa).doubleValue() > (new Apfloat(ShiftCartesianoAnular)).doubleValue()) && (ApfloatMath.abs(xda).doubleValue() > (new Apfloat(ShiftCartesianoAnular)).doubleValue()) && (ApfloatMath.abs(yoa).doubleValue() > (new Apfloat(ShiftCartesianoAnular)).doubleValue()) && (ApfloatMath.abs(yoa).doubleValue() > (new Apfloat(ShiftCartesianoAnular)).doubleValue()) && (ApfloatMath.abs(zoa).doubleValue() > (new Apfloat(ShiftCartesianoAnular)).doubleValue()) && (ApfloatMath.abs(zda).doubleValue() > (new Apfloat(ShiftCartesianoAnular)).doubleValue()))
                     {
@@ -618,32 +644,110 @@ public class AV3DNavigator extends JComponent
                     int yf;
 
                     if (ApfloatMath.abs(xoa).doubleValue() > ApfloatMath.abs(yoa).doubleValue())
-                        xi = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(yoa.divide(xoa)).add(new Apfloat(Tetat)))).doubleValue()) - CorrecaoX;
+                        xi = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(yoa.divide(xoa)).add(new Apfloat(Tetat))))).doubleValue()) - CorrecaoX;
                     else
-                        xi = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(xoa.divide(yoa)).multiply(new Apfloat(-1)).add(new Apfloat(Math.PI / 2)).add(new Apfloat(Tetat)))).doubleValue()) - CorrecaoX;
+                        xi = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(xoa.divide(yoa)).multiply(new Apfloat(-1)).add(new Apfloat(Math.PI / 2)).add(new Apfloat(Tetat))))).doubleValue()) - CorrecaoX;
 
                     if (ApfloatMath.abs(xoa).doubleValue() > ApfloatMath.abs(zoa).doubleValue())
-                        yi = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(zoa.divide(xoa)).add(new Apfloat(Phit)))).doubleValue()) - CorrecaoY;
+                        yi = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(zoa.divide(xoa)).add(new Apfloat(Phit))))).doubleValue()) - CorrecaoY;
                     else
-                        yi = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(xoa.divide(zoa)).multiply(new Apfloat(-1)).add(new Apfloat(Math.PI / 2)).add(new Apfloat(Phit)))).doubleValue()) - CorrecaoY;
+                        yi = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(xoa.divide(zoa)).multiply(new Apfloat(-1)).add(new Apfloat(Math.PI / 2)).add(new Apfloat(Phit))))).doubleValue()) - CorrecaoY;
 
                     if (ApfloatMath.abs(xda).doubleValue() > ApfloatMath.abs(yda).doubleValue())
-                        xf = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(yda.divide(xda)).add(new Apfloat(Tetat)))).doubleValue()) - CorrecaoX;
+                        xf = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(yda.divide(xda)).add(new Apfloat(Tetat))))).doubleValue()) - CorrecaoX;
                     else
-                        xf = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(xda.divide(yda)).multiply(new Apfloat(-1)).add(new Apfloat(Math.PI / 2)).add(new Apfloat(Tetat)))).doubleValue()) - CorrecaoX;
+                        xf = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(xda.divide(yda)).multiply(new Apfloat(-1)).add(new Apfloat(Math.PI / 2)).add(new Apfloat(Tetat))))).doubleValue()) - CorrecaoX;
 
                     if (ApfloatMath.abs(xda).doubleValue() > ApfloatMath.abs(zda).doubleValue())
-                        yf = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(zda.divide(xda)).add(new Apfloat(Phit)))).doubleValue()) - CorrecaoY;
+                        yf = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(zda.divide(xda)).add(new Apfloat(Phit))))).doubleValue()) - CorrecaoY;
                     else
-                        yf = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(xda.divide(zda)).multiply(new Apfloat(-1)).add(new Apfloat(Math.PI / 2)).add(new Apfloat(Phit)))).doubleValue()) - CorrecaoY;
+                        yf = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(xda.divide(zda)).multiply(new Apfloat(-1)).add(new Apfloat(Math.PI / 2)).add(new Apfloat(Phit))))).doubleValue()) - CorrecaoY;
 
                     Apfloat ProdutoEscalaroa = xoa.multiply(ApfloatMath.cos(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit))).add(yoa.multiply(ApfloatMath.sin(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit)))).add((new Apfloat(FatorZ)).multiply(zoa).multiply(ApfloatMath.sin(new Apfloat(-Phit))));
 
                     Apfloat ProdutoEscalarda = xda.multiply(ApfloatMath.cos(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit))).add(yda.multiply(ApfloatMath.sin(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit)))).add((new Apfloat(FatorZ)).multiply(zda).multiply(ApfloatMath.sin(new Apfloat(-Phit))));
 
-                    if ((ApfloatMath.acos(ProdutoEscalaroa.multiply(new Apfloat(-1)).divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).doubleValue() < AnguloVisao) && (ApfloatMath.acos(ProdutoEscalarda.multiply(new Apfloat(-1)).divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).doubleValue() < AnguloVisao) && (ApfloatMath.min(new Apfloat(xi), ApfloatMath.min(new Apfloat(yi), ApfloatMath.min(new Apfloat(xf), new Apfloat(yf)))).doubleValue() > 0) && (ApfloatMath.max(new Apfloat(xi), ApfloatMath.max(new Apfloat(yi), ApfloatMath.max(new Apfloat(xf), new Apfloat(yf)))).doubleValue() < ApfloatMath.min(new Apfloat(TamanhoPlanoX), new Apfloat(TamanhoPlanoY)).doubleValue()))
+                    if ((ApfloatMath.acos(ProdutoEscalaroa.divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).doubleValue() < AnguloVisao) && (ApfloatMath.acos(ProdutoEscalarda.divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).doubleValue() < AnguloVisao) && (ApfloatMath.min(new Apfloat(xi), ApfloatMath.min(new Apfloat(yi), ApfloatMath.min(new Apfloat(xf), new Apfloat(yf)))).doubleValue() > 0) && (ApfloatMath.max(new Apfloat(xi), ApfloatMath.max(new Apfloat(yi), ApfloatMath.max(new Apfloat(xf), new Apfloat(yf)))).doubleValue() < ApfloatMath.min(new Apfloat(TamanhoPlanoX), new Apfloat(TamanhoPlanoY)).doubleValue()))
                         comp.addLine(xi, yi, xf, yf, CorLinhas);
                     }
+                }
+            }
+
+        for (int i = 0; i < EspacoPoligonosShapePreenchidos.length; i++)
+            {
+            Polygon Poligono = new Polygon();
+
+            String [] Pontos = EspacoPoligonosShapePreenchidos[i].split(";");
+
+            int ContadorPontos = 0;
+
+            for (int j = 0; j < Pontos.length; j++)
+                {
+                String [] Coordenadas = Pontos[j].split(",");
+
+                if (ApfloatFlag == 0)
+                    {
+                    double xp = (Double.parseDouble(Coordenadas[0]) - xt);
+                    double yp = (Double.parseDouble(Coordenadas[1]) - yt);
+                    double zp = (FatorZ * (-Double.parseDouble(Coordenadas[2]) - zt));
+
+                    if ((Math.abs(xp) > ShiftCartesianoAnular) && (Math.abs(yp) > ShiftCartesianoAnular) && (Math.abs(zp) > ShiftCartesianoAnular))
+                        {
+                        int xpp;
+                        int ypp;
+
+                        if (Math.abs(xp) > Math.abs(yp))
+                            xpp = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * Math.atan(Math.tan(Math.atan(yp / xp) + Tetat))) - CorrecaoX;
+                        else
+                            xpp = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * Math.atan(Math.tan(Math.PI / 2 - Math.atan(xp / yp) + Tetat))) - CorrecaoX;
+
+                        if (Math.abs(xp) > Math.abs(zp))
+                            ypp = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * Math.atan(Math.tan(Math.atan(zp / xp) + Phit))) - CorrecaoY;
+                        else
+                            ypp = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * Math.atan(Math.tan(Math.PI / 2 - Math.atan(xp / zp) + Phit))) - CorrecaoY;
+
+                        double ProdutoEscalar = xp * Math.cos(-Tetat) * Math.cos(-Phit) + yp * Math.sin(-Tetat) * Math.cos(-Phit) + FatorZ * zp * Math.sin(-Phit);
+
+                        if ((Math.acos(ProdutoEscalar / Math.sqrt(xp * xp + yp * yp + zp * zp)) < AnguloVisao) && ((Math.min(xpp, ypp) > 0) && (Math.max(xpp, ypp)) < Math.min(TamanhoPlanoX, TamanhoPlanoY)))
+                            {
+                            ContadorPontos++;
+                            Poligono.addPoint(xpp, ypp);
+                            }
+                        }
+                    }
+                else
+                    {
+                    Apfloat xpa = (new Apfloat(Double.parseDouble(Coordenadas[0]) - xt));
+                    Apfloat ypa = (new Apfloat(Double.parseDouble(Coordenadas[1]) - yt));
+                    Apfloat zpa = (new Apfloat(FatorZ * (-Double.parseDouble(Coordenadas[2]) - zt)));
+
+                    if ((ApfloatMath.abs(xpa).doubleValue() > (new Apfloat(ShiftCartesianoAnular)).doubleValue()) && (ApfloatMath.abs(ypa).doubleValue() > (new Apfloat(ShiftCartesianoAnular)).doubleValue()) && (ApfloatMath.abs(zpa).doubleValue() > (new Apfloat(ShiftCartesianoAnular)).doubleValue()))
+                        {
+                        int xpp;
+                        int ypp;
+
+                        if (ApfloatMath.abs(xpa).doubleValue() > ApfloatMath.abs(ypa).doubleValue())
+                            xpp = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(ypa.divide(xpa).add(new Apfloat(Tetat)))))).doubleValue()) - CorrecaoX;
+                        else
+                            xpp = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.atan(ApfloatMath.tan((new Apfloat(Math.PI / 2)).add(ApfloatMath.atan(xpa.divide(ypa)).multiply(new Apfloat(-1)).add(new Apfloat(Tetat)))))).doubleValue()) - CorrecaoX;
+
+                        if (ApfloatMath.abs(xpa).doubleValue() > ApfloatMath.abs(zpa).doubleValue())
+                            ypp = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.atan(ApfloatMath.tan(ApfloatMath.atan(zpa.divide(xpa)).add(new Apfloat(Phit))))).doubleValue()) - CorrecaoY;
+                        else
+                            ypp = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.atan(ApfloatMath.tan((new Apfloat(Math.PI / 2)).add(ApfloatMath.atan(xpa.divide(zpa)).multiply(new Apfloat(-1)).add(new Apfloat(Phit)))))).doubleValue()) - CorrecaoY;
+
+                        Apfloat ProdutoEscalara = xpa.multiply(ApfloatMath.cos(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit)))).add((new Apfloat(FatorZ)).multiply(zpa).multiply(ApfloatMath.sin(new Apfloat(-Phit))));
+
+                        if ((ApfloatMath.acos(ProdutoEscalara.divide(ApfloatMath.sqrt(xpa.multiply(xpa)).add(ypa.multiply(ypa)).add(zpa.multiply(zpa)))).doubleValue() < AnguloVisao) && ((Math.min(xpp, ypp) > 0) && (Math.max(xpp, ypp)) < Math.min(TamanhoPlanoX, TamanhoPlanoY)))
+                            {
+                            ContadorPontos++;
+                            Poligono.addPoint(xpp, ypp);
+                            }
+                        }
+                    }
+
+                if (ContadorPontos == Pontos.length)
+                    comp.addPoligonosShape(Poligono, CorPoligonosShape);
                 }
             }
         }
@@ -657,7 +761,9 @@ public class AV3DNavigator extends JComponent
             BufferedReader br = new BufferedReader(new FileReader(file));
             String EspacoStr = br.readLine();
 
-            String [] EspacoLinhas = EspacoStr.split("\\|");
+            String [] EspacoStr2 = EspacoStr.split("@");
+
+            String [] EspacoLinhas = EspacoStr2[0].split("\\|");
 
             for (int i = 0; i < EspacoLinhas.length; i++)
                 {
@@ -675,6 +781,22 @@ public class AV3DNavigator extends JComponent
                     }
                 }
 
+            String [] EspacoPoligonosShapePreenchidos = EspacoStr2[1].split("\\|");
+
+            for (int i = 0; i < EspacoPoligonosShapePreenchidos.length; i++)
+                {
+                String [] Pontos = EspacoPoligonosShapePreenchidos[i].split(";");
+
+                for (int j = 0; j < Pontos.length; j++)
+                    {
+                    String [] Coordenadas = Pontos[j].split(",");
+
+                    if (Coordenadas.length != 3) return "Erro";
+                    for (int k = 0; k < Coordenadas.length; k++)
+                        if (! AntonioVandre.NumeroReal(Coordenadas[k])) return "Erro";
+                    }
+                }
+    
             return EspacoStr;
             } catch (IOException e) {return "Erro";}
         }
