@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 10-02-2023.
+ * Última atualização: 18-02-2023.
  */
 
 import java.io.*;
