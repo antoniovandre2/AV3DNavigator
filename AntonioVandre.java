@@ -6,7 +6,7 @@
 
 // Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
 
-// Última atualização: 07-02-2023.
+// Última atualização: 18-02-2023.
 
 // Início escopo desenvolvido por Antonio Vandré Pedrosa Furtunato Gomes.
 
@@ -39,6 +39,27 @@ public class AntonioVandre
             if (! (s1.charAt(i) == s2.charAt(i))) return false;
 
         return true;
+        }
+
+    // Verdade se a segunda string está presente na primeira.
+
+    public static boolean StringPresente(String s1, String s2)
+        {
+        int t1 = s1.length();
+        int t2 = s2.length();
+
+        for(int i = 0; i <= t1 - t2; i++)
+            if (s1.charAt(i) == s2.charAt(0))
+                {
+                int contador = 0;
+
+                for (int j = 0; j < t2; j++)
+                    if (s1.charAt(i + j) == s2.charAt(j)) contador++;
+
+                if (contador == t2) return true;
+                }
+
+        return false;
         }
 
     // Verdade se a string é um número real.
