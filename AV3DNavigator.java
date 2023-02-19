@@ -509,7 +509,7 @@ public class AV3DNavigator extends JComponent
                 FlagAlteracaoStatus = 1;
                 }
 
-            if ((LimitePhiFlag == 1) && (Math.abs(Phi) < LimitePhi))
+            if ((LimitePhiFlag == 1) && (Math.abs(Phi) == LimitePhi))
                 Phi = (LimitePhi - DeslocamentoAngular) * Math.signum(Phi);
 
             if (FlagAlteracaoStatus == 1)
