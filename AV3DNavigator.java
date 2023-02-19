@@ -49,7 +49,7 @@ public class AV3DNavigator extends JComponent
     public static int MinTamanhoPlanoY = 300; // Default: 300.
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
     public double FatorAnguloVisao = 1; // Default: 1.
-    public static int TamanhoEspacoLabelStatus = 325; // Default: 320.
+    public static int TamanhoEspacoLabelStatus = 380; // Default: 380.
     public static int TamanhoFonteLabelStatus = 7; // Default: 11.
     public double DistanciaTela = 2; // Default: valor inicial: 2.
     public static String MensagemErroEspacoAusente = "Entre com um arquivo de espaço.";
@@ -60,6 +60,8 @@ public class AV3DNavigator extends JComponent
     public static int FramesDeslocamento = 4; // Default: 5.
     public static double ShiftCartesianoAnular = 0.01; // Default: 0.01.
     public int ApfloatFlag = 0; // Default: 0.
+    public int LimitePhiFlag = 1; // Default: 1.
+    public double LimitePhi = Math.PI / 4; // Default: Math.PI / 4.
 
     // Variáveis de funcionamento interno.
 
@@ -197,7 +199,7 @@ public class AV3DNavigator extends JComponent
         AV3DNavigator comp = new AV3DNavigator();
         comp.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY));
         FrameEspaco.getContentPane().add(comp, BorderLayout.PAGE_START);
-        JLabel LabelStatus = new JLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar o fator redutor do ângulo de visão.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo na cor da linha.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo na cor de fundo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo na cor dos polígonos preenchidos.<br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe.<br><br>Mouse pode ser utilizado para movimentar.<br><br>Não há correção de profundidade vertical, aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+        JLabel LabelStatus = new JLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar o fator redutor do ângulo de visão.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo na cor da linha.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo na cor de fundo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo na cor dos polígonos preenchidos.<br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Pensando em não limites para Phi ou limites largos, não há correção de perspectiva vertical; aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
         LabelStatus.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelStatus));
         LabelStatus.setOpaque(true);
         LabelStatus.setLocation(5, TamanhoPlanoY + 5);
@@ -206,7 +208,13 @@ public class AV3DNavigator extends JComponent
         FrameEspaco.addMouseListener(new MouseListener()
             {
             public void mousePressed(MouseEvent MouseEvento)
-                {MouseXR = MouseX; MouseYR = MouseY; TetaR = Teta; PhiR = Phi; MouseDown = 1;}
+                {
+                MouseXR = MouseX;
+                MouseYR = MouseY;
+                TetaR = Teta;
+                PhiR = Phi;
+                MouseDown = 1;
+                }
 
             public void mouseClicked(MouseEvent MouseEvento) {}
             public void mouseEntered(MouseEvent MouseEvento) {}
@@ -273,10 +281,10 @@ public class AV3DNavigator extends JComponent
                 if (keyCode == KeyEvent.VK_V) {Teta -= DeslocamentoAngular;}
 
                 if (keyCode == KeyEvent.VK_G)
-                    Phi += DeslocamentoAngular;
+                    {if (LimitePhiFlag == 1) {if (Math.abs(Phi) < LimitePhi) Phi += DeslocamentoAngular;} else Phi += DeslocamentoAngular;}
 
                 if (keyCode == KeyEvent.VK_B)
-                    Phi -= DeslocamentoAngular;
+                    {if (LimitePhiFlag == 1) {if (Math.abs(Phi) < LimitePhi) Phi -= DeslocamentoAngular;} else Phi -= DeslocamentoAngular;}
 
                 if (keyCode == KeyEvent.VK_Q)
                     {if (DistanciaTela > 1) DistanciaTela -= 1;}
@@ -310,6 +318,15 @@ public class AV3DNavigator extends JComponent
 
                 if (keyCode == KeyEvent.VK_0)
                     if (ApfloatFlag == 0) ApfloatFlag = 1; else ApfloatFlag = 0;
+
+                if (keyCode == KeyEvent.VK_1)
+                    if (LimitePhiFlag == 0) LimitePhiFlag = 1; else LimitePhiFlag = 0;
+
+                if (keyCode == KeyEvent.VK_2)
+                    LimitePhi /= 1.5;
+
+                if (keyCode == KeyEvent.VK_3)
+                    LimitePhi *= 1.5;
 
                 if (keyCode == KeyEvent.VK_UP)
                     {
@@ -475,11 +492,25 @@ public class AV3DNavigator extends JComponent
                 Teta = 2 * Math.PI * (MouseX - MouseXR) / TamanhoPlanoX + TetaR;
                 Tetat = Teta;
 
-                Phi = Math.PI * (MouseY - MouseYR) / TamanhoPlanoY + PhiR;
+                double PhiTemp = Math.PI * (MouseY - MouseYR) / TamanhoPlanoY + PhiR;
+
+                if (LimitePhiFlag == 1)
+                    {
+                    if (Math.abs(Phi) < LimitePhi)
+                        Phi = PhiTemp;
+                    else
+                        Phi = (LimitePhi - DeslocamentoAngular) * Math.signum(Phi);
+                    }
+                else
+                    Phi = PhiTemp;
+                
                 Phit = Phi;
 
                 FlagAlteracaoStatus = 1;
                 }
+
+            if ((LimitePhiFlag == 1) && (Math.abs(Phi) < LimitePhi))
+                Phi = (LimitePhi - DeslocamentoAngular) * Math.signum(Phi);
 
             if (FlagAlteracaoStatus == 1)
                 {
@@ -561,7 +592,7 @@ public class AV3DNavigator extends JComponent
                     AnguloVisao = (new Apfloat(AnguloVisao)).divide(new Apfloat(FatorAnguloVisao)).doubleValue();
                     }
 
-                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar o fator redutor do ângulo de visão.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo na cor da linha.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo na cor de fundo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo na cor dos polígonos preenchidos.<br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe.<br><br>Mouse pode ser utilizado para movimentar.<br><br>Não há correção de profundidade vertical, aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br><br>Phi limitado = " + String.valueOf(LimitePhiFlag) + ". Limite de Phi = " + String.valueOf(LimitePhi) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar o fator redutor do ângulo de visão.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo na cor da linha.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo na cor de fundo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo na cor dos polígonos preenchidos.<br><br>\"1\" para habilitar / desabilitar o limitador do ângulo Phi. \"2\" para reduzir o limite do ângulo Phi. \"3\" para ampliar o limite do ângulo Phi.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Pensando em não limites para Phi ou limites largos, não há correção de perspectiva vertical; aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
 
                 DesenharEspaco(comp);
 
