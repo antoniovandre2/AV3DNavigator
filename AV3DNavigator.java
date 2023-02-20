@@ -279,10 +279,10 @@ public class AV3DNavigator extends JComponent
                 if (keyCode == KeyEvent.VK_V) {Teta -= DeslocamentoAngular;}
 
                 if (keyCode == KeyEvent.VK_G)
-                    if (Math.abs(Phi) < Math.PI / 2 - 2 * DeslocamentoAngular) Phi += DeslocamentoAngular;
+                    if (Math.abs(Phi) < Math.PI / 2) Phi += DeslocamentoAngular;
 
                 if (keyCode == KeyEvent.VK_B)
-                    if (Math.abs(Phi) < Math.PI / 2 - 2 * DeslocamentoAngular) Phi -= DeslocamentoAngular;
+                    if (Math.abs(Phi) < Math.PI / 2) Phi -= DeslocamentoAngular;
 
                 if (keyCode == KeyEvent.VK_Q)
                     {if (DistanciaTela > 1) DistanciaTela -= 1;}
@@ -483,18 +483,18 @@ public class AV3DNavigator extends JComponent
 
                 double PhiTemp = Math.PI * (MouseY - MouseYR) / TamanhoPlanoY + PhiR;
 
-                if (Math.abs(Phi) < Math.PI / 2 - 2 * DeslocamentoAngular)
+                if (Math.abs(Phi) < Math.PI / 2)
                     Phi = PhiTemp;
                 else
-                    Phi = (Math.PI / 2 - 3 * DeslocamentoAngular) * Math.signum(Phi);
+                    Phi = (Math.PI / 2 - DeslocamentoAngular) * Math.signum(Phi);
                 
                 Phit = Phi;
 
                 FlagAlteracaoStatus = 1;
                 }
 
-            if ((Math.abs(Phi) == Math.PI / 2 - 2 * DeslocamentoAngular))
-                Phi = (Math.PI / 2 - 3 * DeslocamentoAngular) * Math.signum(Phi);
+            if ((Math.abs(Phi) >= Math.PI / 2))
+                Phi = (Math.PI / 2 - DeslocamentoAngular) * Math.signum(Phi);
 
             if (FlagAlteracaoStatus == 1)
                 {
