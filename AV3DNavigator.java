@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 19-02-2023
+ * Última atualização: 20-02-2023
  */
 
 import java.awt.*;
@@ -49,7 +49,7 @@ public class AV3DNavigator extends JComponent
     public static int MinTamanhoPlanoY = 300; // Default: 300.
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
     public double FatorAnguloVisao = 1; // Default: 1.
-    public static int TamanhoEspacoLabelStatus = 380; // Default: 380.
+    public static int TamanhoEspacoLabelStatus = 330; // Default: 380.
     public static int TamanhoFonteLabelStatus = 7; // Default: 11.
     public double DistanciaTela = 2; // Default: valor inicial: 2.
     public static String MensagemErroEspacoAusente = "Entre com um arquivo de espaço.";
@@ -60,8 +60,6 @@ public class AV3DNavigator extends JComponent
     public static int FramesDeslocamento = 4; // Default: 5.
     public static double ShiftCartesianoAnular = 0.01; // Default: 0.01.
     public int ApfloatFlag = 0; // Default: 0.
-    public int LimitePhiFlag = 1; // Default: 1.
-    public double LimitePhi = Math.PI / 4; // Default: Math.PI / 4.
 
     // Variáveis de funcionamento interno.
 
@@ -98,7 +96,7 @@ public class AV3DNavigator extends JComponent
     public int ContadorCorBackground = 1; // Default inicial: 1.
     public int ContadorCorPoligonosShape = 0; // Default inicial: 0.
 
-    private static class LineType
+    private static class LineType extends Object
         {
         final int x1; 
         final int y1;
@@ -116,7 +114,7 @@ public class AV3DNavigator extends JComponent
             }               
         }
 
-    private static class PoligonoType
+    private static class PoligonoType extends Object
         {
         final Polygon poligono;
         final Color color;
@@ -157,7 +155,7 @@ public class AV3DNavigator extends JComponent
 
     protected void paintComponent(Graphics g)
         {
-            for (int i = 0; i < Linhas.size(); i++)
+        for (int i = 0; i < Linhas.size(); i++)
             {
             g.setColor(Linhas.get(i).color);
             g.drawLine(Linhas.get(i).x1, Linhas.get(i).y1, Linhas.get(i).x2, Linhas.get(i).y2);
@@ -199,7 +197,7 @@ public class AV3DNavigator extends JComponent
         AV3DNavigator comp = new AV3DNavigator();
         comp.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY));
         FrameEspaco.getContentPane().add(comp, BorderLayout.PAGE_START);
-        JLabel LabelStatus = new JLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar o fator redutor do ângulo de visão.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo na cor da linha.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo na cor de fundo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo na cor dos polígonos preenchidos.<br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Pensando em não limites para Phi ou limites largos, não há correção de perspectiva vertical; aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+        JLabel LabelStatus = new JLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar o fator redutor do ângulo de visão.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo na cor da linha.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo na cor de fundo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo na cor dos polígonos preenchidos.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
         LabelStatus.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelStatus));
         LabelStatus.setOpaque(true);
         LabelStatus.setLocation(5, TamanhoPlanoY + 5);
@@ -281,10 +279,10 @@ public class AV3DNavigator extends JComponent
                 if (keyCode == KeyEvent.VK_V) {Teta -= DeslocamentoAngular;}
 
                 if (keyCode == KeyEvent.VK_G)
-                    {if (LimitePhiFlag == 1) {if (Math.abs(Phi) < LimitePhi) Phi += DeslocamentoAngular;} else Phi += DeslocamentoAngular;}
+                    if (Math.abs(Phi) < Math.PI / 2 - 2 * DeslocamentoAngular) Phi += DeslocamentoAngular;
 
                 if (keyCode == KeyEvent.VK_B)
-                    {if (LimitePhiFlag == 1) {if (Math.abs(Phi) < LimitePhi) Phi -= DeslocamentoAngular;} else Phi -= DeslocamentoAngular;}
+                    if (Math.abs(Phi) < Math.PI / 2 - 2 * DeslocamentoAngular) Phi -= DeslocamentoAngular;
 
                 if (keyCode == KeyEvent.VK_Q)
                     {if (DistanciaTela > 1) DistanciaTela -= 1;}
@@ -318,15 +316,6 @@ public class AV3DNavigator extends JComponent
 
                 if (keyCode == KeyEvent.VK_0)
                     if (ApfloatFlag == 0) ApfloatFlag = 1; else ApfloatFlag = 0;
-
-                if (keyCode == KeyEvent.VK_1)
-                    if (LimitePhiFlag == 0) LimitePhiFlag = 1; else LimitePhiFlag = 0;
-
-                if (keyCode == KeyEvent.VK_2)
-                    LimitePhi /= 1.5;
-
-                if (keyCode == KeyEvent.VK_3)
-                    LimitePhi *= 1.5;
 
                 if (keyCode == KeyEvent.VK_UP)
                     {
@@ -494,23 +483,18 @@ public class AV3DNavigator extends JComponent
 
                 double PhiTemp = Math.PI * (MouseY - MouseYR) / TamanhoPlanoY + PhiR;
 
-                if (LimitePhiFlag == 1)
-                    {
-                    if (Math.abs(Phi) < LimitePhi)
-                        Phi = PhiTemp;
-                    else
-                        Phi = (LimitePhi - DeslocamentoAngular) * Math.signum(Phi);
-                    }
-                else
+                if (Math.abs(Phi) < Math.PI / 2 - 2 * DeslocamentoAngular)
                     Phi = PhiTemp;
+                else
+                    Phi = (Math.PI / 2 - 3 * DeslocamentoAngular) * Math.signum(Phi);
                 
                 Phit = Phi;
 
                 FlagAlteracaoStatus = 1;
                 }
 
-            if ((LimitePhiFlag == 1) && (Math.abs(Phi) == LimitePhi))
-                Phi = (LimitePhi - DeslocamentoAngular) * Math.signum(Phi);
+            if ((Math.abs(Phi) == Math.PI / 2 - 2 * DeslocamentoAngular))
+                Phi = (Math.PI / 2 - 3 * DeslocamentoAngular) * Math.signum(Phi);
 
             if (FlagAlteracaoStatus == 1)
                 {
@@ -591,7 +575,7 @@ public class AV3DNavigator extends JComponent
                     AnguloVisao = (new Apfloat(AnguloVisao)).divide(new Apfloat(FatorAnguloVisao)).doubleValue();
                     }
 
-                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br><br>Phi limitado = " + String.valueOf(LimitePhiFlag) + ". Limite de Phi = " + String.valueOf(LimitePhi) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar o fator redutor do ângulo de visão.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo na cor da linha.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo na cor de fundo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo na cor dos polígonos preenchidos.<br><br>\"1\" para habilitar / desabilitar o limitador do ângulo Phi. \"2\" para reduzir o limite do ângulo Phi. \"3\" para ampliar o limite do ângulo Phi.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Pensando em não limites para Phi ou limites largos, não há correção de perspectiva vertical; aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br>Distância da tela:" + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar x.<br>\"S\" para incrementar y. \"X\" para decrementar y<br>\"D\" para incrementar z. \"C\" para decrementar z.<br>\"F\" para incrementar Teta. \"V\" para decrementar Teta.<br>\"G\" para incrementar Phi. \"B\" para decrementar Phi.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir a distância da tela.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar o fator redutor do ângulo de visão.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo na cor da linha.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo na cor de fundo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo na cor dos polígonos preenchidos.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
 
                 DesenharEspaco(comp);
 
@@ -651,9 +635,9 @@ public class AV3DNavigator extends JComponent
                     else
                         yf = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * Math.signum(yd) * FatorZ * Math.tan(Math.atan(zd / yd) + Math.signum(yd) * FatorZ * Phit)) - CorrecaoY;
                     
-                    double ProdutoEscalaro = xo * Math.cos(-Tetat) * Math.cos(-Phit) + yo * Math.sin(-Tetat) * Math.cos(-Phit) + zo * Math.sin(-Phit);
+                    double ProdutoEscalaro = xo * Math.cos(-Tetat) * Math.cos(-Phit) + yo * Math.sin(-Tetat) * Math.cos(-Phit) + FatorZ * zo * Math.sin(-Phit);
 
-                    double ProdutoEscalard = xd * Math.cos(-Tetat) * Math.cos(-Phit) + yd * Math.sin(-Tetat) * Math.cos(-Phit) + zd * Math.sin(-Phit);
+                    double ProdutoEscalard = xd * Math.cos(-Tetat) * Math.cos(-Phit) + yd * Math.sin(-Tetat) * Math.cos(-Phit) + FatorZ * zd * Math.sin(-Phit);
     
                     if ((Math.acos(ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo)) < AnguloVisao) && (Math.acos(ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd)) < AnguloVisao) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi, Math.max(yi, Math.max(xf, yf))) < Math.min(TamanhoPlanoX, TamanhoPlanoY)))
                         comp.addLine(xi, yi, xf, yf, CorLinhas);
@@ -696,9 +680,9 @@ public class AV3DNavigator extends JComponent
                     else
                         yf = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(new Apfloat(Math.signum(yda.doubleValue()))).multiply(new Apfloat(FatorZ)).multiply(ApfloatMath.tan(ApfloatMath.atan(zda.divide(yda)).add((new Apfloat(Phit)).multiply(new Apfloat(Math.signum(yda.doubleValue()))).multiply(new Apfloat(FatorZ))))).doubleValue()) - CorrecaoY;
 
-                    Apfloat ProdutoEscalaroa = xoa.multiply(ApfloatMath.cos(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit))).add(yoa.multiply(ApfloatMath.sin(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit)))).add(zoa.multiply(ApfloatMath.sin(new Apfloat(-Phit))));
+                    Apfloat ProdutoEscalaroa = xoa.multiply(ApfloatMath.cos(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit))).add(yoa.multiply(ApfloatMath.sin(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit)))).add(zoa.multiply(ApfloatMath.sin(new Apfloat(-Phit))).multiply(new Apfloat(FatorZ)));
 
-                    Apfloat ProdutoEscalarda = xda.multiply(ApfloatMath.cos(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit))).add(yda.multiply(ApfloatMath.sin(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit)))).add(zda.multiply(ApfloatMath.sin(new Apfloat(-Phit))));
+                    Apfloat ProdutoEscalarda = xda.multiply(ApfloatMath.cos(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit))).add(yda.multiply(ApfloatMath.sin(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit)))).add(zda.multiply(ApfloatMath.sin(new Apfloat(-Phit))).multiply(new Apfloat(FatorZ)));
 
                     if ((ApfloatMath.acos(ProdutoEscalaroa.divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).doubleValue() < AnguloVisao) && (ApfloatMath.acos(ProdutoEscalarda.divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).doubleValue() < AnguloVisao) && (ApfloatMath.min(new Apfloat(xi), ApfloatMath.min(new Apfloat(yi), ApfloatMath.min(new Apfloat(xf), new Apfloat(yf)))).doubleValue() > 0) && (ApfloatMath.max(new Apfloat(xi), ApfloatMath.max(new Apfloat(yi), ApfloatMath.max(new Apfloat(xf), new Apfloat(yf)))).doubleValue() < ApfloatMath.min(new Apfloat(TamanhoPlanoX), new Apfloat(TamanhoPlanoY)).doubleValue()))
                         comp.addLine(xi, yi, xf, yf, CorLinhas);
@@ -736,7 +720,7 @@ public class AV3DNavigator extends JComponent
                         else
                             ypp = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * Math.signum(yp) * FatorZ * Math.tan(Math.atan(zp / yp) + Math.signum(yp) * FatorZ * Phit)) - CorrecaoY;
 
-                        double ProdutoEscalar = xp * Math.cos(-Tetat) * Math.cos(-Phit) + yp * Math.sin(-Tetat) * Math.cos(-Phit) + zp * Math.sin(-Phit);
+                        double ProdutoEscalar = xp * Math.cos(-Tetat) * Math.cos(-Phit) + yp * Math.sin(-Tetat) * Math.cos(-Phit) + FatorZ * zp * Math.sin(-Phit);
 
                         if ((Math.acos(ProdutoEscalar / Math.sqrt(xp * xp + yp * yp + zp * zp)) < AnguloVisao) && ((Math.min(xpp, ypp) > 0) && (Math.max(xpp, ypp)) < Math.min(TamanhoPlanoX, TamanhoPlanoY)))
                             {
@@ -763,7 +747,7 @@ public class AV3DNavigator extends JComponent
                         else
                             ypp = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(new Apfloat(Math.signum(ypa.doubleValue()))).multiply(new Apfloat(FatorZ)).multiply(ApfloatMath.tan(ApfloatMath.atan(zpa.divide(ypa)).add((new Apfloat(Phit)).multiply(new Apfloat(Math.signum(ypa.doubleValue()))).multiply(new Apfloat(FatorZ))))).doubleValue()) - CorrecaoY;
 
-                        Apfloat ProdutoEscalara = xpa.multiply(ApfloatMath.cos(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit)))).add(zpa.multiply(ApfloatMath.sin(new Apfloat(-Phit))));
+                        Apfloat ProdutoEscalara = xpa.multiply(ApfloatMath.cos(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(-Tetat))).multiply(ApfloatMath.cos(new Apfloat(-Phit)))).add(zpa.multiply(ApfloatMath.sin(new Apfloat(-Phit))).multiply(new Apfloat(FatorZ)));
 
                         if ((ApfloatMath.acos(ProdutoEscalara.divide(ApfloatMath.sqrt(xpa.multiply(xpa)).add(ypa.multiply(ypa)).add(zpa.multiply(zpa)))).doubleValue() < AnguloVisao) && ((Math.min(xpp, ypp) > 0) && (Math.max(xpp, ypp)) < Math.min(TamanhoPlanoX, TamanhoPlanoY)))
                             {
