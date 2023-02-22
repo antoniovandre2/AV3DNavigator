@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 20-02-2023
+ * Última atualização: 22-02-2023
  */
 
 import java.awt.*;
@@ -193,7 +193,7 @@ public class AV3DNavigator extends JComponent
         JFrame FrameEspaco = new JFrame("AV3DNavigator - " + Versao);
         FrameEspaco.setIconImage(new ImageIcon(getClass().getResource(AV3DNavigatorIconFilePath)).getImage());
 
-        FrameEspaco.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        FrameEspaco.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         FrameEspaco.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY + TamanhoEspacoLabelStatus));
         AV3DNavigator comp = new AV3DNavigator();
