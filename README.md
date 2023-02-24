@@ -21,25 +21,27 @@ ____________________
 
 Comandos:
 
-"A" para incrementar x. "Z" para decrementar x.
+"A" para incrementar x. "Z" para decrementar.
 
-"S" para incrementar y. "X" para decrementar y
+"S" para incrementar y. "X" para decrementar.
 
-"D" para incrementar z. "C" para decrementar z.
+"D" para incrementar z. "C" para decrementar.
 
-"F" para incrementar Teta. "V" para decrementar Teta.
+"F" para incrementar Teta. "V" para decrementar.
 
-"G" para incrementar Phi. "B" para decrementar Phi.
+"G" para incrementar Phi. "B" para decrementar.
 
-"W" para aumentar a distância da tela. "Q" para reduzir a distância da tela.
+"H" para incrementar a rotação da tela. "N" para decrementar.
 
-"E" para reduzir o fator redutor do ângulo de visão. "R" para aumentar o fator redutor do ângulo de visão.
+"W" para aumentar a distância da tela. "Q" para reduzir.
 
-"T" para shift negativo na cor da linha. "Y" para shift positivo na cor da linha.
+"E" para reduzir o fator redutor do ângulo de visão. "R" para aumentar.
 
-"U" para shift negativo na cor de fundo. "I" para shift positivo na cor de fundo.
+"T" para shift negativo na cor da linha. "Y" para shift positivo.
 
-"O" para shift negativo na cor dos polígonos preenchidos. "P" para shift positivo na cor dos polígonos preenchidos.
+"U" para shift negativo na cor de fundo. "I" para shift positivo.
+
+"O" para shift negativo na cor dos polígonos preenchidos. "P" para shift positivo.
 
 "0" para toggle alta precisão Apfloat (com custo computacional).
 
