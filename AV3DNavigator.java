@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 25-02-2023
+ * Última atualização: 26-02-2023
  */
 
 import java.awt.*;
@@ -616,7 +616,6 @@ public class AV3DNavigator extends JComponent
                 FrameEspaco.getContentPane().setBackground(CorBackground);
 
                 if (Math.cos(-Teta) > 0) FatorZ = 1; else FatorZ = -1;
-                if (Math.cos(-Phi) < 0) FatorZ *= (-1);
 
                 if (ApfloatFlag == 0)
                     {
