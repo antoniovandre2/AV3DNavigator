@@ -248,6 +248,8 @@ public class AV3DNavigator extends JComponent
                 {
                 int keyCode = ke.getKeyCode();
 
+                ContadorFrames = FramesDeslocamento - 1;
+
                 if (keyCode == KeyEvent.VK_ESCAPE)
                     Sair = 1;
 
@@ -274,40 +276,40 @@ public class AV3DNavigator extends JComponent
                     }
 
                 if (keyCode == KeyEvent.VK_A)
-                    {if (Math.abs(x) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) x += DeslocamentoLinear; else VariavelLimiteAtingido();}
+                    {if (Math.abs(x) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {x += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                 if (keyCode == KeyEvent.VK_Z)
-                    {if (Math.abs(x) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) x -= DeslocamentoLinear; else VariavelLimiteAtingido();}
+                    {if (Math.abs(x) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {x -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                 if (keyCode == KeyEvent.VK_S)
-                    {if (Math.abs(y) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) y += DeslocamentoLinear; else VariavelLimiteAtingido();}
+                    {if (Math.abs(y) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {y += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                 if (keyCode == KeyEvent.VK_X)
-                    {if (Math.abs(y) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) y -= DeslocamentoLinear; else VariavelLimiteAtingido();}
+                    {if (Math.abs(y) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {y -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                 if (keyCode == KeyEvent.VK_D)
-                    {if (Math.abs(z) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) z += DeslocamentoLinear; else VariavelLimiteAtingido();}
+                    {if (Math.abs(z) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {z += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                 if (keyCode == KeyEvent.VK_C)
-                    {if (Math.abs(z) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) z -= DeslocamentoLinear; else VariavelLimiteAtingido();}
+                    {if (Math.abs(z) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {z -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                 if (keyCode == KeyEvent.VK_F)
-                    {if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) Teta += DeslocamentoAngular; else VariavelLimiteAtingido();}
+                    {if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Teta += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                 if (keyCode == KeyEvent.VK_V)
-                    {if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) Teta -= DeslocamentoAngular; else VariavelLimiteAtingido();}
+                    {if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Teta -= DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                 if (keyCode == KeyEvent.VK_G)
-                    {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) Phi += DeslocamentoAngular; else VariavelLimiteAtingido();}
+                    {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Phi += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                 if (keyCode == KeyEvent.VK_B)
-                    {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) Phi -= DeslocamentoAngular; else VariavelLimiteAtingido();}
+                    {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Phi -= DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                 if (keyCode == KeyEvent.VK_H)
-                    {if (Math.abs(Rot) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) Rot += DeslocamentoAngular; else VariavelLimiteAtingido();}
+                    {if (Math.abs(Rot) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Rot += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                 if (keyCode == KeyEvent.VK_N)
-                    {if (Math.abs(Rot) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) Rot -= DeslocamentoAngular; else VariavelLimiteAtingido();}
+                    {if (Math.abs(Rot) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Rot -= DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
     
                 if (keyCode == KeyEvent.VK_Q)
                     {if (DistanciaTela > 1) DistanciaTela -= 1;}
@@ -352,6 +354,8 @@ public class AV3DNavigator extends JComponent
                         y += Math.cos(-Phi) * Math.sin(-Teta);
                         z += Math.sin(-Phi);
                         }
+
+                    ContadorFrames = 0;
                     }
 
                 if (keyCode == KeyEvent.VK_DOWN)
@@ -364,6 +368,8 @@ public class AV3DNavigator extends JComponent
                         y -= Math.cos(-Phi) * Math.sin(-Teta);
                         z -= Math.sin(-Phi);
                         }
+
+                    ContadorFrames = 0;
                     }
 
                 if (keyCode == KeyEvent.VK_LEFT)
@@ -375,6 +381,8 @@ public class AV3DNavigator extends JComponent
                         x += Math.cos(-Teta * FatorZ - Math.PI / 2);
                         y += Math.sin(-Teta * FatorZ - Math.PI / 2);
                         }
+
+                    ContadorFrames = 0;
                     }
 
                 if (keyCode == KeyEvent.VK_RIGHT)
@@ -386,9 +394,10 @@ public class AV3DNavigator extends JComponent
                         x -= Math.cos(-Teta * FatorZ - Math.PI / 2);
                         y -= Math.sin(-Teta * FatorZ - Math.PI / 2);
                         }
+
+                    ContadorFrames = 0;
                     }
 
-                ContadorFrames = 0;
                 FlagAlteracaoStatus = 1;
                 }
 
