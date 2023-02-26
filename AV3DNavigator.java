@@ -246,159 +246,162 @@ public class AV3DNavigator extends JComponent
             {
             public void keyPressed(KeyEvent ke)
                 {
-                int keyCode = ke.getKeyCode();
-
-                ContadorFrames = FramesDeslocamento - 1;
-
-                if (keyCode == KeyEvent.VK_ESCAPE)
-                    Sair = 1;
-
-                if (keyCode == KeyEvent.VK_SPACE)
+                if (ContadorFrames == FramesDeslocamento)
                     {
-                    x = 0;
-                    y = 0;
-                    z = 0;
-                    Teta = 0;
-                    Phi = 0;
-                    Rot = 0;
-                    xt = x;
-                    yt = y;
-                    zt = z;
-                    Tetat = Teta;
-                    Phit = Phi;
-                    Rott = Rot;
+                    int keyCode = ke.getKeyCode();
 
-                    FatorAnguloVisao = 1;
+                    ContadorFrames = FramesDeslocamento - 1;
 
-                    DistanciaTela = 2;
+                    if (keyCode == KeyEvent.VK_ESCAPE)
+                        Sair = 1;
 
-                    ContadorFrames = FramesDeslocamento;
-                    }
-
-                if (keyCode == KeyEvent.VK_A)
-                    {if (Math.abs(x) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {x += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
-
-                if (keyCode == KeyEvent.VK_Z)
-                    {if (Math.abs(x) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {x -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
-
-                if (keyCode == KeyEvent.VK_S)
-                    {if (Math.abs(y) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {y += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
-
-                if (keyCode == KeyEvent.VK_X)
-                    {if (Math.abs(y) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {y -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
-
-                if (keyCode == KeyEvent.VK_D)
-                    {if (Math.abs(z) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {z += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
-
-                if (keyCode == KeyEvent.VK_C)
-                    {if (Math.abs(z) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {z -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
-
-                if (keyCode == KeyEvent.VK_F)
-                    {if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Teta += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
-
-                if (keyCode == KeyEvent.VK_V)
-                    {if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Teta -= DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
-
-                if (keyCode == KeyEvent.VK_G)
-                    {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Phi += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
-
-                if (keyCode == KeyEvent.VK_B)
-                    {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Phi -= DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
-
-                if (keyCode == KeyEvent.VK_H)
-                    {if (Math.abs(Rot) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Rot += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
-
-                if (keyCode == KeyEvent.VK_N)
-                    {if (Math.abs(Rot) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Rot -= DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
-    
-                if (keyCode == KeyEvent.VK_Q)
-                    {if (DistanciaTela > 1) DistanciaTela -= 1;}
-
-                if (keyCode == KeyEvent.VK_W)
-                    {if (Math.abs(DistanciaTela) - 1 <= Double.MAX_VALUE - 1) DistanciaTela += 1; else VariavelLimiteAtingido();}
-
-                if (keyCode == KeyEvent.VK_E)
-                    {if (FatorAnguloVisao > 1) FatorAnguloVisao -= 1;}
-
-                if (keyCode == KeyEvent.VK_R)
-                    {if (Math.abs(FatorAnguloVisao) - 1 <= Double.MAX_VALUE - 1) FatorAnguloVisao += 1; else VariavelLimiteAtingido();}
-
-                if (keyCode == KeyEvent.VK_T)
-                    if (ContadorCorLinhas > 0) ContadorCorLinhas -= 1;
-
-                if (keyCode == KeyEvent.VK_Y)
-                    if (ContadorCorLinhas < 15) ContadorCorLinhas += 1;
-
-                if (keyCode == KeyEvent.VK_U)
-                    if (ContadorCorBackground > 0) ContadorCorBackground -= 1;
-
-                if (keyCode == KeyEvent.VK_I)
-                    if (ContadorCorBackground < 15) ContadorCorBackground += 1;
-
-                if (keyCode == KeyEvent.VK_O)
-                    if (ContadorCorPoligonosShape > 0) ContadorCorPoligonosShape -= 1;
-
-                if (keyCode == KeyEvent.VK_P)
-                    if (ContadorCorPoligonosShape < 15) ContadorCorPoligonosShape += 1;
-
-                if (keyCode == KeyEvent.VK_0)
-                    if (ApfloatFlag == 0) ApfloatFlag = 1; else ApfloatFlag = 0;
-
-                if (keyCode == KeyEvent.VK_UP)
-                    {
-                    if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(z) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
-                        VariavelLimiteAtingido();
-                    else
+                    if (keyCode == KeyEvent.VK_SPACE)
                         {
-                        x += Math.cos(-Phi) * Math.cos(-Teta);
-                        y += Math.cos(-Phi) * Math.sin(-Teta);
-                        z += Math.sin(-Phi);
+                        x = 0;
+                        y = 0;
+                        z = 0;
+                        Teta = 0;
+                        Phi = 0;
+                        Rot = 0;
+                        xt = x;
+                        yt = y;
+                        zt = z;
+                        Tetat = Teta;
+                        Phit = Phi;
+                        Rott = Rot;
+
+                        FatorAnguloVisao = 1;
+
+                        DistanciaTela = 2;
+
+                        ContadorFrames = FramesDeslocamento;
                         }
 
-                    ContadorFrames = 0;
-                    }
+                    if (keyCode == KeyEvent.VK_A)
+                        {if (Math.abs(x) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {x += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
-                if (keyCode == KeyEvent.VK_DOWN)
-                    {
-                    if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(z) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
-                        VariavelLimiteAtingido();
-                    else
+                    if (keyCode == KeyEvent.VK_Z)
+                        {if (Math.abs(x) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {x -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+
+                    if (keyCode == KeyEvent.VK_S)
+                        {if (Math.abs(y) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {y += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+
+                    if (keyCode == KeyEvent.VK_X)
+                        {if (Math.abs(y) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {y -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+
+                    if (keyCode == KeyEvent.VK_D)
+                        {if (Math.abs(z) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {z += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+
+                    if (keyCode == KeyEvent.VK_C)
+                        {if (Math.abs(z) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {z -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+
+                    if (keyCode == KeyEvent.VK_F)
+                        {if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Teta += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+
+                    if (keyCode == KeyEvent.VK_V)
+                        {if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Teta -= DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+
+                    if (keyCode == KeyEvent.VK_G)
+                        {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Phi += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+
+                    if (keyCode == KeyEvent.VK_B)
+                        {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Phi -= DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+
+                    if (keyCode == KeyEvent.VK_H)
+                        {if (Math.abs(Rot) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Rot += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+
+                    if (keyCode == KeyEvent.VK_N)
+                        {if (Math.abs(Rot) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Rot -= DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+        
+                    if (keyCode == KeyEvent.VK_Q)
+                        {if (DistanciaTela > 1) DistanciaTela -= 1;}
+
+                    if (keyCode == KeyEvent.VK_W)
+                        {if (Math.abs(DistanciaTela) - 1 <= Double.MAX_VALUE - 1) DistanciaTela += 1; else VariavelLimiteAtingido();}
+
+                    if (keyCode == KeyEvent.VK_E)
+                        {if (FatorAnguloVisao > 1) FatorAnguloVisao -= 1;}
+
+                    if (keyCode == KeyEvent.VK_R)
+                        {if (Math.abs(FatorAnguloVisao) - 1 <= Double.MAX_VALUE - 1) FatorAnguloVisao += 1; else VariavelLimiteAtingido();}
+
+                    if (keyCode == KeyEvent.VK_T)
+                        if (ContadorCorLinhas > 0) ContadorCorLinhas -= 1;
+
+                    if (keyCode == KeyEvent.VK_Y)
+                        if (ContadorCorLinhas < 15) ContadorCorLinhas += 1;
+
+                    if (keyCode == KeyEvent.VK_U)
+                        if (ContadorCorBackground > 0) ContadorCorBackground -= 1;
+
+                    if (keyCode == KeyEvent.VK_I)
+                        if (ContadorCorBackground < 15) ContadorCorBackground += 1;
+
+                    if (keyCode == KeyEvent.VK_O)
+                        if (ContadorCorPoligonosShape > 0) ContadorCorPoligonosShape -= 1;
+
+                    if (keyCode == KeyEvent.VK_P)
+                        if (ContadorCorPoligonosShape < 15) ContadorCorPoligonosShape += 1;
+
+                    if (keyCode == KeyEvent.VK_0)
+                        if (ApfloatFlag == 0) ApfloatFlag = 1; else ApfloatFlag = 0;
+
+                    if (keyCode == KeyEvent.VK_UP)
                         {
-                        x -= Math.cos(-Phi) * Math.cos(-Teta);
-                        y -= Math.cos(-Phi) * Math.sin(-Teta);
-                        z -= Math.sin(-Phi);
+                        if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(z) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
+                            VariavelLimiteAtingido();
+                        else
+                            {
+                            x += Math.cos(-Phi) * Math.cos(-Teta);
+                            y += Math.cos(-Phi) * Math.sin(-Teta);
+                            z += Math.sin(-Phi);
+                            }
+
+                        ContadorFrames = 0;
                         }
 
-                    ContadorFrames = 0;
-                    }
-
-                if (keyCode == KeyEvent.VK_LEFT)
-                    {
-                    if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
-                        VariavelLimiteAtingido();
-                    else
+                    if (keyCode == KeyEvent.VK_DOWN)
                         {
-                        x += Math.cos(-Teta * FatorZ - Math.PI / 2);
-                        y += Math.sin(-Teta * FatorZ - Math.PI / 2);
+                        if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(z) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
+                            VariavelLimiteAtingido();
+                        else
+                            {
+                            x -= Math.cos(-Phi) * Math.cos(-Teta);
+                            y -= Math.cos(-Phi) * Math.sin(-Teta);
+                            z -= Math.sin(-Phi);
+                            }
+
+                        ContadorFrames = 0;
                         }
 
-                    ContadorFrames = 0;
-                    }
-
-                if (keyCode == KeyEvent.VK_RIGHT)
-                    {
-                    if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
-                        VariavelLimiteAtingido();
-                    else
+                    if (keyCode == KeyEvent.VK_LEFT)
                         {
-                        x -= Math.cos(-Teta * FatorZ - Math.PI / 2);
-                        y -= Math.sin(-Teta * FatorZ - Math.PI / 2);
+                        if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
+                            VariavelLimiteAtingido();
+                        else
+                            {
+                            x += Math.cos(-Teta * FatorZ - Math.PI / 2);
+                            y += Math.sin(-Teta * FatorZ - Math.PI / 2);
+                            }
+
+                        ContadorFrames = 0;
                         }
 
-                    ContadorFrames = 0;
-                    }
+                    if (keyCode == KeyEvent.VK_RIGHT)
+                        {
+                        if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
+                            VariavelLimiteAtingido();
+                        else
+                            {
+                            x -= Math.cos(-Teta * FatorZ - Math.PI / 2);
+                            y -= Math.sin(-Teta * FatorZ - Math.PI / 2);
+                            }
 
-                FlagAlteracaoStatus = 1;
+                        ContadorFrames = 0;
+                        }
+
+                    FlagAlteracaoStatus = 1;
+                    }
                 }
 
             public void keyReleased(KeyEvent ke){}
