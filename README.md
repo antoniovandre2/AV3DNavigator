@@ -52,9 +52,4 @@ Aperte barra de espaços para resetar as variáveis.
 ESC para sair.
 ____________________
 
-Em obediência aos academicamente adotados "x", "y", "z", "θ" e "ϕ", há inversões de "z" quando o cosseno de "θ" muda de sinal, e não naturalmente quando o cosseno de "ϕ" muda de sinal.
-
-Por este software servir como base para outros, promovo esta inversão de um modo gradativo utilizando o cosseno de "θ".
-____________________
-
 Sugestões ou comunicar erros: "a.vandre.g@gmail.com".
