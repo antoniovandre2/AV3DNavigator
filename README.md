@@ -52,9 +52,9 @@ Aperte barra de espaços para resetar as variáveis.
 ESC para sair.
 ____________________
 
-O motor 3D possui apenas a restrição de não funcionar bem para Teta próximo de (π/2 + kπ).
+O motor 3D possui apenas a restrição de não funcionar bem para θ e ϕ próximos de {x = π/2 + kπ, k ∈ ℤ}.
 
-Nos softwares em que aplico, utilizo engenhos para contornar esta limitação, como ocultar a renderização ou deslocar temporariamente os objetos a serem desenhados, retornando às suas posições originais quando Teta está nos intervalos seguros.
+Nos softwares em que aplico, utilizo engenhos para contornar estas limitações, como ocultar a renderização, distorções, ou deslocar temporariamente os objetos a serem desenhados, retornando às suas posições originais quando Teta está nos intervalos seguros.
 ____________________
 
 Sugestões ou comunicar erros: "a.vandre.g@gmail.com".
