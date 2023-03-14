@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 13-03-2023
+ * Última atualização: 14-03-2023
  */
 
 import java.awt.*;
@@ -49,7 +49,8 @@ public class AV3DNavigator extends JComponent
     public static int MinTamanhoPlanoY = 300; // Default: 300.
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
     public double FatorAnguloVisao = 1; // Default: 1.
-    public static double InfimoCossenoTetaIgnorar = 0.2; // Default: 0.2.
+    public static double InfimoCossenoTetaIgnorar = 0.1; // Default: 0.1.
+    public static double InfimoCossenoPhiIgnorar = 0.1; // Default: 0.1.
     public static int TamanhoEspacoLabelStatus = 360; // Default: 380.
     public static int TamanhoFonteLabelStatus = 7; // Default: 11.
     public double DistanciaTela = 2; // Default: valor inicial: 2.
@@ -59,8 +60,8 @@ public class AV3DNavigator extends JComponent
     public static double DeslocamentoLinear = 1; // Default: 1.
     public static double DeslocamentoAngular = 0.2; // Default: 0.2.
     public static int FramesDeslocamento = 4; // Default: 4.
-    public static double FatorCorrecaoAspecto = 2; // Default: 2.
-    public static double FatorMaxCorrecaoAspecto = 10; // Default: 2.
+    public static double FatorCorrecaoAspecto = 0; // Default: 0.
+    public static double FatorMaxCorrecaoAspecto = 1; // Default: 1.
     public int ApfloatFlag = 0; // Default: 0.
 
     // Variáveis de funcionamento interno.
@@ -304,10 +305,10 @@ public class AV3DNavigator extends JComponent
                         {if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Teta -= DeslocamentoAngular; ContadorFrames = 0; while (Math.abs(Math.cos(-Teta)) <= InfimoCossenoTetaIgnorar) {Teta -= DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta;}} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_G)
-                        {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Phi += Math.signum(Math.cos(-Teta)) * DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+                        {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Phi += Math.signum(Math.cos(-Teta)) * DeslocamentoAngular; ContadorFrames = 0; while (Math.abs(Math.cos(-Phi)) <= InfimoCossenoPhiIgnorar) {Phi += Math.signum(Math.cos(-Teta)) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi;}} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_B)
-                        {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Phi -= Math.signum(Math.cos(-Teta)) * DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+                        {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Phi -= Math.signum(Math.cos(-Teta)) * DeslocamentoAngular; ContadorFrames = 0; while (Math.abs(Math.cos(-Phi)) <= InfimoCossenoPhiIgnorar) {Phi -= Math.signum(Math.cos(-Teta)) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi;}} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_H)
                         {if (Math.abs(Rot) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Rot += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
@@ -560,6 +561,7 @@ public class AV3DNavigator extends JComponent
                     while (Math.abs(Math.cos(-Teta)) <= InfimoCossenoTetaIgnorar) Teta -= Math.signum(Math.cos(-TetaR)) * DeslocamentoAngular;
                     Tetat = Teta;
                     Phi = Math.signum(Math.cos(-Teta)) * Math.PI * (MouseY - MouseYR) / TamanhoPlanoY + PhiR;
+                    while (Math.abs(Math.cos(-Phi)) <= InfimoCossenoPhiIgnorar) Phi -= Math.signum(-PhiR) * Math.signum(Math.cos(-Teta)) * DeslocamentoAngular;
                     Phit = Phi;
 
                     FlagAlteracaoStatus = 1;
