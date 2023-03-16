@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 15-03-2023
+ * Última atualização: 16-03-2023
  */
 
 import java.awt.*;
@@ -49,8 +49,8 @@ public class AV3DNavigator extends JComponent
     public static int MinTamanhoPlanoY = 300; // Default: 300.
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
     public double FatorAnguloVisao = 1; // Default: 1.
-    public static double InfimoCossenoTetaIgnorar = 0.1; // Default: 0.1.
-    public static double InfimoCossenoPhiIgnorar = 0.1; // Default: 0.1.
+    public static double InfimoCossenoTetaIgnorar = 0; // Default: 0.2.
+    public static double InfimoCossenoPhiIgnorar = 0; // Default: 0.2.
     public static int TamanhoEspacoLabelStatus = 360; // Default: 380.
     public static int TamanhoFonteLabelStatus = 7; // Default: 11.
     public double DistanciaTela = 2; // Default: valor inicial: 2.
@@ -685,9 +685,9 @@ public class AV3DNavigator extends JComponent
 
                 double yd = Double.parseDouble(CoordenadasDest[1]) - yt;
 
-                double zo = (-Double.parseDouble(CoordenadasOrig[2])) - zt;
+                double zo = -Double.parseDouble(CoordenadasOrig[2]) - zt;
 
-                double zd = (-Double.parseDouble(CoordenadasDest[2])) - zt;
+                double zd = -Double.parseDouble(CoordenadasDest[2]) - zt;
 
                 int xi;
                 int yi;
@@ -703,10 +703,10 @@ public class AV3DNavigator extends JComponent
                     xf = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * (Math.cos(Rott) * Math.tan(Math.atan(yd / xd) + Tetat) / Math.max(Math.pow(Math.abs(Math.cos(Tetat)), FatorCorrecaoAspecto), 1 / FatorMaxCorrecaoAspecto) - Math.sin(Rott) * Math.tan(Math.asin(zd / Math.sqrt(xd * xd + zd * zd)) + Phit) / Math.max(Math.pow(Math.abs(Math.cos(Phit)), FatorCorrecaoAspecto), 1 / FatorMaxCorrecaoAspecto))) - CorrecaoX;
             
                     yf = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * DistanciaTela * (Math.sin(Rott) * Math.tan(Math.atan(yd / xd) + Tetat) / Math.max(Math.pow(Math.abs(Math.cos(Tetat)), FatorCorrecaoAspecto), 1 / FatorMaxCorrecaoAspecto) + Math.cos(Rott) * Math.tan(Math.asin(zd / Math.sqrt(xd * xd + zd * zd)) + Phit) / Math.max(Math.pow(Math.abs(Math.cos(Phit)), FatorCorrecaoAspecto), 1 / FatorMaxCorrecaoAspecto))) - CorrecaoY;
-                                        
-                    double ProdutoEscalaro = xo * Math.cos(Tetat) * Math.cos(Phit) - yo * Math.sin(Tetat) * Math.cos(Phit) - zo * Math.sin(Phit);
 
-                    double ProdutoEscalard = xd * Math.cos(Tetat) * Math.cos(Phit) - yd * Math.sin(Tetat) * Math.cos(Phit) - zd * Math.sin(Phit);
+                    double ProdutoEscalaro = xo * Math.cos(Tetat) * Math.cos(Phit) - yo * Math.sin(Tetat) * Math.cos(Phit) - zo * Math.signum(Math.cos(Phi)) * Math.sin(Phit);
+
+                    double ProdutoEscalard = xd * Math.cos(Tetat) * Math.cos(Phit) - yd * Math.sin(Tetat) * Math.cos(Phit) - zd * Math.signum(Math.cos(Phi)) * Math.sin(Phit);
 
                     if ((ProdutoEscalaro > 0) && (ProdutoEscalard > 0) && (Math.acos(ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo)) < AnguloVisao) && (Math.acos(ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd)) < AnguloVisao) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi, Math.max(yi, Math.max(xf, yf))) < Math.min(TamanhoPlanoX, TamanhoPlanoY)))
                         comp.addLine(xi, yi, xf, yf, CorLinhas);
