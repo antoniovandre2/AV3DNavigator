@@ -49,8 +49,11 @@ public class AV3DNavigator extends JComponent
     public static int MinTamanhoPlanoY = 300; // Default: 300.
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
     public double FatorAnguloVisao = 1; // Default: 1.
+    public static double InfimoCossenoTeta = 0.15; // Default: 0.15.
+    public static double InfimoCossenoPhi = 0.15; // Default: 0.15.
     public static double InfimoCossenoTetaIgnorar = 0; // Default: 0.2.
     public static double InfimoCossenoPhiIgnorar = 0; // Default: 0.2.
+    public static double FatorDeslocamentoShift = 1.5; // Default: 1.5.
     public static int TamanhoEspacoLabelStatus = 360; // Default: 380.
     public static int TamanhoFonteLabelStatus = 7; // Default: 11.
     public double DistanciaTela = 2; // Default: valor inicial: 2.
@@ -693,6 +696,12 @@ public class AV3DNavigator extends JComponent
                 int yi;
                 int xf;
                 int yf;
+
+                if ((Math.abs(Math.cos(Teta)) <= InfimoCossenoTeta) || (Math.abs(Math.cos(Phi)) <= InfimoCossenoPhi))
+                    {
+                    xo *= FatorDeslocamentoShift;
+                    xd *= FatorDeslocamentoShift;
+                    }
 
                 if ((xo != 0) && (xd != 0))
                     {
