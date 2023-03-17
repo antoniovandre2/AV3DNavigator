@@ -49,19 +49,21 @@ public class AV3DNavigator extends JComponent
     public static int MinTamanhoPlanoY = 300; // Default: 300.
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
     public double FatorAnguloVisao = 1; // Default: 1.
+    public static double PhiMax = Math.PI / 3; // Default: Math.PI / 3.
+    public static double TetaMax = Math.PI / 3; // Default: Math.PI / 3.
     public static double InfimoCossenoTeta = 0.15; // Default: 0.15.
     public static double InfimoCossenoPhi = 0.15; // Default: 0.15.
     public static double InfimoCossenoTetaIgnorar = 0; // Default: 0.2.
     public static double InfimoCossenoPhiIgnorar = 0; // Default: 0.2.
     public static double FatorDeslocamentoShift = 1.5; // Default: 1.5.
-    public static int TamanhoEspacoLabelStatus = 360; // Default: 380.
+    public static int TamanhoEspacoLabelStatus = 365; // Default: 365.
     public static int TamanhoFonteLabelStatus = 7; // Default: 11.
     public double DistanciaTela = 2; // Default: valor inicial: 2.
     public static String MensagemErroEspacoAusente = "Entre com um arquivo de espaço.";
     public static String MensagemErroEspacoInvalido = "Entre com um arquivo de espaço válido.";
     public static double FatorMouseWheel = 3; // Default: 3.
     public static double DeslocamentoLinear = 1; // Default: 1.
-    public static double DeslocamentoAngular = 0.2; // Default: 0.2.
+    public static double DeslocamentoAngular = 0.1; // Default: 0.1.
     public static int FramesDeslocamento = 4; // Default: 4.
     public static double FatorCorrecaoAspecto = 0; // Default: 0.
     public static double FatorMaxCorrecaoAspecto = 1; // Default: 1.
@@ -72,6 +74,10 @@ public class AV3DNavigator extends JComponent
     public int CorrecaoX = 10;
     public int CorrecaoY = 0;
     public double AnguloVisao;
+    public int FlagTetaSuperior = 0;
+    public int FlagTetaInferior = 0;
+    public int FlagPhiSuperior = 0;
+    public int FlagPhiInferior = 0;
     public int Sair = 0;
     public String Espaco;
     public int FlagAlteracaoStatus = 1;
@@ -206,7 +212,7 @@ public class AV3DNavigator extends JComponent
         AV3DNavigator comp = new AV3DNavigator();
         comp.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY));
         FrameEspaco.getContentPane().add(comp, BorderLayout.PAGE_START);
-        JLabel LabelStatus = new JLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br><br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+        JLabel LabelStatus = new JLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br><br>Teta = " + String.valueOf(Teta) + ". TetaMax = " + String.valueOf(TetaMax) + ".<br>Phi = " + String.valueOf(Phi) + ". PhiMax = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
         LabelStatus.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelStatus));
         LabelStatus.setOpaque(true);
         LabelStatus.setLocation(5, TamanhoPlanoY + 5);
@@ -302,16 +308,16 @@ public class AV3DNavigator extends JComponent
                         {if (Math.abs(z) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {z += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_F)
-                        {if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Teta += DeslocamentoAngular; ContadorFrames = 0; while (Math.abs(Math.cos(Teta)) <= InfimoCossenoTetaIgnorar) {Teta += DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta;}} else VariavelLimiteAtingido();}
+                        {if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Teta) < TetaMax - DeslocamentoAngular) {Teta += DeslocamentoAngular; ContadorFrames = 0; while (Math.abs(Math.cos(Teta)) <= InfimoCossenoTetaIgnorar) {Teta += DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta;}} else {Teta -= Math.signum(Math.sin(Teta)) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaSuperior = 1;}} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_V)
-                        {if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Teta -= DeslocamentoAngular; ContadorFrames = 0; while (Math.abs(Math.cos(Teta)) <= InfimoCossenoTetaIgnorar) {Teta -= DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta;}} else VariavelLimiteAtingido();}
+                        {if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Teta) < TetaMax - DeslocamentoAngular) {Teta -= DeslocamentoAngular; ContadorFrames = 0; while (Math.abs(Math.cos(Teta)) <= InfimoCossenoTetaIgnorar) {Teta -= DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta;}} else {Teta -= Math.signum(Math.sin(Teta)) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_G)
-                        {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Phi -= DeslocamentoAngular; ContadorFrames = 0; while (Math.abs(Math.cos(Phi)) <= InfimoCossenoPhiIgnorar) {Phi -= DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi;}} else VariavelLimiteAtingido();}
+                        {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {Phi -= DeslocamentoAngular; ContadorFrames = 0; while (Math.abs(Math.cos(Phi)) <= InfimoCossenoPhiIgnorar) {Phi -= DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi;}} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiInferior = 1;}} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_B)
-                        {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Phi += DeslocamentoAngular; ContadorFrames = 0; while (Math.abs(Math.cos(Phi)) <= InfimoCossenoPhiIgnorar) {Phi += DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi;}} else VariavelLimiteAtingido();}
+                        {if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {Phi += DeslocamentoAngular; ContadorFrames = 0; while (Math.abs(Math.cos(Phi)) <= InfimoCossenoPhiIgnorar) {Phi += DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi;}} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_H)
                         {if (Math.abs(Rot) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Rot += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
@@ -560,11 +566,40 @@ public class AV3DNavigator extends JComponent
                     VariavelLimiteAtingido();
                 else
                     {
-                    Teta = 2 * Math.PI * (MouseX - MouseXR) / TamanhoPlanoX + TetaR;
-                    while (Math.abs(Math.cos(Teta)) <= InfimoCossenoTetaIgnorar) Teta -= Math.signum(Math.cos(TetaR)) * DeslocamentoAngular;
+                    if (Math.abs(Teta) < TetaMax - DeslocamentoAngular)
+                        {
+                        Teta = 2 * Math.PI * (MouseX - MouseXR) / TamanhoPlanoX + TetaR;
+                        while (Math.abs(Math.cos(Teta)) <= InfimoCossenoTetaIgnorar) Teta -= Math.signum(Math.cos(TetaR)) * DeslocamentoAngular;
+                        }
+                    else
+                        {
+                        TetaR -= Math.signum(Math.sin(Teta)) * DeslocamentoAngular;
+                        Teta = TetaR;
+
+                        if (Math.signum(Teta) > 0)
+                            FlagTetaSuperior = 1;
+                        else
+                            FlagTetaInferior = 1;
+                        }
+
                     Tetat = Teta;
-                    Phi = Math.PI * (MouseY - MouseYR) / TamanhoPlanoY + PhiR;
-                    while (Math.abs(Math.cos(Phi)) <= InfimoCossenoPhiIgnorar) Phi -= Math.signum(PhiR) * DeslocamentoAngular;
+
+                    if (Math.abs(Phi) < PhiMax - DeslocamentoAngular)
+                        {
+                        Phi = Math.PI * (MouseY - MouseYR) / TamanhoPlanoY + PhiR;
+                        while (Math.abs(Math.cos(Phi)) <= InfimoCossenoPhiIgnorar) Phi -= Math.signum(PhiR) * DeslocamentoAngular;
+                        }
+                    else
+                        {
+                        PhiR -= Math.signum(Phi) * DeslocamentoAngular;
+                        Phi = PhiR;
+
+                        if (Math.signum(Phi) > 0)
+                            FlagPhiSuperior = 1;
+                        else
+                            FlagPhiInferior = 1;
+                        }
+
                     Phit = Phi;
 
                     FlagAlteracaoStatus = 1;
@@ -648,7 +683,7 @@ public class AV3DNavigator extends JComponent
                     AnguloVisao = (new Apfloat(AnguloVisao)).divide(new Apfloat(FatorAnguloVisao)).doubleValue();
                     }
 
-                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br><br>Teta = " + String.valueOf(Teta) + ". Phi = " + String.valueOf(Phi) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br><br>Teta = " + String.valueOf(Teta) + ". TetaMax = " + String.valueOf(TetaMax) + ".<br>Phi = " + String.valueOf(Phi) + ". PhiMax = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
 
                 DesenharEspaco(comp);
 
