@@ -52,9 +52,4 @@ Aperte barra de espaços para resetar as variáveis.
 ESC para sair.
 ____________________
 
-O motor 3D possui apenas a restrição de não funcionar bem para θ e φ próximos de {x = π/2 + kπ, k ∈ ℤ}.
-
-Nos softwares em que aplico, utilizo engenhos para contornar estas limitações, como ocultar a renderização, distorções, ou deslocar temporariamente os objetos a serem desenhados, retornando às suas posições originais quando θ e φ estão em intervalos seguros.
-____________________
-
 Sugestões ou comunicar erros: "a.vandre.g@gmail.com".
