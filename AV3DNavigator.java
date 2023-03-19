@@ -55,9 +55,9 @@ public class AV3DNavigator extends JComponent
     public static double PhiMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
     public static double InfimoCossenoTeta = 0; // Default: 0.
     public static double InfimoCossenoPhi = 0; // Default: 0.
-    public static double InfimoCossenoTetaIgnorar = 0; // Default: 0.
-    public static double InfimoCossenoPhiIgnorar = 0; // Default: 0.
-    public static double ParcelaDeslocamentoShift = 2; // Default: 2.
+    public static double InfimoCossenoTetaIgnorar = 0; // Opção: 0.2.
+    public static double InfimoCossenoPhiIgnorar = 0; // Opção: 0.2.
+    public static double FatorDeslocamentoShift = 1.5; // Default: 1.5.
     public static int TamanhoEspacoLabelStatus = 365; // Default: 365.
     public static int TamanhoFonteLabelStatus = 7; // Default: 11.
     public double DistanciaTela = 2; // Default: valor inicial: 2.
@@ -740,9 +740,8 @@ public class AV3DNavigator extends JComponent
 
                 if ((Math.abs(Math.cos(Tetat)) <= InfimoCossenoTeta) || (Math.abs(Math.cos(Phit)) <= InfimoCossenoPhi))
                     {
-                    xo += ParcelaDeslocamentoShift; xd += ParcelaDeslocamentoShift;
-                    yo += ParcelaDeslocamentoShift; yd += ParcelaDeslocamentoShift;
-                    zo += ParcelaDeslocamentoShift; zd += ParcelaDeslocamentoShift;
+                    xo *= FatorDeslocamentoShift; xd *= FatorDeslocamentoShift;
+                    yo *= FatorDeslocamentoShift; yd *= FatorDeslocamentoShift;
                     }
 
                 try
@@ -787,12 +786,10 @@ public class AV3DNavigator extends JComponent
 
                 if ((ApfloatMath.abs(ApfloatMath.cos(new Apfloat(Tetat))).doubleValue() <= InfimoCossenoTeta) || (ApfloatMath.abs(ApfloatMath.cos(new Apfloat(Phit))).doubleValue() <= InfimoCossenoPhi))
                     {
-                    xoa = xoa.add(new Apfloat(ParcelaDeslocamentoShift));
-                    xda = xda.add(new Apfloat(ParcelaDeslocamentoShift));
-                    yoa = yoa.add(new Apfloat(ParcelaDeslocamentoShift));
-                    yda = yda.add(new Apfloat(ParcelaDeslocamentoShift));
-                    zoa = zoa.add(new Apfloat(ParcelaDeslocamentoShift));
-                    zda = zda.add(new Apfloat(ParcelaDeslocamentoShift));
+                    xoa = xoa.multiply(new Apfloat(FatorDeslocamentoShift));
+                    xda = xda.multiply(new Apfloat(FatorDeslocamentoShift));
+                    yoa = yoa.multiply(new Apfloat(FatorDeslocamentoShift));
+                    yda = yda.multiply(new Apfloat(FatorDeslocamentoShift));
                     }
 
                 try
@@ -842,9 +839,8 @@ public class AV3DNavigator extends JComponent
 
                     if ((Math.abs(Math.cos(Tetat)) <= InfimoCossenoTeta) || (Math.abs(Math.cos(Phit)) <= InfimoCossenoPhi))
                         {
-                        xp += ParcelaDeslocamentoShift;
-                        yp += ParcelaDeslocamentoShift;
-                        zp += ParcelaDeslocamentoShift;
+                        xp *= FatorDeslocamentoShift;
+                        yp *= FatorDeslocamentoShift;
                         }
 
                     try
@@ -876,9 +872,8 @@ public class AV3DNavigator extends JComponent
 
                     if ((ApfloatMath.abs(ApfloatMath.cos(new Apfloat(Tetat))).doubleValue() <= InfimoCossenoTeta) || (ApfloatMath.abs(ApfloatMath.cos(new Apfloat(Phit))).doubleValue() <= InfimoCossenoPhi))
                         {
-                        xpa = xpa.add(new Apfloat(ParcelaDeslocamentoShift));
-                        ypa = ypa.add(new Apfloat(ParcelaDeslocamentoShift));
-                        zpa = zpa.add(new Apfloat(ParcelaDeslocamentoShift));
+                        xpa = xpa.multiply(new Apfloat(FatorDeslocamentoShift));
+                        ypa = ypa.multiply(new Apfloat(FatorDeslocamentoShift));
                         }
 
                     try
