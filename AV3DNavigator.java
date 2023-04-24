@@ -57,7 +57,7 @@ public class AV3DNavigator extends JComponent
     public static double InfimoCossenoPhi = 0; // Default: 0.
     public static double InfimoCossenoTetaIgnorar = 0; // Opção: 0.2.
     public static double InfimoCossenoPhiIgnorar = 0; // Opção: 0.2.
-    public static double MargemAnguloVisao = 1; // Default: 1.
+    public static double MargemAnguloVisao = 0.5; // Default: 0.5.
     public static double FatorDeslocamentoShift = 1.5; // Default: 1.5.
     public static int TamanhoEspacoLabelStatus = 365; // Default: 365.
     public static int TamanhoFonteLabelStatus = 7; // Default: 11.
