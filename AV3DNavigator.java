@@ -3,7 +3,7 @@
  * 
  * Software AV3DNavigator.
  * 
- * Dependências: AntonioVandre, Apfloat (http://www.apfloat.org).
+ * Dependências: AntonioVandre, Apfloat 1.10.1 (http://www.apfloat.org).
  * 
  * Motor Gráfico: AV3D-n (para objetos próximos).
  * 
@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 24-04-2023.
+ * Última atualização: 25-04-2023.
  */
 
 import java.awt.*;
@@ -880,9 +880,9 @@ public class AV3DNavigator extends JComponent
                     try
                         {
                         xpp = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.cos(new Apfloat(Rott)).multiply(xpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(ypa.multiply(ApfloatMath.cos(new Apfloat(Tetat)).multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide(xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat)).multiply(ApfloatMath.cos(new Apfloat(Phit)))).multiply(new Apfloat(-1)).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Phit))))))).divide(ApfloatMath.max(ApfloatMath.pow(ApfloatMath.abs(ApfloatMath.cos(new Apfloat(Tetat))), (new Apfloat(FatorCorrecaoAspectoTeta))), (new Apfloat(1)).divide(new Apfloat(FatorMaxCorrecaoAspectoTeta)))).add(ApfloatMath.sin(new Apfloat(Rott)).multiply(ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa))).multiply(ApfloatMath.tan(new Apfloat(Phit))).add(zpa.multiply(ApfloatMath.cos(new Apfloat(Phit)))).divide(xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Phit)))))).divide(ApfloatMath.max(ApfloatMath.pow(ApfloatMath.abs(ApfloatMath.cos(new Apfloat(Phit))), (new Apfloat(FatorCorrecaoAspectoPhi))), (new Apfloat(1)).divide(new Apfloat(FatorMaxCorrecaoAspectoPhi)))).multiply(new Apfloat(-1)))).doubleValue()) - CorrecaoX;
-
-                        ypp = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.sin(new Apfloat(Rott)).multiply(xpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(ypa.multiply(ApfloatMath.cos(new Apfloat(Tetat)).multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide(xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat)).multiply(ApfloatMath.cos(new Apfloat(Phit)))).multiply(new Apfloat(-1)).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Phit))))))).divide(ApfloatMath.max(ApfloatMath.pow(ApfloatMath.abs(ApfloatMath.cos(new Apfloat(Tetat))), (new Apfloat(FatorCorrecaoAspectoTeta))), (new Apfloat(1)).divide(new Apfloat(FatorMaxCorrecaoAspectoTeta)))).add(ApfloatMath.cos(new Apfloat(Rott)).multiply(ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa))).multiply(ApfloatMath.tan(new Apfloat(Phit))).add(zpa.multiply(ApfloatMath.cos(new Apfloat(Phit)))).divide(xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Phit)))))).divide(ApfloatMath.max(ApfloatMath.pow(ApfloatMath.abs(ApfloatMath.cos(new Apfloat(Phit))), (new Apfloat(FatorCorrecaoAspectoPhi))), (new Apfloat(1)).divide(new Apfloat(FatorMaxCorrecaoAspectoPhi)))))).doubleValue()) - CorrecaoX;
-
+        
+                        ypp = (int) (Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 + Math.min(TamanhoPlanoX, TamanhoPlanoY) / 2 * (new Apfloat(DistanciaTela)).multiply(ApfloatMath.sin(new Apfloat(Rott)).multiply(xpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(ypa.multiply(ApfloatMath.cos(new Apfloat(Tetat)).multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide(xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat)).multiply(ApfloatMath.cos(new Apfloat(Phit)))).multiply(new Apfloat(-1)).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Phit))))))).divide(ApfloatMath.max(ApfloatMath.pow(ApfloatMath.abs(ApfloatMath.cos(new Apfloat(Tetat))), (new Apfloat(FatorCorrecaoAspectoTeta))), (new Apfloat(1)).divide(new Apfloat(FatorMaxCorrecaoAspectoTeta)))).add(ApfloatMath.cos(new Apfloat(Rott)).multiply(ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa))).multiply(ApfloatMath.tan(new Apfloat(Phit))).add(zpa.multiply(ApfloatMath.cos(new Apfloat(Phit)))).divide(xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Phit)))))).divide(ApfloatMath.max(ApfloatMath.pow(ApfloatMath.abs(ApfloatMath.cos(new Apfloat(Phit))), (new Apfloat(FatorCorrecaoAspectoPhi))), (new Apfloat(1)).divide(new Apfloat(FatorMaxCorrecaoAspectoPhi)))))).doubleValue()) - CorrecaoY;
+                        
                         Apfloat ProdutoEscalara = xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(Math.signum(ApfloatMath.cos(new Apfloat(Phit)).doubleValue()))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Phit))).multiply(new Apfloat(-1)).multiply(new Apfloat(Math.signum(ApfloatMath.cos(new Apfloat(Phit)).doubleValue()))));
 
                         if ((ApfloatMath.acos(ProdutoEscalara.divide(ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(zpa))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && ((Math.min(xpp, ypp) > 0) && (Math.max(xpp, ypp)) < Math.min(TamanhoPlanoX, TamanhoPlanoY)))
