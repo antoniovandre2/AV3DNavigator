@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 25-04-2023.
+ * Última atualização: 28-04-2023.
  */
 
 import java.awt.*;
@@ -70,8 +70,8 @@ public class AV3DNavigator extends JComponent
     public static int FramesDeslocamento = 4; // Default: 4.
     public static double FatorCorrecaoAspectoTeta = 0; // Default: 0.
     public static double FatorMaxCorrecaoAspectoTeta = 1; // Default: 1.
-    public static double FatorCorrecaoAspectoPhi = 0; // Default: 0.
-    public static double FatorMaxCorrecaoAspectoPhi = 1; // Default: 1.
+    public static double FatorCorrecaoAspectoPhi = 2; // Default: 2.
+    public static double FatorMaxCorrecaoAspectoPhi = 999; // Default: 999.
     public int ApfloatFlag = 0; // Default: 0.
 
     // Variáveis de funcionamento interno.
