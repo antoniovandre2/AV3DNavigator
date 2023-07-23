@@ -52,6 +52,9 @@ Aperte barra de espaços para resetar as variáveis.
 ESC para sair.
 ____________________
 
+A engine não é fiel à realidade para valores de φ próximos de π/2 + kπ.
+____________________
+
 ![AV3D-n logo](https://antoniovandre2.github.io/AV3DNavigator/Powered%20by%20AV3D-n%20engine%20-%20200p.png)
 ____________________
 
