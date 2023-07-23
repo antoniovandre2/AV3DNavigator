@@ -52,7 +52,7 @@ public class AV3DNavigator extends JComponent
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
     public double FatorAnguloVisao = 1; // Default: 1.
     public static double TetaMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
-    public static double PhiMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
+    public static double PhiMax = Math.PI / 3; // Opção: Math.PI / 3.
     public static double InfimoCossenoTeta = 0; // Default: 0.
     public static double InfimoCossenoPhi = 0; // Default: 0.
     public static double InfimoCossenoTetaIgnorar = 0; // Opção: 0.2.
