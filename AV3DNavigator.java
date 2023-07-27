@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 23-07-2023.
+ * Última atualização: 27-07-2023.
  */
 
 import java.awt.*;
@@ -580,6 +580,7 @@ public class AV3DNavigator extends JComponent
                         }
                     else
                         {
+                        MouseXR = MouseX;
                         TetaR -= Math.signum(Math.sin(Teta)) * DeslocamentoAngular;
                         Teta = TetaR;
 
@@ -598,6 +599,7 @@ public class AV3DNavigator extends JComponent
                         }
                     else
                         {
+                        MouseYR = MouseY;
                         PhiR -= Math.signum(Phi) * DeslocamentoAngular;
                         Phi = PhiR;
 
