@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 06-09-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 07-09-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.*;
