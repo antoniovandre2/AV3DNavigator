@@ -95,7 +95,7 @@ public class AV3DNavigator extends JComponent
     public double Phit = Phi;
     public double Rott = Rot;
     public int MouseDown = 0;
-    public int FlagMouseDown = 0;
+    public int FlagMouseDownArea = 0;
     public int MouseX;
     public int MouseY;
     public int MouseXR;
@@ -230,13 +230,13 @@ public class AV3DNavigator extends JComponent
                 TetaR = Teta;
                 PhiR = Phi;
                 MouseDown = 1;
-                if ((MouseX > 0) && (MouseX <= TamanhoPlanoX) && (MouseY > 0) && (MouseY <= TamanhoPlanoY)) FlagMouseDown = 1;
+                if ((MouseX > 0) && (MouseX <= TamanhoPlanoX) && (MouseY > 0) && (MouseY <= TamanhoPlanoY)) FlagMouseDownArea = 1;
                 }
 
             public void mouseClicked(MouseEvent MouseEvento) {}
             public void mouseEntered(MouseEvent MouseEvento) {}
             public void mouseExited(MouseEvent MouseEvento) {}
-            public void mouseReleased(MouseEvent MouseEvento) {MouseDown = 0; FlagMouseDown = 0;}
+            public void mouseReleased(MouseEvent MouseEvento) {MouseDown = 0; FlagMouseDownArea = 0;}
             public void mouseDragged(MouseEvent MouseEvento) {}
             public void mouseMoved(MouseEvent MouseEvento) {}
             });
@@ -567,7 +567,7 @@ public class AV3DNavigator extends JComponent
                     }
                 }
 
-            if (FlagMouseDown == 1)
+            if (FlagMouseDownArea == 1)
                 {
                 if ((Math.abs(Teta) - DeslocamentoAngular > Double.MAX_VALUE - DeslocamentoAngular) || (Math.abs(Phi) - DeslocamentoAngular > Double.MAX_VALUE - DeslocamentoAngular))
                     VariavelLimiteAtingido();
