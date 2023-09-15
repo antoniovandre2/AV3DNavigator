@@ -21,6 +21,7 @@ import java.util.LinkedList;
 
 import javax.swing.*;
 import javax.swing.JFrame;
+import javax.swing.border.EmptyBorder;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -56,7 +57,7 @@ public class AV3DNavigator extends JComponent
     public static double InfimoCossenoTetaIgnorar = 0; // Opção: 0.2.
     public static double InfimoCossenoPhiIgnorar = 0; // Opção: 0.2.
     public static double MargemAnguloVisao = 0; // Default: 0.
-    public static double FatorDeslocamentoShift = 1.5; // Default: 1.5.
+    public static double FatorDeslocamentoShift = 1; // Opção: 1.5.
     public static int TamanhoEspacoLabelStatus = 365; // Default: 365.
     public static int TamanhoFonteLabelStatus = 7; // Default: 11.
     public double DistanciaTela = 2; // Default: valor inicial: 2.
@@ -94,6 +95,7 @@ public class AV3DNavigator extends JComponent
     public double Phit = Phi;
     public double Rott = Rot;
     public int MouseDown = 0;
+    public int FlagMouseDown = 0;
     public int MouseX;
     public int MouseY;
     public int MouseXR;
@@ -212,9 +214,11 @@ public class AV3DNavigator extends JComponent
         comp.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY));
         FrameEspaco.getContentPane().add(comp, BorderLayout.PAGE_START);
         JLabel LabelStatus = new JLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(y) + ".<br>z = " + String.valueOf(z) + ".<br><br>Teta = " + String.valueOf(Teta) + ". TetaMax = " + String.valueOf(TetaMax) + ".<br>Phi = " + String.valueOf(Phi) + ". PhiMax = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+        LabelStatus.setBorder(new EmptyBorder(5, 5, 5, 5));
         LabelStatus.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelStatus));
+        LabelStatus.setBackground(Color.BLUE);
+        LabelStatus.setForeground(Color.WHITE);
         LabelStatus.setOpaque(true);
-        LabelStatus.setLocation(5, TamanhoPlanoY + 5);
         FrameEspaco.add(LabelStatus);
 
         FrameEspaco.addMouseListener(new MouseListener()
@@ -231,7 +235,7 @@ public class AV3DNavigator extends JComponent
             public void mouseClicked(MouseEvent MouseEvento) {}
             public void mouseEntered(MouseEvent MouseEvento) {}
             public void mouseExited(MouseEvent MouseEvento) {}
-            public void mouseReleased(MouseEvent MouseEvento) {MouseDown = 0;}
+            public void mouseReleased(MouseEvent MouseEvento) {MouseDown = 0; FlagMouseDown = 0;}
             public void mouseDragged(MouseEvent MouseEvento) {}
             public void mouseMoved(MouseEvent MouseEvento) {}
             });
@@ -561,7 +565,10 @@ public class AV3DNavigator extends JComponent
                     ContadorFrames++;
                     }
                 }
-            else
+            else if ((MouseX > 0) && (MouseX <= TamanhoPlanoX) && (MouseY > 0) && (MouseY <= TamanhoPlanoY))
+                FlagMouseDown = 1;
+
+            if (FlagMouseDown == 1)
                 {
                 if ((Math.abs(Teta) - DeslocamentoAngular > Double.MAX_VALUE - DeslocamentoAngular) || (Math.abs(Phi) - DeslocamentoAngular > Double.MAX_VALUE - DeslocamentoAngular))
                     VariavelLimiteAtingido();

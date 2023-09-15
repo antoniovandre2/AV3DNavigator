@@ -52,6 +52,13 @@ Aperte barra de espaços para resetar as variáveis.
 ESC para sair.
 ____________________
 
+Os seres vivos dotados de visão aqui na Terra, sujeitos ao campo gravitacional, tem como fundamentais as noções de "cima" e "baixo".
+
+Na AV3D-n, quando cos φ troca de sinal, o que está em "cima" passa para "baixo" e vice-versa, não é uma transformação contínua, mas abrupta.
+
+Imaginemos um objeto no horizonte, e passemos a levantar a cabeça. Chegará um ponto em que o objeto, estando embaixo, instantaneamente passará para cima, e nós ficaremos de ponta-cabeça. É o que ocorre na engine.
+____________________
+
 ![AV3D-n logo](https://antoniovandre2.github.io/AV3DNavigator/Powered%20by%20AV3D-n%20engine%20-%20200p.png)
 ____________________
 

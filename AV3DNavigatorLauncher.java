@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 18-02-2023.
+ * Última atualização: 14-09-2023.
  */
 
 import java.io.*;
@@ -19,6 +19,7 @@ import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.JFrame;
+import javax.swing.border.EmptyBorder;
 
 import java.lang.ProcessBuilder;
 
@@ -83,8 +84,11 @@ public class AV3DNavigatorLauncher
                     Frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     Frame.setPreferredSize(new Dimension(320, 130));
                     JLabel Label = new JLabel("<html>O software jar foi atualizado, entretanto podem haver atualizações estruturais; assim sendo, pode ser necessário fazer o download de um novo pacote completo.</html>");
+                    Label.setBorder(new EmptyBorder(5, 5, 5, 5));
                     Label.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 12));
-                    Label.setLocation(5, 5);
+                    Label.setBackground(Color.BLUE);
+                    Label.setForeground(Color.WHITE);
+                    Label.setOpaque(true);
                     Frame.add(Label);
                     Frame.pack();
                     Frame.setVisible(true);
