@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 14-09-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 15-09-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.*;
@@ -230,6 +230,7 @@ public class AV3DNavigator extends JComponent
                 TetaR = Teta;
                 PhiR = Phi;
                 MouseDown = 1;
+                if ((MouseX > 0) && (MouseX <= TamanhoPlanoX) && (MouseY > 0) && (MouseY <= TamanhoPlanoY)) FlagMouseDown = 1;
                 }
 
             public void mouseClicked(MouseEvent MouseEvento) {}
@@ -565,8 +566,6 @@ public class AV3DNavigator extends JComponent
                     ContadorFrames++;
                     }
                 }
-            else if ((MouseX > 0) && (MouseX <= TamanhoPlanoX) && (MouseY > 0) && (MouseY <= TamanhoPlanoY))
-                FlagMouseDown = 1;
 
             if (FlagMouseDown == 1)
                 {
