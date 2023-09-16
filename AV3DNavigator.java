@@ -48,7 +48,7 @@ public class AV3DNavigator extends JComponent
     public int TamanhoPlanoY = 400; // Default: 400.
     public static int TamanhoEspacoLabelStatus = 365; // Default: 365.
     public static int MinTamanhoPlanoX = 400; // Default: 400.
-    public static int MinTamanhoPlanoY = 400 + TamanhoEspacoLabelStatus; // Default: 400 + TamanhoEspacoLabelStatus.
+    public static int MinTamanhoPlanoYMaisLabel = 400 + TamanhoEspacoLabelStatus; // Default: 400 + TamanhoEspacoLabelStatus.
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
     public double FatorAnguloVisao = 1; // Default: 1.
     public static double TetaMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
@@ -444,9 +444,9 @@ public class AV3DNavigator extends JComponent
                 FlagRedimensionarOver = 1;
                 }
 
-            if (height < MinTamanhoPlanoY)
+            if (height < MinTamanhoPlanoYMaisLabel)
                 {
-                height = MinTamanhoPlanoY;
+                height = MinTamanhoPlanoYMaisLabel;
                 FrameEspaco.setPreferredSize(new Dimension(width, height));
                 FrameEspaco.setSize(width, height);
                 FlagRedimensionarOver = 1;
