@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 15-09-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 16-09-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.*;
@@ -46,8 +46,9 @@ public class AV3DNavigator extends JComponent
 
     public int TamanhoPlanoX = 400; // Default: 400.
     public int TamanhoPlanoY = 400; // Default: 400.
-    public static int MinTamanhoPlanoX = 300; // Default: 300.
-    public static int MinTamanhoPlanoY = 300; // Default: 300.
+    public static int TamanhoEspacoLabelStatus = 365; // Default: 365.
+    public static int MinTamanhoPlanoX = 400; // Default: 400.
+    public static int MinTamanhoPlanoY = 400 + TamanhoEspacoLabelStatus; // Default: 400 + TamanhoEspacoLabelStatus.
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
     public double FatorAnguloVisao = 1; // Default: 1.
     public static double TetaMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
@@ -58,7 +59,6 @@ public class AV3DNavigator extends JComponent
     public static double InfimoCossenoPhiIgnorar = 0; // Opção: 0.2.
     public static double MargemAnguloVisao = 0; // Default: 0.
     public static double FatorDeslocamentoShift = 1; // Opção: 1.5.
-    public static int TamanhoEspacoLabelStatus = 365; // Default: 365.
     public static int TamanhoFonteLabelStatus = 7; // Default: 11.
     public double DistanciaTela = 2; // Default: valor inicial: 2.
     public static String MensagemErroEspacoAusente = "Entre com um arquivo de espaço.";
