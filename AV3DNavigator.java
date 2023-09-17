@@ -3,7 +3,7 @@
  * 
  * Software AV3DNavigator.
  * 
- * Dependências: AntonioVandre, Apfloat 1.10.1 (http://www.apfloat.org).
+ * Dependências: AntonioVandre, Apfloat 1.11.0 (http://www.apfloat.org).
  * 
  * Motor Gráfico: AV3D-n (para objetos próximos).
  * 
@@ -782,9 +782,9 @@ public class AV3DNavigator extends JComponent
 
                     Apfloat xda = (new Apfloat(Double.parseDouble(CoordenadasDest[0]))).add(new Apfloat(-xt));
 
-                    Apfloat yoa = (new Apfloat(Double.parseDouble(CoordenadasOrig[1]))).add(new Apfloat(-yt));
+                    Apfloat yoa = (new Apfloat(-Double.parseDouble(CoordenadasOrig[1]))).add(new Apfloat(-yt));
 
-                    Apfloat yda = (new Apfloat(Double.parseDouble(CoordenadasDest[1]))).add(new Apfloat(-yt));
+                    Apfloat yda = (new Apfloat(-Double.parseDouble(CoordenadasDest[1]))).add(new Apfloat(-yt));
 
                     Apfloat zoa = (new Apfloat(-Double.parseDouble(CoordenadasOrig[2]))).add(new Apfloat(-zt));
 
@@ -843,7 +843,7 @@ public class AV3DNavigator extends JComponent
                         {
                         double xp = Double.parseDouble(Coordenadas[0]) - xt;
 
-                        double yp = Double.parseDouble(Coordenadas[1]) - yt;
+                        double yp = -Double.parseDouble(Coordenadas[1]) - yt;
         
                         double zp = -Double.parseDouble(Coordenadas[2]) - zt;
         
@@ -876,7 +876,7 @@ public class AV3DNavigator extends JComponent
                         {
                         Apfloat xpa = (new Apfloat(Double.parseDouble(Coordenadas[0]))).add(new Apfloat(-xt));
 
-                        Apfloat ypa = (new Apfloat(Double.parseDouble(Coordenadas[1]))).add(new Apfloat(-yt));
+                        Apfloat ypa = (new Apfloat(-Double.parseDouble(Coordenadas[1]))).add(new Apfloat(-yt));
 
                         Apfloat zpa = (new Apfloat(-Double.parseDouble(Coordenadas[2]))).add(new Apfloat(-zt));
 
