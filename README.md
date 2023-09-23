@@ -37,6 +37,14 @@ Comandos:
 
 "H" para incrementar a rotação da tela. "N" para decrementar.
 
+"J" para rotação horizontal positiva. "M" para negativa.
+
+"K" para rotação vertical positiva. "," para negativa.
+
+"L" para incrementar o raio de rotação horizontal. "." para decrementar.
+
+"[" para incrementar o raio de rotação vertical. "]" para decrementar.
+
 "W" para aumentar a distância da tela. "Q" para reduzir.
 
 "E" para reduzir o fator redutor do ângulo de visão. "R" para aumentar.
