@@ -794,8 +794,8 @@ public class AV3DNavigator extends JComponent
 
             if (FlagCoordRot == 0)
                 {
-                xRotacaoTeta = x + RaioTeta * Math.cos(Teta) * Math.cos(Phi);
-                yRotacaoTeta = y - RaioTeta * Math.sin(Teta) * Math.cos(Phi);
+                xRotacaoTeta = x + RaioTeta * Math.cos(Teta);
+                yRotacaoTeta = y - RaioTeta * Math.sin(Teta);
                 xRotacaoPhi = x + RaioPhi * Math.cos(Teta) * Math.cos(Phi);
                 yRotacaoPhi = y - RaioPhi * Math.sin(Teta) * Math.cos(Phi);
                 zRotacaoPhi = z - RaioPhi * Math.sin(Phi);
