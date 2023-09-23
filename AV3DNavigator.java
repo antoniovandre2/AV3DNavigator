@@ -58,6 +58,8 @@ public class AV3DNavigator extends JComponent
     public int TamanhoPlanoX = 400; // Default: 400.
     public int TamanhoPlanoY = 400; // Default: 400.
     public static int TamanhoEspacoLabelStatus = 320; // Default: 320.
+    public static int TamanhoEspacoHelpX = 600; // Default: 600.
+    public static int TamanhoEspacoHelpY = 420; // Default: 420.
     public static int MinTamanhoPlanoX = 400; // Default: 400.
     public static int MinTamanhoPlanoYMaisLabel = 400 + TamanhoEspacoLabelStatus; // Default: 400 + TamanhoEspacoLabelStatus.
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
@@ -301,6 +303,10 @@ public class AV3DNavigator extends JComponent
                         Teta = 0;
                         Phi = 0;
                         Rot = 0;
+                        RotacaoTeta = Teta + Math.PI;
+                        RotacaoPhi = Phi + Math.PI;
+                        RaioTeta = 0;
+                        RaioPhi = 0;
                         xt = x;
                         yt = y;
                         zt = z;
@@ -316,7 +322,19 @@ public class AV3DNavigator extends JComponent
                         }
 
                     if (keyCode == KeyEvent.VK_F1)
-                        JOptionPane.showMessageDialog(null, "<html>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>\"K\" para rotação vertical positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação vertical. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+                        {
+                        JFrame FrameHelp = new JFrame("AV3DNavigator - Ajuda");
+                        FrameHelp.setPreferredSize(new Dimension(TamanhoEspacoHelpX, TamanhoEspacoHelpY));
+                        JLabel LabelHelp = new JLabel("<html>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>\"K\" para rotação vertical positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação vertical. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Aperte barra de espaços para resetar as variáveis.<br><br>ESC para sair.</html>");
+                        LabelHelp.setBorder(new EmptyBorder(5, 5, 5, 5));
+                        LabelHelp.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelHelp));
+                        LabelHelp.setBackground(Color.BLUE);
+                        LabelHelp.setForeground(Color.WHITE);
+                        LabelHelp.setOpaque(true);
+                        FrameHelp.add(LabelHelp);
+                        FrameHelp.pack();
+                        FrameHelp.setVisible(true);
+                        }
 
                     if (keyCode == KeyEvent.VK_A)
                         {FlagCoordRot = 0; if (Math.abs(x) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {x += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
@@ -546,6 +564,8 @@ public class AV3DNavigator extends JComponent
                     Teta = 0;
                     Phi = 0;
                     Rot = 0;
+                    RotacaoTeta = Teta + Math.PI;
+                    RotacaoPhi = Phi + Math.PI;
                     RaioTeta = 0;
                     RaioPhi = 0;
                     xt = x;
@@ -774,14 +794,14 @@ public class AV3DNavigator extends JComponent
 
             if (FlagCoordRot == 0)
                 {
-                xRotacaoTeta = x + RaioTeta * Math.cos(Teta);
-                yRotacaoTeta = y - RaioTeta * Math.sin(Teta);
+                xRotacaoTeta = x + RaioTeta * Math.cos(Teta) * Math.cos(Phi);
+                yRotacaoTeta = y - RaioTeta * Math.sin(Teta) * Math.cos(Phi);
                 xRotacaoPhi = x + RaioPhi * Math.cos(Teta) * Math.cos(Phi);
                 yRotacaoPhi = y - RaioPhi * Math.sin(Teta) * Math.cos(Phi);
                 zRotacaoPhi = z - RaioPhi * Math.sin(Phi);
 
-                RotacaoTeta = Math.PI;
-                RotacaoPhi = Math.PI;
+                RotacaoTeta = Teta + Math.PI;
+                RotacaoPhi = Phi + Math.PI;
 
                 FlagCoordRot = 1;
                 }
@@ -1043,6 +1063,8 @@ public class AV3DNavigator extends JComponent
         Teta = 0;
         Phi = 0;
         Rot = 0;
+        RotacaoTeta = Teta + Math.PI;
+        RotacaoPhi = Phi + Math.PI;
         RaioTeta = 0;
         RaioPhi = 0;
         xt = x;
