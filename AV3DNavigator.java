@@ -15,6 +15,7 @@
  */
 
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GradientPaint;
@@ -305,7 +306,7 @@ public class AV3DNavigator extends JComponent
                 TetaR = Teta;
                 PhiR = Phi;
                 MouseDown = 1;
-                if ((MouseX > 0) && (MouseX <= TamanhoPlanoX) && (MouseY > 0) && (MouseY <= TamanhoPlanoY)) FlagMouseDownArea = 1;
+                if ((MouseX > 0) && (MouseX <= TamanhoPlanoX) && (MouseY > FrameEspaco.getInsets().top) && (MouseY <= TamanhoPlanoY + FrameEspaco.getInsets().top)) FlagMouseDownArea = 1;
                 }
 
             public void mouseClicked(MouseEvent MouseEvento) {}
@@ -387,7 +388,7 @@ public class AV3DNavigator extends JComponent
 
                     if (keyCode == KeyEvent.VK_F12)
                         {
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm-ss");  
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm-ss");
                         LocalDateTime now = LocalDateTime.now();
                         BufferedImage ImagemFrame = new BufferedImage(TamanhoPlanoX, TamanhoPlanoY, BufferedImage.TYPE_INT_RGB);
                         Graphics2D g2d = ImagemFrame.createGraphics();
