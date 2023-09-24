@@ -9,23 +9,32 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 14-09-2023.
+ * Última atualização: 24-09-2023.
  */
 
-import java.io.*;
-import java.net.URL;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GradientPaint;
+import java.awt.BorderLayout;
+import java.awt.Paint;
+import java.awt.Color;
+import java.awt.Font;
 
-import java.awt.*;
-
-import javax.swing.*;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+
+import java.net.URL;
 
 import java.lang.ProcessBuilder;
 
+import java.io.*;
+
 public class AV3DNavigatorLauncher
     {
-    public static String VersaoLauncher = "10-02-2023";
+    public static String VersaoLauncher = "24-09-2023";
 
     public static String URL3DNavigatorVersao = "https://github.com/antoniovandre2/AV3DNavigator/raw/main/AV3DNavigatorVersao.txt";
 
@@ -39,7 +48,54 @@ public class AV3DNavigatorLauncher
 
     public static String MensagemErroExecutar = "Erro ao executar AV3DNavigator.";
 
-    public static void main(String[] args)
+    public class GradientLabel extends JLabel
+        {
+        private Color CorInicial;
+        private Color CorFinal;
+
+        public GradientLabel(String Texto)
+            {
+            super(Texto);
+
+            CorInicial = Color.BLUE;
+            CorFinal = Color.BLACK;
+            this.setForeground(Color.WHITE);
+            }
+
+        public GradientLabel(String Texto, Color CorInicial, Color CorFinal)
+            {
+            super(Texto);
+            this.CorInicial = CorInicial;
+            this.CorFinal = CorFinal;
+            this.setForeground(Color.WHITE);
+            }
+
+        public GradientLabel(String Texto, Color CorInicial, Color CorFinal, Color CorForeground)
+            {
+            super(Texto);
+            this.CorInicial = CorInicial;
+            this.CorFinal = CorFinal;
+            this.setForeground(CorForeground);
+            }
+
+        public void paint(Graphics g)
+            {
+            int width = getWidth();
+            int height = getHeight();
+
+            GradientPaint paint = new GradientPaint(0, 0, CorInicial, width, height, CorFinal, true);
+            Graphics2D g2d = (Graphics2D) g;
+            Paint oldPaint = g2d.getPaint();
+            g2d.setPaint(paint);
+            g2d.fillRect(0, 0, width, height);
+            g2d.setPaint(oldPaint);
+            super.paint(g);
+            }
+        }
+
+    public static void main (String[] args) {AV3DNavigatorLauncher mainc = new AV3DNavigatorLauncher(); mainc.mainrun(args);}
+
+    public void mainrun(String[] args)
         {
         int FlagSucessoDownloadNet = 1;
 
@@ -83,12 +139,9 @@ public class AV3DNavigatorLauncher
                     JFrame Frame = new JFrame("Nova versão.");
                     Frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     Frame.setPreferredSize(new Dimension(320, 130));
-                    JLabel Label = new JLabel("<html>O software jar foi atualizado, entretanto podem haver atualizações estruturais; assim sendo, pode ser necessário fazer o download de um novo pacote completo.</html>");
+                    GradientLabel Label = new GradientLabel("<html>O software jar foi atualizado, entretanto podem haver atualizações estruturais; assim sendo, pode ser necessário fazer o download de um novo pacote completo.</html>", Color.BLUE, Color.BLACK, Color.WHITE);
                     Label.setBorder(new EmptyBorder(5, 5, 5, 5));
                     Label.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 12));
-                    Label.setBackground(Color.BLUE);
-                    Label.setForeground(Color.WHITE);
-                    Label.setOpaque(true);
                     Frame.add(Label);
                     Frame.pack();
                     Frame.setVisible(true);
