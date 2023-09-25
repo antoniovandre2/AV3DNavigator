@@ -12,7 +12,7 @@ _____
 
 Execute com:
 
-java -jar AV3DNavigatorLauncher.jar <ARQUIVO DE ESPAÇO>
+java -jar AV3DNavigatorLauncher.jar [ARQUIVO DE ESPAÇO]
 
 O arquivo de espaço consiste em um plain txt composto de, primeiro, linhas separadas por barra vertical "|", cada linha composta dos dois pontos extremos separados por ponto e vírgula ";", cada ponto consiste na abscissa, ordenada e cota separadas por vírgula ","; e, segundo, após o arroba "@", os vértices dos polígonos preenchidos, polígonos separados por barra vertical "|".
 
@@ -24,6 +24,8 @@ O repositório oficial de espaços é o de link
 ____________________
 
 Comandos:
+
+F2 para selecionar e abrir arquivo de espaço.
 
 "A" para incrementar x. "Z" para decrementar.
 
@@ -59,7 +61,9 @@ Comandos:
 
 Setas para strafe. Mouse pode ser utilizado para movimentar.
 
-Aperte barra de espaços para resetar as variáveis.
+Barra de espaços para resetar as variáveis.
+
+F12 para screenshot.
 
 ESC para sair.
 ____________________
