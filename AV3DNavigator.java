@@ -72,6 +72,8 @@ public class AV3DNavigator extends JComponent
     public static int TamanhoEspacoLabelStatus = 320; // Default: 320.
     public static int TamanhoEspacoHelpX = 600; // Default: 600.
     public static int TamanhoEspacoHelpY = 500; // Default: 500.
+    public static int TamanhoEspacoInvalidoX = 300; // Default: 300.
+    public static int TamanhoEspacoInvalidoY = 80; // Default: 80.
     public static int MinTamanhoPlanoX = 400; // Default: 400.
     public static int MinTamanhoPlanoYMaisLabel = 400 + TamanhoEspacoLabelStatus; // Default: 400 + TamanhoEspacoLabelStatus.
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
@@ -83,6 +85,7 @@ public class AV3DNavigator extends JComponent
     public static double MargemAnguloVisao = 0; // Default: 0.
     public static int TamanhoFonteLabelStatus = 10; // Default: 10.
     public static int TamanhoFonteLabelHelp = 11; // Default: 11.
+    public static int TamanhoFonteLabelErroEspacoInvalido = 11; // Default: 11.
     public double DistanciaTela = 2; // Default: valor inicial: 2.
     public static String MensagemErroEspacoAusente = "Entre com um arquivo de espaço.";
     public static String MensagemErroEspacoInvalido = "Entre com um arquivo de espaço válido.";
@@ -415,8 +418,16 @@ public class AV3DNavigator extends JComponent
 
                             if (Espaco.equals("Erro"))
                                 {
-                                System.out.println(MensagemErroEspacoInvalido);
-                                return;
+                                JFrame FrameErroEspacoInvalido = new JFrame("AV3DNavigator - Espaço inválido");
+                                FrameErroEspacoInvalido.setPreferredSize(new Dimension(TamanhoEspacoInvalidoX, TamanhoEspacoInvalidoY));
+                                GradientLabel LabelErroEspacoInvalido = new GradientLabel(MensagemErroEspacoInvalido, Color.BLUE, Color.BLACK, Color.WHITE);
+                                LabelErroEspacoInvalido.setBorder(new EmptyBorder(5, 5, 5, 5));
+                                LabelErroEspacoInvalido.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelErroEspacoInvalido));
+                                FrameErroEspacoInvalido.add(LabelErroEspacoInvalido);
+                                FrameErroEspacoInvalido.pack();
+                                FrameErroEspacoInvalido.setVisible(true);
+
+                                Espaco = "";
                                 }
                             }                        
                         }
