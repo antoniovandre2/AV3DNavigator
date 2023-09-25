@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 24-09-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 25-09-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -41,6 +41,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JOptionPane;
+import javax.swing.JFileChooser;
 
 import java.lang.Thread;
 
@@ -70,7 +71,7 @@ public class AV3DNavigator extends JComponent
     public int TamanhoPlanoY = 400; // Default: 400.
     public static int TamanhoEspacoLabelStatus = 320; // Default: 320.
     public static int TamanhoEspacoHelpX = 600; // Default: 600.
-    public static int TamanhoEspacoHelpY = 450; // Default: 450.
+    public static int TamanhoEspacoHelpY = 500; // Default: 500.
     public static int MinTamanhoPlanoX = 400; // Default: 400.
     public static int MinTamanhoPlanoYMaisLabel = 400 + TamanhoEspacoLabelStatus; // Default: 400 + TamanhoEspacoLabelStatus.
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
@@ -263,7 +264,7 @@ public class AV3DNavigator extends JComponent
             }
         }
 
-    public static void main (String[] args) {AV3DNavigator mainc = new AV3DNavigator(); if (args.length == 0) System.out.println(MensagemErroEspacoAusente); else mainc.mainrun(args[0]);}
+    public static void main (String[] args) {AV3DNavigator mainc = new AV3DNavigator(); if (args.length != 0) mainc.mainrun(args[0]); else mainc.mainrun("");}
 
     public void mainrun (String ArquivoEspaco)
         {
@@ -277,13 +278,18 @@ public class AV3DNavigator extends JComponent
             Versao = brVersao.readLine();
             } catch (IOException e) {}
 
-        Espaco = LerEspaco (ArquivoEspaco);
-
-        if (Espaco.equals("Erro"))
+        if (! ArquivoEspaco.equals(""))
             {
-            System.out.println(MensagemErroEspacoInvalido);
-            return;
+            Espaco = LerEspaco (ArquivoEspaco);
+
+            if (Espaco.equals("Erro"))
+                {
+                System.out.println(MensagemErroEspacoInvalido);
+                return;
+                }
             }
+        else
+            Espaco = "";
 
         JFrame FrameEspaco = new JFrame("AV3DNavigator - " + Versao);
         FrameEspaco.setIconImage(new ImageIcon(getClass().getResource(AV3DNavigatorIconFilePath)).getImage());
@@ -378,7 +384,7 @@ public class AV3DNavigator extends JComponent
                         {
                         JFrame FrameHelp = new JFrame("AV3DNavigator - Ajuda");
                         FrameHelp.setPreferredSize(new Dimension(TamanhoEspacoHelpX, TamanhoEspacoHelpY));
-                        GradientLabel LabelHelp = new GradientLabel("<html>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>\"K\" para rotação vertical positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação vertical. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F12 para screenshot.<br><br>ESC para sair.</html>", Color.BLUE, Color.BLACK, Color.WHITE);
+                        GradientLabel LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>\"K\" para rotação vertical positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação vertical. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor dos polígonos preenchidos. \"P\" para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F12 para screenshot.<br><br>ESC para sair.</html>", Color.BLUE, Color.BLACK, Color.WHITE);
                         LabelHelp.setBorder(new EmptyBorder(5, 5, 5, 5));
                         LabelHelp.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelHelp));
                         FrameHelp.add(LabelHelp);
@@ -396,6 +402,25 @@ public class AV3DNavigator extends JComponent
                         g2d.dispose();
                         try {ImageIO.write(ImagemFrame, "png", new File("AV3DNavigator - Screenshot - " + dtf.format(now) + ".png"));} catch(IOException e) {}
                         }
+
+                    if (keyCode == KeyEvent.VK_F2)
+                        {
+                        JFileChooser fileChooser = new JFileChooser();
+                        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+                        int result = fileChooser.showOpenDialog(FrameEspaco);
+                        if (result == JFileChooser.APPROVE_OPTION)
+                            {
+                            File selectedFile = fileChooser.getSelectedFile();
+                            Espaco = LerEspaco (selectedFile.getAbsolutePath());
+
+                            if (Espaco.equals("Erro"))
+                                {
+                                System.out.println(MensagemErroEspacoInvalido);
+                                return;
+                                }
+                            }                        
+                        }
+
                     if (keyCode == KeyEvent.VK_A)
                         {FlagCoordRot = 0; if (Math.abs(x) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {x += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
@@ -437,7 +462,7 @@ public class AV3DNavigator extends JComponent
                         FlagCoordRot = 1;
                         RotacaoTeta += DeslocamentoAngular;
 
-                        if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Teta) < TetaMax - DeslocamentoAngular) {Teta += DeslocamentoAngular; x = xRotacaoTeta + RaioTeta * Math.cos(RotacaoTeta); y = yRotacaoTeta - RaioTeta * Math.sin(RotacaoTeta); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaSuperior = 1;}} else VariavelLimiteAtingido();
+                        if (Math.abs(Teta + Math.PI) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Teta + Math.PI) < TetaMax - DeslocamentoAngular) {Teta += DeslocamentoAngular; x = xRotacaoTeta + RaioTeta * Math.cos(RotacaoTeta); y = yRotacaoTeta - RaioTeta * Math.sin(RotacaoTeta); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaSuperior = 1;}} else VariavelLimiteAtingido();
                         }
 
                     if (keyCode == KeyEvent.VK_M)
@@ -445,7 +470,7 @@ public class AV3DNavigator extends JComponent
                         FlagCoordRot = 1;
                         RotacaoTeta -= DeslocamentoAngular;
 
-                        if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Teta) < TetaMax - DeslocamentoAngular) {Teta -= DeslocamentoAngular; x = xRotacaoTeta + RaioTeta * Math.cos(RotacaoTeta); y = yRotacaoTeta - RaioTeta * Math.sin(RotacaoTeta); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}} else VariavelLimiteAtingido();
+                        if (Math.abs(Teta + Math.PI) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Teta + Math.PI) < TetaMax - DeslocamentoAngular) {Teta -= DeslocamentoAngular; x = xRotacaoTeta + RaioTeta * Math.cos(RotacaoTeta); y = yRotacaoTeta - RaioTeta * Math.sin(RotacaoTeta); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}} else VariavelLimiteAtingido();
                         }
 
                     if (keyCode == KeyEvent.VK_K)
@@ -453,7 +478,7 @@ public class AV3DNavigator extends JComponent
                         FlagCoordRot = 1;
                         RotacaoPhi -= DeslocamentoAngular;
 
-                        if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {Phi -= DeslocamentoAngular; x = xRotacaoPhi + RaioPhi * Math.cos(RotacaoPhi) * Math.cos(Teta); y = yRotacaoPhi - RaioPhi * Math.cos(RotacaoPhi) * Math.sin(Teta); z = zRotacaoPhi - RaioPhi * Math.sin(RotacaoPhi); ContadorFrames = 0;} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiInferior = 1;}} else VariavelLimiteAtingido();
+                        if (Math.abs(Phi + Math.PI) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Phi + Math.PI) < PhiMax - DeslocamentoAngular) {Phi -= DeslocamentoAngular; x = xRotacaoPhi + RaioPhi * Math.cos(RotacaoPhi) * Math.cos(Teta); y = yRotacaoPhi - RaioPhi * Math.cos(RotacaoPhi) * Math.sin(Teta); z = zRotacaoPhi - RaioPhi * Math.sin(RotacaoPhi); ContadorFrames = 0;} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiInferior = 1;}} else VariavelLimiteAtingido();
                         }
 
                     if (keyCode == KeyEvent.VK_COMMA)
@@ -461,7 +486,7 @@ public class AV3DNavigator extends JComponent
                         FlagCoordRot = 1;
                         RotacaoPhi += DeslocamentoAngular;
 
-                        if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {Phi += DeslocamentoAngular; x = xRotacaoPhi + RaioPhi * Math.cos(RotacaoPhi) * Math.cos(Teta); y = yRotacaoPhi - RaioPhi * Math.cos(RotacaoPhi) * Math.sin(Teta); z = zRotacaoPhi - RaioPhi * Math.sin(RotacaoPhi); ContadorFrames = 0;} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}} else VariavelLimiteAtingido();
+                        if (Math.abs(Phi + Math.PI) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Phi + Math.PI) < PhiMax - DeslocamentoAngular) {Phi += DeslocamentoAngular; x = xRotacaoPhi + RaioPhi * Math.cos(RotacaoPhi) * Math.cos(Teta); y = yRotacaoPhi - RaioPhi * Math.cos(RotacaoPhi) * Math.sin(Teta); z = zRotacaoPhi - RaioPhi * Math.sin(RotacaoPhi); ContadorFrames = 0;} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}} else VariavelLimiteAtingido();
                         }
 
                     if (keyCode == KeyEvent.VK_L)
