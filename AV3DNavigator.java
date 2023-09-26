@@ -11,10 +11,12 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 25-09-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 26-09-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -37,6 +39,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 import javax.swing.WindowConstants;
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
@@ -64,18 +67,20 @@ import AntonioVandre.*;
 public class AV3DNavigator extends JComponent
     {
     public static String ArquivoAV3DNavigatorVersao = "AV3DNavigatorVersao.txt";
+    public static String ArquivoAV3DNavigatorURL = "AV3DNavigatorURL.txt";
 
     // Variáveis globais.
 
     public int TamanhoPlanoX = 400; // Default: 400.
     public int TamanhoPlanoY = 400; // Default: 400.
     public static int TamanhoEspacoLabelStatus = 320; // Default: 320.
+    public static int TamanhoEspacoLabelURL = 20; // Default: 20.
     public static int TamanhoEspacoHelpX = 600; // Default: 600.
     public static int TamanhoEspacoHelpY = 500; // Default: 500.
     public static int TamanhoEspacoInvalidoX = 300; // Default: 300.
     public static int TamanhoEspacoInvalidoY = 80; // Default: 80.
     public static int MinTamanhoPlanoX = 400; // Default: 400.
-    public static int MinTamanhoPlanoYMaisLabel = 400 + TamanhoEspacoLabelStatus; // Default: 400 + TamanhoEspacoLabelStatus.
+    public static int MinTamanhoPlanoYMaisLabels = 400 + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL; // Default: 400 + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL.
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
     public double FatorAnguloVisao = 1; // Default: 1.
     public static double TetaMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
@@ -84,7 +89,9 @@ public class AV3DNavigator extends JComponent
     public double RaioPhi = 10; // Default: 10.
     public static double MargemAnguloVisao = 0; // Default: 0.
     public static int TamanhoFonteLabelStatus = 10; // Default: 10.
+    public static int TamanhoFonteLabelURL = 11; // Default: 11.
     public static int TamanhoFonteLabelHelp = 11; // Default: 11.
+    public static int TamanhoFonteLabelPrint = 12; // Default: 12.
     public static int TamanhoFonteLabelErroEspacoInvalido = 11; // Default: 11.
     public double DistanciaTela = 2; // Default: valor inicial: 2.
     public static String MensagemErroEspacoAusente = "Entre com um arquivo de espaço.";
@@ -97,6 +104,8 @@ public class AV3DNavigator extends JComponent
 
     // Variáveis de funcionamento interno.
 
+    public String Versao;
+    public String URL;
     public int CorrecaoX = 12;
     public int CorrecaoY = 0;
     public double AnguloVisao;
@@ -271,7 +280,8 @@ public class AV3DNavigator extends JComponent
 
     public void mainrun (String ArquivoEspaco)
         {
-        String Versao = "Versão desconhecida.";
+        Versao = "Versão desconhecida.";
+        URL = "URL desconhecida.";
 
         File fileVersao = new File(ArquivoAV3DNavigatorVersao);
 
@@ -279,6 +289,14 @@ public class AV3DNavigator extends JComponent
             {
             BufferedReader brVersao = new BufferedReader(new FileReader(fileVersao));
             Versao = brVersao.readLine();
+            } catch (IOException e) {}
+
+        File fileURL = new File(ArquivoAV3DNavigatorURL);
+
+        try
+            {
+            BufferedReader brURL = new BufferedReader(new FileReader(fileURL));
+            URL = brURL.readLine();
             } catch (IOException e) {}
 
         if (! ArquivoEspaco.equals(""))
@@ -297,14 +315,32 @@ public class AV3DNavigator extends JComponent
         JFrame FrameEspaco = new JFrame("AV3DNavigator - " + Versao);
         FrameEspaco.setIconImage(new ImageIcon(getClass().getResource(AV3DNavigatorIconFilePath)).getImage());
         FrameEspaco.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        FrameEspaco.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY + TamanhoEspacoLabelStatus));
+        FrameEspaco.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
         AV3DNavigator Comp = new AV3DNavigator();
         Comp.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY));
         FrameEspaco.getContentPane().add(Comp, BorderLayout.PAGE_START);
         GradientLabel LabelStatus = new GradientLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ".<br>z = " + String.valueOf(-z) + ".<br><br>Teta = " + String.valueOf(Teta) + ". TetaMax = " + String.valueOf(TetaMax) + ".<br>Phi = " + String.valueOf(Phi) + ". PhiMax = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>RaioTeta = " + String.valueOf(RaioTeta) + ".<br>RotacaoTeta = " + String.valueOf(RotacaoTeta) + ".<br>RaioPhi = " + String.valueOf(RaioPhi) + ".<br>RotacaoPhi = " + String.valueOf(RotacaoPhi) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>Aperte F1 para ajuda.</html>", Color.BLUE, Color.BLACK, Color.WHITE);
         LabelStatus.setBorder(new EmptyBorder(5, 5, 5, 5));
         LabelStatus.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelStatus));
-        FrameEspaco.add(LabelStatus);
+        GradientLabel LabelURL = new GradientLabel("<html>" + URL + "</html>", Color.WHITE, Color.BLACK, Color.BLUE);
+        LabelURL.setBorder(new EmptyBorder(5, 5, 5, 5));
+        LabelURL.setFont(new Font("Monospaced", Font.BOLD | Font.ITALIC, TamanhoFonteLabelURL));
+        LabelStatus.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoEspacoLabelStatus));
+        JPanel LabelStatusLabelURLPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints GridBagConstraintsLabelStatusLabelURL = new GridBagConstraints();
+        GridBagConstraintsLabelStatusLabelURL.gridx = 0;
+        GridBagConstraintsLabelStatusLabelURL.gridy = 0;
+        GridBagConstraintsLabelStatusLabelURL.fill = GridBagConstraints.BOTH;
+        GridBagConstraintsLabelStatusLabelURL.weightx = TamanhoPlanoX;
+        GridBagConstraintsLabelStatusLabelURL.weighty = TamanhoEspacoLabelStatus - 20;
+        LabelStatusLabelURLPanel.add(LabelStatus, GridBagConstraintsLabelStatusLabelURL);
+        GridBagConstraintsLabelStatusLabelURL.gridx = 0;
+        GridBagConstraintsLabelStatusLabelURL.gridy = 1;
+        GridBagConstraintsLabelStatusLabelURL.fill = GridBagConstraints.HORIZONTAL;
+        GridBagConstraintsLabelStatusLabelURL.weightx = TamanhoPlanoX;
+        GridBagConstraintsLabelStatusLabelURL.weighty = TamanhoEspacoLabelURL;
+        LabelStatusLabelURLPanel.add(LabelURL, GridBagConstraintsLabelStatusLabelURL);
+        FrameEspaco.add(LabelStatusLabelURLPanel);
 
         FrameEspaco.addMouseListener(new MouseListener()
             {
@@ -399,11 +435,20 @@ public class AV3DNavigator extends JComponent
                         {
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm-ss");
                         LocalDateTime now = LocalDateTime.now();
-                        BufferedImage ImagemFrame = new BufferedImage(TamanhoPlanoX, TamanhoPlanoY, BufferedImage.TYPE_INT_RGB);
+                        BufferedImage ImagemFrame = new BufferedImage(TamanhoPlanoX, TamanhoPlanoY + FrameEspaco.getInsets().top, BufferedImage.TYPE_INT_RGB);
                         Graphics2D g2d = ImagemFrame.createGraphics();
-                        Comp.printAll(g2d);
+                        FrameEspaco.printAll(g2d);
+                        g2d.setFont(new Font("Monospace", Font.ITALIC, TamanhoFonteLabelPrint));
+
+                        if (ContadorCorBackground == 0)
+                            g2d.setColor(Color.BLACK);
+                        else
+                            g2d.setColor(Color.WHITE);
+
+                        g2d.drawString(URL, 5 + FrameEspaco.getInsets().left, TamanhoPlanoY - 5);
                         g2d.dispose();
-                        try {ImageIO.write(ImagemFrame, "png", new File("AV3DNavigator - Screenshot - " + dtf.format(now) + ".png"));} catch(IOException e) {}
+                        BufferedImage ImagemFramePrint = ImagemFrame.getSubimage(FrameEspaco.getInsets().left, FrameEspaco.getInsets().top, TamanhoPlanoX - FrameEspaco.getInsets().left - FrameEspaco.getInsets().right, TamanhoPlanoY - FrameEspaco.getInsets().top);
+                        try {ImageIO.write(ImagemFramePrint, "png", new File("AV3DNavigator - Screenshot - " + dtf.format(now) + ".png"));} catch(IOException e) {}
                         }
 
                     if (keyCode == KeyEvent.VK_F2)
@@ -634,21 +679,21 @@ public class AV3DNavigator extends JComponent
                 FlagRedimensionarOver = 1;
                 }
 
-            if (height < MinTamanhoPlanoYMaisLabel)
+            if (height < MinTamanhoPlanoYMaisLabels)
                 {
-                height = MinTamanhoPlanoYMaisLabel;
+                height = MinTamanhoPlanoYMaisLabels;
                 FrameEspaco.setPreferredSize(new Dimension(width, height));
                 FrameEspaco.setSize(width, height);
                 FlagRedimensionarOver = 1;
                 }
 
             if (FlagRedimensionarOver == 0)
-                if ((width != TamanhoPlanoX) || (height != TamanhoPlanoY + TamanhoEspacoLabelStatus))
+                if ((width != TamanhoPlanoX) || (height != TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL))
                     {
                     TamanhoPlanoX = width;
                     TamanhoPlanoY = height - TamanhoEspacoLabelStatus;
 
-                    FrameEspaco.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY + TamanhoEspacoLabelStatus));
+                    FrameEspaco.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
                     Comp.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY));
                     FrameEspaco.pack();
 

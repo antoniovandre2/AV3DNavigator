@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 24-09-2023.
+ * Última atualização: 26-09-2023.
  */
 
 import java.awt.Dimension;
@@ -34,7 +34,7 @@ import java.io.*;
 
 public class AV3DNavigatorLauncher
     {
-    public static String VersaoLauncher = "24-09-2023";
+    public static String VersaoLauncher = "26-09-2023";
 
     public static String URL3DNavigatorVersao = "https://github.com/antoniovandre2/AV3DNavigator/raw/main/AV3DNavigatorVersao.txt";
 
@@ -43,6 +43,10 @@ public class AV3DNavigatorLauncher
     public static String URLAV3DNavigator = "https://github.com/antoniovandre2/AV3DNavigator/raw/main/AV3DNavigator.jar";
 
     public static String ArquivoAV3DNavigator = "AV3DNavigator.jar";
+
+    public static String URL3DNavigatorURL = "https://github.com/antoniovandre2/AV3DNavigator/raw/main/AV3DNavigatorURL.txt";
+
+    public static String ArquivoAV3DNavigatorURL = "AV3DNavigatorURL.txt";
 
     public static String MensagemErroAtualizar = "Erro ao atualizar o AV3DNavigator.";
 
@@ -98,6 +102,11 @@ public class AV3DNavigatorLauncher
     public void mainrun(String[] args)
         {
         int FlagSucessoDownloadNet = 1;
+
+        try
+            {
+            downloadUsingStream(URL3DNavigatorURL, ArquivoAV3DNavigatorURL);
+            } catch (IOException e) {}
 
         try
             {
