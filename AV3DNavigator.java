@@ -429,6 +429,7 @@ public class AV3DNavigator extends JComponent
                         FrameHelp.add(LabelHelp);
                         FrameHelp.pack();
                         FrameHelp.setVisible(true);
+
                         FrameHelp.addKeyListener(new KeyListener()
                             {
                             public void keyPressed(KeyEvent keHelp)
@@ -440,7 +441,6 @@ public class AV3DNavigator extends JComponent
                             public void keyReleased(KeyEvent keHelp){}
                             public void keyTyped(KeyEvent keHelp){}
                             });
-
                         }
 
                     if (keyCode == KeyEvent.VK_F12)
@@ -483,6 +483,20 @@ public class AV3DNavigator extends JComponent
                                 FrameErroEspacoInvalido.add(LabelErroEspacoInvalido);
                                 FrameErroEspacoInvalido.pack();
                                 FrameErroEspacoInvalido.setVisible(true);
+
+                                FrameErroEspacoInvalido.addKeyListener(new KeyListener()
+                                    {
+                                    public void keyPressed(KeyEvent keErroEspacoInvalido)
+                                        {
+                                        int keyCodeHelp = keErroEspacoInvalido.getKeyCode();
+
+                                        if (keyCodeHelp == KeyEvent.VK_ESCAPE)
+                                            FrameErroEspacoInvalido.dispose();
+                                        }
+
+                                    public void keyReleased(KeyEvent keErroEspacoInvalido){}
+                                    public void keyTyped(KeyEvent keErroEspacoInvalido){}
+                                    });
 
                                 Espaco = "";
                                 }
