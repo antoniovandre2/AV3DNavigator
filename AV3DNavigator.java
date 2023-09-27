@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 26-09-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 27-09-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -73,7 +73,7 @@ public class AV3DNavigator extends JComponent
 
     public int TamanhoPlanoX = 400; // Default: 400.
     public int TamanhoPlanoY = 400; // Default: 400.
-    public static int TamanhoEspacoLabelStatus = 320; // Default: 320.
+    public static int TamanhoEspacoLabelStatus = 340; // Default: 340.
     public static int TamanhoEspacoLabelURL = 20; // Default: 20.
     public static int TamanhoEspacoHelpX = 600; // Default: 600.
     public static int TamanhoEspacoHelpY = 500; // Default: 500.
@@ -85,9 +85,7 @@ public class AV3DNavigator extends JComponent
     public double FatorAnguloVisao = 1; // Default: 1.
     public static double TetaMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
     public static double PhiMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
-    public double RaioTeta = 10; // Default: 10.
-    public double RaioPhi = 10; // Default: 10.
-    public static double MargemAnguloVisao = 0; // Default: 0.
+    public static double MargemAnguloVisao = 0.5; // Default: 0.5.
     public static int TamanhoFonteLabelStatus = 10; // Default: 10.
     public static int TamanhoFonteLabelURL = 11; // Default: 11.
     public static int TamanhoFonteLabelHelp = 11; // Default: 11.
@@ -108,6 +106,8 @@ public class AV3DNavigator extends JComponent
     public String URL;
     public int CorrecaoX = 12;
     public int CorrecaoY = 0;
+    public double RaioTeta = 0;
+    public double RaioPhi = 0;
     public double AnguloVisao;
     public int FlagCoordRot = 0;
     public int FlagTetaSuperior = 0;
@@ -429,6 +429,18 @@ public class AV3DNavigator extends JComponent
                         FrameHelp.add(LabelHelp);
                         FrameHelp.pack();
                         FrameHelp.setVisible(true);
+                        FrameHelp.addKeyListener(new KeyListener()
+                            {
+                            public void keyPressed(KeyEvent keHelp)
+                                {
+                                int keyCodeHelp = keHelp.getKeyCode();
+                                if (keyCodeHelp == KeyEvent.VK_ESCAPE) FrameHelp.dispose();
+                                }
+
+                            public void keyReleased(KeyEvent keHelp){}
+                            public void keyTyped(KeyEvent keHelp){}
+                            });
+
                         }
 
                     if (keyCode == KeyEvent.VK_F12)
@@ -657,7 +669,6 @@ public class AV3DNavigator extends JComponent
                 }
 
             public void keyReleased(KeyEvent ke){}
-
             public void keyTyped(KeyEvent ke){}
             });
 
@@ -950,6 +961,7 @@ public class AV3DNavigator extends JComponent
             try {Thread.sleep(10);} catch(InterruptedException e) {}
             }
 
+        FrameEspaco.dispose();
         System.exit(0);
         }
 
@@ -1011,7 +1023,7 @@ public class AV3DNavigator extends JComponent
 
                         double ProdutoEscalard = xd * Math.cos(Tetat) * Math.cos(Phit) - yd * Math.sin(Tetat) * Math.cos(Phit);
 
-                        if ((Math.acos(ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo)) < AnguloVisao + MargemAnguloVisao) && ((Math.cos(Tetat) * Math.cos(Phit) * Math.acos(ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd)) < AnguloVisao + MargemAnguloVisao) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi - CorrecaoX, xf - CorrecaoX) < TamanhoPlanoX) && (Math.max(yi - CorrecaoY, yf - CorrecaoY) < TamanhoPlanoX)))
+                        if ((Math.acos(ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo)) < AnguloVisao + MargemAnguloVisao) && ((Math.acos(ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd)) < AnguloVisao + MargemAnguloVisao) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi - CorrecaoX, xf - CorrecaoX) < TamanhoPlanoX) && (Math.max(yi - CorrecaoY, yf - CorrecaoY) < TamanhoPlanoX)))
                             Comp.addLine(xi, yi, xf, yf, CorLinhas);
                         }
                     catch (Exception e) {}
@@ -1051,7 +1063,7 @@ public class AV3DNavigator extends JComponent
 
                         Apfloat ProdutoEscalarda = xda.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).add(yda.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(-1)));
 
-                        if ((ApfloatMath.acos(ProdutoEscalaroa.divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.acos(ProdutoEscalarda.divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.min(new Apfloat(xi), ApfloatMath.min(new Apfloat(yi), ApfloatMath.min(new Apfloat(xf), new Apfloat(yf)))).doubleValue() > 0) && (ApfloatMath.max(new Apfloat(xi - CorrecaoX), (new Apfloat(xf - CorrecaoX))).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (ApfloatMath.max(new Apfloat(yi - CorrecaoY), (new Apfloat(yf - CorrecaoY))).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue()))
+                        if ((ApfloatMath.acos(ProdutoEscalaroa.divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.acos(ProdutoEscalarda.divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.min(new Apfloat(xi), ApfloatMath.min(new Apfloat(yi), ApfloatMath.min(new Apfloat(xf), new Apfloat(yf)))).doubleValue() > 0) && (ApfloatMath.max(new Apfloat(xi - CorrecaoX), (new Apfloat(xf - CorrecaoX))).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (ApfloatMath.max(new Apfloat(yi - CorrecaoY), (new Apfloat(yf - CorrecaoY))).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue()))
                             Comp.addLine(xi, yi, xf, yf, CorLinhas);
                         }
                     catch (Exception e) {}
