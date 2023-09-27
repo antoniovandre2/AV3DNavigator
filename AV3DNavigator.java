@@ -457,9 +457,9 @@ public class AV3DNavigator extends JComponent
                         else
                             g2d.setColor(Color.WHITE);
 
-                        g2d.drawString(URL, 5 + FrameEspaco.getInsets().left, TamanhoPlanoY - 5);
+                        g2d.drawString(URL, 5 + FrameEspaco.getInsets().left, TamanhoPlanoY + FrameEspaco.getInsets().top - 5);
                         g2d.dispose();
-                        BufferedImage ImagemFramePrint = ImagemFrame.getSubimage(FrameEspaco.getInsets().left, FrameEspaco.getInsets().top, TamanhoPlanoX - FrameEspaco.getInsets().left - FrameEspaco.getInsets().right, TamanhoPlanoY - FrameEspaco.getInsets().top);
+                        BufferedImage ImagemFramePrint = ImagemFrame.getSubimage(FrameEspaco.getInsets().left, FrameEspaco.getInsets().top, TamanhoPlanoX - FrameEspaco.getInsets().left - FrameEspaco.getInsets().right, TamanhoPlanoY);
                         try {ImageIO.write(ImagemFramePrint, "png", new File("AV3DNavigator - Screenshot - " + dtf.format(now) + ".png"));} catch(IOException e) {}
                         }
 
