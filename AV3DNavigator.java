@@ -533,6 +533,9 @@ public class AV3DNavigator extends JComponent
                         int Tamanho = Math.min(TamanhoPlanoX, TamanhoPlanoY);
 
                         FrameEspaco.setPreferredSize(new Dimension(Tamanho, Tamanho + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
+
+                        FrameEspaco.setSize(new Dimension(Tamanho, Tamanho + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
+
                         FrameEspaco.pack();
                         }
 
@@ -726,30 +729,30 @@ public class AV3DNavigator extends JComponent
             {
             int FlagRedimensionarOver = 0;
 
-            int width = FrameEspaco.getWidth();
-            int height = FrameEspaco.getHeight();
+            int widthFrameEspaco = FrameEspaco.getWidth();
+            int heightFrameEspaco = FrameEspaco.getHeight();
 
-            if (width < MinTamanhoPlanoX)
+            if (widthFrameEspaco < MinTamanhoPlanoX)
                 {
-                width = MinTamanhoPlanoX;
-                FrameEspaco.setPreferredSize(new Dimension(width, height));
-                FrameEspaco.setSize(width, height);
+                widthFrameEspaco = MinTamanhoPlanoX;
+                FrameEspaco.setPreferredSize(new Dimension(widthFrameEspaco, heightFrameEspaco));
+                FrameEspaco.setSize(widthFrameEspaco, heightFrameEspaco);
                 FlagRedimensionarOver = 1;
                 }
 
-            if (height < MinTamanhoPlanoYMaisLabels)
+            if (heightFrameEspaco < MinTamanhoPlanoYMaisLabels)
                 {
-                height = MinTamanhoPlanoYMaisLabels;
-                FrameEspaco.setPreferredSize(new Dimension(width, height));
-                FrameEspaco.setSize(width, height);
+                heightFrameEspaco = MinTamanhoPlanoYMaisLabels;
+                FrameEspaco.setPreferredSize(new Dimension(widthFrameEspaco, heightFrameEspaco));
+                FrameEspaco.setSize(widthFrameEspaco, heightFrameEspaco);
                 FlagRedimensionarOver = 1;
                 }
 
             if (FlagRedimensionarOver == 0)
-                if ((width != TamanhoPlanoX) || (height != TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL))
+                if ((widthFrameEspaco != TamanhoPlanoX) || (heightFrameEspaco != TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL))
                     {
-                    TamanhoPlanoX = width;
-                    TamanhoPlanoY = height - TamanhoEspacoLabelStatus;
+                    TamanhoPlanoX = widthFrameEspaco;
+                    TamanhoPlanoY = heightFrameEspaco - TamanhoEspacoLabelStatus - TamanhoEspacoLabelURL;
 
                     FrameEspaco.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
                     Comp.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY));
@@ -986,7 +989,7 @@ public class AV3DNavigator extends JComponent
                     AnguloVisao = (new Apfloat(AnguloVisao)).divide(new Apfloat(FatorAnguloVisao)).doubleValue();
                     }
 
-                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ".<br>z = " + String.valueOf(-z) + ".<br><br>Teta = " + String.valueOf(Teta) + ". TetaMax = " + String.valueOf(TetaMax) + ".<br>Phi = " + String.valueOf(Phi) + ". PhiMax = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>RaioTeta = " + String.valueOf(RaioTeta) + ".<br>RotacaoTeta = " + String.valueOf(RotacaoTeta) + ".<br>RaioPhi = " + String.valueOf(RaioPhi) + ".<br>RotacaoPhi = " + String.valueOf(RotacaoPhi) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + "<br>Aspect ratio = " + String.valueOf((double) (FrameEspaco.getWidth()) / ((double) (FrameEspaco.getHeight() - TamanhoEspacoLabelStatus - TamanhoEspacoLabelURL))) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>Aperte F1 para ajuda.</html>");
+                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ".<br>z = " + String.valueOf(-z) + ".<br><br>Teta = " + String.valueOf(Teta) + ". TetaMax = " + String.valueOf(TetaMax) + ".<br>Phi = " + String.valueOf(Phi) + ". PhiMax = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>RaioTeta = " + String.valueOf(RaioTeta) + ".<br>RotacaoTeta = " + String.valueOf(RotacaoTeta) + ".<br>RaioPhi = " + String.valueOf(RaioPhi) + ".<br>RotacaoPhi = " + String.valueOf(RotacaoPhi) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + "<br>Aspect ratio = " + String.valueOf((double) (TamanhoPlanoX) / ((double) (TamanhoPlanoY))) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>Aperte F1 para ajuda.</html>");
 
                 DesenharEspaco(Comp);
 
