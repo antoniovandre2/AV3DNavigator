@@ -63,6 +63,8 @@ Setas para strafe. Mouse pode ser utilizado para movimentar.
 
 Barra de espaços para resetar as variáveis.
 
+F11 para setar aspect ratio 1.
+
 F12 para screenshot.
 
 ESC para sair.
