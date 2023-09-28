@@ -29,7 +29,6 @@ import java.awt.Paint;
 import java.awt.Color;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
-import java.util.LinkedList;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
@@ -45,6 +44,9 @@ import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
+
+import java.util.LinkedList;
+import java.util.Random;
 
 import java.lang.Thread;
 
@@ -453,10 +455,30 @@ public class AV3DNavigator extends JComponent
                         FrameEspaco.printAll(g2d);
                         g2d.setFont(new Font("Monospace", Font.ITALIC, TamanhoFonteLabelPrint));
 
-                        if (ContadorCorBackground == 0)
-                            g2d.setColor(Color.BLACK);
-                        else
-                            g2d.setColor(Color.WHITE);
+                        int iPrint;
+                        Random geradorPrint = new Random();
+
+                        do {iPrint = geradorPrint.nextInt(16);} while ((iPrint == ContadorCorBackground) || (iPrint == ContadorCorLinhas) || (iPrint == ContadorCorPoligonosShape));
+
+                        switch (iPrint)
+                            {
+                            case 15: g2d.setColor(new Color(192, 192, 192)); break;
+                            case 14: g2d.setColor(new Color(175, 255, 175)); break;
+                            case 13: g2d.setColor(new Color(128, 128, 255)); break;
+                            case 12: g2d.setColor(Color.YELLOW); break;
+                            case 11: g2d.setColor(Color.ORANGE); break;
+                            case 10: g2d.setColor(Color.PINK); break;
+                            case 9: g2d.setColor(Color.CYAN); break;
+                            case 8: g2d.setColor(Color.BLUE); break;
+                            case 7: g2d.setColor(Color.MAGENTA); break;
+                            case 6: g2d.setColor(new Color(128, 175, 175)); break;
+                            case 5: g2d.setColor(Color.GRAY); break;
+                            case 4: g2d.setColor(Color.RED); break;
+                            case 3: g2d.setColor(new Color(64, 64, 64)); break;
+                            case 2: g2d.setColor(new Color(64, 64, 128)); break;
+                            case 1: g2d.setColor(Color.BLACK); break;
+                            case 0: g2d.setColor(Color.WHITE); break;
+                            }
 
                         g2d.drawString(URL, 5 + FrameEspaco.getInsets().left, TamanhoPlanoY + FrameEspaco.getInsets().top - 5);
                         g2d.dispose();
