@@ -15,8 +15,8 @@ int main ()
     {
     float raioprincipal = 10;
     float raiosecundario = 3;
-    int resolucao = 18;
-    int voltas = 2;
+    int resolucao = 20;
+    int voltas = 1;
     float altura = 20;
 
     for (int i = 0; i < resolucao * voltas; i++)
