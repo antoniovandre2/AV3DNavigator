@@ -3,7 +3,7 @@ Proprietário: Antonio Vandré Pedrosa Furtunato Gomes (bit.ly/antoniovandre_leg
 
 Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
-Arquivo gerador do "AV3DNavigator - Espaço - Toros.txt".
+Arquivo gerador do "AV3DNavigator - Espaço - Toro.txt".
 
 Última atualização: 01-10-2023.
 */
