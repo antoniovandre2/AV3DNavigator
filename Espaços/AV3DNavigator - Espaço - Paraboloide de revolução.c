@@ -3,7 +3,7 @@ Proprietário: Antonio Vandré Pedrosa Furtunato Gomes (bit.ly/antoniovandre_leg
 
 Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
-Arquivo gerador do "AV3DNavigator - Espaço - Parabolóide de revolução.txt".
+Arquivo gerador do "AV3DNavigator - Espaço - Paraboloide de revolução.txt".
 
 Última atualização: 30-09-2023.
 */
