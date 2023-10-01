@@ -5,7 +5,7 @@ Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador do "AV3DNavigator - Espaço - Elipsoide de revolução.txt".
 
-Última atualização: 30-09-2023.
+Última atualização: 01-10-2023.
 */
 
 #include <stdio.h>
