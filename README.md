@@ -14,7 +14,7 @@ Execute com:
 
 java -jar AV3DNavigatorLauncher.jar [ARQUIVO DE ESPAÇO]
 
-O arquivo de espaço consiste em um plain txt composto de, primeiro, linhas separadas por barra vertical "|", cada linha opcionalmente separada pelo token "RBG", a primeira parte composta dos dois pontos extremos separados por ponto e vírgula ";", e a segunda pelo código RGB separado por vírgulas ",", cada ponto consiste na abscissa, ordenada e cota separadas por vírgula ","; e, segundo, após o arroba "@", os vértices dos polígonos preenchidos, polígonos separados por barra vertical "|", RGB também aplicável.
+O arquivo de espaço consiste em um plain txt composto de, primeiro, linhas separadas por barra vertical "|", cada linha opcionalmente separada pelo token "c", a primeira parte composta dos dois pontos extremos separados por ponto e vírgula ";", e a segunda pelo código RGB separado por vírgulas ",", cada ponto consiste na abscissa, ordenada e cota separadas por vírgula ","; e, segundo, após o arroba "@", os vértices dos polígonos preenchidos, polígonos separados por barra vertical "|", "c" também aplicável.
 
 Há como exemplo o arquivo de espaço "Casa.txt" anexo.
 

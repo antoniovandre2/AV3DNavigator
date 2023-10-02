@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 01-10-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 02-10-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -122,6 +122,7 @@ public class AV3DNavigator extends JComponent
     public int Sair = 0;
     public String Espaco;
     public int FlagAlteracaoStatus = 1;
+    public int MaxTentativasCores = Integer.MAX_VALUE;
 
     public double x = 0;
     public double y = 0;
@@ -163,6 +164,7 @@ public class AV3DNavigator extends JComponent
     public int ContadorCorLinhas = 0; // Default inicial: 0.
     public int ContadorCorBackground = 1; // Default inicial: 1.
     public int ContadorCorPoligonosShape = 0; // Default inicial: 0.
+    public String StringCores = "";
 
     public class GradientLabel extends JLabel
         {
@@ -457,30 +459,39 @@ public class AV3DNavigator extends JComponent
                         FrameEspaco.printAll(g2d);
                         g2d.setFont(new Font("Monospace", Font.ITALIC, TamanhoFonteLabelPrint));
 
-                        int iPrint;
                         Random geradorPrint = new Random();
 
-                        do {iPrint = geradorPrint.nextInt(16);} while ((iPrint == ContadorCorBackground) || (iPrint == ContadorCorLinhas) || (iPrint == ContadorCorPoligonosShape));
+                        String [] CoresMatrix = StringCores.split(";");
+                        int FlagCores = 0;
+                        long TentativasCores = 0;
 
-                        switch (iPrint)
+                        labelDo: do
                             {
-                            case 15: g2d.setColor(new Color(192, 192, 192)); break;
-                            case 14: g2d.setColor(new Color(175, 255, 175)); break;
-                            case 13: g2d.setColor(new Color(128, 128, 255)); break;
-                            case 12: g2d.setColor(Color.YELLOW); break;
-                            case 11: g2d.setColor(Color.ORANGE); break;
-                            case 10: g2d.setColor(Color.PINK); break;
-                            case 9: g2d.setColor(Color.CYAN); break;
-                            case 8: g2d.setColor(Color.BLUE); break;
-                            case 7: g2d.setColor(Color.MAGENTA); break;
-                            case 6: g2d.setColor(new Color(128, 175, 175)); break;
-                            case 5: g2d.setColor(Color.GRAY); break;
-                            case 4: g2d.setColor(Color.RED); break;
-                            case 3: g2d.setColor(new Color(64, 64, 64)); break;
-                            case 2: g2d.setColor(new Color(64, 64, 128)); break;
-                            case 1: g2d.setColor(Color.BLACK); break;
-                            case 0: g2d.setColor(Color.WHITE); break;
-                            }
+                            int iPrintR = geradorPrint.nextInt(256);
+                            int iPrintG = geradorPrint.nextInt(256);
+                            int iPrintB = geradorPrint.nextInt(256);
+
+                            labelFor: for (int i = 0; i < CoresMatrix.length; i++)
+                                {
+                                String [] RGB = CoresMatrix[i].split(",");
+
+                                if ((iPrintR == Integer.parseInt(RGB[0])) && (iPrintG == Integer.parseInt(RGB[1])) && (iPrintB == Integer.parseInt(RGB[2])))
+                                    {
+                                    TentativasCores++;
+                                    FlagCores = 1;
+                                    continue labelDo;
+                                    }
+                                else
+                                    {
+                                    g2d.setColor(new Color(iPrintR, iPrintG, iPrintB));
+                                    FlagCores = 0;
+                                    break labelFor;
+                                    }
+                                }
+                            } while ((FlagCores == 1) && (TentativasCores < MaxTentativasCores));
+
+                        if (TentativasCores == MaxTentativasCores)
+                            g2d.setColor(Color.WHITE);
 
                         g2d.drawString(URL, 5 + FrameEspaco.getInsets().left, TamanhoPlanoY + FrameEspaco.getInsets().top - 5);
                         g2d.dispose();
@@ -914,64 +925,210 @@ public class AV3DNavigator extends JComponent
 
             if (FlagAlteracaoStatus == 1)
                 {
+                StringCores = "";
+
                 switch (ContadorCorLinhas)
                     {
-                    case 15: CorLinhas = new Color(192, 192, 192); break;
-                    case 14: CorLinhas = new Color(175, 255, 175); break;
-                    case 13: CorLinhas = new Color(128, 128, 255); break;
-                    case 12: CorLinhas = Color.YELLOW; break;
-                    case 11: CorLinhas = Color.ORANGE; break;
-                    case 10: CorLinhas = Color.PINK; break;
-                    case 9: CorLinhas = Color.CYAN; break;
-                    case 8: CorLinhas = Color.BLUE; break;
-                    case 7: CorLinhas = Color.MAGENTA; break;
-                    case 6: CorLinhas = new Color(128, 175, 175); break;
-                    case 5: CorLinhas = Color.GRAY; break;
-                    case 4: CorLinhas = Color.RED; break;
-                    case 3: CorLinhas = new Color(64, 64, 64); break;
-                    case 2: CorLinhas = new Color(64, 64, 128); break;
-                    case 1: CorLinhas = Color.BLACK; break;
-                    case 0: CorLinhas = Color.WHITE; break;
+                    case 15:
+                        CorLinhas = new Color(192, 192, 192);
+                        StringCores = StringCores + "192,192,192;";
+                        break;
+                    case 14:
+                        CorLinhas = new Color(175, 255, 175);
+                        StringCores = StringCores + "175,255,175;";
+                        break;
+                    case 13:
+                        CorLinhas = new Color(128, 128, 255);
+                        StringCores = StringCores + "128,128,255;";
+                        break;
+                    case 12:
+                        CorLinhas = Color.YELLOW;
+                        StringCores = StringCores + "255,255,0;";
+                        break;
+                    case 11:
+                        CorLinhas = Color.ORANGE;
+                        StringCores = StringCores + "255,200,0;";
+                        break;
+                    case 10:
+                        CorLinhas = Color.PINK;
+                        StringCores = StringCores + "255,175,175;";
+                        break;
+                    case 9:
+                        CorLinhas = Color.CYAN;
+                        StringCores = StringCores + "0,255,255;";
+                        break;
+                    case 8:
+                        CorLinhas = Color.BLUE;
+                        StringCores = StringCores + "0,0,255;";
+                        break;
+                    case 7:
+                        CorLinhas = Color.MAGENTA;
+                        StringCores = StringCores + "255,0,255;";
+                        break;
+                    case 6:
+                        CorLinhas = new Color(128, 175, 175);
+                        StringCores = StringCores + "128,175,175;";
+                        break;
+                    case 5:
+                        CorLinhas = Color.GRAY;
+                        StringCores = StringCores + "128,128,128;";
+                        break;
+                    case 4:
+                        CorLinhas = Color.RED;
+                        StringCores = StringCores + "255,0,0;";
+                        break;
+                    case 3:
+                        CorLinhas = new Color(64, 64, 64);
+                        StringCores = StringCores + "64,64,64;";
+                        break;
+                    case 2:
+                        CorLinhas = new Color(64, 64, 128);
+                        StringCores = StringCores + "64,64,128;";
+                        break;
+                    case 1:
+                        CorLinhas = Color.BLACK;
+                        StringCores = StringCores + "0,0,0;";
+                        break;
+                    case 0:
+                        CorLinhas = Color.WHITE;
+                        StringCores = StringCores + "255,255,255;";
+                        break;
                     }
 
                 switch (ContadorCorBackground)
                     {
-                    case 15: CorBackground = new Color(192, 192, 192); break;
-                    case 14: CorBackground = new Color(175, 255, 175); break;
-                    case 13: CorBackground = new Color(128, 128, 255); break;
-                    case 12: CorBackground = Color.YELLOW; break;
-                    case 11: CorBackground = Color.ORANGE; break;
-                    case 10: CorBackground = Color.PINK; break;
-                    case 9: CorBackground = Color.CYAN; break;
-                    case 8: CorBackground = Color.BLUE; break;
-                    case 7: CorBackground = Color.MAGENTA; break;
-                    case 6: CorBackground = new Color(128, 175, 175); break;
-                    case 5: CorBackground = Color.GRAY; break;
-                    case 4: CorBackground = Color.RED; break;
-                    case 3: CorBackground = new Color(64, 64, 64); break;
-                    case 2: CorBackground = new Color(64, 64, 128); break;
-                    case 1: CorBackground = Color.BLACK; break;
-                    case 0: CorBackground = Color.WHITE; break;
+                    case 15:
+                        CorBackground = new Color(192, 192, 192);
+                        StringCores = StringCores + "192,192,192;";
+                        break;
+                    case 14:
+                        CorBackground = new Color(175, 255, 175);
+                        StringCores = StringCores + "175,255,175;";
+                        break;
+                    case 13:
+                        CorBackground = new Color(128, 128, 255);
+                        StringCores = StringCores + "128,128,255;";
+                        break;
+                    case 12:
+                        CorBackground = Color.YELLOW;
+                        StringCores = StringCores + "255,255,0;";
+                        break;
+                    case 11:
+                        CorBackground = Color.ORANGE;
+                        StringCores = StringCores + "255,200,0;";
+                        break;
+                    case 10:
+                        CorBackground = Color.PINK;
+                        StringCores = StringCores + "255,175,175;";
+                        break;
+                    case 9:
+                        CorBackground = Color.CYAN;
+                        StringCores = StringCores + "0,255,255;";
+                        break;
+                    case 8:
+                        CorBackground = Color.BLUE;
+                        StringCores = StringCores + "0,0,255;";
+                        break;
+                    case 7:
+                        CorBackground = Color.MAGENTA;
+                        StringCores = StringCores + "255,0,255;";
+                        break;
+                    case 6:
+                        CorBackground = new Color(128, 175, 175);
+                        StringCores = StringCores + "128,175,175;";
+                        break;
+                    case 5:
+                        CorBackground = Color.GRAY;
+                        StringCores = StringCores + "128,128,128;";
+                        break;
+                    case 4:
+                        CorBackground = Color.RED;
+                        StringCores = StringCores + "255,0,0;";
+                        break;
+                    case 3:
+                        CorBackground = new Color(64, 64, 64);
+                        StringCores = StringCores + "64,64,64;";
+                        break;
+                    case 2:
+                        CorBackground = new Color(64, 64, 128);
+                        StringCores = StringCores + "64,64,128;";
+                        break;
+                    case 1:
+                        CorBackground = Color.BLACK;
+                        StringCores = StringCores + "0,0,0;";
+                        break;
+                    case 0:
+                        CorBackground = Color.WHITE;
+                        StringCores = StringCores + "255,255,255;";
+                        break;
                     }
 
                 switch (ContadorCorPoligonosShape)
                     {
-                    case 15: CorPoligonosShape = new Color(192, 192, 192); break;
-                    case 14: CorPoligonosShape = new Color(175, 255, 175); break;
-                    case 13: CorPoligonosShape = new Color(128, 128, 255); break;
-                    case 12: CorPoligonosShape = Color.YELLOW; break;
-                    case 11: CorPoligonosShape = Color.ORANGE; break;
-                    case 10: CorPoligonosShape = Color.PINK; break;
-                    case 9: CorPoligonosShape = Color.CYAN; break;
-                    case 8: CorPoligonosShape = Color.BLUE; break;
-                    case 7: CorPoligonosShape = Color.MAGENTA; break;
-                    case 6: CorPoligonosShape = new Color(128, 175, 175); break;
-                    case 5: CorPoligonosShape = Color.GRAY; break;
-                    case 4: CorPoligonosShape = Color.RED; break;
-                    case 3: CorPoligonosShape = new Color(64, 64, 64); break;
-                    case 2: CorPoligonosShape = new Color(64, 64, 128); break;
-                    case 1: CorPoligonosShape = Color.BLACK; break;
-                    case 0: CorPoligonosShape = Color.WHITE; break;
+                    case 15:
+                        CorPoligonosShape = new Color(192, 192, 192);
+                        StringCores = StringCores + "192,192,192;";
+                        break;
+                    case 14:
+                        CorPoligonosShape = new Color(175, 255, 175);
+                        StringCores = StringCores + "175,255,175;";
+                        break;
+                    case 13:
+                        CorPoligonosShape = new Color(128, 128, 255);
+                        StringCores = StringCores + "128,128,255;";
+                        break;
+                    case 12:
+                        CorPoligonosShape = Color.YELLOW;
+                        StringCores = StringCores + "255,255,0;";
+                        break;
+                    case 11:
+                        CorPoligonosShape = Color.ORANGE;
+                        StringCores = StringCores + "255,200,0;";
+                        break;
+                    case 10:
+                        CorPoligonosShape = Color.PINK;
+                        StringCores = StringCores + "255,175,175;";
+                        break;
+                    case 9:
+                        CorPoligonosShape = Color.CYAN;
+                        StringCores = StringCores + "0,255,255;";
+                        break;
+                    case 8:
+                        CorPoligonosShape = Color.BLUE;
+                        StringCores = StringCores + "0,0,255;";
+                        break;
+                    case 7:
+                        CorPoligonosShape = Color.MAGENTA;
+                        StringCores = StringCores + "255,0,255;";
+                        break;
+                    case 6:
+                        CorPoligonosShape = new Color(128, 175, 175);
+                        StringCores = StringCores + "128,175,175;";
+                        break;
+                    case 5:
+                        CorPoligonosShape = Color.GRAY;
+                        StringCores = StringCores + "128,128,128;";
+                        break;
+                    case 4:
+                        CorPoligonosShape = Color.RED;
+                        StringCores = StringCores + "255,0,0;";
+                        break;
+                    case 3:
+                        CorPoligonosShape = new Color(64, 64, 64);
+                        StringCores = StringCores + "64,64,64;";
+                        break;
+                    case 2:
+                        CorPoligonosShape = new Color(64, 64, 128);
+                        StringCores = StringCores + "64,64,128;";
+                        break;
+                    case 1:
+                        CorPoligonosShape = Color.BLACK;
+                        StringCores = StringCores + "0,0,0;";
+                        break;
+                    case 0:
+                        CorPoligonosShape = Color.WHITE;
+                        StringCores = StringCores + "255,255,255;";
+                        break;
                     }
 
                 FrameEspaco.getContentPane().setBackground(CorBackground);
@@ -1040,7 +1197,7 @@ public class AV3DNavigator extends JComponent
             {
             if (! (EspacoLinhas[i].equals("")))
                 {
-                String [] Campos = EspacoLinhas[i].split("RGB");
+                String [] Campos = EspacoLinhas[i].split("c");
                 String [] Pontos = Campos[0].split(";");
                 String [] CoordenadasOrig = Pontos[0].split(",");
                 String [] CoordenadasDest = Pontos[1].split(",");
@@ -1086,6 +1243,7 @@ public class AV3DNavigator extends JComponent
                                 {
                                 String [] RGB = Campos[1].split(",");
                                 Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])));
+                                StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                                 }
                             }
                         }
@@ -1134,6 +1292,7 @@ public class AV3DNavigator extends JComponent
                                 {
                                 String [] RGB = Campos[1].split(",");
                                 Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])));
+                                StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                                 }
                             }
                         }
@@ -1147,7 +1306,7 @@ public class AV3DNavigator extends JComponent
             if (! (EspacoPoligonosShapePreenchidos[i].equals("")))
                 {
                 Polygon Poligono = new Polygon();
-                String [] Campos = EspacoPoligonosShapePreenchidos[i].split("RGB");
+                String [] Campos = EspacoPoligonosShapePreenchidos[i].split("c");
                 String [] Pontos = Campos[0].split(";");
 
                 int ContadorPontos = 0;
@@ -1219,6 +1378,7 @@ public class AV3DNavigator extends JComponent
                                 {
                                 String [] RGB = Campos[1].split(",");
                                 Comp.addPoligonosShape(Poligono, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])));
+                                StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                                 }
                             }
                     }
@@ -1245,7 +1405,7 @@ public class AV3DNavigator extends JComponent
                     {
                     if (! (EspacoLinhas[i].equals("")))
                         {
-                        String [] Campos = EspacoLinhas[i].split("RGB");
+                        String [] Campos = EspacoLinhas[i].split("c");
                         if (Campos.length > 2) return "Erro";
 
                         String [] Pontos = Campos[0].split(";");
@@ -1288,7 +1448,7 @@ public class AV3DNavigator extends JComponent
                     {
                     if (! (EspacoPoligonosShapePreenchidos[i].equals("")))
                         {
-                        String [] Campos = EspacoPoligonosShapePreenchidos[i].split("RGB");
+                        String [] Campos = EspacoPoligonosShapePreenchidos[i].split("c");
                         if (Campos.length > 2) return "Erro";
                         String [] Pontos = Campos[0].split(";");
 
