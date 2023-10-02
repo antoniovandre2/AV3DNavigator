@@ -55,7 +55,7 @@ F2 para selecionar e abrir arquivo de espaço.
 
 "U" para shift negativo na cor de fundo. "I" para shift positivo.
 
-"O" para shift negativo na cor dos polígonos preenchidos. "P" para shift positivo.
+"O" para shift negativo na cor padrão dos polígonos preenchidos. "P" para shift positivo.
 
 "0" para toggle alta precisão Apfloat (com custo computacional).
 
