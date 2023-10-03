@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de pizza tridimensional.
 
 Argumentos: Uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",".
 
-Última atualização: 02-10-2023.
+Última atualização: 03-10-2023.
 */
 
 #include <stdio.h>
@@ -33,6 +33,7 @@ int main (int argc, char * argv[])
     char c;
     int flag = 0;
     char mainstring [MAXTAMANHOCAMPO];
+    char descricao [MAXITENS] [MAXTAMANHOCAMPO];
     char item [MAXITENS] [MAXTAMANHOCAMPO];
     char valor [MAXITENS] [MAXTAMANHOCAMPO];
     char rgb [MAXITENS] [MAXTAMANHOCAMPO];
@@ -40,7 +41,7 @@ int main (int argc, char * argv[])
     double soma = 0;
     double valoresnumericos [MAXITENS];
     int resolucao = 15;
-    int raio = 2;
+    float raio = 2;
     double anguloinicial = 0;
     char * err;
 
@@ -58,10 +59,7 @@ int main (int argc, char * argv[])
     for (i = 0; i < MAXTAMANHOCAMPO; i++)
         {
         if (argv[1][i] == '\0') break;
-
-        if ((argv[1][i] == '0') || (argv[1][i] == '1') || (argv[1][i] == '2') || (argv[1][i] == '3') || (argv[1][i] == '4') || (argv[1][i] == '5') || (argv[1][i] == '6') || (argv[1][i] == '7') || (argv[1][i] == '8') || (argv[1][i] == '9') || (argv[1][i] == '.') || (argv[1][i] == ',') || (argv[1][i] == ';') || (argv[1][i] == '|'))
-            {mainstring[j++] = argv[1][i];}
-        else if (argv[1][i] != ' ') {printf("Erro.\n"); return 1;}
+        mainstring[j++] = argv[1][i];
         }
 
     do
@@ -83,38 +81,46 @@ int main (int argc, char * argv[])
         do
             {
             c = item[argi][j];
-            if ((c != ';') && (c != '\0')) {valor[argi][j++] = c;} else break;
+            if ((c != ';') && (c != '\0')) {descricao[argi][j++] = c;} else break;
             } while (VERDADE);
 
-        valor[argi][j] = '\0';
-
-        valoresnumericos[argi] = strtod(valor[argi], &err);
-
-        if (err == valor[argi]) {printf("Erro.\n"); return 1;}
-
-        soma += valoresnumericos[argi];
+        descricao[argi][j] = '\0';
 
         k = 0;
 
         do
             {
             c = item[argi][j + k + 1];
-            if (c != '\0') {rgb[argi][k++] = c;} else break;
+            if ((c != ';') && (c != '\0')) {valor[argi][k++] = c;} else break;
             } while (VERDADE);
 
-        rgb[argi][k] = '\0';
+        valor[argi][k] = '\0';
+
+        valoresnumericos[argi] = strtod(valor[argi], &err);
+
+        if ((! strcmp(valor[argi], "")) || (err == valor[argi])) {printf("Erro.\n"); return 1;}
+
+        soma += valoresnumericos[argi];
 
         l = 0;
+
+        do
+            {
+            c = item[argi][j + k + l + 2];
+            if (c != '\0') {rgb[argi][l++] = c;} else break;
+            } while (VERDADE);
+
+        rgb[argi][l] = '\0';
 
         for (n = 1; n <= 3; n++)
             {
             m = 0;
 
-            for(int o = 0; o < MAXTAMANHOCAMPO; o++) {verifstr[n] = '\0';}
+            for(int p = 0; p < MAXTAMANHOCAMPO; p++) {verifstr[p] = '\0';}
 
             do
                 {
-                c = rgb[argi][l++];
+                c = rgb[argi][n++];
                 if ((c != '\0') && (c != ',')) {verifstr[m++] = c;} else break;
                 if ((c != '0') && (c != '1') && (c != '2') && (c != '3') && (c != '4') && (c != '5') && (c != '6') && (c != '7') && (c != '8') && (c != '9')) {printf("Erro.\n"); return 1;}
                 } while (VERDADE);
@@ -136,4 +142,9 @@ int main (int argc, char * argv[])
             printf("%f,%f,%f,;%f,%f,%f;%f,%f,%fc%s|", 0, 0, 0, 0, raio * cos(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), 0, raio * cos(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), rgb[i]);
             }
         }
+
+    printf("@");
+
+    for (i = 0; i < argi; i++)
+        printf("%s;%s|", descricao[i], rgb[i]);
     }
