@@ -18,9 +18,13 @@ O arquivo de espaço consiste em um plain txt composto de, primeiro, linhas sepa
 
 Há como exemplo o arquivo de espaço "Casa.txt" anexo.
 
-O repositório oficial de espaços é o de link
+O repositório oficial de espaços é o de link:
 
 "https://github.com/antoniovandre2/AV3DNavigator/tree/main/Espa%C3%A7os".
+
+O repositório de plugins geradores de espaços considerados de maior utilidade é o de link:
+
+"https://github.com/antoniovandre2/AV3DNavigator/tree/main/Plugins".
 ____________________
 
 Comandos:
