@@ -14,7 +14,7 @@ Execute com:
 
 java -jar AV3DNavigatorLauncher.jar [ARQUIVO DE ESPAÇO]
 
-O arquivo de espaço consiste em um plain txt composto de, primeiro, linhas separadas por barra vertical "|", cada linha opcionalmente separada pelo token "c", a primeira parte composta dos dois pontos extremos separados por ponto e vírgula ";", e a segunda pelo código RGB separado por vírgulas ",", cada ponto consiste na abscissa, ordenada e cota separadas por vírgula ","; e, segundo, após o arroba "@", os vértices dos polígonos preenchidos, polígonos separados por barra vertical "|", "c" também aplicável.
+O arquivo de espaço consiste em um plain txt composto de, primeiro, linhas separadas por barra vertical "|", cada linha opcionalmente separada pelo token "c", a primeira parte composta dos dois pontos extremos separados por ponto e vírgula ";", e a segunda pelo código RGB separado por vírgulas ",", cada ponto consiste na abscissa, ordenada e cota separadas por vírgula ","; segundo, após o primeiro arroba "@", os vértices dos polígonos preenchidos, polígonos separados por barra vertical "|", "c" também aplicável; e, terceiro, após o segundo arroba "@", as legendas separadas por barra vertical "|", também opcionalmente aplicável o código RGB, porém separados das strings por ponto e vírgula ";".
 
 Há como exemplo o arquivo de espaço "Casa.txt" anexo.
 
@@ -60,6 +60,8 @@ F2 para selecionar e abrir arquivo de espaço.
 "U" para shift negativo na cor de fundo. "I" para shift positivo.
 
 "O" para shift negativo na cor padrão dos polígonos preenchidos. "P" para shift positivo.
+
+INSERT para shift negativo na cor padrão das legendas. HOME para shift positivo.
 
 "0" para toggle alta precisão Apfloat (com custo computacional).
 
