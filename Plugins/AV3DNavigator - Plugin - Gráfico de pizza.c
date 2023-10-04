@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de pizza tridimensional.
 
 Argumentos: Uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",".
 
-Última atualização: 03-10-2023.
+Última atualização: 04-10-2023.
 */
 
 #include <stdio.h>
@@ -41,7 +41,8 @@ int main (int argc, char * argv[])
     double soma = 0;
     double valoresnumericos [MAXITENS];
     int resolucao = 15;
-    float raio = 2;
+    double raio = 2;
+    double espessura = 1;
     double anguloinicial = 0;
     char * err;
 
@@ -139,8 +140,24 @@ int main (int argc, char * argv[])
 
         for (j = 0; j < resolucao; j++)
             {
-            printf("%f,%f,%f,;%f,%f,%f;%f,%f,%fc%s|", 0, 0, 0, 0, raio * cos(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), 0, raio * cos(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), rgb[i]);
+            double x = 0;
+
+            printf("%f,%f,%f;%f,%f,%f;%f,%f,%fc%s|", x, 0, 0, x, raio * cos(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), x, raio * cos(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), rgb[i]);
+
+            x = espessura;
+
+            printf("%f,%f,%f;%f,%f,%f;%f,%f,%fc%s|", x, 0, 0, x, raio * cos(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), x, raio * cos(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), rgb[i]);
             }
+        }
+
+    anguloinicial = 0;
+
+    for (i = 0; i < argi; i++)
+        {
+        if (i > 0) anguloinicial += 2 * M_PI * valoresnumericos[i - 1] / soma;
+
+        for (j = 0; j < resolucao; j++)
+            printf("%f,%f,%f;%f,%f,%f;%f,%f,%f;%f,%f,%fc%s|", 0, raio * cos(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), espessura, raio * cos(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), espessura, raio * cos(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), 0, raio * cos(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), rgb[i]);
         }
 
     printf("@");
