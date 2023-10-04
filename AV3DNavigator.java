@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 03-10-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 04-10-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -46,6 +46,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 
 import java.util.LinkedList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 import java.lang.Thread;
@@ -101,7 +103,8 @@ public class AV3DNavigator extends JComponent
     public static double DeslocamentoAngular = 0.1; // Default: 0.1.
     public static int FramesDeslocamento = 4; // Default: 4.
     public int ApfloatFlag = 0; // Default: 0.
-    public int ShiftVerticalLegendas = 20; // Default: 20;
+    public int ShiftVerticalLegendas = 20; // Default: 20.
+    public int ResolucaoZbuffer = 1000; // Default: 1000.
 
     // Variáveis de funcionamento interno.
 
@@ -168,6 +171,9 @@ public class AV3DNavigator extends JComponent
     public int ContadorCorPoligonosShape = 0; // Default inicial: 0.
     public int ContadorCorLegendas = 0; // Default inicial: 0.
     public String StringCores = "";
+    public double SomaXP = 0;
+    public double SomaYP = 0;
+    public double SomaZP = 0;
 
     public class GradientLabel extends JLabel
         {
@@ -236,11 +242,13 @@ public class AV3DNavigator extends JComponent
         {
         final Polygon poligono;
         final Color color;
+        final double zbuffer;
 
-        public PoligonoType(Polygon poligono, Color color)
+        public PoligonoType(Polygon poligono, Color color, double zbuffer)
             {
             this.poligono = poligono;
             this.color = color;
+            this.zbuffer = zbuffer;
             }               
         }
 
@@ -270,9 +278,17 @@ public class AV3DNavigator extends JComponent
         repaint();
         }
 
-    public void addPoligonosShape(Polygon poligonoshape, Color color)
+    public void addPoligonosShape(Polygon poligonoshape, Color color, double zbuffer)
         {
-        PoligonosShape.add(new PoligonoType(poligonoshape, color));
+        PoligonosShape.add(new PoligonoType(poligonoshape, color, zbuffer));
+
+        Collections.sort(PoligonosShape, new Comparator<PoligonoType>() {
+            @Override
+            public int compare(PoligonoType o1, PoligonoType o2) {
+                return ((int) (o2.zbuffer * ResolucaoZbuffer) - (int) (o1.zbuffer * ResolucaoZbuffer));
+            }
+        });
+
         repaint();
         }
 
@@ -1462,6 +1478,7 @@ public class AV3DNavigator extends JComponent
                                 {
                                 ContadorPontos++;
                                 Poligono.addPoint(xpp, ypp);
+                                SomaXP += xp; SomaYP += yp; SomaZP += zp;
                                 }
                             }
                         catch (Exception e) {}
@@ -1489,6 +1506,9 @@ public class AV3DNavigator extends JComponent
                                 {
                                 ContadorPontos++;
                                 Poligono.addPoint(xpp, ypp);
+                                SomaXP += xpa.doubleValue();
+                                SomaYP += ypa.doubleValue();
+                                SomaZP += zpa.doubleValue();
                                 }
                             }
                         catch (Exception e) {}
@@ -1497,13 +1517,15 @@ public class AV3DNavigator extends JComponent
                     if (ContadorPontos == Pontos.length)
                             {
                             if (Campos.length == 1)
-                                Comp.addPoligonosShape(Poligono, CorPoligonosShape);
+                                Comp.addPoligonosShape(Poligono, CorPoligonosShape, (x - SomaXP / Pontos.length) * (x - SomaXP / Pontos.length) + (y - SomaYP / Pontos.length) * (y - SomaYP / Pontos.length) + (z - SomaZP / Pontos.length) * (z - SomaZP / Pontos.length));
                             else
                                 {
                                 String [] RGB = Campos[1].split(",");
-                                Comp.addPoligonosShape(Poligono, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])));
+                                Comp.addPoligonosShape(Poligono, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), (x - SomaXP / Pontos.length) * (x - SomaXP / Pontos.length) + (y - SomaYP / Pontos.length) * (y - SomaYP / Pontos.length) + (z - SomaZP / Pontos.length) * (z - SomaZP / Pontos.length));
                                 StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                                 }
+
+                            SomaXP = 0; SomaYP = 0; SomaZP = 0;
                             }
                     }
                 }
