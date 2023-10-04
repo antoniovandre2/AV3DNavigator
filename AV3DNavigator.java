@@ -284,8 +284,15 @@ public class AV3DNavigator extends JComponent
 
         Collections.sort(PoligonosShape, new Comparator<PoligonoType>() {
             @Override
-            public int compare(PoligonoType o1, PoligonoType o2) {
-                return ((int) (o2.zbuffer * ResolucaoZbuffer) - (int) (o1.zbuffer * ResolucaoZbuffer));
+            public int compare(PoligonoType o1, PoligonoType o2)
+                {
+                long i = 0;
+
+                while (true)
+                    {
+                    if ((Math.abs(o1.zbuffer * ResolucaoZbuffer / ++i) < Double.MAX_VALUE) && (Math.abs(o2.zbuffer * ResolucaoZbuffer / i) < Double.MAX_VALUE))
+                        return ((int) (o2.zbuffer * ResolucaoZbuffer / i) - (int) (o1.zbuffer * ResolucaoZbuffer / i));
+                    }
             }
         });
 
