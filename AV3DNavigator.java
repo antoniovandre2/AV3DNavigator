@@ -325,50 +325,53 @@ public class AV3DNavigator extends JComponent
 
     protected void paintComponent(Graphics g)
         {
-        Collections.sort(TriangulosShape, new Comparator<TrianguloType>()
+        if (FlagAlteracaoStatus == 1)
             {
-            @Override
-            public int compare(TrianguloType o1, TrianguloType o2)
+            Collections.sort(TriangulosShape, new Comparator<TrianguloType>()
                 {
-                int i = 0;
-
-                while (true)
+                @Override
+                public int compare(TrianguloType o1, TrianguloType o2)
                     {
-                    if ((Math.abs(o1.zbuffer * ResolucaoZbuffer / ++i) < Double.MAX_VALUE) && (Math.abs(o2.zbuffer * ResolucaoZbuffer / i) < Double.MAX_VALUE))
-                        return ((int) (o2.zbuffer * ResolucaoZbuffer / i) - (int) (o1.zbuffer * ResolucaoZbuffer / i));
+                    int i = 0;
+
+                    while (true)
+                        {
+                        if ((Math.abs(o1.zbuffer * ResolucaoZbuffer / ++i) < Double.MAX_VALUE) && (Math.abs(o2.zbuffer * ResolucaoZbuffer / i) < Double.MAX_VALUE))
+                            return ((int) (o2.zbuffer * ResolucaoZbuffer / i) - (int) (o1.zbuffer * ResolucaoZbuffer / i));
+                        }
                     }
-                }
-            });
+                });
 
-        for (int i = 0; i < Linhas.size(); i++)
-            {
-            g.setColor(Linhas.get(i).color);
-            g.drawLine(Linhas.get(i).x1, Linhas.get(i).y1, Linhas.get(i).x2, Linhas.get(i).y2);
-            }
-
-        for (int i = 0; i < TriangulosShape.size(); i++)
-            {
-            g.setColor(TriangulosShape.get(i).color);
-
-            if (TrianguloPoligono == 0)
+            for (int i = 0; i < Linhas.size(); i++)
                 {
-                for (int j = 0; j < ResolucaoTriangulos; j++)
-                    {
-                    g.drawLine((int) TriangulosShape.get(i).x1, (int) TriangulosShape.get(i).y1, (int) (TriangulosShape.get(i).x2 + j * (TriangulosShape.get(i).x3 - TriangulosShape.get(i).x2) / ResolucaoTriangulos), (int) (TriangulosShape.get(i).y2 + j * (TriangulosShape.get(i).y3 - TriangulosShape.get(i).y2) / ResolucaoTriangulos));
-
-                    g.drawLine((int) TriangulosShape.get(i).x2, (int) TriangulosShape.get(i).y2, (int) (TriangulosShape.get(i).x1 + j * (TriangulosShape.get(i).x3 - TriangulosShape.get(i).x1) / ResolucaoTriangulos), (int) (TriangulosShape.get(i).y1 + j * (TriangulosShape.get(i).y3 - TriangulosShape.get(i).y1) / ResolucaoTriangulos));
-
-                    g.drawLine((int) TriangulosShape.get(i).x3, (int) TriangulosShape.get(i).y3, (int) (TriangulosShape.get(i).x2 + j * (TriangulosShape.get(i).x1 - TriangulosShape.get(i).x2) / ResolucaoTriangulos), (int) (TriangulosShape.get(i).y2 + j * (TriangulosShape.get(i).y1 - TriangulosShape.get(i).y2) / ResolucaoTriangulos));
-                    }
+                g.setColor(Linhas.get(i).color);
+                g.drawLine(Linhas.get(i).x1, Linhas.get(i).y1, Linhas.get(i).x2, Linhas.get(i).y2);
                 }
-            else
-                g.fillPolygon(new int[]{TriangulosShape.get(i).x1, TriangulosShape.get(i).x2, TriangulosShape.get(i).x3},new int[]{TriangulosShape.get(i).y1, TriangulosShape.get(i).y2, TriangulosShape.get(i).y3}, 3);
-            }
 
-        for (int i = 0; i < Textos.size(); i++)
-            {
-            g.setColor(Textos.get(i).color);
-            g.drawString(Textos.get(i).texto, Textos.get(i).x, Textos.get(i).y);
+            for (int i = 0; i < TriangulosShape.size(); i++)
+                {
+                g.setColor(TriangulosShape.get(i).color);
+
+                if (TrianguloPoligono == 0)
+                    {
+                    for (int j = 0; j < ResolucaoTriangulos; j++)
+                        {
+                        g.drawLine((int) TriangulosShape.get(i).x1, (int) TriangulosShape.get(i).y1, (int) (TriangulosShape.get(i).x2 + j * (TriangulosShape.get(i).x3 - TriangulosShape.get(i).x2) / ResolucaoTriangulos), (int) (TriangulosShape.get(i).y2 + j * (TriangulosShape.get(i).y3 - TriangulosShape.get(i).y2) / ResolucaoTriangulos));
+
+                        g.drawLine((int) TriangulosShape.get(i).x2, (int) TriangulosShape.get(i).y2, (int) (TriangulosShape.get(i).x1 + j * (TriangulosShape.get(i).x3 - TriangulosShape.get(i).x1) / ResolucaoTriangulos), (int) (TriangulosShape.get(i).y1 + j * (TriangulosShape.get(i).y3 - TriangulosShape.get(i).y1) / ResolucaoTriangulos));
+
+                        g.drawLine((int) TriangulosShape.get(i).x3, (int) TriangulosShape.get(i).y3, (int) (TriangulosShape.get(i).x2 + j * (TriangulosShape.get(i).x1 - TriangulosShape.get(i).x2) / ResolucaoTriangulos), (int) (TriangulosShape.get(i).y2 + j * (TriangulosShape.get(i).y1 - TriangulosShape.get(i).y2) / ResolucaoTriangulos));
+                        }
+                    }
+                else
+                    g.fillPolygon(new int[]{TriangulosShape.get(i).x1, TriangulosShape.get(i).x2, TriangulosShape.get(i).x3},new int[]{TriangulosShape.get(i).y1, TriangulosShape.get(i).y2, TriangulosShape.get(i).y3}, 3);
+                }
+
+            for (int i = 0; i < Textos.size(); i++)
+                {
+                g.setColor(Textos.get(i).color);
+                g.drawString(Textos.get(i).texto, Textos.get(i).x, Textos.get(i).y);
+                }
             }
         }
 
@@ -1333,7 +1336,7 @@ public class AV3DNavigator extends JComponent
                 FlagAlteracaoStatus = 0;
                 }
 
-            try {Thread.sleep(10);} catch(InterruptedException e) {}
+            try {Thread.sleep(20);} catch(InterruptedException e) {}
             }
 
         FrameEspaco.dispose();
