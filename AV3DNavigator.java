@@ -1615,9 +1615,12 @@ public class AV3DNavigator extends JComponent
                     Comp.addTexto(Campos[0], 5, yl, CorLegendas, i + 1);
                 else
                     {
-                    String [] RGB = Campos[1].split(",");
-                    Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), i + 1);
-                    StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
+                    if (! (Campos[1].equals("")))
+                        {
+                        String [] RGB = Campos[1].split(",");
+                        Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), i + 1);
+                        StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
+                        }
                     }
 
                 yl += ShiftVerticalLegendas;
@@ -1738,16 +1741,19 @@ public class AV3DNavigator extends JComponent
 
                         if (Campos.length == 2)
                             {
-                            String [] RGB = Campos[1].split(",");
-
-                            if (RGB.length != 3) return "Erro";
-
-                            for (int k = 0; k < RGB.length; k++)
+                            if (! (Campos[1].equals("")))
                                 {
-                                if (! AntonioVandre.NumeroInteiro(RGB[k])) return "Erro";
+                                String [] RGB = Campos[1].split(",");
 
-                                if ((Integer.parseInt(RGB[k]) < 0) || (Integer.parseInt(RGB[k]) > 255))
-                                    return "Erro";
+                                if (RGB.length != 3) return "Erro";
+
+                                for (int k = 0; k < RGB.length; k++)
+                                    {
+                                    if (! AntonioVandre.NumeroInteiro(RGB[k])) return "Erro";
+
+                                    if ((Integer.parseInt(RGB[k]) < 0) || (Integer.parseInt(RGB[k]) > 255))
+                                        return "Erro";
+                                    }
                                 }
                             }
                         }
