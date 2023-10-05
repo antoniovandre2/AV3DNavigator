@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 04-10-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 05-10-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -23,10 +23,10 @@ import java.awt.Graphics2D;
 import java.awt.GradientPaint;
 import java.awt.event.AWTEventListener;
 import java.awt.MouseInfo;
-import java.awt.Polygon;
 import java.awt.Point;
 import java.awt.Paint;
 import java.awt.Color;
+import java.awt.Polygon;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.BorderLayout;
@@ -49,8 +49,6 @@ import java.util.LinkedList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
-
-import java.lang.Thread;
 
 import java.lang.Math;
 
@@ -105,6 +103,8 @@ public class AV3DNavigator extends JComponent
     public int ApfloatFlag = 0; // Default: 0.
     public int ShiftVerticalLegendas = 20; // Default: 20.
     public int ResolucaoZbuffer = 1000; // Default: 1000.
+    public int TrianguloPoligono = 1; // Opção: 0.
+    public int ResolucaoTriangulos = 10; // Default: 10. Considerável custo computacional para valores elevados.
 
     // Variáveis de funcionamento interno.
 
@@ -164,16 +164,19 @@ public class AV3DNavigator extends JComponent
     public int ContadorFrames = FramesDeslocamento;
     public Color CorBackground;
     public Color CorLinhas;
-    public Color CorPoligonosShape;
+    public Color CorTriangulosShape;
     public Color CorLegendas;
     public int ContadorCorLinhas = 0; // Default inicial: 0.
     public int ContadorCorBackground = 1; // Default inicial: 1.
-    public int ContadorCorPoligonosShape = 0; // Default inicial: 0.
+    public int ContadorCorTriangulosShape = 0; // Default inicial: 0.
     public int ContadorCorLegendas = 0; // Default inicial: 0.
     public String StringCores = "";
     public double SomaXP = 0;
     public double SomaYP = 0;
     public double SomaZP = 0;
+    public int TotalLinhas = 0;
+    public int TotalTriangulosShapePreenchidos = 0;
+    public int TotalLegendas = 0;
 
     public class GradientLabel extends JLabel
         {
@@ -238,15 +241,25 @@ public class AV3DNavigator extends JComponent
             }               
         }
 
-    private static class PoligonoType extends Object
+    private static class TrianguloType extends Object
         {
-        final Polygon poligono;
+        final int x1; 
+        final int y1;
+        final int x2;
+        final int y2;
+        final int x3;
+        final int y3;
         final Color color;
         final double zbuffer;
 
-        public PoligonoType(Polygon poligono, Color color, double zbuffer)
+        public TrianguloType(int x1, int y1, int x2, int y2, int x3, int y3, Color color, double zbuffer)
             {
-            this.poligono = poligono;
+            this.x1 = x1;
+            this.y1 = y1;
+            this.x2 = x2;
+            this.y2 = y2;
+            this.x3 = x3;
+            this.y3 = y3;
             this.color = color;
             this.zbuffer = zbuffer;
             }               
@@ -268,41 +281,28 @@ public class AV3DNavigator extends JComponent
             }               
         }
 
-    private final LinkedList<LineType> Linhas = new LinkedList<LineType>();
-    private final LinkedList<PoligonoType> PoligonosShape = new LinkedList<PoligonoType>();
-    private final LinkedList<TextoType> Textos = new LinkedList<TextoType>();
+    public LinkedList<LineType> Linhas = new LinkedList<LineType>();
+    public LinkedList<TrianguloType> TriangulosShape = new LinkedList<TrianguloType>();
+    public LinkedList<TextoType> Textos = new LinkedList<TextoType>();
 
-    public void addLine(int x1, int x2, int x3, int x4, Color color)
+    public void addLine(int x1, int x2, int x3, int x4, Color color, int n)
         {
         Linhas.add(new LineType(x1, x2, x3, x4, color));
-        repaint();
+        if (n == TotalLinhas) repaint();repaint();
         }
 
-    public void addPoligonosShape(Polygon poligonoshape, Color color, double zbuffer)
+    public void addTriangulosShape(int x1, int y1, int x2, int y2, int x3, int y3, Color color, double zbuffer, int n)
         {
-        PoligonosShape.add(new PoligonoType(poligonoshape, color, zbuffer));
+        TriangulosShape.add(new TrianguloType(x1, y1, x2, y2, x3, y3, color, zbuffer));
 
-        Collections.sort(PoligonosShape, new Comparator<PoligonoType>() {
-            @Override
-            public int compare(PoligonoType o1, PoligonoType o2)
-                {
-                long i = 0;
-
-                while (true)
-                    {
-                    if ((Math.abs(o1.zbuffer * ResolucaoZbuffer / ++i) < Double.MAX_VALUE) && (Math.abs(o2.zbuffer * ResolucaoZbuffer / i) < Double.MAX_VALUE))
-                        return ((int) (o2.zbuffer * ResolucaoZbuffer / i) - (int) (o1.zbuffer * ResolucaoZbuffer / i));
-                    }
-            }
-        });
-
-        repaint();
+        if (n == TotalTriangulosShapePreenchidos)
+            repaint();
         }
 
-    public void addTexto(String texto, int x, int y, Color color)
+    public void addTexto(String texto, int x, int y, Color color, int n)
         {
         Textos.add(new TextoType(texto, x, y, color));
-        repaint();
+        if (n == TotalLegendas) repaint();
         }
 
     public void clearLines()
@@ -317,24 +317,52 @@ public class AV3DNavigator extends JComponent
         repaint();
         }
 
-    public void clearPoligonosShape()
+    public void clearTriangulosShape()
         {
-        PoligonosShape.clear();
+        TriangulosShape.clear();
         repaint();
         }
 
     protected void paintComponent(Graphics g)
         {
+        Collections.sort(TriangulosShape, new Comparator<TrianguloType>()
+            {
+            @Override
+            public int compare(TrianguloType o1, TrianguloType o2)
+                {
+                int i = 0;
+
+                while (true)
+                    {
+                    if ((Math.abs(o1.zbuffer * ResolucaoZbuffer / ++i) < Double.MAX_VALUE) && (Math.abs(o2.zbuffer * ResolucaoZbuffer / i) < Double.MAX_VALUE))
+                        return ((int) (o2.zbuffer * ResolucaoZbuffer / i) - (int) (o1.zbuffer * ResolucaoZbuffer / i));
+                    }
+                }
+            });
+
         for (int i = 0; i < Linhas.size(); i++)
             {
             g.setColor(Linhas.get(i).color);
             g.drawLine(Linhas.get(i).x1, Linhas.get(i).y1, Linhas.get(i).x2, Linhas.get(i).y2);
             }
 
-        for (int i = 0; i < PoligonosShape.size(); i++)
+        for (int i = 0; i < TriangulosShape.size(); i++)
             {
-            g.setColor(PoligonosShape.get(i).color);
-            g.fillPolygon(PoligonosShape.get(i).poligono);
+            g.setColor(TriangulosShape.get(i).color);
+
+            if (TrianguloPoligono == 0)
+                {
+                for (int j = 0; j < ResolucaoTriangulos; j++)
+                    {
+                    g.drawLine((int) TriangulosShape.get(i).x1, (int) TriangulosShape.get(i).y1, (int) (TriangulosShape.get(i).x2 + j * (TriangulosShape.get(i).x3 - TriangulosShape.get(i).x2) / ResolucaoTriangulos), (int) (TriangulosShape.get(i).y2 + j * (TriangulosShape.get(i).y3 - TriangulosShape.get(i).y2) / ResolucaoTriangulos));
+
+                    g.drawLine((int) TriangulosShape.get(i).x2, (int) TriangulosShape.get(i).y2, (int) (TriangulosShape.get(i).x1 + j * (TriangulosShape.get(i).x3 - TriangulosShape.get(i).x1) / ResolucaoTriangulos), (int) (TriangulosShape.get(i).y1 + j * (TriangulosShape.get(i).y3 - TriangulosShape.get(i).y1) / ResolucaoTriangulos));
+
+                    g.drawLine((int) TriangulosShape.get(i).x3, (int) TriangulosShape.get(i).y3, (int) (TriangulosShape.get(i).x2 + j * (TriangulosShape.get(i).x1 - TriangulosShape.get(i).x2) / ResolucaoTriangulos), (int) (TriangulosShape.get(i).y2 + j * (TriangulosShape.get(i).y1 - TriangulosShape.get(i).y2) / ResolucaoTriangulos));
+                    }
+                }
+            else
+                g.fillPolygon(new int[]{TriangulosShape.get(i).x1, TriangulosShape.get(i).x2, TriangulosShape.get(i).x3},new int[]{TriangulosShape.get(i).y1, TriangulosShape.get(i).y2, TriangulosShape.get(i).y3}, 3);
             }
 
         for (int i = 0; i < Textos.size(); i++)
@@ -716,10 +744,10 @@ public class AV3DNavigator extends JComponent
                         if (ContadorCorBackground < 15) ContadorCorBackground += 1;
 
                     if (keyCode == KeyEvent.VK_O)
-                        if (ContadorCorPoligonosShape > 0) ContadorCorPoligonosShape -= 1;
+                        if (ContadorCorTriangulosShape > 0) ContadorCorTriangulosShape -= 1;
 
                     if (keyCode == KeyEvent.VK_P)
-                        if (ContadorCorPoligonosShape < 15) ContadorCorPoligonosShape += 1;
+                        if (ContadorCorTriangulosShape < 15) ContadorCorTriangulosShape += 1;
 
                     if (keyCode == KeyEvent.VK_INSERT)
                         if (ContadorCorLegendas > 0) ContadorCorLegendas -= 1;
@@ -942,6 +970,23 @@ public class AV3DNavigator extends JComponent
                     }
                 }
 
+            if (FlagCoordRotHor == 0)
+                {
+                xRotacaoTeta = x + RaioTeta * Math.cos(Teta);
+                yRotacaoTeta = y - RaioTeta * Math.sin(Teta);
+                RotacaoTeta = Teta + Math.PI;
+                FlagCoordRotHor = 1;
+                }
+
+            if (FlagCoordRotVert == 0)
+                {
+                xRotacaoPhi = x + RaioPhi * Math.cos(Teta) * Math.cos(Phi);
+                yRotacaoPhi = y - RaioPhi * Math.sin(Teta) * Math.cos(Phi);
+                zRotacaoPhi = z - RaioPhi * Math.sin(Phi);
+                RotacaoPhi = Phi + Math.PI;
+                FlagCoordRotVert = 1;
+                }
+
             if (FlagMouseDownArea == 1)
                 {
                 if ((Math.abs(Teta) - DeslocamentoAngular > Double.MAX_VALUE - DeslocamentoAngular) || (Math.abs(Phi) - DeslocamentoAngular > Double.MAX_VALUE - DeslocamentoAngular))
@@ -1130,70 +1175,70 @@ public class AV3DNavigator extends JComponent
                         break;
                     }
 
-                switch (ContadorCorPoligonosShape)
+                switch (ContadorCorTriangulosShape)
                     {
                     case 15:
-                        CorPoligonosShape = new Color(192, 192, 192);
+                        CorTriangulosShape = new Color(192, 192, 192);
                         StringCores = StringCores + "192,192,192;";
                         break;
                     case 14:
-                        CorPoligonosShape = new Color(175, 255, 175);
+                        CorTriangulosShape = new Color(175, 255, 175);
                         StringCores = StringCores + "175,255,175;";
                         break;
                     case 13:
-                        CorPoligonosShape = new Color(128, 128, 255);
+                        CorTriangulosShape = new Color(128, 128, 255);
                         StringCores = StringCores + "128,128,255;";
                         break;
                     case 12:
-                        CorPoligonosShape = Color.YELLOW;
+                        CorTriangulosShape = Color.YELLOW;
                         StringCores = StringCores + "255,255,0;";
                         break;
                     case 11:
-                        CorPoligonosShape = Color.ORANGE;
+                        CorTriangulosShape = Color.ORANGE;
                         StringCores = StringCores + "255,200,0;";
                         break;
                     case 10:
-                        CorPoligonosShape = Color.PINK;
+                        CorTriangulosShape = Color.PINK;
                         StringCores = StringCores + "255,175,175;";
                         break;
                     case 9:
-                        CorPoligonosShape = Color.CYAN;
+                        CorTriangulosShape = Color.CYAN;
                         StringCores = StringCores + "0,255,255;";
                         break;
                     case 8:
-                        CorPoligonosShape = Color.BLUE;
+                        CorTriangulosShape = Color.BLUE;
                         StringCores = StringCores + "0,0,255;";
                         break;
                     case 7:
-                        CorPoligonosShape = Color.MAGENTA;
+                        CorTriangulosShape = Color.MAGENTA;
                         StringCores = StringCores + "255,0,255;";
                         break;
                     case 6:
-                        CorPoligonosShape = new Color(128, 175, 175);
+                        CorTriangulosShape = new Color(128, 175, 175);
                         StringCores = StringCores + "128,175,175;";
                         break;
                     case 5:
-                        CorPoligonosShape = Color.GRAY;
+                        CorTriangulosShape = Color.GRAY;
                         StringCores = StringCores + "128,128,128;";
                         break;
                     case 4:
-                        CorPoligonosShape = Color.RED;
+                        CorTriangulosShape = Color.RED;
                         StringCores = StringCores + "255,0,0;";
                         break;
                     case 3:
-                        CorPoligonosShape = new Color(64, 64, 64);
+                        CorTriangulosShape = new Color(64, 64, 64);
                         StringCores = StringCores + "64,64,64;";
                         break;
                     case 2:
-                        CorPoligonosShape = new Color(64, 64, 128);
+                        CorTriangulosShape = new Color(64, 64, 128);
                         StringCores = StringCores + "64,64,128;";
                         break;
                     case 1:
-                        CorPoligonosShape = Color.BLACK;
+                        CorTriangulosShape = Color.BLACK;
                         StringCores = StringCores + "0,0,0;";
                         break;
                     case 0:
-                        CorPoligonosShape = Color.WHITE;
+                        CorTriangulosShape = Color.WHITE;
                         StringCores = StringCores + "255,255,255;";
                         break;
                     }
@@ -1288,23 +1333,6 @@ public class AV3DNavigator extends JComponent
                 FlagAlteracaoStatus = 0;
                 }
 
-            if (FlagCoordRotHor == 0)
-                {
-                xRotacaoTeta = x + RaioTeta * Math.cos(Teta);
-                yRotacaoTeta = y - RaioTeta * Math.sin(Teta);
-                RotacaoTeta = Teta + Math.PI;
-                FlagCoordRotHor = 1;
-                }
-
-            if (FlagCoordRotVert == 0)
-                {
-                xRotacaoPhi = x + RaioPhi * Math.cos(Teta) * Math.cos(Phi);
-                yRotacaoPhi = y - RaioPhi * Math.sin(Teta) * Math.cos(Phi);
-                zRotacaoPhi = z - RaioPhi * Math.sin(Phi);
-                RotacaoPhi = Phi + Math.PI;
-                FlagCoordRotVert = 1;
-                }
-
             try {Thread.sleep(10);} catch(InterruptedException e) {}
             }
 
@@ -1317,14 +1345,14 @@ public class AV3DNavigator extends JComponent
         String [] EspacoStr2 = Espaco.split("@");
 
         String [] EspacoLinhas = {};
-        String [] EspacoPoligonosShapePreenchidos = {};
+        String [] EspacoTriangulosShapePreenchidos = {};
         String [] EspacoLegendas = {};
 
         if (EspacoStr2.length >= 1)
             EspacoLinhas = EspacoStr2[0].split("\\|");
 
         if (EspacoStr2.length >= 2)
-            EspacoPoligonosShapePreenchidos = EspacoStr2[1].split("\\|");
+            EspacoTriangulosShapePreenchidos = EspacoStr2[1].split("\\|");
 
         if (EspacoStr2.length >= 3)
             {
@@ -1337,8 +1365,6 @@ public class AV3DNavigator extends JComponent
             }
 
         Comp.clearLines();
-        Comp.clearPoligonosShape();
-        Comp.clearTextos();
 
         for (int i = 0; i < EspacoLinhas.length; i++)
             {
@@ -1384,12 +1410,14 @@ public class AV3DNavigator extends JComponent
 
                         if ((Math.acos(ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo)) < AnguloVisao + MargemAnguloVisao) && ((Math.acos(ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd)) < AnguloVisao + MargemAnguloVisao) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi + CorrecaoXF, xf + CorrecaoXF) < TamanhoPlanoX) && (Math.max(yi + CorrecaoYF, yf + CorrecaoYF) < TamanhoPlanoY)))
                             {
+                            TotalLinhas++;
+
                             if (Campos.length == 1)
-                                Comp.addLine(xi, yi, xf, yf, CorLinhas);
+                                Comp.addLine(xi, yi, xf, yf, CorLinhas, i + 1);
                             else
                                 {
                                 String [] RGB = Campos[1].split(",");
-                                Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])));
+                                Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), i + 1);
                                 StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                                 }
                             }
@@ -1433,12 +1461,14 @@ public class AV3DNavigator extends JComponent
 
                         if ((ApfloatMath.acos(ProdutoEscalaroa.divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.acos(ProdutoEscalarda.divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.min(new Apfloat(xi), ApfloatMath.min(new Apfloat(yi), ApfloatMath.min(new Apfloat(xf), new Apfloat(yf)))).doubleValue() > 0) && (ApfloatMath.max(new Apfloat(xi + CorrecaoXF), (new Apfloat(xf + CorrecaoXF))).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (ApfloatMath.max(new Apfloat(yi + CorrecaoYF), (new Apfloat(yf + CorrecaoYF))).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue()))
                             {
+                            TotalLinhas++;
+
                             if (Campos.length == 1)
-                                Comp.addLine(xi, yi, xf, yf, CorLinhas);
+                                Comp.addLine(xi, yi, xf, yf, CorLinhas, i + 1);
                             else
                                 {
                                 String [] RGB = Campos[1].split(",");
-                                Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])));
+                                Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), i + 1);
                                 StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                                 }
                             }
@@ -1448,19 +1478,24 @@ public class AV3DNavigator extends JComponent
                 }
             }
 
-        for (int i = 0; i < EspacoPoligonosShapePreenchidos.length; i++)
+        Comp.clearTriangulosShape();
+
+        for (int i = 0; i < EspacoTriangulosShapePreenchidos.length; i++)
             {
-            if (! (EspacoPoligonosShapePreenchidos[i].equals("")))
+            if (! (EspacoTriangulosShapePreenchidos[i].equals("")))
                 {
-                Polygon Poligono = new Polygon();
-                String [] Campos = EspacoPoligonosShapePreenchidos[i].split("c");
+                String TriangulosString = "";
+                String [] Campos = EspacoTriangulosShapePreenchidos[i].split("c");
                 String [] Pontos = Campos[0].split(";");
 
                 int ContadorPontos = 0;
+                int ContadorTriangulosDesenhar = 0;
 
                 for (int j = 0; j < Pontos.length; j++)
                     {
                     String [] Coordenadas = Pontos[j].split(",");
+
+                    ContadorTriangulosDesenhar += Coordenadas.length;
 
                     if (ApfloatFlag == 0)
                         {
@@ -1484,7 +1519,7 @@ public class AV3DNavigator extends JComponent
                             if ((Math.acos(ProdutoEscalar / Math.sqrt(xp * xp + yp * yp + zp * zp)) < AnguloVisao + MargemAnguloVisao) && ((Math.min(xpp, ypp) > 0) && (xpp + CorrecaoXF < TamanhoPlanoX) && (ypp + CorrecaoYF < TamanhoPlanoY)))
                                 {
                                 ContadorPontos++;
-                                Poligono.addPoint(xpp, ypp);
+                                TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
                                 SomaXP += xp; SomaYP += yp; SomaZP += zp;
                                 }
                             }
@@ -1512,7 +1547,7 @@ public class AV3DNavigator extends JComponent
                             if ((ApfloatMath.acos(ProdutoEscalara.divide(ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(zpa))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && ((new Apfloat(xpp + CorrecaoXF)).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (new Apfloat(ypp + CorrecaoYF)).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue())
                                 {
                                 ContadorPontos++;
-                                Poligono.addPoint(xpp, ypp);
+                                TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
                                 SomaXP += xpa.doubleValue();
                                 SomaYP += ypa.doubleValue();
                                 SomaZP += zpa.doubleValue();
@@ -1521,37 +1556,67 @@ public class AV3DNavigator extends JComponent
                         catch (Exception e) {}
                         }
 
+                    TotalTriangulosShapePreenchidos += Pontos.length;
+
                     if (ContadorPontos == Pontos.length)
                             {
-                            if (Campos.length == 1)
-                                Comp.addPoligonosShape(Poligono, CorPoligonosShape, (x - SomaXP / Pontos.length) * (x - SomaXP / Pontos.length) + (y - SomaYP / Pontos.length) * (y - SomaYP / Pontos.length) + (z - SomaZP / Pontos.length) * (z - SomaZP / Pontos.length));
-                            else
-                                {
-                                String [] RGB = Campos[1].split(",");
-                                Comp.addPoligonosShape(Poligono, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), (x - SomaXP / Pontos.length) * (x - SomaXP / Pontos.length) + (y - SomaYP / Pontos.length) * (y - SomaYP / Pontos.length) + (z - SomaZP / Pontos.length) * (z - SomaZP / Pontos.length));
-                                StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
-                                }
+                            String [] PontosTriangulos = TriangulosString.split(";");
+                            String [] ParametroTriangulo = new String[3];
 
+                            int l = 0;
+
+                            do
+                                {
+                                int k = 0;
+
+                                do
+                                    {
+                                    ParametroTriangulo[k] = PontosTriangulos[(k + l) % Pontos.length];
+                                    } while (k++ < 2);
+
+                                String [] ParametroTrianguloCoordenadas1 = ParametroTriangulo[0].split(",");
+
+                                String [] ParametroTrianguloCoordenadas2 = ParametroTriangulo[1].split(",");
+
+                                String [] ParametroTrianguloCoordenadas3 = ParametroTriangulo[2].split(",");
+
+                                if (Campos.length == 1)
+                                    Comp.addTriangulosShape(Integer.parseInt(ParametroTrianguloCoordenadas1[0]), Integer.parseInt(ParametroTrianguloCoordenadas1[1]), Integer.parseInt(ParametroTrianguloCoordenadas2[0]), Integer.parseInt(ParametroTrianguloCoordenadas2[1]), Integer.parseInt(ParametroTrianguloCoordenadas3[0]), Integer.parseInt(ParametroTrianguloCoordenadas3[1]), CorTriangulosShape, (x - SomaXP / Pontos.length) * (x - SomaXP / Pontos.length) + (y - SomaYP / Pontos.length) * (y - SomaYP / Pontos.length) + (z - SomaZP / Pontos.length) * (z - SomaZP / Pontos.length), ContadorTriangulosDesenhar);
+                                else
+                                    {
+                                    String [] RGB = Campos[1].split(",");
+                                    Comp.addTriangulosShape(Integer.parseInt(ParametroTrianguloCoordenadas1[0]), Integer.parseInt(ParametroTrianguloCoordenadas1[1]), Integer.parseInt(ParametroTrianguloCoordenadas2[0]), Integer.parseInt(ParametroTrianguloCoordenadas2[1]), Integer.parseInt(ParametroTrianguloCoordenadas3[0]), Integer.parseInt(ParametroTrianguloCoordenadas3[1]), new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), (x - SomaXP / Pontos.length) * (x - SomaXP / Pontos.length) + (y - SomaYP / Pontos.length) * (y - SomaYP / Pontos.length) + (z - SomaZP / Pontos.length) * (z - SomaZP / Pontos.length), ContadorTriangulosDesenhar);
+                                    StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
+                                    }
+
+                                k = 0;
+                                } while (l++ < Pontos.length);
+
+                            TriangulosString = "";
                             SomaXP = 0; SomaYP = 0; SomaZP = 0;
                             }
                     }
                 }
             }
 
+        Comp.clearTextos();
+
         int yl = ShiftVerticalLegendas;
 
         for (int i = 0; i < EspacoLegendas.length; i++)
             {
+            TotalLegendas = EspacoLegendas.length;
+
             if (! (EspacoLegendas[i].equals("")))
                 {
                 String [] Campos = EspacoLegendas[i].split(";");
 
                 if (Campos.length == 1)
-                    Comp.addTexto(Campos[0], 5, yl, CorLegendas);
+                    Comp.addTexto(Campos[0], 5, yl, CorLegendas, i + 1);
                 else
                     {
                     String [] RGB = Campos[1].split(",");
-                    Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])));
+                    Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), i + 1);
                     StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                     }
 
@@ -1616,13 +1681,13 @@ public class AV3DNavigator extends JComponent
 
             if (EspacoStr2.length >= 2)
                 {
-                String [] EspacoPoligonosShapePreenchidos = EspacoStr2[1].split("\\|");
+                String [] EspacoTriangulosShapePreenchidos = EspacoStr2[1].split("\\|");
 
-                for (int i = 0; i < EspacoPoligonosShapePreenchidos.length; i++)
+                for (int i = 0; i < EspacoTriangulosShapePreenchidos.length; i++)
                     {
-                    if (! (EspacoPoligonosShapePreenchidos[i].equals("")))
+                    if (! (EspacoTriangulosShapePreenchidos[i].equals("")))
                         {
-                        String [] Campos = EspacoPoligonosShapePreenchidos[i].split("c");
+                        String [] Campos = EspacoTriangulosShapePreenchidos[i].split("c");
                         if (Campos.length > 2) return "Erro";
                         String [] Pontos = Campos[0].split(";");
 
