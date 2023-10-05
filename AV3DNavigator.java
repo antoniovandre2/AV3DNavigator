@@ -893,8 +893,8 @@ public class AV3DNavigator extends JComponent
                     ContadorFrames = FramesDeslocamento;
 */
 
-                    DesenharEspaco(Comp);
                     FlagAlteracaoStatus = 1;
+                    DesenharEspaco(Comp);
                     }
 
             Point reference = FrameEspaco.getLocationOnScreen();
