@@ -177,6 +177,7 @@ public class AV3DNavigator extends JComponent
     public int TotalLinhas = 0;
     public int TotalTriangulosShapePreenchidos = 0;
     public int TotalLegendas = 0;
+    public int FlagDesenhar = 1;
 
     public class GradientLabel extends JLabel
         {
@@ -325,7 +326,7 @@ public class AV3DNavigator extends JComponent
 
     protected void paintComponent(Graphics g)
         {
-        if (FlagAlteracaoStatus == 1)
+        if (FlagDesenhar == 1)
             {
             Collections.sort(TriangulosShape, new Comparator<TrianguloType>()
                 {
@@ -628,7 +629,9 @@ public class AV3DNavigator extends JComponent
 
                                 Espaco = "";
                                 }
-                            }                        
+                            else
+                                FlagAlteracaoStatus = 1;
+                            }
                         }
 
                     if (keyCode == KeyEvent.VK_F11)
@@ -893,8 +896,8 @@ public class AV3DNavigator extends JComponent
                     ContadorFrames = FramesDeslocamento;
 */
 
-                    FlagAlteracaoStatus = 1;
                     DesenharEspaco(Comp);
+                    FlagAlteracaoStatus = 1;
                     }
 
             Point reference = FrameEspaco.getLocationOnScreen();
@@ -1336,7 +1339,7 @@ public class AV3DNavigator extends JComponent
                 FlagAlteracaoStatus = 0;
                 }
 
-            try {Thread.sleep(20);} catch(InterruptedException e) {}
+            try {Thread.sleep(10);} catch(InterruptedException e) {}
             }
 
         FrameEspaco.dispose();
@@ -1345,6 +1348,8 @@ public class AV3DNavigator extends JComponent
 
     public void DesenharEspaco(AV3DNavigator Comp)
         {
+        FlagDesenhar = 1;
+
         String [] EspacoStr2 = Espaco.split("@");
 
         String [] EspacoLinhas = {};
@@ -1629,6 +1634,8 @@ public class AV3DNavigator extends JComponent
                 yl += ShiftVerticalLegendas;
                 }
             }
+
+        FlagDesenhar = 0;
         }
         
     public String LerEspaco(String ArquivoEspacoArg)
