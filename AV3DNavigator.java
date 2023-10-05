@@ -630,7 +630,7 @@ public class AV3DNavigator extends JComponent
                                 Espaco = "";
                                 }
                             else
-                                FlagAlteracaoStatus = 1;
+                                DesenharEspaco(Comp);
                             }
                         }
 
