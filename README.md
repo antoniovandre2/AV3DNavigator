@@ -67,6 +67,8 @@ DELETE para shift negativo no tamanho padrão das legendas. END para shift posit
 
 "-" para shift negativo no offset das legendas. "=" para shift positivo.
 
+Numpad "1" para shift negativo na resolução dos triângulos. Numpad "2" para shift positivo.
+
 PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.
 
 "0" para toggle alta precisão Apfloat (com custo computacional).

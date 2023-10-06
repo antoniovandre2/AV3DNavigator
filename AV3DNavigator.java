@@ -75,10 +75,10 @@ public class AV3DNavigator extends JComponent
 
     public int TamanhoPlanoX = 400; // Default: 400.
     public int TamanhoPlanoY = 400; // Default: 400.
-    public static int TamanhoEspacoLabelStatus = 360; // Default: 360.
+    public static int TamanhoEspacoLabelStatus = 375; // Default: 375.
     public static int TamanhoEspacoLabelURL = 20; // Default: 20.
     public static int TamanhoEspacoHelpX = 700; // Default: 700.
-    public static int TamanhoEspacoHelpY = 570; // Default: 570.
+    public static int TamanhoEspacoHelpY = 590; // Default: 590.
     public static int TamanhoEspacoInvalidoX = 300; // Default: 300.
     public static int TamanhoEspacoInvalidoY = 80; // Default: 80.
     public static int MinTamanhoPlanoX = 400; // Default: 400.
@@ -101,8 +101,6 @@ public class AV3DNavigator extends JComponent
     public static double DeslocamentoAngular = 0.1; // Default: 0.1.
     public static int FramesDeslocamento = 4; // Default: 4.
     public static int EspacamentoVerticalLegendas = 6; // Default: 6.
-    public static int ResolucaoZbuffer = 1000; // Default: 1000.
-    public static int ResolucaoTriangulos = 10; // Default: 10. Considerável custo computacional para valores elevados.
 
     // Variáveis de funcionamento interno.
 
@@ -117,6 +115,7 @@ public class AV3DNavigator extends JComponent
     public double AnguloVisao;
     public int ShiftVerticalLegendas = 25; // Default: valor inicial: 25;
     public int TamanhoFonteLegendas = 12; // Default: valor inicial: 12.
+    public int ResolucaoTriangulos = 10; // Default: valor inicial: 10. Considerável custo computacional para valores elevados.
     public int FlagCoordRotHor = 0;
     public int FlagCoordRotVert = 0;
     public int FlagTetaSuperior = 0;
@@ -294,7 +293,7 @@ public class AV3DNavigator extends JComponent
     public void addLine(int x1, int x2, int x3, int x4, Color color, int n)
         {
         Linhas.add(new LineType(x1, x2, x3, x4, color));
-        if (n == TotalLinhas) repaint();repaint();
+        if (n == TotalLinhas) repaint();
         }
 
     public void addTriangulosShape(int x1, int y1, int x2, int y2, int x3, int y3, Color color, double zbuffer, int n)
@@ -335,20 +334,13 @@ public class AV3DNavigator extends JComponent
             {
             Collections.sort(TriangulosShape, new Comparator<TrianguloType>()
                 {
-                @Override
                 public int compare(TrianguloType o1, TrianguloType o2)
-                    {
-                    int i = 0;
-
-                    while (true)
-                        {
-                        if ((Math.abs(o1.zbuffer * ResolucaoZbuffer / ++i) < Double.MAX_VALUE) && (Math.abs(o2.zbuffer * ResolucaoZbuffer / i) < Double.MAX_VALUE))
-                            return ((int) (o2.zbuffer * ResolucaoZbuffer / i) - (int) (o1.zbuffer * ResolucaoZbuffer / i));
-                        }
-                    }
+                    {return ((int) (o2.zbuffer) - (int) (o1.zbuffer));}
                 });
 
-            for (int i = 0; i < Linhas.size(); i++)
+            int TLinhas = Linhas.size();
+
+            for (int i = 0; i < TLinhas; i++)
                 {
                 LineType Linha = Linhas.get(i);
 
@@ -356,7 +348,20 @@ public class AV3DNavigator extends JComponent
                 g.drawLine(Linha.x1, Linha.y1, Linha.x2, Linha.y2);
                 }
 
-            for (int i = 0; i < TriangulosShape.size(); i++)
+            int TTextos = Textos.size();
+
+            for (int i = 0; i < TTextos; i++)
+                {
+                TextoType Texto = Textos.get(i);
+
+                g.setColor(Texto.color);
+                g.setFont(new Font("SansSerif", Font.PLAIN, Texto.tamanho));
+                g.drawString(Texto.texto, Texto.x, Texto.y);
+                }
+
+            int TTriangulosShape = TriangulosShape.size();
+
+            for (int i = 0; i < TTriangulosShape; i++)
                 {
                 TrianguloType Triangulo = TriangulosShape.get(i);
 
@@ -375,15 +380,6 @@ public class AV3DNavigator extends JComponent
                     }
                 else
                     g.fillPolygon(new int[]{Triangulo.x1, Triangulo.x2, Triangulo.x3},new int[]{Triangulo.y1, Triangulo.y2, Triangulo.y3}, 3);
-                }
-
-            for (int i = 0; i < Textos.size(); i++)
-                {
-                TextoType Texto = Textos.get(i);
-
-                g.setColor(Texto.color);
-                g.setFont(new Font("SansSerif", Font.PLAIN, Texto.tamanho));
-                g.drawString(Texto.texto, Texto.x, Texto.y);
                 }
             }
         }
@@ -431,7 +427,7 @@ public class AV3DNavigator extends JComponent
         AV3DNavigator Comp = new AV3DNavigator();
         Comp.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY));
         FrameEspaco.getContentPane().add(Comp, BorderLayout.PAGE_START);
-        GradientLabel LabelStatus = new GradientLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ".<br>z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ".<br>Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ".<br>Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + "<br>Aspect ratio = 1.0.<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br>fillPolygon = " + String.valueOf(TrianguloPoligono) + ".<br>SleepTime = " + String.valueOf(SleepTime) + ".<br><br>Aperte F1 para ajuda.</html>", Color.BLUE, Color.BLACK, Color.WHITE);
+        GradientLabel LabelStatus = new GradientLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ".<br>z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ".<br>Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ".<br>Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + "<br>Aspect ratio = 1.0.<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br>fillPolygon = " + String.valueOf(TrianguloPoligono) + ".<br>ResolucaoTriangulos = " + String.valueOf(ResolucaoTriangulos) + ".<br>SleepTime = " + String.valueOf(SleepTime) + ".<br><br>Aperte F1 para ajuda.</html>", Color.BLUE, Color.BLACK, Color.WHITE);
         LabelStatus.setBorder(new EmptyBorder(5, 5, 5, 5));
         LabelStatus.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelStatus));
         GradientLabel LabelURL = new GradientLabel("<html>" + URL + "</html>", Color.WHITE, Color.BLACK, Color.BLUE);
@@ -536,7 +532,7 @@ public class AV3DNavigator extends JComponent
                         {
                         JFrame FrameHelp = new JFrame("AV3DNavigator - Ajuda");
                         FrameHelp.setPreferredSize(new Dimension(TamanhoEspacoHelpX, TamanhoEspacoHelpY));
-                        GradientLabel LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>\"K\" para rotação vertical positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação vertical. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor padrão da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>INSERT para shift negativo na cor padrão das legendas. HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br>\"1\" para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br><br>ESC para sair.</html>", Color.BLUE, Color.BLACK, Color.WHITE);
+                        GradientLabel LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>\"K\" para rotação vertical positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação vertical. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor padrão da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>INSERT para shift negativo na cor padrão das legendas. HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br>\"1\" para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br><br>ESC para sair.</html>", Color.BLUE, Color.BLACK, Color.WHITE);
                         LabelHelp.setBorder(new EmptyBorder(5, 5, 5, 5));
                         LabelHelp.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelHelp));
                         FrameHelp.add(LabelHelp);
@@ -670,6 +666,11 @@ public class AV3DNavigator extends JComponent
 
                     if (keyCode == KeyEvent.VK_MINUS)
                         {if (ShiftVerticalLegendas > 20) ShiftVerticalLegendas--;}
+
+                    if (keyCode == KeyEvent.VK_NUMPAD2) {ResolucaoTriangulos++;}
+
+                    if (keyCode == KeyEvent.VK_NUMPAD1)
+                        {if (ResolucaoTriangulos > 2) ResolucaoTriangulos--;}
 
                     if (keyCode == KeyEvent.VK_PAGE_UP) {SleepTime++;}
 
@@ -1368,7 +1369,7 @@ public class AV3DNavigator extends JComponent
                     AnguloVisao = (new Apfloat(AnguloVisao)).divide(new Apfloat(FatorAnguloVisao)).doubleValue();
                     }
 
-                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ".<br>z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ".<br>Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ".<br>Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + "<br>Aspect ratio = " + String.valueOf((double) (TamanhoPlanoX) / ((double) (TamanhoPlanoY))) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br>fillPolygon = " + String.valueOf(TrianguloPoligono) + ".<br>SleepTime = " + String.valueOf(SleepTime) + ".<br><br>Aperte F1 para ajuda.</html>");
+                LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ".<br>z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ".<br>Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ".<br>Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + "<br>Aspect ratio = " + String.valueOf((double) (TamanhoPlanoX) / ((double) (TamanhoPlanoY))) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br>fillPolygon = " + String.valueOf(TrianguloPoligono) + ".<br>ResolucaoTriangulos = " + String.valueOf(ResolucaoTriangulos) + ".<br>SleepTime = " + String.valueOf(SleepTime) + ".<br><br>Aperte F1 para ajuda.</html>");
 
                 FrameEspaco.getContentPane().setBackground(CorBackground);
 
