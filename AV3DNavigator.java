@@ -78,7 +78,7 @@ public class AV3DNavigator extends JComponent
     public static int TamanhoEspacoLabelStatus = 360; // Default: 360.
     public static int TamanhoEspacoLabelURL = 20; // Default: 20.
     public static int TamanhoEspacoHelpX = 700; // Default: 700.
-    public static int TamanhoEspacoHelpY = 550; // Default: 550.
+    public static int TamanhoEspacoHelpY = 570; // Default: 570.
     public static int TamanhoEspacoInvalidoX = 300; // Default: 300.
     public static int TamanhoEspacoInvalidoY = 80; // Default: 80.
     public static int MinTamanhoPlanoX = 400; // Default: 400.
@@ -100,7 +100,6 @@ public class AV3DNavigator extends JComponent
     public static double DeslocamentoLinear = 1; // Default: 1.
     public static double DeslocamentoAngular = 0.1; // Default: 0.1.
     public static int FramesDeslocamento = 4; // Default: 4.
-    public static int ShiftVerticalLegendas = 25; // Default: 25;
     public static int EspacamentoVerticalLegendas = 6; // Default: 6.
     public static int ResolucaoZbuffer = 1000; // Default: 1000.
     public static int ResolucaoTriangulos = 10; // Default: 10. Considerável custo computacional para valores elevados.
@@ -116,6 +115,7 @@ public class AV3DNavigator extends JComponent
     public double RaioTeta = 0;
     public double RaioPhi = 0;
     public double AnguloVisao;
+    public int ShiftVerticalLegendas = 25; // Default: valor inicial: 25;
     public int TamanhoFonteLegendas = 12; // Default: valor inicial: 12.
     public int FlagCoordRotHor = 0;
     public int FlagCoordRotVert = 0;
@@ -536,7 +536,7 @@ public class AV3DNavigator extends JComponent
                         {
                         JFrame FrameHelp = new JFrame("AV3DNavigator - Ajuda");
                         FrameHelp.setPreferredSize(new Dimension(TamanhoEspacoHelpX, TamanhoEspacoHelpY));
-                        GradientLabel LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>\"K\" para rotação vertical positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação vertical. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor padrão da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>INSERT para shift negativo na cor padrão das legendas. HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br>\"1\" para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br><br>ESC para sair.</html>", Color.BLUE, Color.BLACK, Color.WHITE);
+                        GradientLabel LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>\"K\" para rotação vertical positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação vertical. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor padrão da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>INSERT para shift negativo na cor padrão das legendas. HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br>\"1\" para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br><br>ESC para sair.</html>", Color.BLUE, Color.BLACK, Color.WHITE);
                         LabelHelp.setBorder(new EmptyBorder(5, 5, 5, 5));
                         LabelHelp.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelHelp));
                         FrameHelp.add(LabelHelp);
@@ -643,7 +643,10 @@ public class AV3DNavigator extends JComponent
                                 Espaco = "";
                                 }
                             else
+                                {
+                                try {Thread.sleep(100);} catch(InterruptedException e) {}
                                 DesenharEspaco(Comp);
+                                }
                             }
                         }
 
@@ -662,6 +665,11 @@ public class AV3DNavigator extends JComponent
 
                     if (keyCode == KeyEvent.VK_DELETE)
                         {if (TamanhoFonteLegendas > 1) TamanhoFonteLegendas--;}
+
+                    if (keyCode == KeyEvent.VK_EQUALS) {ShiftVerticalLegendas++;}
+
+                    if (keyCode == KeyEvent.VK_MINUS)
+                        {if (ShiftVerticalLegendas > 20) ShiftVerticalLegendas--;}
 
                     if (keyCode == KeyEvent.VK_PAGE_UP) {SleepTime++;}
 
@@ -862,6 +870,9 @@ public class AV3DNavigator extends JComponent
 
         FrameEspaco.pack();
         FrameEspaco.setVisible(true);
+
+        try {Thread.sleep(100);} catch(InterruptedException e) {}
+        if (! (Espaco.equals("") || Espaco.equals("Erro"))) DesenharEspaco(Comp);
 
         while(Sair == 0)
             {

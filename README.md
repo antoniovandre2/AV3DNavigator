@@ -65,6 +65,8 @@ INSERT para shift negativo na cor padrão das legendas. HOME para shift positivo
 
 DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.
 
+"-" para shift negativo no offset das legendas. "=" para shift positivo.
+
 PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.
 
 "0" para toggle alta precisão Apfloat (com custo computacional).
