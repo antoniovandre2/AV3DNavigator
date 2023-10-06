@@ -5,9 +5,9 @@ Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador de um espaço do AV3DNavigator gráfico de barras tridimensional.
 
-Argumentos: Uma string composta dos item a exibir separados por barra vertical "|", cada item composto da descrição, do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",".
+Argumentos: Primeiramente a string título e, após barra vertical "|", uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",".
 
-Última atualização: 04-10-2023.
+Última atualização: 05-10-2023.
 */
 
 #include <stdio.h>
@@ -21,8 +21,8 @@ Argumentos: Uma string composta dos item a exibir separados por barra vertical "
 
 int main (int argc, char * argv[])
     {
-    int resolucao = 10;
     int shift = 0;
+    int inicio = 0;
     int argi = 0;
     int i;
     int j;
@@ -33,6 +33,7 @@ int main (int argc, char * argv[])
     char c;
     int flag = 0;
     char mainstring [MAXTAMANHOCAMPO];
+    char titulo [MAXTAMANHOCAMPO];
     char descricao [MAXITENS] [MAXTAMANHOCAMPO];
     char item [MAXITENS] [MAXTAMANHOCAMPO];
     char valor [MAXITENS] [MAXTAMANHOCAMPO];
@@ -40,6 +41,7 @@ int main (int argc, char * argv[])
     char verifstr [MAXTAMANHOCAMPO];
     double soma = 0;
     double valoresnumericos [MAXITENS];
+    int resolucao = 10;
     double largura = 1;
     double profundidade = 1;
     double espacamento = 0.5;
@@ -65,11 +67,21 @@ int main (int argc, char * argv[])
 
     do
         {
+        c = mainstring[inicio];
+        if ((c != '|') && (c != '\0')) {titulo[inicio++] = c;} else break;
+        } while (VERDADE);
+
+    titulo[inicio] = '\0';
+
+    shift = inicio;
+
+    do
+        {
         i = 0;
 
         do
             {
-            c = mainstring[shift++];
+            c = mainstring[shift++ + 1];
             if ((c != '|') && (c != '\0')) {item[argi][i++] = c;} else break;
             } while (VERDADE);
 
@@ -171,6 +183,8 @@ int main (int argc, char * argv[])
             }
 
     printf("@");
+
+    printf("%s|_____|", titulo);
 
     for (i = 0; i < argi; i++)
         printf("%s;%s|", descricao[i], rgb[i]);
