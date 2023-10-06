@@ -65,6 +65,8 @@ INSERT para shift negativo na cor padrão das legendas. HOME para shift positivo
 
 "0" para toggle alta precisão Apfloat (com custo computacional).
 
+"1" para toggle preenchimento dos polígonos com linhas ou fillPolygon.
+
 Setas para strafe. Mouse pode ser utilizado para movimentar.
 
 Barra de espaços para resetar as variáveis.
