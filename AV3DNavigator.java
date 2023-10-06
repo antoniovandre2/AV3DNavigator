@@ -1317,8 +1317,6 @@ public class AV3DNavigator extends JComponent
                         break;
                     }
 
-                FrameEspaco.getContentPane().setBackground(CorBackground);
-
                 if (ApfloatFlag == 0)
                     {
                     AnguloVisao = Math.atan(TamanhoPlanoX / 2 / DistanciaTela);
@@ -1334,12 +1332,16 @@ public class AV3DNavigator extends JComponent
 
                 LabelStatus.setText("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ".<br>z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ".<br>Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ".<br>Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao) + "<br>Aspect ratio = " + String.valueOf((double) (TamanhoPlanoX) / ((double) (TamanhoPlanoY))) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br><br>Aperte F1 para ajuda.</html>");
 
+                FrameEspaco.getContentPane().setBackground(CorBackground);
+
+                try {Thread.sleep(5);} catch(InterruptedException e) {}
+
                 DesenharEspaco(Comp);
 
                 FlagAlteracaoStatus = 0;
                 }
 
-            try {Thread.sleep(10);} catch(InterruptedException e) {}
+            try {Thread.sleep(5);} catch(InterruptedException e) {}
             }
 
         FrameEspaco.dispose();
@@ -1635,6 +1637,7 @@ public class AV3DNavigator extends JComponent
                 }
             }
 
+        try {Thread.sleep(5);} catch(InterruptedException e) {}
         FlagDesenhar = 0;
         }
         
