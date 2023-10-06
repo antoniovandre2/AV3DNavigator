@@ -1039,10 +1039,7 @@ public class AV3DNavigator extends JComponent
                 else
                     {
                     if (Math.abs(Teta) < TetaMax - DeslocamentoAngular)
-                        {
                         Teta = 2 * Math.PI * (MouseX - MouseXR) / TamanhoPlanoX + TetaR;
-                        Teta -= Math.signum(Math.cos(Teta)) * Math.signum(Math.cos(TetaR)) * DeslocamentoAngular;
-                        }
                     else
                         {
                         MouseXR = MouseX;
@@ -1058,10 +1055,7 @@ public class AV3DNavigator extends JComponent
                     Tetat = Teta;
 
                     if (Math.abs(Phi) < PhiMax - DeslocamentoAngular)
-                        {
                         Phi = Math.PI * (MouseY - MouseYR) / TamanhoPlanoY + PhiR;
-                        Phi -= Math.signum(PhiR) * DeslocamentoAngular;
-                        }
                     else
                         {
                         MouseYR = MouseY;
