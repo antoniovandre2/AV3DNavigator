@@ -476,9 +476,11 @@ public class AV3DNavigator extends JComponent
                 VariavelLimiteAtingido();
             else
                 {
-                x -= FatorMouseWheel * e.getWheelRotation() * Math.cos(Phit) * Math.cos(Teta);
-                y += FatorMouseWheel * e.getWheelRotation() * Math.cos(Phit) * Math.sin(Teta);
-                z += FatorMouseWheel * e.getWheelRotation() * Math.sin(Phit);
+                x -= FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phit) * Math.cos(Teta);
+
+                y += FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phit) * Math.sin(Teta);
+
+                z += FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.sin(Phit);
 
                 xt = x; yt = y; zt = z;
 
@@ -809,9 +811,9 @@ public class AV3DNavigator extends JComponent
                             VariavelLimiteAtingido();
                         else
                             {
-                            x += Math.cos(Phit) * Math.cos(Teta);
-                            y -= Math.cos(Phit) * Math.sin(Teta);
-                            z -= Math.sin(Phit);
+                            x += FlagMouseY * Math.cos(Phit) * Math.cos(Teta);
+                            y -= FlagMouseY * Math.cos(Phit) * Math.sin(Teta);
+                            z -= FlagMouseY * Math.sin(Phit);
                             }
 
                         ContadorFrames = 0;
@@ -825,9 +827,9 @@ public class AV3DNavigator extends JComponent
                             VariavelLimiteAtingido();
                         else
                             {
-                            x -= Math.cos(Phit) * Math.cos(Teta);
-                            y += Math.cos(Phit) * Math.sin(Teta);
-                            z += Math.sin(Phit);
+                            x -= FlagMouseY * Math.cos(Phit) * Math.cos(Teta);
+                            y += FlagMouseY * Math.cos(Phit) * Math.sin(Teta);
+                            z += FlagMouseY * Math.sin(Phit);
                             }
 
                         ContadorFrames = 0;
@@ -841,8 +843,8 @@ public class AV3DNavigator extends JComponent
                             VariavelLimiteAtingido();
                         else
                             {
-                            x += Math.cos(Teta * Math.cos(Teta) - Math.PI / 2);
-                            y -= Math.sin(Teta * Math.cos(Teta) - Math.PI / 2);
+                            x -= Math.cos(Teta - Math.PI / 2);
+                            y += Math.sin(Teta - Math.PI / 2);
                             }
 
                         ContadorFrames = 0;
@@ -856,8 +858,8 @@ public class AV3DNavigator extends JComponent
                             VariavelLimiteAtingido();
                         else
                             {
-                            x -= Math.cos(Teta * Math.cos(Teta) - Math.PI / 2);
-                            y += Math.sin(Teta * Math.cos(Teta) - Math.PI / 2);
+                            x += Math.cos(Teta - Math.PI / 2);
+                            y -= Math.sin(Teta - Math.PI / 2);
                             }
 
                         ContadorFrames = 0;
