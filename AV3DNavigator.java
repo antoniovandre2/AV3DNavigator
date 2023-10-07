@@ -1415,7 +1415,7 @@ public class AV3DNavigator extends JComponent
         Comp.clearLines();
         TotalLinhas = 0;
 
-        for (int i = 0; i < EspacoLinhas.length; i++)
+        labelLinhas: for (int i = 0; i < EspacoLinhas.length; i++)
             {
             if (! (EspacoLinhas[i].equals("")))
                 {
@@ -1459,7 +1459,9 @@ public class AV3DNavigator extends JComponent
 
                         if ((Math.acos(FlagMouseY * ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo)) < AnguloVisao + MargemAnguloVisao) && ((Math.acos(FlagMouseY * ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd)) < AnguloVisao + MargemAnguloVisao) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi + CorrecaoXF, xf + CorrecaoXF) < TamanhoPlanoX) && (Math.max(yi + CorrecaoYF, yf + CorrecaoYF) < TamanhoPlanoY)))
                             {
-                            TotalLinhas++;
+                            if (TotalLinhas + 1 < Integer.MAX_VALUE)
+                                TotalLinhas++;
+                            else break labelLinhas;
 
                             if (Campos.length == 1)
                                 Comp.addLine(xi, yi, xf, yf, CorLinhas, i + 1);
@@ -1510,7 +1512,9 @@ public class AV3DNavigator extends JComponent
 
                         if ((ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalaroa).divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalarda).divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.min(new Apfloat(xi), ApfloatMath.min(new Apfloat(yi), ApfloatMath.min(new Apfloat(xf), new Apfloat(yf)))).doubleValue() > 0) && (ApfloatMath.max(new Apfloat(xi + CorrecaoXF), (new Apfloat(xf + CorrecaoXF))).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (ApfloatMath.max(new Apfloat(yi + CorrecaoYF), (new Apfloat(yf + CorrecaoYF))).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue()))
                             {
-                            TotalLinhas++;
+                            if (TotalLinhas + 1 < Integer.MAX_VALUE)
+                                TotalLinhas++;
+                            else break labelLinhas;
 
                             if (Campos.length == 1)
                                 Comp.addLine(xi, yi, xf, yf, CorLinhas, i + 1);
@@ -1535,7 +1539,7 @@ public class AV3DNavigator extends JComponent
         Comp.clearTriangulosShape();
         TotalTriangulosShapePreenchidos = 0;
 
-        for (int i = 0; i < EspacoTriangulosShapePreenchidos.length; i++)
+        labelPoligonos: for (int i = 0; i < EspacoTriangulosShapePreenchidos.length; i++)
             {
             if (! (EspacoTriangulosShapePreenchidos[i].equals("")))
                 {
@@ -1611,7 +1615,9 @@ public class AV3DNavigator extends JComponent
                         catch (Exception e) {}
                         }
 
-                    TotalTriangulosShapePreenchidos += Pontos.length;
+                    if (TotalTriangulosShapePreenchidos + Pontos.length < Integer.MAX_VALUE)
+                        TotalTriangulosShapePreenchidos += Pontos.length;
+                    else break labelPoligonos;
 
                     if (ContadorPontos == Pontos.length)
                             {
@@ -1660,13 +1666,14 @@ public class AV3DNavigator extends JComponent
             }
 
         Comp.clearTextos();
-        TotalLegendas = 0;
 
         int yl = ShiftVerticalLegendas;
 
-        for (int i = 0; i < EspacoLegendas.length; i++)
+        labelLegendas: for (int i = 0; i < EspacoLegendas.length; i++)
             {
-            TotalLegendas = EspacoLegendas.length;
+            if (EspacoLegendas.length < Integer.MAX_VALUE)
+                TotalLegendas = EspacoLegendas.length;
+            else break labelLegendas;
 
             if (! (EspacoLegendas[i].equals("")))
                 {
