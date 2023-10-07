@@ -96,4 +96,14 @@ ____________________
 ![AV3D-n logo](https://antoniovandre2.github.io/AV3DNavigator/Powered%20by%20AV3D-n%20engine%20-%20200p.png)
 ____________________
 
+Ferramentas de terceiros utilizadas:
+
+Apfloat: http://www.apfloat.org/apfloat_java/
+____________________
+
+Não me responsabilizo por falhas do Java ou do Apfloat.
+
+I am not responsible for Java or Apfloat failures.
+____________________
+
 Sugestões ou comunicar erros: "a.vandre.g@gmail.com".
