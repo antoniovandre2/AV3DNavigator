@@ -843,8 +843,8 @@ public class AV3DNavigator extends JComponent
                             VariavelLimiteAtingido();
                         else
                             {
-                            x -= Math.cos(Teta - Math.PI / 2);
-                            y += Math.sin(Teta - Math.PI / 2);
+                            x -= FlagMouseY * Math.cos(Teta - Math.PI / 2);
+                            y += FlagMouseY * Math.sin(Teta - Math.PI / 2);
                             }
 
                         ContadorFrames = 0;
@@ -858,8 +858,8 @@ public class AV3DNavigator extends JComponent
                             VariavelLimiteAtingido();
                         else
                             {
-                            x += Math.cos(Teta - Math.PI / 2);
-                            y -= Math.sin(Teta - Math.PI / 2);
+                            x += FlagMouseY * Math.cos(Teta - Math.PI / 2);
+                            y -= FlagMouseY * Math.sin(Teta - Math.PI / 2);
                             }
 
                         ContadorFrames = 0;
