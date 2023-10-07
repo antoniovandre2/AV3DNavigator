@@ -98,7 +98,7 @@ ____________________
 
 Ferramentas de terceiros utilizadas:
 
-Apfloat: http://www.apfloat.org/apfloat_java/
+Apfloat: "http://www.apfloat.org/apfloat_java/"
 ____________________
 
 Não me responsabilizo por falhas do Java ou do Apfloat.
