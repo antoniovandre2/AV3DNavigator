@@ -803,15 +803,15 @@ public class AV3DNavigator extends JComponent
 
                     if (keyCode == KeyEvent.VK_UP)
                         {
-                        FlagCoordRotHor = 0; FlagCoordRotVert = 0;
+                        FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
 
                         if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(z) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
                             VariavelLimiteAtingido();
                         else
                             {
-                            x += FlagMouseY * Math.cos(Phit) * Math.cos(Teta);
-                            y -= FlagMouseY * Math.cos(Phit) * Math.sin(Teta);
-                            z -= FlagMouseY * Math.sin(Phit);
+                            x += Math.cos(Phit) * Math.cos(Teta);
+                            y -= Math.cos(Phit) * Math.sin(Teta);
+                            z -= Math.sin(Phit);
                             }
 
                         ContadorFrames = 0;
@@ -819,15 +819,15 @@ public class AV3DNavigator extends JComponent
 
                     if (keyCode == KeyEvent.VK_DOWN)
                         {
-                        FlagCoordRotHor = 0; FlagCoordRotVert = 0;
+                        FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
 
                         if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(z) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
                             VariavelLimiteAtingido();
                         else
                             {
-                            x -= FlagMouseY * Math.cos(Phit) * Math.cos(Teta);
-                            y += FlagMouseY * Math.cos(Phit) * Math.sin(Teta);
-                            z += FlagMouseY * Math.sin(Phit);
+                            x -= Math.cos(Phit) * Math.cos(Teta);
+                            y += Math.cos(Phit) * Math.sin(Teta);
+                            z += Math.sin(Phit);
                             }
 
                         ContadorFrames = 0;
@@ -835,14 +835,14 @@ public class AV3DNavigator extends JComponent
 
                     if (keyCode == KeyEvent.VK_LEFT)
                         {
-                        FlagCoordRotHor = 0; FlagCoordRotVert = 0;
+                        FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
 
                         if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
                             VariavelLimiteAtingido();
                         else
                             {
-                            x -= FlagMouseY * Math.cos(Teta - Math.PI / 2);
-                            y += FlagMouseY * Math.sin(Teta - Math.PI / 2);
+                            x -= Math.cos(Teta - Math.PI / 2);
+                            y += Math.sin(Teta - Math.PI / 2);
                             }
 
                         ContadorFrames = 0;
@@ -850,14 +850,14 @@ public class AV3DNavigator extends JComponent
 
                     if (keyCode == KeyEvent.VK_RIGHT)
                         {
-                        FlagCoordRotHor = 0; FlagCoordRotVert = 0;
+                        FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
 
                         if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
                             VariavelLimiteAtingido();
                         else
                             {
-                            x += FlagMouseY * Math.cos(Teta - Math.PI / 2);
-                            y -= FlagMouseY * Math.sin(Teta - Math.PI / 2);
+                            x += Math.cos(Teta - Math.PI / 2);
+                            y -= Math.sin(Teta - Math.PI / 2);
                             }
 
                         ContadorFrames = 0;
