@@ -466,7 +466,7 @@ public class AV3DNavigator extends JComponent
             public void mouseClicked(MouseEvent MouseEvento) {}
             public void mouseEntered(MouseEvent MouseEvento) {}
             public void mouseExited(MouseEvent MouseEvento) {}
-            public void mouseReleased(MouseEvent MouseEvento) {MouseDown = 0; FlagMouseDownArea = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0;}
+            public void mouseReleased(MouseEvent MouseEvento) {MouseDown = 0; FlagMouseDownArea = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; Phi = Phit;}
             public void mouseDragged(MouseEvent MouseEvento) {}
             public void mouseMoved(MouseEvent MouseEvento) {}
             });
@@ -526,8 +526,6 @@ public class AV3DNavigator extends JComponent
                         FlagMouseY = 1;
                         FatorAnguloVisao = 1;
                         DistanciaTela = 2;
-
-                        ContadorFrames = FramesDeslocamento;
                         }
 
                     if (keyCode == KeyEvent.VK_F1)
