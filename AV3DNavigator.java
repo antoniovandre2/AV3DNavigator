@@ -1413,6 +1413,7 @@ public class AV3DNavigator extends JComponent
             }
 
         Comp.clearLines();
+        TotalLinhas = 0;
 
         for (int i = 0; i < EspacoLinhas.length; i++)
             {
@@ -1532,6 +1533,7 @@ public class AV3DNavigator extends JComponent
             }
 
         Comp.clearTriangulosShape();
+        TotalTriangulosShapePreenchidos = 0;
 
         for (int i = 0; i < EspacoTriangulosShapePreenchidos.length; i++)
             {
@@ -1658,6 +1660,7 @@ public class AV3DNavigator extends JComponent
             }
 
         Comp.clearTextos();
+        TotalLegendas = 0;
 
         int yl = ShiftVerticalLegendas;
 
