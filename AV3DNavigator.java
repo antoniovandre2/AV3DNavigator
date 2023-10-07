@@ -466,7 +466,7 @@ public class AV3DNavigator extends JComponent
             public void mouseClicked(MouseEvent MouseEvento) {}
             public void mouseEntered(MouseEvent MouseEvento) {}
             public void mouseExited(MouseEvent MouseEvento) {}
-            public void mouseReleased(MouseEvent MouseEvento) {MouseDown = 0; FlagMouseDownArea = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; Phi = Phit;}
+            public void mouseReleased(MouseEvent MouseEvento) {ContadorFrames = FramesDeslocamento; MouseDown = 0; FlagMouseDownArea = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0;}
             public void mouseDragged(MouseEvent MouseEvento) {}
             public void mouseMoved(MouseEvent MouseEvento) {}
             });
@@ -496,8 +496,6 @@ public class AV3DNavigator extends JComponent
                 if (ContadorFrames == FramesDeslocamento)
                     {
                     int keyCode = ke.getKeyCode();
-
-                    ContadorFrames = FramesDeslocamento - 1;
 
                     if (keyCode == KeyEvent.VK_ESCAPE)
                         Sair = 1;
@@ -746,16 +744,16 @@ public class AV3DNavigator extends JComponent
                         }
 
                     if (keyCode == KeyEvent.VK_L)
-                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioTeta - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {RaioTeta += DeslocamentoLinear; ContadorFrames = FramesDeslocamento;} else VariavelLimiteAtingido();}
+                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioTeta - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {RaioTeta += DeslocamentoLinear;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_PERIOD)
-                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioTeta > DeslocamentoLinear) {RaioTeta -= DeslocamentoLinear; ContadorFrames = FramesDeslocamento;} else VariavelLimiteAtingido();}
+                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioTeta > DeslocamentoLinear) {RaioTeta -= DeslocamentoLinear;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_OPEN_BRACKET)
-                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioPhi - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {RaioPhi += DeslocamentoLinear; ContadorFrames = FramesDeslocamento;} else VariavelLimiteAtingido();}
+                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioPhi - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {RaioPhi += DeslocamentoLinear;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_CLOSE_BRACKET)
-                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioPhi > DeslocamentoLinear) {RaioPhi -= DeslocamentoLinear; ContadorFrames = FramesDeslocamento;} else VariavelLimiteAtingido();}
+                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioPhi > DeslocamentoLinear) {RaioPhi -= DeslocamentoLinear;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_Q)
                         {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (DistanciaTela > 1) DistanciaTela -= 1;}
