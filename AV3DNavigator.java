@@ -1635,7 +1635,9 @@ public class AV3DNavigator extends JComponent
 
                             do
                                 {
-                                int k = 0;
+                                ParametroTriangulo[0] = PontosTriangulos[l % Pontos.length];
+
+                                int k = 1;
 
                                 do
                                     {
