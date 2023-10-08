@@ -49,8 +49,12 @@ import java.util.LinkedList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.NoSuchElementException;
+import java.util.ConcurrentModificationException;
 
 import java.lang.Math;
+import java.lang.NullPointerException;
+import java.lang.ArrayIndexOutOfBoundsException;
 
 import javax.imageio.ImageIO;
 
@@ -181,6 +185,8 @@ public class AV3DNavigator extends JComponent
     public int TotalLegendas = 0;
     public int FlagDesenhar = 1;
     public double FlagMouseY = 1;
+    public int TEspaco;
+    public int Tpaint;
 
     public class GradientLabel extends JLabel
         {
@@ -332,57 +338,58 @@ public class AV3DNavigator extends JComponent
     protected void paintComponent(Graphics g)
         {
         if (FlagDesenhar == 1)
-            {
-            Collections.sort(TriangulosShape, new Comparator<TrianguloType>()
+            try
                 {
-                public int compare(TrianguloType o1, TrianguloType o2)
-                    {return ((int) (o2.zbuffer) - (int) (o1.zbuffer));}
-                });
-
-            int TLinhas = Linhas.size();
-
-            for (int i = 0; i < TLinhas; i++)
-                {
-                LineType Linha = Linhas.get(i);
-
-                g.setColor(Linha.color);
-                g.drawLine(Linha.x1, Linha.y1, Linha.x2, Linha.y2);
-                }
-
-            int TTextos = Textos.size();
-
-            for (int i = 0; i < TTextos; i++)
-                {
-                TextoType Texto = Textos.get(i);
-
-                g.setColor(Texto.color);
-                g.setFont(new Font("SansSerif", Font.PLAIN, Texto.tamanho));
-                g.drawString(Texto.texto, Texto.x, Texto.y);
-                }
-
-            int TTriangulosShape = TriangulosShape.size();
-
-            for (int i = 0; i < TTriangulosShape; i++)
-                {
-                TrianguloType Triangulo = TriangulosShape.get(i);
-
-                g.setColor(Triangulo.color);
-
-                if (TrianguloPoligono == 0)
+                Collections.sort(TriangulosShape, new Comparator<TrianguloType>()
                     {
-                    for (int j = 0; j < ResolucaoTriangulos; j++)
-                        {
-                        g.drawLine((int) Triangulo.x1, (int) Triangulo.y1, (int) (Triangulo.x2 + j * (Triangulo.x3 - Triangulo.x2) / ResolucaoTriangulos), (int) (Triangulo.y2 + j * (Triangulo.y3 - Triangulo.y2) / ResolucaoTriangulos));
+                    public int compare(TrianguloType o1, TrianguloType o2)
+                        {return ((int) (o2.zbuffer) - (int) (o1.zbuffer));}
+                    });
 
-                        g.drawLine((int) Triangulo.x2, (int) Triangulo.y2, (int) (Triangulo.x1 + j * (Triangulo.x3 - Triangulo.x1) / ResolucaoTriangulos), (int) (Triangulo.y1 + j * (Triangulo.y3 - Triangulo.y1) / ResolucaoTriangulos));
+                Tpaint = Linhas.size();
 
-                        g.drawLine((int) Triangulo.x3, (int) Triangulo.y3, (int) (Triangulo.x2 + j * (Triangulo.x1 - Triangulo.x2) / ResolucaoTriangulos), (int) (Triangulo.y2 + j * (Triangulo.y1 - Triangulo.y2) / ResolucaoTriangulos));
-                        }
+                for (int i = 0; i < Tpaint; i++)
+                    {
+                    LineType Linha = Linhas.get(i);
+
+                    g.setColor(Linha.color);
+                    g.drawLine(Linha.x1, Linha.y1, Linha.x2, Linha.y2);
                     }
-                else
-                    g.fillPolygon(new int[]{Triangulo.x1, Triangulo.x2, Triangulo.x3},new int[]{Triangulo.y1, Triangulo.y2, Triangulo.y3}, 3);
-                }
-            }
+
+                Tpaint = Textos.size();
+
+                for (int i = 0; i < Tpaint; i++)
+                    {
+                    TextoType Texto = Textos.get(i);
+
+                    g.setColor(Texto.color);
+                    g.setFont(new Font("SansSerif", Font.PLAIN, Texto.tamanho));
+                    g.drawString(Texto.texto, Texto.x, Texto.y);
+                    }
+
+                Tpaint = TriangulosShape.size();
+
+                for (int i = 0; i < Tpaint; i++)
+                    {
+                    TrianguloType Triangulo = TriangulosShape.get(i);
+
+                    g.setColor(Triangulo.color);
+
+                    if (TrianguloPoligono == 0)
+                        {
+                        for (int j = 0; j < ResolucaoTriangulos; j++)
+                            {
+                            g.drawLine((int) Triangulo.x1, (int) Triangulo.y1, (int) (Triangulo.x2 + j * (Triangulo.x3 - Triangulo.x2) / ResolucaoTriangulos), (int) (Triangulo.y2 + j * (Triangulo.y3 - Triangulo.y2) / ResolucaoTriangulos));
+
+                            g.drawLine((int) Triangulo.x2, (int) Triangulo.y2, (int) (Triangulo.x1 + j * (Triangulo.x3 - Triangulo.x1) / ResolucaoTriangulos), (int) (Triangulo.y1 + j * (Triangulo.y3 - Triangulo.y1) / ResolucaoTriangulos));
+
+                            g.drawLine((int) Triangulo.x3, (int) Triangulo.y3, (int) (Triangulo.x2 + j * (Triangulo.x1 - Triangulo.x2) / ResolucaoTriangulos), (int) (Triangulo.y2 + j * (Triangulo.y1 - Triangulo.y2) / ResolucaoTriangulos));
+                            }
+                        }
+                    else
+                        g.fillPolygon(new int[]{Triangulo.x1, Triangulo.x2, Triangulo.x3},new int[]{Triangulo.y1, Triangulo.y2, Triangulo.y3}, 3);
+                    }
+                } catch (NoSuchElementException | ConcurrentModificationException | NullPointerException | ArrayIndexOutOfBoundsException e) {}
         }
 
     public static void main (String[] args) {AV3DNavigator mainc = new AV3DNavigator(); if (args.length != 0) mainc.mainrun(args[0]); else mainc.mainrun("");}
@@ -1411,7 +1418,9 @@ public class AV3DNavigator extends JComponent
         Comp.clearLines();
         TotalLinhas = 0;
 
-        labelLinhas: for (int i = 0; i < EspacoLinhas.length; i++)
+        TEspaco = EspacoLinhas.length;
+
+        labelLinhas: for (int i = 0; i < TEspaco; i++)
             {
             if (! (EspacoLinhas[i].equals("")))
                 {
@@ -1535,7 +1544,9 @@ public class AV3DNavigator extends JComponent
         Comp.clearTriangulosShape();
         TotalTriangulosShapePreenchidos = 0;
 
-        labelPoligonos: for (int i = 0; i < EspacoTriangulosShapePreenchidos.length; i++)
+        TEspaco = EspacoTriangulosShapePreenchidos.length;
+
+        labelPoligonos: for (int i = 0; i < TEspaco; i++)
             {
             if (! (EspacoTriangulosShapePreenchidos[i].equals("")))
                 {
@@ -1665,7 +1676,9 @@ public class AV3DNavigator extends JComponent
 
         int yl = ShiftVerticalLegendas;
 
-        labelLegendas: for (int i = 0; i < EspacoLegendas.length; i++)
+        TEspaco = EspacoLegendas.length;
+
+        labelLegendas: for (int i = 0; i < TEspaco; i++)
             {
             if (EspacoLegendas.length < Integer.MAX_VALUE)
                 TotalLegendas = EspacoLegendas.length;
@@ -1736,7 +1749,9 @@ public class AV3DNavigator extends JComponent
                 {
                 String [] EspacoLinhas = EspacoStr2[0].split("\\|");
 
-                for (int i = 0; i < EspacoLinhas.length; i++)
+                TEspaco = EspacoLinhas.length;
+
+                for (int i = 0; i < TEspaco; i++)
                     {
                     if (! (EspacoLinhas[i].equals("")))
                         {
@@ -1782,7 +1797,9 @@ public class AV3DNavigator extends JComponent
                 {
                 String [] EspacoTriangulosShapePreenchidos = EspacoStr2[1].split("\\|");
 
-                for (int i = 0; i < EspacoTriangulosShapePreenchidos.length; i++)
+                TEspaco = EspacoTriangulosShapePreenchidos.length;
+
+                for (int i = 0; i < TEspaco; i++)
                     {
                     if (! (EspacoTriangulosShapePreenchidos[i].equals("")))
                         {
@@ -1830,7 +1847,9 @@ public class AV3DNavigator extends JComponent
 
                 String [] EspacoLegendas = UniaoStringLegendas.split("\\|");
 
-                for (int i = 0; i < EspacoLegendas.length; i++)
+                TEspaco = EspacoLegendas.length;
+
+                for (int i = 0; i < TEspaco; i++)
                     {
                     if (! (EspacoLegendas[i].equals("")))
                         {
