@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 07-10-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 09-10-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -54,7 +54,7 @@ import java.util.ConcurrentModificationException;
 
 import java.lang.Math;
 import java.lang.NullPointerException;
-import java.lang.ArrayIndexOutOfBoundsException;
+import java.lang.IndexOutOfBoundsException;
 
 import javax.imageio.ImageIO;
 
@@ -116,7 +116,16 @@ public class AV3DNavigator extends JComponent
     public int CorrecaoYF = 0;
     public double RaioTeta = 0;
     public double RaioPhi = 0;
+    double ProdutoEscalar;
+    double ProdutoEscalaro;
+    double ProdutoEscalard;
     public double AnguloVisao;
+    public int xi;
+    public int yi;
+    public int xf;
+    public int yf;
+    public int xpp;
+    public int ypp;
     public int ShiftVerticalLegendas = 25; // Default: valor inicial: 25;
     public int TamanhoFonteLegendas = 12; // Default: valor inicial: 12.
     public int ResolucaoTriangulos = 10; // Default: valor inicial: 10. Considerável custo computacional para valores elevados.
@@ -134,6 +143,10 @@ public class AV3DNavigator extends JComponent
     public int MaxTentativasCores = Integer.MAX_VALUE;
     public int SleepTime = 7; // Default: valor inicial: 7.
 
+    public int i;
+    public int j;
+    public int k;
+    public int l;
     public double x = 0;
     public double y = 0;
     public double z = 0;
@@ -142,10 +155,10 @@ public class AV3DNavigator extends JComponent
     public double Rot = 0;
     public double RotacaoTeta = Math.PI + Teta;
     public double RotacaoPhi = Math.PI + Phi;
-    public double xRotacaoTeta = x + RaioTeta * Math.cos(Teta);
-    public double yRotacaoTeta = y + RaioTeta * Math.sin(Teta);
+    public double xRotacaoTeta = x + RaioTeta * Math.cos(Teta) * Math.cos(Phi);
+    public double yRotacaoTeta = y + RaioTeta * Math.sin(Teta) * Math.cos(Phi);
     public double xRotacaoPhi = x + RaioPhi * Math.cos(Teta) * Math.cos(Phi);
-    public double yRotacaoPhi = y + RaioPhi * Math.cos(Teta) * Math.cos(Phi);
+    public double yRotacaoPhi = y + RaioPhi * Math.sin(Teta) * Math.cos(Phi);
     public double zRotacaoPhi = z + RaioPhi * Math.sin(Phi);
     public double xt = x;
     public double yt = y;
@@ -348,7 +361,7 @@ public class AV3DNavigator extends JComponent
 
                 Tpaint = Linhas.size();
 
-                for (int i = 0; i < Tpaint; i++)
+                for (i = 0; i < Tpaint; i++)
                     {
                     LineType Linha = Linhas.get(i);
 
@@ -358,7 +371,7 @@ public class AV3DNavigator extends JComponent
 
                 Tpaint = Textos.size();
 
-                for (int i = 0; i < Tpaint; i++)
+                for (i = 0; i < Tpaint; i++)
                     {
                     TextoType Texto = Textos.get(i);
 
@@ -369,7 +382,7 @@ public class AV3DNavigator extends JComponent
 
                 Tpaint = TriangulosShape.size();
 
-                for (int i = 0; i < Tpaint; i++)
+                for (i = 0; i < Tpaint; i++)
                     {
                     TrianguloType Triangulo = TriangulosShape.get(i);
 
@@ -377,7 +390,7 @@ public class AV3DNavigator extends JComponent
 
                     if (TrianguloPoligono == 0)
                         {
-                        for (int j = 0; j < ResolucaoTriangulos; j++)
+                        for (j = 0; j < ResolucaoTriangulos; j++)
                             {
                             g.drawLine((int) Triangulo.x1, (int) Triangulo.y1, (int) (Triangulo.x2 + j * (Triangulo.x3 - Triangulo.x2) / ResolucaoTriangulos), (int) (Triangulo.y2 + j * (Triangulo.y3 - Triangulo.y2) / ResolucaoTriangulos));
 
@@ -389,7 +402,7 @@ public class AV3DNavigator extends JComponent
                     else
                         g.fillPolygon(new int[]{Triangulo.x1, Triangulo.x2, Triangulo.x3},new int[]{Triangulo.y1, Triangulo.y2, Triangulo.y3}, 3);
                     }
-                } catch (NoSuchElementException | ConcurrentModificationException | NullPointerException | ArrayIndexOutOfBoundsException e) {}
+                } catch (NoSuchElementException | ConcurrentModificationException | NullPointerException | IndexOutOfBoundsException e) {}
         }
 
     public static void main (String[] args) {AV3DNavigator mainc = new AV3DNavigator(); if (args.length != 0) mainc.mainrun(args[0]); else mainc.mainrun("");}
@@ -578,7 +591,7 @@ public class AV3DNavigator extends JComponent
                             int iPrintG = geradorPrint.nextInt(256);
                             int iPrintB = geradorPrint.nextInt(256);
 
-                            labelFor: for (int i = 0; i < CoresMatrix.length; i++)
+                            labelFor: for (i = 0; i < CoresMatrix.length; i++)
                                 {
                                 String [] RGB = CoresMatrix[i].split(",");
 
@@ -723,7 +736,7 @@ public class AV3DNavigator extends JComponent
                         FlagMouseY = 1; FlagCoordRotHor = 1; FlagCoordRotVert = 0;
                         RotacaoTeta += DeslocamentoAngular;
 
-                        if (Math.abs(Teta + Math.PI) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Teta + Math.PI) < TetaMax - DeslocamentoAngular) {Teta += DeslocamentoAngular; x = xRotacaoTeta + RaioTeta * Math.cos(RotacaoTeta); y = yRotacaoTeta - RaioTeta * Math.sin(RotacaoTeta); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaSuperior = 1;}} else VariavelLimiteAtingido();
+                        if (Math.abs(Teta + Math.PI) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Teta + Math.PI) < TetaMax - DeslocamentoAngular) {Teta += DeslocamentoAngular; x = xRotacaoTeta + RaioTeta * Math.cos(RotacaoTeta) * Math.cos(Phi); y = yRotacaoTeta - RaioTeta * Math.sin(RotacaoTeta) * Math.cos(Phi); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaSuperior = 1;}} else VariavelLimiteAtingido();
                         }
 
                     if (keyCode == KeyEvent.VK_M)
@@ -731,7 +744,7 @@ public class AV3DNavigator extends JComponent
                         FlagMouseY = 1; FlagCoordRotHor = 1; FlagCoordRotVert = 0;
                         RotacaoTeta -= DeslocamentoAngular;
 
-                        if (Math.abs(Teta + Math.PI) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Teta + Math.PI) < TetaMax - DeslocamentoAngular) {Teta -= DeslocamentoAngular; x = xRotacaoTeta + RaioTeta * Math.cos(RotacaoTeta); y = yRotacaoTeta - RaioTeta * Math.sin(RotacaoTeta); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}} else VariavelLimiteAtingido();
+                        if (Math.abs(Teta + Math.PI) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Teta + Math.PI) < TetaMax - DeslocamentoAngular) {Teta -= DeslocamentoAngular; x = xRotacaoTeta + RaioTeta * Math.cos(RotacaoTeta) * Math.cos(Phi); y = yRotacaoTeta - RaioTeta * Math.sin(RotacaoTeta) * Math.cos(Phi); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}} else VariavelLimiteAtingido();
                         }
 
                     if (keyCode == KeyEvent.VK_K)
@@ -1021,8 +1034,8 @@ public class AV3DNavigator extends JComponent
 
             if (FlagCoordRotHor == 0)
                 {
-                xRotacaoTeta = x + RaioTeta * Math.cos(Teta);
-                yRotacaoTeta = y - RaioTeta * Math.sin(Teta);
+                xRotacaoTeta = x + RaioTeta * Math.cos(Teta) * Math.cos(Phi);
+                yRotacaoTeta = y - RaioTeta * Math.sin(Teta) * Math.cos(Phi);
                 RotacaoTeta = Teta + Math.PI;
                 FlagCoordRotHor = 1;
                 }
@@ -1409,7 +1422,7 @@ public class AV3DNavigator extends JComponent
             {
             String UniaoStringLegendas = EspacoStr2[2];
 
-            for (int i = 3; i < EspacoStr2.length; i++)
+            for (i = 3; i < EspacoStr2.length; i++)
                 UniaoStringLegendas = UniaoStringLegendas + "@" + EspacoStr2[i];
 
             EspacoLegendas = UniaoStringLegendas.split("\\|");
@@ -1420,7 +1433,7 @@ public class AV3DNavigator extends JComponent
 
         TEspaco = EspacoLinhas.length;
 
-        labelLinhas: for (int i = 0; i < TEspaco; i++)
+        labelLinhas: for (i = 0; i < TEspaco; i++)
             {
             if (! (EspacoLinhas[i].equals("")))
                 {
@@ -1443,11 +1456,6 @@ public class AV3DNavigator extends JComponent
 
                     double zd = -Double.parseDouble(CoordenadasDest[2]) - zt;
 
-                    int xi;
-                    int yi;
-                    int xf;
-                    int yf;
-
                     try
                         {
                         xi = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * DistanciaTela * (Math.cos(Rott) * (xo * Math.sin(Tetat) + yo * Math.cos(Tetat)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)) - Math.sin(Rott) * (xo * Math.cos(Tetat) * Math.sin(Phit) - yo * Math.sin(Tetat) * Math.sin(Phit) + zo * Math.cos(Phit)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)))) - CorrecaoX;
@@ -1458,9 +1466,9 @@ public class AV3DNavigator extends JComponent
 
                         yf = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * DistanciaTela * (Math.sin(Rott) * (xd * Math.sin(Tetat) + yd * Math.cos(Tetat)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)) + Math.cos(Rott) * (xd * Math.cos(Tetat) * Math.sin(Phit) - yd * Math.sin(Tetat) * Math.sin(Phit) + zd * Math.cos(Phit)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)))) - CorrecaoY;
 
-                        double ProdutoEscalaro = xo * Math.cos(Tetat) * Math.cos(Phit) - yo * Math.sin(Tetat) * Math.cos(Phit) * FlagMouseY;
+                        ProdutoEscalaro = xo * Math.cos(Tetat) * Math.cos(Phit) - yo * Math.sin(Tetat) * Math.cos(Phit) * FlagMouseY;
 
-                        double ProdutoEscalard = xd * Math.cos(Tetat) * Math.cos(Phit) - yd * Math.sin(Tetat) * Math.cos(Phit) * FlagMouseY;
+                        ProdutoEscalard = xd * Math.cos(Tetat) * Math.cos(Phit) - yd * Math.sin(Tetat) * Math.cos(Phit) * FlagMouseY;
 
                         if ((Math.acos(FlagMouseY * ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo)) < AnguloVisao + MargemAnguloVisao) && ((Math.acos(FlagMouseY * ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd)) < AnguloVisao + MargemAnguloVisao) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi + CorrecaoXF, xf + CorrecaoXF) < TamanhoPlanoX) && (Math.max(yi + CorrecaoYF, yf + CorrecaoYF) < TamanhoPlanoY)))
                             {
@@ -1546,7 +1554,7 @@ public class AV3DNavigator extends JComponent
 
         TEspaco = EspacoTriangulosShapePreenchidos.length;
 
-        labelPoligonos: for (int i = 0; i < TEspaco; i++)
+        labelPoligonos: for (i = 0; i < TEspaco; i++)
             {
             if (! (EspacoTriangulosShapePreenchidos[i].equals("")))
                 {
@@ -1557,7 +1565,7 @@ public class AV3DNavigator extends JComponent
                 int ContadorPontos = 0;
                 int ContadorTriangulosDesenhar = 0;
 
-                for (int j = 0; j < Pontos.length; j++)
+                for (j = 0; j < Pontos.length; j++)
                     {
                     String [] Coordenadas = Pontos[j].split(",");
 
@@ -1571,16 +1579,13 @@ public class AV3DNavigator extends JComponent
 
                         double zp = -Double.parseDouble(Coordenadas[2]) - zt;
 
-                        int xpp;
-                        int ypp;
-
                         try
                             {
                             xpp = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * DistanciaTela * (Math.cos(Rott) * (xp * Math.sin(Tetat) + yp * Math.cos(Tetat)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)) - Math.sin(Rott) * (xp * Math.cos(Tetat) * Math.sin(Phit) - yp * Math.sin(Tetat) * Math.sin(Phit) + zp * Math.cos(Phit)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)))) - CorrecaoX;
 
                             ypp = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * DistanciaTela * (Math.sin(Rott) * (xp * Math.sin(Tetat) + yp * Math.cos(Tetat)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)) + Math.cos(Rott) * (xp * Math.cos(Tetat) * Math.sin(Phit) - yp * Math.sin(Tetat) * Math.sin(Phit) + zp * Math.cos(Phit)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)))) - CorrecaoY;
 
-                            double ProdutoEscalar = xp * Math.cos(Tetat) * Math.cos(Phit) - yp * Math.sin(Tetat) * Math.cos(Phit) * FlagMouseY;
+                            ProdutoEscalar = xp * Math.cos(Tetat) * Math.cos(Phit) - yp * Math.sin(Tetat) * Math.cos(Phit) * FlagMouseY;
 
                             if ((Math.acos(FlagMouseY * ProdutoEscalar / Math.sqrt(xp * xp + yp * yp + zp * zp)) < AnguloVisao + MargemAnguloVisao) && ((Math.min(xpp, ypp) > 0) && (xpp + CorrecaoXF < TamanhoPlanoX) && (ypp + CorrecaoYF < TamanhoPlanoY)))
                                 {
@@ -1598,9 +1603,6 @@ public class AV3DNavigator extends JComponent
                         Apfloat ypa = (new Apfloat(-Double.parseDouble(Coordenadas[1]))).add(new Apfloat(-yt));
 
                         Apfloat zpa = (new Apfloat(-Double.parseDouble(Coordenadas[2]))).add(new Apfloat(-zt));
-
-                        int xpp;
-                        int ypp;
 
                         try
                             {
@@ -1631,13 +1633,13 @@ public class AV3DNavigator extends JComponent
                             String [] PontosTriangulos = TriangulosString.split(";");
                             String [] ParametroTriangulo = new String[3];
 
-                            int l = 0;
+                            l = 0;
 
                             do
                                 {
                                 ParametroTriangulo[0] = PontosTriangulos[l % Pontos.length];
 
-                                int k = 1;
+                                k = 1;
 
                                 do
                                     {
@@ -1680,7 +1682,7 @@ public class AV3DNavigator extends JComponent
 
         TEspaco = EspacoLegendas.length;
 
-        labelLegendas: for (int i = 0; i < TEspaco; i++)
+        labelLegendas: for (i = 0; i < TEspaco; i++)
             {
             if (EspacoLegendas.length < Integer.MAX_VALUE)
                 TotalLegendas = EspacoLegendas.length;
@@ -1753,7 +1755,7 @@ public class AV3DNavigator extends JComponent
 
                 TEspaco = EspacoLinhas.length;
 
-                for (int i = 0; i < TEspaco; i++)
+                for (i = 0; i < TEspaco; i++)
                     {
                     if (! (EspacoLinhas[i].equals("")))
                         {
@@ -1764,13 +1766,13 @@ public class AV3DNavigator extends JComponent
 
                         if (Pontos.length != 2) return "Erro";
 
-                        for (int j = 0; j < Pontos.length; j++)
+                        for (j = 0; j < Pontos.length; j++)
                             {
                             String [] Coordenadas = Pontos[j].split(",");
 
                             if (Coordenadas.length != 3) return "Erro";
 
-                            for (int k = 0; k < Coordenadas.length; k++)
+                            for (k = 0; k < Coordenadas.length; k++)
                                 if (! AntonioVandre.NumeroReal(Coordenadas[k])) return "Erro";
                             }
 
@@ -1782,7 +1784,7 @@ public class AV3DNavigator extends JComponent
 
                                 if (RGB.length != 3) return "Erro";
 
-                                for (int k = 0; k < RGB.length; k++)
+                                for (k = 0; k < RGB.length; k++)
                                     {
                                     if (! AntonioVandre.NumeroInteiro(RGB[k])) return "Erro";
 
@@ -1801,7 +1803,7 @@ public class AV3DNavigator extends JComponent
 
                 TEspaco = EspacoTriangulosShapePreenchidos.length;
 
-                for (int i = 0; i < TEspaco; i++)
+                for (i = 0; i < TEspaco; i++)
                     {
                     if (! (EspacoTriangulosShapePreenchidos[i].equals("")))
                         {
@@ -1809,13 +1811,13 @@ public class AV3DNavigator extends JComponent
                         if (Campos.length > 2) return "Erro";
                         String [] Pontos = Campos[0].split(";");
 
-                        for (int j = 0; j < Pontos.length; j++)
+                        for (j = 0; j < Pontos.length; j++)
                             {
                             String [] Coordenadas = Pontos[j].split(",");
 
                             if (Coordenadas.length != 3) return "Erro";
 
-                            for (int k = 0; k < Coordenadas.length; k++)
+                            for (k = 0; k < Coordenadas.length; k++)
                                 if (! AntonioVandre.NumeroReal(Coordenadas[k])) return "Erro";
                             }
 
@@ -1827,7 +1829,7 @@ public class AV3DNavigator extends JComponent
 
                                 if (RGB.length != 3) return "Erro";
 
-                                for (int k = 0; k < RGB.length; k++)
+                                for (k = 0; k < RGB.length; k++)
                                     {
                                     if (! AntonioVandre.NumeroInteiro(RGB[k])) return "Erro";
 
@@ -1844,14 +1846,14 @@ public class AV3DNavigator extends JComponent
                 {
                 String UniaoStringLegendas = EspacoStr2[2];
 
-                for (int i = 3; i < EspacoStr2.length; i++)
+                for (i = 3; i < EspacoStr2.length; i++)
                     UniaoStringLegendas = UniaoStringLegendas + "@" + EspacoStr2[i];
 
                 String [] EspacoLegendas = UniaoStringLegendas.split("\\|");
 
                 TEspaco = EspacoLegendas.length;
 
-                for (int i = 0; i < TEspaco; i++)
+                for (i = 0; i < TEspaco; i++)
                     {
                     if (! (EspacoLegendas[i].equals("")))
                         {
@@ -1866,7 +1868,7 @@ public class AV3DNavigator extends JComponent
 
                                 if (RGB.length != 3) return "Erro";
 
-                                for (int k = 0; k < RGB.length; k++)
+                                for (k = 0; k < RGB.length; k++)
                                     {
                                     if (! AntonioVandre.NumeroInteiro(RGB[k])) return "Erro";
 
