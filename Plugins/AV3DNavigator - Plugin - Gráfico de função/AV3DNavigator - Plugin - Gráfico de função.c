@@ -5,9 +5,9 @@ Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador de um espaço do AV3DNavigator gráfico de função.
 
-Argumentos: Primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "x", o menor menor atribuído a "x", o maior menor atribuído a "x", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",".
+Argumentos: Primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "y", o menor menor atribuído a "y", o maior menor atribuído a "y", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",".
 
-Última atualização: 10-10-2023. Sem considerar alterações em variáveis globais.
+Última atualização: 11-10-2023. Sem considerar alterações em variáveis globais.
 */
 
 #include <stdio.h>
@@ -238,7 +238,7 @@ int main (int argc, char * argv[])
                     {
                     c = funcao[i][shift++];
 
-                    if (c != 'x')
+                    if (c != 'y')
                         {tempstr[k++] = c;}
                     else
                         {
@@ -289,7 +289,7 @@ int main (int argc, char * argv[])
                     {
                     c = funcao[i][shift++];
 
-                    if (c != 'x')
+                    if (c != 'y')
                         {tempstr[k++] = c;}
                     else
                         {
@@ -331,5 +331,5 @@ int main (int argc, char * argv[])
     printf("%s|_____|", titulo);
 
     for (i = 0; i < argi; i++)
-        printf("%s;%s|", funcao[i], rgb[i]);
+        printf("x = 0, z = %s;%s|", funcao[i], rgb[i]);
     }
