@@ -11,13 +11,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#define __USE_GNU
 #include <math.h>
 #include <float.h>
 
-#include "antoniovandre_constantes.c"
+#include "antoniovandre_constantes_windows.c"
 
-#define VERSION 20230227
+#define VERSION 20231010
 #define MENSAGEMNAOCOMPILADOR "Software não compilado em razão do compilador não ser compatível."
 #define TAMANHO_BUFFER_SMALL 75 // Para pequenos buffers.
 #define TAMANHO_BUFFER_WORD 8192 // Para strings pequenas.
@@ -41,13 +40,13 @@
 #define DELIMITADORSTRING2 ';' // Deve ser um char, diferente de DELIMITADORSTRING;
 #define DELIMITADORSTRING3 '/' // Mais uma opção de delimitador.
 #define CARACTEREFIMLINHA '\n' // Caractere de fim de linha.
-#define STRINGSAIDAERRO "Erro de saida de uma string."
-#define STRINGSAIDAERROOVER "Erro de saida de uma string por over."
+#define STRINGSAIDAERRO "Erro de saída de uma string."
+#define STRINGSAIDAERROOVER "Erro de saída de uma string por over."
 #define MENSAGEM_ERRO_OVER "Um dos números atingiu o limite máximo."
 #define TENTATIVASLOGICAS 4 // Podem ser necessárias mais de uma verificação lógica em alguns trechos.
 #define TOKENINICIOEVAL '('
 #define TOKENFIMEVAL ')'
-#define EPSILON 0.001 // Para funções de Cálculo Diferencial.
+#define EPSILON 0.0001 // Para funções de Cálculo Diferencial.
 #define VARIAVELDESUBSTITUICAO VARIAVELPADRAO // Deve ser uma letra não presente nos nomes das funções.
 #define VARIAVELDESUBSTITUICAO2 'y' // Deve ser uma letra não presente nos nomes das funções.
 #define NUMEROPARTICOESSOMARIEMANN 100 // Para Cálculo Integral.
@@ -63,22 +62,22 @@
 #define APROXIMACAO4 0.05 // Para verificação de aproximação numérica. Quarta opção.
 #define APROXIMACAO5 0.0005 // Para verificação de aproximação numérica. Quinta opção.
 #define APROXIMACAO6 0.005 // Para verificação de aproximação numérica. Sexta opção.
-#define MAXNUMERADORFRACOES 100000 // Para a conversão de números em frações. Útil para, dentre outras coisas, calcular potências de bases negativas.
+#define MAXNUMERADORFRACOES 1000000 // Para a conversão de números em frações. Útil para, dentre outras coisas, calcular potências de bases negativas.
 #define MINPRECISAO 8 // Afim de garantir retornos corretos de algumas funções.
 #define MAXPRECISAO 19 // Afim de evitar erros de saída.
 
 typedef double TIPONUMEROREAL;
 
-typedef struct {char token [TAMANHO_BUFFER_WORD]; TIPONUMEROREAL valor; char comentario [TAMANHO_BUFFER_PHRASE];} tokenfuncaoconstante; // Estrutura para funções e constantes.
+typedef struct {char * token; TIPONUMEROREAL valor; char * comentario;} tokenfuncaoconstante; // Estrutura para funções e constantes.
 
 typedef struct {TIPONUMEROREAL real; TIPONUMEROREAL img;} NUMEROCOMPLEXO; // Estrutura número complexo.
 
-#define ARQUIVO_MATHSOBRE "antoniovandre_sobre_windows.txt"
+#define ARQUIVO_MATHSOBRE "/cygdrive/f/AntonioVandrePedrosaFurtunatoGomes/C/Math/antoniovandre_sobre_windows.txt"
 
-#define ARQUIVO_MATH_ESTATISTICAS "antoniovandre_math_estatisticas_windows.txt"
-#define ESCREVER_ESTATISTICAS FALSIDADE
+#define ARQUIVO_MATH_ESTATISTICAS "/cygdrive/f/AntonioVandrePedrosaFurtunatoGomes/C/Math/antoniovandre_math_estatisticas_windows.txt"
+#define ESCREVER_ESTATISTICAS VERDADE
 
-#define ARQUIVO_PRECISAO_REAL "antoniovandre_precisao_real_windows.txt"
+#define ARQUIVO_PRECISAO_REAL "/cygdrive/f/AntonioVandrePedrosaFurtunatoGomes/C/Math/antoniovandre_precisao_real_windows.txt"
 
 // Definições internas.
 
@@ -91,7 +90,7 @@ typedef struct {TIPONUMEROREAL real; TIPONUMEROREAL img;} NUMEROCOMPLEXO; // Est
 #define GNUGT VERDADE
 
 #undef ESCREVER_ESTATISTICAS
-#define ESCREVER_ESTATISTICAS VERDADE
+#define ESCREVER_ESTATISTICAS FALSIDADE
 
 #define DECLARACAO_antoniovandre_precisao_real_buffer char * antoniovandre_precisao_real_buffer = (char *) malloc (TAMANHO_BUFFER_WORD);
 
@@ -100,6 +99,10 @@ typedef struct {TIPONUMEROREAL real; TIPONUMEROREAL img;} NUMEROCOMPLEXO; // Est
 #define DECLARACAO_buffer char * buffer = (char *) malloc (TAMANHO_BUFFER_PHRASE);
 
 #define DECLARACAO_funcoesconstantes tokenfuncaoconstante * funcoesconstantes = (tokenfuncaoconstante *) malloc (sizeof (tokenfuncaoconstante) * TAMANHO_BUFFER_SMALL);
+
+#define ALOCACAO_funcoesconstantestoken funcoesconstantes [i].token = (char *) malloc (TAMANHO_BUFFER_WORD);
+
+#define ALOCACAO_funcoesconstantescomentario funcoesconstantes [i].comentario = (char *) malloc (TAMANHO_BUFFER_PHRASE);
 
 #define DECLARACAO_antoniovandre_evalcelulafuncao_buffer char * buffer = malloc (TAMANHO_BUFFER_WORD);
 
@@ -161,6 +164,10 @@ typedef struct {TIPONUMEROREAL real; TIPONUMEROREAL img;} NUMEROCOMPLEXO; // Est
 #define DECLARACAO_buffer char buffer [TAMANHO_BUFFER_PHRASE];
 
 #define DECLARACAO_funcoesconstantes tokenfuncaoconstante funcoesconstantes [TAMANHO_BUFFER_SMALL];
+
+#define ALOCACAO_funcoesconstantestoken ;
+
+#define ALOCACAO_funcoesconstantescomentario ;
 
 #define DECLARACAO_antoniovandre_evalcelulafuncao_buffer char buffer [TAMANHO_BUFFER_WORD];
 
@@ -573,7 +580,7 @@ TIPONUMEROREAL antoniovandre_partenumericamonomio (char * str)
 		else if (! antoniovandre_compararstringsfree (antoniovandre_removerletras (str), "-") && strlen (str) != NUMEROUM)
 			return NUMEROMENOSUM;
 		else
-			return (strtod (antoniovandre_removerletras (str), & err));
+			return (strtold (antoniovandre_removerletras (str), & err));
 		}
 	else
 		return NUMEROZERO;
@@ -642,7 +649,7 @@ char * antoniovandre_numeroparastring (TIPONUMEROREAL numero)
 			antoniovandre_concatenarstring (strr, ".");
 			}
 
-		algarismo = (int) fmod (((TIPONUMEROREAL) numero / (TIPONUMEROREAL) fator), 10);
+		algarismo = (int) fmodl (((TIPONUMEROREAL) numero / (TIPONUMEROREAL) fator), 10);
 
 		fator /= (TIPONUMEROREAL) 10;
 
@@ -991,7 +998,7 @@ char * antoniovandre_valornumericopolinomio (char * args)
 
 			for (j = 2; j < strlen (strt); j++) strncat (strt2, & strt [j], NUMEROUM);
 
-			fator = strtod (strt2, & err);
+			fator = strtold (strt2, & err);
 
 			if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 
@@ -1139,6 +1146,9 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 	for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++)
 		{
+		ALOCACAO_funcoesconstantestoken
+		ALOCACAO_funcoesconstantescomentario
+
 		antoniovandre_copiarstring (funcoesconstantes [i].token, STRINGVAZIA);
 		funcoesconstantes [i].valor = (TIPONUMEROREAL) NUMEROZERO;
 		antoniovandre_copiarstring (funcoesconstantes [i].comentario, STRINGVAZIA);
@@ -1429,7 +1439,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -1466,7 +1476,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -1474,7 +1484,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 4, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -1520,7 +1530,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -1528,7 +1538,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 4, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -1574,7 +1584,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -1582,7 +1592,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 21, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -1618,7 +1628,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -1626,7 +1636,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 20, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -1662,7 +1672,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -1670,7 +1680,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 21, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -1706,7 +1716,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -1714,7 +1724,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 17, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -1750,7 +1760,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -1758,7 +1768,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 20, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -1794,7 +1804,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -1802,7 +1812,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 17, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -1838,7 +1848,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -1846,7 +1856,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 13, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -1882,7 +1892,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -1890,7 +1900,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 12, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -1926,7 +1936,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -1934,7 +1944,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 13, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -1970,7 +1980,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -1978,7 +1988,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 11, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2014,7 +2024,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2022,7 +2032,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 12, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2058,7 +2068,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2066,7 +2076,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 11, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2102,7 +2112,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2110,7 +2120,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 6, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2146,7 +2156,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2154,7 +2164,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 8, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2190,7 +2200,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2198,7 +2208,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 10, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2234,7 +2244,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2242,7 +2252,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 7, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2278,7 +2288,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2286,7 +2296,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 8, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2322,7 +2332,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2330,7 +2340,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 6, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2366,7 +2376,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2374,7 +2384,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 7, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2410,7 +2420,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2418,7 +2428,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 7, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2454,7 +2464,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2462,7 +2472,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 7, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2498,7 +2508,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2506,7 +2516,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 4, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2542,7 +2552,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2550,7 +2560,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 5, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2586,7 +2596,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2594,7 +2604,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 3, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2630,7 +2640,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2638,7 +2648,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 4, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2674,7 +2684,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2682,7 +2692,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 4, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2718,7 +2728,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2726,7 +2736,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 9, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2762,7 +2772,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2770,7 +2780,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 6, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2806,7 +2816,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2814,7 +2824,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 7, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2852,7 +2862,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2860,7 +2870,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 5, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2896,7 +2906,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2904,7 +2914,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 6, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2940,7 +2950,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2948,7 +2958,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 6, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -2984,7 +2994,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -2992,11 +3002,11 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 6, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
-			if ((* err != NUMEROZERO) || (fmod (argumento, M_PI) == NUMEROZERO)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
+			if ((* err != NUMEROZERO) || (fmodl (argumento, M_PI) == NUMEROZERO)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 
 			if ((argumento > VALOR_MAX) || (argumento < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 
@@ -3028,7 +3038,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -3036,12 +3046,12 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 3, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
 			temp = antoniovandre_numeroparastring (M_PI_2);
-			if ((* err != NUMEROZERO) || (fmod (argumento, M_PI) == strtod (temp, & err2))) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
+			if ((* err != NUMEROZERO) || (fmodl (argumento, M_PI) == strtold (temp, & err2))) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 			free (temp);
 
 			if ((argumento > VALOR_MAX) || (argumento < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
@@ -3074,7 +3084,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -3082,7 +3092,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 3, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -3118,7 +3128,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -3126,7 +3136,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 3, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -3162,7 +3172,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -3170,11 +3180,11 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 4, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
-			if ((* err != NUMEROZERO) || (fmod (argumento, M_PI) == NUMEROZERO)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
+			if ((* err != NUMEROZERO) || (fmodl (argumento, M_PI) == NUMEROZERO)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 
 			if ((argumento > VALOR_MAX) || (argumento < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 
@@ -3206,7 +3216,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -3214,12 +3224,15 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 2, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
 			temp = antoniovandre_numeroparastring (M_PI_2);
-			if ((* err != NUMEROZERO) || (fmod (argumento, M_PI) == strtod (temp, & err2))) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
+
+// Remoção da condição (* err != NUMEROZERO) neste caso específico.
+
+			if (fmodl (argumento, M_PI) == strtold (temp, & err2)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 			free (temp);
 
 			if ((argumento > VALOR_MAX) || (argumento < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
@@ -3252,7 +3265,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -3260,7 +3273,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 7, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -3296,7 +3309,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -3304,7 +3317,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 6, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -3340,7 +3353,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					coeficiente = -1;
 				else
 					{
-					coeficiente = strtod (buffer, & err);
+					coeficiente = strtold (buffer, & err);
 					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					}
@@ -3348,7 +3361,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			char * temp = antoniovandre_substring (str, i + 2, strlen (str) - NUMEROUM);
 
-			argumento = strtod (temp, & err);
+			argumento = strtold (temp, & err);
 
 			free (temp);
 
@@ -3467,7 +3480,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 		free (temp);
 		}
 
-	resultado = strtod (str, & err);
+	resultado = strtold (str, & err);
 
 	if (GNUGT)
 		{
@@ -3623,19 +3636,19 @@ char * antoniovandre_evalcelula (char * str)
 				if (! strcmp (strtv1, STRINGSAIDAERROOVER)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 				if (! strcmp (strtv2, STRINGSAIDAERROOVER)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 
-				valort = strtod (strtv1, & err);
+				valort = strtold (strtv1, & err);
 				if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 
-				valort2 = strtod (strtv2, & err);
+				valort2 = strtold (strtv2, & err);
 				if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 
 				if (strt [posicoes_operadores [i]] == '^')
 					{
 					if (valort < NUMEROZERO)
 						{
-						if (fmod (fabs (valort2), 2) == NUMEROZERO)
+						if (fmodl (fabs (valort2), 2) == NUMEROZERO)
 							valor = powl (fabs ((TIPONUMEROREAL) valort), (TIPONUMEROREAL) valort2);
-						else if (fmod (fabs (valort2), 2) == NUMEROUM)
+						else if (fmodl (fabs (valort2), 2) == NUMEROUM)
 							valor = (NUMEROMENOSUM) * powl (fabs ((TIPONUMEROREAL) valort), (TIPONUMEROREAL) valort2);
 						else
 							{
@@ -3643,9 +3656,9 @@ char * antoniovandre_evalcelula (char * str)
 
 							do
 								{
-								if ((fmod ((contador2 / fabs (valort2)), 2) > NUMEROUM + (NUMEROMENOSUM) * APROXIMACAO2) && (fmod ((contador2 / fabs (valort2)), 2) < NUMEROUM + APROXIMACAO2))
+								if ((fmodl ((contador2 / fabs (valort2)), 2) > NUMEROUM + (NUMEROMENOSUM) * APROXIMACAO2) && (fmodl ((contador2 / fabs (valort2)), 2) < NUMEROUM + APROXIMACAO2))
 									{
-									if (fmod (contador2, 2) == NUMEROZERO)
+									if (fmodl (contador2, 2) == NUMEROZERO)
 										valor = powl (fabs ((TIPONUMEROREAL) valort), (TIPONUMEROREAL) valort2);
 									else
 										valor = (NUMEROMENOSUM) * powl (fabs ((TIPONUMEROREAL) valort), (TIPONUMEROREAL) valort2);
@@ -3699,7 +3712,7 @@ char * antoniovandre_evalcelula (char * str)
 
 				if ((strt [posicoes_operadores [i]] == '%') && (flag == NUMEROZERO) && (flag2 == NUMEROZERO))
 					{
-					valor = fmod ((TIPONUMEROREAL) valort, (TIPONUMEROREAL) valort2);
+					valor = fmodl ((TIPONUMEROREAL) valort, (TIPONUMEROREAL) valort2);
 					if ((valor > VALOR_MAX) || (valor < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 					break;
 					}
@@ -4183,7 +4196,7 @@ char * antoniovandre_derivada (char * str, TIPONUMEROREAL ponto)
 			strncat (str2, & str [i], NUMEROUM);
 
 	char * temp = antoniovandre_eval (str2);
-	valorsup = strtod (temp, & err);
+	valorsup = strtold (temp, & err);
 	free (temp);
 
 	if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
@@ -4209,7 +4222,7 @@ char * antoniovandre_derivada (char * str, TIPONUMEROREAL ponto)
 			strncat (str3, & str [i], NUMEROUM);
 
 	temp = antoniovandre_eval (str3);
-	valorinf = strtod (temp, & err);
+	valorinf = strtold (temp, & err);
 	free (temp);
 
 	if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
@@ -4267,7 +4280,7 @@ char * antoniovandre_integraldefinida (char * str, TIPONUMEROREAL a, TIPONUMEROR
 
 		if (! strcmp (str3, STRINGSAIDAERROOVER)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 
-		parcela = strtod (str3, & err) * (TIPONUMEROREAL) norma;
+		parcela = strtold (str3, & err) * (TIPONUMEROREAL) norma;
 
 		if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 
@@ -4522,12 +4535,12 @@ char * antoniovandre_funcaomaisproxima (char * arquivopontospath, char * arquivo
 
 		if (flag2 == NUMEROZERO)
 			{
-			x = strtod (buffer1, & err);
+			x = strtold (buffer1, & err);
 
 			if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 			if ((x > VALOR_MAX) || (x < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 
-			y = strtod (buffer2, & err);
+			y = strtold (buffer2, & err);
 
 			if ((y > VALOR_MAX) || (y < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 			if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
@@ -4564,7 +4577,7 @@ char * antoniovandre_funcaomaisproxima (char * arquivopontospath, char * arquivo
 
 			if (! strcmp (buffertt, STRINGSAIDAERROOVER)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 
-			yt = strtod (buffertt, & err);
+			yt = strtold (buffertt, & err);
 			}
 
 		contadoritens++;
@@ -4672,8 +4685,8 @@ char * antoniovandre_raizesfuncao (char * funcao, char * mins, char * maxs, TIPO
 	if ((! strcmp (mins2, STRINGSAIDAERROOVER)) || (! strcmp (maxs2, STRINGSAIDAERROOVER)))
 		{char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 
-	min = strtod (mins2, & err);
-	max = strtod (maxs2, & err);
+	min = strtold (mins2, & err);
+	max = strtold (maxs2, & err);
 
 	x = min;
 	flag = NUMEROZERO;
@@ -4721,7 +4734,7 @@ char * antoniovandre_raizesfuncao (char * funcao, char * mins, char * maxs, TIPO
 			continue;
 			}
 
-		y = strtod (strt, & err);
+		y = strtold (strt, & err);
 
 		if (* err == NUMEROZERO)
 			{

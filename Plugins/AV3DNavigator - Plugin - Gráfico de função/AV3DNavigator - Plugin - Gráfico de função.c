@@ -5,9 +5,9 @@ Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador de um espaço do AV3DNavigator gráfico de função.
 
-Argumentos: Primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "x", o menor menor atribuído a "x", o maior menor atribuído a "x", o ponto de exclusão no intervalo, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",".
+Argumentos: Primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "x", o menor menor atribuído a "x", o maior menor atribuído a "x", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",".
 
-Última atualização: 10-10-2023.
+Última atualização: 10-10-2023. Sem considerar alterações em variáveis globais.
 */
 
 #include <stdio.h>
@@ -35,6 +35,9 @@ int main (int argc, char * argv[])
     int l;
     int m;
     int n;
+    int o;
+    int p;
+    int q;
     char c;
     int flag = 0;
     char mainstring [MAXTAMANHOCAMPO];
@@ -44,12 +47,13 @@ int main (int argc, char * argv[])
     char menor [MAXITENS] [MAXTAMANHOCAMPO];
     char maior [MAXITENS] [MAXTAMANHOCAMPO];
     char exclusao [MAXITENS] [MAXTAMANHOCAMPO];
+    char exclusaoarr [MAXITENS] [MAXITENS] [MAXTAMANHOCAMPO];
     char rgb [MAXITENS] [MAXTAMANHOCAMPO];
     char verifstr [MAXTAMANHOCAMPO];
     double menores [MAXITENS];
     double maiores [MAXITENS];
-    double exclusoes [MAXITENS];
-    int resolucao = 10;
+    double exclusoes [MAXITENS] [MAXITENS];
+    int resolucao = 20;
     char * err;
 
     if (argc != 2) {printf("Erro.\n"); return 1;}
@@ -143,14 +147,31 @@ int main (int argc, char * argv[])
 
         exclusao[argi][m] = '\0';
 
-        if (strlen(exclusao[argi]) != 0)
+        o = 0;
+        p = 0;
+        q = 0;
+
+        do
             {
-            exclusoes[argi] = strtod(exclusao[argi], &err);
+            do
+                {
+                c = exclusao[argi][p++];
+                if ((c != ',') && (c != '\0')) {exclusaoarr[argi][o][q++] = c;} else break;
+                } while (VERDADE);
 
-            if ((! strcmp(exclusao[argi], "")) || (err == exclusao[argi])) {printf("Erro.\n"); return 1;}
+            exclusaoarr[argi][o][q] = '\0';
 
-            if ((exclusoes[argi] < menores[argi]) || (exclusoes[argi] > maiores[argi])) {printf("Erro.\n"); return 1;}
-            }
+            if (strlen(exclusaoarr[argi][o]) != 0)
+                {
+                exclusoes[argi][o] = strtod(exclusaoarr[argi][o], &err);
+
+                if ((! strcmp(exclusaoarr[argi][o], "")) || (err == exclusao[argi][o])) {printf("Erro.\n"); return 1;}
+
+                if ((exclusoes[argi][o] < menores[argi]) || (exclusoes[argi][o] > maiores[argi])) {printf("Erro.\n"); return 1;}
+                }
+
+            q = 0;
+            } while (c != '\0');
 
         n = 0;
 
@@ -183,7 +204,14 @@ int main (int argc, char * argv[])
 
     for (i = 0; i < argi; i++)
         for (j = 0; j < resolucao - 1; j++)
-            if ((strlen(exclusao[i]) == 0) || (! ((exclusoes[i] >= menores[i] + j * (maiores[i] - menores[i]) / (resolucao - 1)) && (exclusoes[i] <= menores[i] + (j + 1) * (maiores[i] - menores[i]) / (resolucao - 1)))))
+            {
+            flag = 1;
+
+            for (k = 0; k < MAXITENS; k++)
+                if ((strlen(exclusaoarr[i][k]) == 0) || (! ((exclusoes[i][k] >= menores[i] + j * (maiores[i] - menores[i]) / (resolucao - 1)) && (exclusoes[i][k] <= menores[i] + (j + 1) * (maiores[i] - menores[i]) / (resolucao - 1)))))
+                    flag = 0;
+
+            if (flag == 0)
                 {
                 char valorstr [MAXTAMANHOCAMPO];
 
@@ -296,6 +324,7 @@ int main (int argc, char * argv[])
 
                 fflush(stdout);
                 }
+            }
 
     printf("@@");
 
