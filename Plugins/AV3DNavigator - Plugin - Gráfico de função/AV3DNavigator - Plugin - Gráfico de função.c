@@ -54,6 +54,7 @@ int main (int argc, char * argv[])
     double maiores [MAXITENS];
     double exclusoes [MAXITENS] [MAXITENS];
     int resolucao = 20;
+    double margemexclusao = 0.1;
     char * err;
 
     if (argc != 2) {printf("Erro.\n"); return 1;}
@@ -208,7 +209,7 @@ int main (int argc, char * argv[])
             flag = 1;
 
             for (k = 0; k < MAXITENS; k++)
-                if ((strlen(exclusaoarr[i][k]) == 0) || (! ((exclusoes[i][k] >= menores[i] + j * (maiores[i] - menores[i]) / (resolucao - 1)) && (exclusoes[i][k] <= menores[i] + (j + 1) * (maiores[i] - menores[i]) / (resolucao - 1)))))
+                if ((strlen(exclusaoarr[i][k]) == 0) || (! ((exclusoes[i][k] >= menores[i] + j * (maiores[i] - menores[i]) / (resolucao - 1) - margemexclusao) && (exclusoes[i][k] <= menores[i] + (j + 1) * (maiores[i] - menores[i]) / (resolucao - 1) + margemexclusao))))
                     flag = 0;
 
             if (flag == 0)
