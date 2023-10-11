@@ -172,6 +172,7 @@ int main (int argc, char * argv[])
                 }
 
             q = 0;
+            o++;
             } while (c != '\0');
 
         n = 0;
@@ -206,11 +207,11 @@ int main (int argc, char * argv[])
     for (i = 0; i < argi; i++)
         for (j = 0; j < resolucao - 1; j++)
             {
-            flag = 1;
+            flag = 0;
 
-            for (k = 0; k < MAXITENS; k++)
-                if ((strlen(exclusaoarr[i][k]) == 0) || (! ((exclusoes[i][k] >= menores[i] + j * (maiores[i] - menores[i]) / (resolucao - 1) - margemexclusao) && (exclusoes[i][k] <= menores[i] + (j + 1) * (maiores[i] - menores[i]) / (resolucao - 1) + margemexclusao))))
-                    flag = 0;
+            if (strlen(exclusao[i]) != 0) for (k = 0; k < o; k++)
+                if ((exclusoes[i][k] >= menores[i] + j * (maiores[i] - menores[i]) / (resolucao - 1) - margemexclusao) && (exclusoes[i][k] <= menores[i] + (j + 1) * (maiores[i] - menores[i]) / (resolucao - 1) + margemexclusao))
+                    flag = 1;
 
             if (flag == 0)
                 {
