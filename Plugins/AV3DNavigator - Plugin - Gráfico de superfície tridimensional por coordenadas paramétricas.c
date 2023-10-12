@@ -56,7 +56,7 @@ int main (int argc, char * argv[])
     double maioresu [MAXITENS];
     double menoresv [MAXITENS];
     double maioresv [MAXITENS];
-    int resolucao = 5;
+    int resolucao = 10;
     char * err;
 
     if (argc != 2) {printf("Erro.\n"); return 1;}
@@ -694,24 +694,8 @@ int main (int argc, char * argv[])
                 }
             }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     for (i = 0; i < argi; i++)
-         for (l = 0; l < resolucao - 1; l++)
+         for (l = 0; l < resolucao; l++)
             {
             char valorstr [MAXTAMANHOCAMPO];
             char tempstr [MAXTAMANHOCAMPO];
