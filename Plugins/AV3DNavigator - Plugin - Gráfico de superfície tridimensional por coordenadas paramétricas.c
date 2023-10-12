@@ -5,7 +5,7 @@ Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador de um espaço do AV3DNavigator gráfico de função.
 
-Argumentos: Primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "u" e "v" para "x", função em "u" e "v" para "y", função em "u" e "v" para "z", o menor valor atribuído a "u", o maior valor atribuído a "u", o menor valor atribuído a "v", o maior valor atribuído a "v", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",".
+Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "u" e "v" para "x", função em "u" e "v" para "y", função em "u" e "v" para "z", o menor valor atribuído a "u", o maior valor atribuído a "u", o menor valor atribuído a "v", o maior valor atribuído a "v", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
 Última atualização: 12-10-2023. Sem considerar alterações em variáveis globais.
 */
@@ -41,6 +41,7 @@ int main (int argc, char * argv[])
     char c;
     int flag = 0;
     char mainstring [MAXTAMANHOCAMPO];
+    char resstring [MAXTAMANHOCAMPO];
     char titulo [MAXTAMANHOCAMPO];
     char item [MAXITENS] [MAXTAMANHOCAMPO];
     char funcaox [MAXITENS] [MAXTAMANHOCAMPO];
@@ -56,13 +57,11 @@ int main (int argc, char * argv[])
     double maioresu [MAXITENS];
     double menoresv [MAXITENS];
     double maioresv [MAXITENS];
-    int resolucao = 10;
     char * err;
 
-    if (argc != 2) {printf("Erro.\n"); return 1;}
+    if (argc != 3) {printf("Erro.\n"); return 1;}
 
-    for (i = 0; i < MAXTAMANHOCAMPO; i++)
-        mainstring[i] = '\0';
+    for (i = 0; i < MAXTAMANHOCAMPO; i++) {mainstring[i] = '\0'; resstring[i] = '\0';}
 
     for (i = 0; i < MAXITENS; i++)
         for (j = 0; j < MAXTAMANHOCAMPO; j++)
@@ -75,6 +74,18 @@ int main (int argc, char * argv[])
         if (argv[1][i] == '\0') break;
         mainstring[j++] = argv[1][i];
         }
+
+    j = 0;
+
+    for (i = 0; i < MAXTAMANHOCAMPO; i++)
+        {
+        if (argv[2][i] == '\0') break;
+        resstring[j++] = argv[2][i];
+        }
+
+    int resolucao = atoi(resstring);
+
+    if (resolucao == 0) {printf("Erro.\n"); return 1;}
 
     do
         {
@@ -93,7 +104,7 @@ int main (int argc, char * argv[])
         do
             {
             c = mainstring[shift++ + 1];
-            if ((c != '|') && (c != '\0')) {item[argi][i++] = c;} else break;
+            if (c != ' ') {if ((c != '|') && (c != '\0')) {item[argi][i++] = c;} else break;}
             } while (VERDADE);
 
         item[argi][i] = '\0';
