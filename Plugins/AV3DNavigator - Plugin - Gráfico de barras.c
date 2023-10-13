@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de barras tridimensional
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 12-10-2023.
+Última atualização: 13-10-2023.
 */
 
 #include <stdio.h>
@@ -187,21 +187,23 @@ int main (int argc, char * argv[])
 
         rgb[argi][l] = '\0';
 
-        for (n = 1; n <= 3; n++)
-            {
-            m = 0;
+        i = 0;
 
-            for(int p = 0; p < MAXTAMANHOCAMPO; p++) {verifstr[p] = '\0';}
+        do
+            {
+            j = 0;
+
+            for(int k = 0; k < MAXTAMANHOCAMPO; k++) {verifstr[k] = '\0';}
 
             do
                 {
-                c = rgb[argi][n++];
-                if ((c != '\0') && (c != ',')) {verifstr[m++] = c;} else break;
+                c = rgb[argi][i++];
+                if ((c != '\0') && (c != ',')) {verifstr[j++] = c;} else break;
                 if ((c != '0') && (c != '1') && (c != '2') && (c != '3') && (c != '4') && (c != '5') && (c != '6') && (c != '7') && (c != '8') && (c != '9')) {printf(mensagemerro); return 1;}
                 } while (VERDADE);
 
             if ((atoi (verifstr) < 0) || (atoi (verifstr) > 255))  {printf(mensagemerro); return 1;}
-            }
+            } while (c != '\0');
 
         if (++argi > MAXITENS) {printf(mensagemerro); return 1;}
         } while (flag == 0);
