@@ -58,8 +58,9 @@ int main (int argc, char * argv[])
     double menoresv [MAXITENS];
     double maioresv [MAXITENS];
     char * err;
+    char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em \"u\" e \"v\" para \"x\", função em \"u\" e \"v\" para \"y\", função em \"u\" e \"v\" para \"z\", o menor valor atribuído a \"u\", o maior valor atribuído a \"u\", o menor valor atribuído a \"v\", o maior valor atribuído a \"v\", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: a resolução.\n";
 
-    if (argc != 3) {printf("Erro.\n"); return 1;}
+    if (argc != 3) {printf(mensagemerro); return 1;}
 
     for (i = 0; i < MAXTAMANHOCAMPO; i++) {mainstring[i] = '\0'; resstring[i] = '\0';}
 
@@ -85,7 +86,7 @@ int main (int argc, char * argv[])
 
     int resolucao = atoi(resstring);
 
-    if (resolucao == 0) {printf("Erro.\n"); return 1;}
+    if (resolucao == 0) {printf(mensagemerro); return 1;}
 
     do
         {
@@ -153,7 +154,7 @@ int main (int argc, char * argv[])
 
         menoresu[argi] = strtod(menoru[argi], &err);
 
-        if ((! strcmp(menoru[argi], "")) || (err == menoru[argi])) {printf("Erro.\n"); return 1;}
+        if ((! strcmp(menoru[argi], "")) || (err == menoru[argi])) {printf(mensagemerro); return 1;}
 
         n = 0;
 
@@ -167,9 +168,9 @@ int main (int argc, char * argv[])
 
         maioresu[argi] = strtod(maioru[argi], &err);
 
-        if ((! strcmp(maioru[argi], "")) || (err == maioru[argi])) {printf("Erro.\n"); return 1;}
+        if ((! strcmp(maioru[argi], "")) || (err == maioru[argi])) {printf(mensagemerro); return 1;}
 
-        if (menoresu[argi] >= maioresu[argi]) {printf("Erro.\n"); return 1;}
+        if (menoresu[argi] >= maioresu[argi]) {printf(mensagemerro); return 1;}
 
         o = 0;
 
@@ -183,7 +184,7 @@ int main (int argc, char * argv[])
 
         menoresv[argi] = strtod(menorv[argi], &err);
 
-        if ((! strcmp(menorv[argi], "")) || (err == menorv[argi])) {printf("Erro.\n"); return 1;}
+        if ((! strcmp(menorv[argi], "")) || (err == menorv[argi])) {printf(mensagemerro); return 1;}
 
         p = 0;
 
@@ -197,9 +198,9 @@ int main (int argc, char * argv[])
 
         maioresv[argi] = strtod(maiorv[argi], &err);
 
-        if ((! strcmp(maiorv[argi], "")) || (err == maiorv[argi])) {printf("Erro.\n"); return 1;}
+        if ((! strcmp(maiorv[argi], "")) || (err == maiorv[argi])) {printf(mensagemerro); return 1;}
 
-        if (menoresv[argi] >= maioresv[argi]) {printf("Erro.\n"); return 1;}
+        if (menoresv[argi] >= maioresv[argi]) {printf(mensagemerro); return 1;}
 
         q = 0;
 
@@ -221,13 +222,13 @@ int main (int argc, char * argv[])
                 {
                 c = rgb[argi][i++];
                 if ((c != '\0') && (c != ',')) {verifstr[j++] = c;} else break;
-                if ((c != '0') && (c != '1') && (c != '2') && (c != '3') && (c != '4') && (c != '5') && (c != '6') && (c != '7') && (c != '8') && (c != '9')) {printf("Erro.\n"); return 1;}
+                if ((c != '0') && (c != '1') && (c != '2') && (c != '3') && (c != '4') && (c != '5') && (c != '6') && (c != '7') && (c != '8') && (c != '9')) {printf(mensagemerro); return 1;}
                 } while (VERDADE);
 
-            if ((atoi (verifstr) < 0) || (atoi (verifstr) > 255))  {printf("Erro.\n"); return 1;}
+            if ((atoi (verifstr) < 0) || (atoi (verifstr) > 255))  {printf(mensagemerro); return 1;}
             }
 
-        if (++argi > MAXITENS) {printf("Erro.\n"); return 1;}
+        if (++argi > MAXITENS) {printf(mensagemerro); return 1;}
         } while (flag == 0);
 
     for (i = 0; i < argi; i++)

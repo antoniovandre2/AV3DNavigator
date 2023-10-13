@@ -5,9 +5,9 @@ Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador de um espaço do AV3DNavigator gráfico de barras tridimensional.
 
-Argumentos: Primeiramente a string título e, após barra vertical "|", uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",".
+Argumentos: 1: primeiramente a string título e, após barra vertical "|", uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 08-10-2023.
+Última atualização: 12-10-2023.
 */
 
 #include <stdio.h>
@@ -33,6 +33,11 @@ int main (int argc, char * argv[])
     char c;
     int flag = 0;
     char mainstring [MAXTAMANHOCAMPO];
+    char lstring [MAXTAMANHOCAMPO];
+    char pstring [MAXTAMANHOCAMPO];
+    char spstring [MAXTAMANHOCAMPO];
+    char altstring [MAXTAMANHOCAMPO];
+    char resstring [MAXTAMANHOCAMPO];
     char titulo [MAXTAMANHOCAMPO];
     char descricao [MAXITENS] [MAXTAMANHOCAMPO];
     char item [MAXITENS] [MAXTAMANHOCAMPO];
@@ -41,17 +46,13 @@ int main (int argc, char * argv[])
     char verifstr [MAXTAMANHOCAMPO];
     double max = 0;
     double valoresnumericos [MAXITENS];
-    int resolucao = 10;
-    double largura = 1;
-    double profundidade = 1;
-    double espacamento = 0.5;
-    double altura = 10;
     char * err;
+    char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", uma string composta dos item a exibir separados por barra vertical \"|\", cada item composto do valor e da cor separados por ponto e vírgula \";\", a cor RGB com os valores para vermelho, verde e azul separados por vírgula \",\". 2: a largura. 3: a profundidade. 4: o espaçamento. 5: a altura. 6: a resolução.\n";
 
-    if (argc != 2) {printf("Erro.\n"); return 1;}
+    if (argc != 7) {printf(mensagemerro); return 1;}
 
     for (i = 0; i < MAXTAMANHOCAMPO; i++)
-        mainstring[i] = '\0';
+        {mainstring[i] = '\0'; lstring[i] = '\0'; pstring[i] = '\0'; spstring[i] = '\0'; altstring[i] = '\0'; resstring[i] = '\0';}
 
     for (i = 0; i < MAXITENS; i++)
         for (j = 0; j < MAXTAMANHOCAMPO; j++)
@@ -64,6 +65,66 @@ int main (int argc, char * argv[])
         if (argv[1][i] == '\0') break;
         mainstring[j++] = argv[1][i];
         }
+
+    j = 0;
+
+    for (i = 0; i < MAXTAMANHOCAMPO; i++)
+        {
+        if (argv[2][i] == '\0') break;
+        lstring[j++] = argv[2][i];
+        }
+
+    double largura = strtod(lstring, &err);
+
+    if ((! strcmp(lstring, "")) || (err == lstring)) {printf(mensagemerro); return 1;}
+
+    j = 0;
+
+    for (i = 0; i < MAXTAMANHOCAMPO; i++)
+        {
+        if (argv[3][i] == '\0') break;
+        pstring[j++] = argv[3][i];
+        }
+
+    double profundidade = strtod(pstring, &err);
+
+    if ((! strcmp(pstring, "")) || (err == pstring)) {printf(mensagemerro); return 1;}
+
+    j = 0;
+
+    for (i = 0; i < MAXTAMANHOCAMPO; i++)
+        {
+        if (argv[4][i] == '\0') break;
+        spstring[j++] = argv[4][i];
+        }
+
+    double espacamento = strtod(spstring, &err);
+
+    if ((! strcmp(spstring, "")) || (err == spstring)) {printf(mensagemerro); return 1;}
+
+    j = 0;
+
+    for (i = 0; i < MAXTAMANHOCAMPO; i++)
+        {
+        if (argv[5][i] == '\0') break;
+        altstring[j++] = argv[5][i];
+        }
+
+    double altura = strtod(altstring, &err);
+
+    if ((! strcmp(altstring, "")) || (err == altstring)) {printf(mensagemerro); return 1;}
+
+    j = 0;
+
+    for (i = 0; i < MAXTAMANHOCAMPO; i++)
+        {
+        if (argv[6][i] == '\0') break;
+        resstring[j++] = argv[6][i];
+        }
+
+    int resolucao = atoi(resstring);
+
+    if (resolucao == 0) {printf(mensagemerro); return 1;}
 
     do
         {
@@ -82,7 +143,7 @@ int main (int argc, char * argv[])
         do
             {
             c = mainstring[shift++ + 1];
-            if ((c != '|') && (c != '\0')) {item[argi][i++] = c;} else break;
+            if (c != ' ') {if ((c != '|') && (c != '\0')) {item[argi][i++] = c;} else break;}
             } while (VERDADE);
 
         item[argi][i] = '\0';
@@ -111,7 +172,7 @@ int main (int argc, char * argv[])
 
         valoresnumericos[argi] = strtod(valor[argi], &err);
 
-        if ((! strcmp(valor[argi], "")) || (err == valor[argi])) {printf("Erro.\n"); return 1;}
+        if ((! strcmp(valor[argi], "")) || (err == valor[argi])) {printf(mensagemerro); return 1;}
 
         if (valoresnumericos[argi] > max)
             max = valoresnumericos[argi];
@@ -136,13 +197,13 @@ int main (int argc, char * argv[])
                 {
                 c = rgb[argi][n++];
                 if ((c != '\0') && (c != ',')) {verifstr[m++] = c;} else break;
-                if ((c != '0') && (c != '1') && (c != '2') && (c != '3') && (c != '4') && (c != '5') && (c != '6') && (c != '7') && (c != '8') && (c != '9')) {printf("Erro.\n"); return 1;}
+                if ((c != '0') && (c != '1') && (c != '2') && (c != '3') && (c != '4') && (c != '5') && (c != '6') && (c != '7') && (c != '8') && (c != '9')) {printf(mensagemerro); return 1;}
                 } while (VERDADE);
 
-            if ((atoi (verifstr) < 0) || (atoi (verifstr) > 255))  {printf("Erro.\n"); return 1;}
+            if ((atoi (verifstr) < 0) || (atoi (verifstr) > 255))  {printf(mensagemerro); return 1;}
             }
 
-        if (++argi > MAXITENS) {printf("Erro.\n"); return 1;}
+        if (++argi > MAXITENS) {printf(mensagemerro); return 1;}
         } while (flag == 0);
 
     printf("@");

@@ -56,8 +56,9 @@ int main (int argc, char * argv[])
     double exclusoes [MAXITENS] [MAXITENS];
     double margemexclusao = 0.1;
     char * err;
+    char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em \"y\", o menor valor atribuído a \"y\", o maior valor atribuído a \"y\", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: a resolução.\n";
 
-    if (argc != 3) {printf("Erro.\n"); return 1;}
+    if (argc != 3) {printf(mensagemerro); return 1;}
 
     for (i = 0; i < MAXTAMANHOCAMPO; i++) {mainstring[i] = '\0'; resstring[i] = '\0';}
 
@@ -83,7 +84,7 @@ int main (int argc, char * argv[])
 
     int resolucao = atoi(resstring);
 
-    if (resolucao == 0) {printf("Erro.\n"); return 1;}
+    if (resolucao == 0) {printf(mensagemerro); return 1;}
 
     do
         {
@@ -131,7 +132,7 @@ int main (int argc, char * argv[])
 
         menores[argi] = strtod(menor[argi], &err);
 
-        if ((! strcmp(menor[argi], "")) || (err == menor[argi])) {printf("Erro.\n"); return 1;}
+        if ((! strcmp(menor[argi], "")) || (err == menor[argi])) {printf(mensagemerro); return 1;}
 
         l = 0;
 
@@ -145,9 +146,9 @@ int main (int argc, char * argv[])
 
         maiores[argi] = strtod(maior[argi], &err);
 
-        if ((! strcmp(maior[argi], "")) || (err == maior[argi])) {printf("Erro.\n"); return 1;}
+        if ((! strcmp(maior[argi], "")) || (err == maior[argi])) {printf(mensagemerro); return 1;}
 
-        if (menores[argi] >= maiores[argi]) {printf("Erro.\n"); return 1;}
+        if (menores[argi] >= maiores[argi]) {printf(mensagemerro); return 1;}
 
         m = 0;
 
@@ -177,9 +178,9 @@ int main (int argc, char * argv[])
                 {
                 exclusoes[argi][o] = strtod(exclusaoarr[argi][o], &err);
 
-                if ((! strcmp(exclusaoarr[argi][o], "")) || (err == exclusao[argi][o])) {printf("Erro.\n"); return 1;}
+                if ((! strcmp(exclusaoarr[argi][o], "")) || (err == exclusao[argi][o])) {printf(mensagemerro); return 1;}
 
-                if ((exclusoes[argi][o] < menores[argi]) || (exclusoes[argi][o] > maiores[argi])) {printf("Erro.\n"); return 1;}
+                if ((exclusoes[argi][o] < menores[argi]) || (exclusoes[argi][o] > maiores[argi])) {printf(mensagemerro); return 1;}
                 }
 
             q = 0;
@@ -206,13 +207,13 @@ int main (int argc, char * argv[])
                 {
                 c = rgb[argi][n++];
                 if ((c != '\0') && (c != ',')) {verifstr[m++] = c;} else break;
-                if ((c != '0') && (c != '1') && (c != '2') && (c != '3') && (c != '4') && (c != '5') && (c != '6') && (c != '7') && (c != '8') && (c != '9')) {printf("Erro.\n"); return 1;}
+                if ((c != '0') && (c != '1') && (c != '2') && (c != '3') && (c != '4') && (c != '5') && (c != '6') && (c != '7') && (c != '8') && (c != '9')) {printf(mensagemerro); return 1;}
                 } while (VERDADE);
 
-            if ((atoi (verifstr) < 0) || (atoi (verifstr) > 255))  {printf("Erro.\n"); return 1;}
+            if ((atoi (verifstr) < 0) || (atoi (verifstr) > 255))  {printf(mensagemerro); return 1;}
             }
 
-        if (++argi > MAXITENS) {printf("Erro.\n"); return 1;}
+        if (++argi > MAXITENS) {printf(mensagemerro); return 1;}
         } while (flag == 0);
 
     for (i = 0; i < argi; i++)

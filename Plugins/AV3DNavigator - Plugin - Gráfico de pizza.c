@@ -5,9 +5,9 @@ Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador de um espaço do AV3DNavigator gráfico de pizza tridimensional.
 
-Argumentos: Primeiramente a string título e, após barra vertical "|", uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",".
+Argumentos: 1: primeiramente a string título e, após barra vertical "|", uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",". 2: o raio. 3: a espessura. 4: a resolução.
 
-Última atualização: 05-10-2023.
+Última atualização: 12-10-2023.
 */
 
 #include <stdio.h>
@@ -34,6 +34,9 @@ int main (int argc, char * argv[])
     char c;
     int flag = 0;
     char mainstring [MAXTAMANHOCAMPO];
+    char rstring [MAXTAMANHOCAMPO];
+    char espstring [MAXTAMANHOCAMPO];
+    char resstring [MAXTAMANHOCAMPO];
     char titulo [MAXTAMANHOCAMPO];
     char descricao [MAXITENS] [MAXTAMANHOCAMPO];
     char item [MAXITENS] [MAXTAMANHOCAMPO];
@@ -42,16 +45,14 @@ int main (int argc, char * argv[])
     char verifstr [MAXTAMANHOCAMPO];
     double soma = 0;
     double valoresnumericos [MAXITENS];
-    int resolucao = 15;
-    double raio = 2;
-    double espessura = 1;
     double anguloinicial = 0;
     char * err;
+    char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", uma string composta dos item a exibir separados por barra vertical \"|\", cada item composto do valor e da cor separados por ponto e vírgula \";\", a cor RGB com os valores para vermelho, verde e azul separados por vírgula \",\". 2: o raio. 3: a espessura. 4: a resolução.";
 
-    if (argc != 2) {printf("Erro.\n"); return 1;}
+    if (argc != 5) {printf("Erro.\n"); return 1;}
 
     for (i = 0; i < MAXTAMANHOCAMPO; i++)
-        {mainstring[i] = '\0'; titulo[i] = '\0';}
+        {mainstring[i] = '\0'; rstring[i] = '\0'; espstring[i] = '\0'; resstring[i] = '\0';titulo[i] = '\0';}
 
     for (i = 0; i < MAXITENS; i++)
         for (j = 0; j < MAXTAMANHOCAMPO; j++)
@@ -64,6 +65,42 @@ int main (int argc, char * argv[])
         if (argv[1][i] == '\0') break;
         mainstring[j++] = argv[1][i];
         }
+
+    j = 0;
+
+    for (i = 0; i < MAXTAMANHOCAMPO; i++)
+        {
+        if (argv[2][i] == '\0') break;
+        rstring[j++] = argv[2][i];
+        }
+
+    double raio = strtod(rstring, &err);
+
+    if ((! strcmp(rstring, "")) || (err == rstring)) {printf(mensagemerro); return 1;}
+
+    j = 0;
+
+    for (i = 0; i < MAXTAMANHOCAMPO; i++)
+        {
+        if (argv[3][i] == '\0') break;
+        espstring[j++] = argv[3][i];
+        }
+
+    double espessura = strtod(espstring, &err);
+
+    if ((! strcmp(espstring, "")) || (err == espstring)) {printf(mensagemerro); return 1;}
+
+    j = 0;
+
+    for (i = 0; i < MAXTAMANHOCAMPO; i++)
+        {
+        if (argv[4][i] == '\0') break;
+        resstring[j++] = argv[4][i];
+        }
+
+    int resolucao = atoi(resstring);
+
+    if (resolucao == 0) {printf(mensagemerro); return 1;}
 
     do
         {
@@ -82,7 +119,7 @@ int main (int argc, char * argv[])
         do
             {
             c = mainstring[shift++ + 1];
-            if ((c != '|') && (c != '\0')) {item[argi][i++] = c;} else break;
+            if (c != ' ') {if ((c != '|') && (c != '\0')) {item[argi][i++] = c;} else break;}
             } while (VERDADE);
 
         item[argi][i] = '\0';
