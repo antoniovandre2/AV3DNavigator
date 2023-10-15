@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 09-10-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 15-10-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -196,10 +196,10 @@ public class AV3DNavigator extends JComponent
     public int TotalLinhas = 0;
     public int TotalTriangulosShapePreenchidos = 0;
     public int TotalLegendas = 0;
-    public int FlagDesenhar = 1;
     public double FlagMouseY = 1;
     public int TEspaco;
     public int Tpaint;
+    public int Pontoslength;
 
     public class GradientLabel extends JLabel
         {
@@ -248,11 +248,11 @@ public class AV3DNavigator extends JComponent
 
     private static class LineType extends Object
         {
-        final int x1; 
-        final int y1;
-        final int x2;
-        final int y2;
-        final Color color;
+        int x1; 
+        int y1;
+        int x2;
+        int y2;
+        Color color;
 
         public LineType(int x1, int y1, int x2, int y2, Color color)
             {
@@ -266,14 +266,14 @@ public class AV3DNavigator extends JComponent
 
     private static class TrianguloType extends Object
         {
-        final int x1; 
-        final int y1;
-        final int x2;
-        final int y2;
-        final int x3;
-        final int y3;
-        final Color color;
-        final double zbuffer;
+        int x1; 
+        int y1;
+        int x2;
+        int y2;
+        int x3;
+        int y3;
+        Color color;
+        double zbuffer;
 
         public TrianguloType(int x1, int y1, int x2, int y2, int x3, int y3, Color color, double zbuffer)
             {
@@ -290,11 +290,11 @@ public class AV3DNavigator extends JComponent
 
     private static class TextoType extends Object
         {
-        final String texto;
-        final int x;
-        final int y;
-        final Color color;
-        final int tamanho;
+        String texto;
+        int x;
+        int y;
+        Color color;
+        int tamanho;
 
         public TextoType(String texto, int x, int y, Color color, int tamanho)
             {
@@ -311,98 +311,91 @@ public class AV3DNavigator extends JComponent
     public LinkedList<TextoType> Textos = new LinkedList<TextoType>();
 
     public void addLine(int x1, int x2, int x3, int x4, Color color, int n)
-        {
-        Linhas.add(new LineType(x1, x2, x3, x4, color));
-        if (n == TotalLinhas) repaint();
-        }
+        {Linhas.add(new LineType(x1, x2, x3, x4, color));}
 
     public void addTriangulosShape(int x1, int y1, int x2, int y2, int x3, int y3, Color color, double zbuffer, int n)
-        {
-        TriangulosShape.add(new TrianguloType(x1, y1, x2, y2, x3, y3, color, zbuffer));
-
-        if (n == TotalTriangulosShapePreenchidos)
-            repaint();
-        }
+        {TriangulosShape.add(new TrianguloType(x1, y1, x2, y2, x3, y3, color, zbuffer));}
 
     public void addTexto(String texto, int x, int y, Color color, int tamanho, int n)
         {
         Textos.add(new TextoType(texto, x, y, color, tamanho));
-        if (n == TotalLegendas) repaint();
+
+        // Único repaint para desenhar todos os objetos. Deve ficar aqui, pois os textos são os últimos objetos a ser renderizados.
+
+        if (n == Integer.MAX_VALUE) repaint();
         }
 
-    public void clearLines()
+    public void clearObjects()
+        {Linhas.clear(); TriangulosShape.clear(); Textos.clear();}
+
+    public void paintComponent(Graphics g)
         {
-        Linhas.clear();
-        repaint();
-        }
+        try
+            {
+            /* Algoritmo alternativo para reordenação dos polígonos.
 
-    public void clearTextos()
-        {
-        Textos.clear();
-        repaint();
-        }
+            int TamTriangulosShape = TriangulosShape.size();
 
-    public void clearTriangulosShape()
-        {
-        TriangulosShape.clear();
-        repaint();
-        }
-
-    protected void paintComponent(Graphics g)
-        {
-        if (FlagDesenhar == 1)
-            try
-                {
-                Collections.sort(TriangulosShape, new Comparator<TrianguloType>()
-                    {
-                    public int compare(TrianguloType o1, TrianguloType o2)
-                        {return ((int) (o2.zbuffer) - (int) (o1.zbuffer));}
-                    });
-
-                Tpaint = Linhas.size();
-
-                for (i = 0; i < Tpaint; i++)
-                    {
-                    LineType Linha = Linhas.get(i);
-
-                    g.setColor(Linha.color);
-                    g.drawLine(Linha.x1, Linha.y1, Linha.x2, Linha.y2);
-                    }
-
-                Tpaint = Textos.size();
-
-                for (i = 0; i < Tpaint; i++)
-                    {
-                    TextoType Texto = Textos.get(i);
-
-                    g.setColor(Texto.color);
-                    g.setFont(new Font("SansSerif", Font.PLAIN, Texto.tamanho));
-                    g.drawString(Texto.texto, Texto.x, Texto.y);
-                    }
-
-                Tpaint = TriangulosShape.size();
-
-                for (i = 0; i < Tpaint; i++)
-                    {
-                    TrianguloType Triangulo = TriangulosShape.get(i);
-
-                    g.setColor(Triangulo.color);
-
-                    if (TrianguloPoligono == 0)
+            for (i = 0; i < TamTriangulosShape; i++)
+                for (j = i + 1; j < TamTriangulosShape; j++)
+                    if (TriangulosShape.get(j).zbuffer > TriangulosShape.get(i).zbuffer)
                         {
-                        for (j = 0; j < ResolucaoTriangulos; j++)
-                            {
-                            g.drawLine((int) Triangulo.x1, (int) Triangulo.y1, (int) (Triangulo.x2 + j * (Triangulo.x3 - Triangulo.x2) / ResolucaoTriangulos), (int) (Triangulo.y2 + j * (Triangulo.y3 - Triangulo.y2) / ResolucaoTriangulos));
-
-                            g.drawLine((int) Triangulo.x2, (int) Triangulo.y2, (int) (Triangulo.x1 + j * (Triangulo.x3 - Triangulo.x1) / ResolucaoTriangulos), (int) (Triangulo.y1 + j * (Triangulo.y3 - Triangulo.y1) / ResolucaoTriangulos));
-
-                            g.drawLine((int) Triangulo.x3, (int) Triangulo.y3, (int) (Triangulo.x2 + j * (Triangulo.x1 - Triangulo.x2) / ResolucaoTriangulos), (int) (Triangulo.y2 + j * (Triangulo.y1 - Triangulo.y2) / ResolucaoTriangulos));
-                            }
+                        TrianguloType TrianguloTemp = TriangulosShape.get(j);
+                        TriangulosShape.set(j, TriangulosShape.get(i));
+                        TriangulosShape.set(i, TrianguloTemp);
                         }
-                    else
-                        g.fillPolygon(new int[]{Triangulo.x1, Triangulo.x2, Triangulo.x3},new int[]{Triangulo.y1, Triangulo.y2, Triangulo.y3}, 3);
+            */
+
+            Collections.sort(TriangulosShape, new Comparator<TrianguloType>()
+                {
+                public int compare(TrianguloType o1, TrianguloType o2)
+                    {return ((int) (o2.zbuffer) - (int) (o1.zbuffer));}
+                });
+
+            Tpaint = Linhas.size();
+
+            for (i = 0; i < Tpaint; i++)
+                {
+                LineType Linha = Linhas.get(i);
+
+                g.setColor(Linha.color);
+                g.drawLine(Linha.x1, Linha.y1, Linha.x2, Linha.y2);
+                }
+
+            Tpaint = Textos.size();
+
+            for (i = 0; i < Tpaint; i++)
+                {
+                TextoType Texto = Textos.get(i);
+
+                g.setColor(Texto.color);
+                g.setFont(new Font("SansSerif", Font.PLAIN, Texto.tamanho));
+                g.drawString(Texto.texto, Texto.x, Texto.y);
+                }
+
+            Tpaint = TriangulosShape.size();
+
+            for (i = 0; i < Tpaint; i++)
+                {
+                TrianguloType Triangulo = TriangulosShape.get(i);
+
+                g.setColor(Triangulo.color);
+
+                if (TrianguloPoligono == 0)
+                    {
+                    for (j = 0; j < ResolucaoTriangulos; j++)
+                        {
+                        g.drawLine((int) Triangulo.x1, (int) Triangulo.y1, (int) (Triangulo.x2 + j * (Triangulo.x3 - Triangulo.x2) / ResolucaoTriangulos), (int) (Triangulo.y2 + j * (Triangulo.y3 - Triangulo.y2) / ResolucaoTriangulos));
+
+                        g.drawLine((int) Triangulo.x2, (int) Triangulo.y2, (int) (Triangulo.x1 + j * (Triangulo.x3 - Triangulo.x1) / ResolucaoTriangulos), (int) (Triangulo.y1 + j * (Triangulo.y3 - Triangulo.y1) / ResolucaoTriangulos));
+
+                        g.drawLine((int) Triangulo.x3, (int) Triangulo.y3, (int) (Triangulo.x2 + j * (Triangulo.x1 - Triangulo.x2) / ResolucaoTriangulos), (int) (Triangulo.y2 + j * (Triangulo.y1 - Triangulo.y2) / ResolucaoTriangulos));
+                        }
                     }
-                } catch (NoSuchElementException | ConcurrentModificationException | NullPointerException | IndexOutOfBoundsException e) {}
+                else
+                    g.fillPolygon(new int[]{Triangulo.x1, Triangulo.x2, Triangulo.x3},new int[]{Triangulo.y1, Triangulo.y2, Triangulo.y3}, 3);
+                }
+            } catch (NoSuchElementException | ConcurrentModificationException | NullPointerException | IndexOutOfBoundsException e) {}
         }
 
     public static void main (String[] args) {AV3DNavigator mainc = new AV3DNavigator(); if (args.length != 0) mainc.mainrun(args[0]); else mainc.mainrun("");}
@@ -1404,8 +1397,6 @@ public class AV3DNavigator extends JComponent
 
     public void DesenharEspaco(AV3DNavigator Comp)
         {
-        FlagDesenhar = 1;
-
         String [] EspacoStr2 = Espaco.split("@");
 
         String [] EspacoLinhas = {};
@@ -1428,7 +1419,8 @@ public class AV3DNavigator extends JComponent
             EspacoLegendas = UniaoStringLegendas.split("\\|");
             }
 
-        Comp.clearLines();
+        Comp.clearObjects();
+
         TotalLinhas = 0;
 
         TEspaco = EspacoLinhas.length;
@@ -1441,6 +1433,8 @@ public class AV3DNavigator extends JComponent
                 String [] Pontos = Campos[0].split(";");
                 String [] CoordenadasOrig = Pontos[0].split(",");
                 String [] CoordenadasDest = Pontos[1].split(",");
+
+                Pontoslength = Pontos.length;
 
                 if (ApfloatFlag == 0)
                     {
@@ -1456,37 +1450,33 @@ public class AV3DNavigator extends JComponent
 
                     double zd = -Double.parseDouble(CoordenadasDest[2]) - zt;
 
-                    try
+                    xi = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * DistanciaTela * (Math.cos(Rott) * (xo * Math.sin(Tetat) + yo * Math.cos(Tetat)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)) - Math.sin(Rott) * (xo * Math.cos(Tetat) * Math.sin(Phit) - yo * Math.sin(Tetat) * Math.sin(Phit) + zo * Math.cos(Phit)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)))) - CorrecaoX;
+
+                    yi = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * DistanciaTela * (Math.sin(Rott) * (xo * Math.sin(Tetat) + yo * Math.cos(Tetat)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)) + Math.cos(Rott) * (xo * Math.cos(Tetat) * Math.sin(Phit) - yo * Math.sin(Tetat) * Math.sin(Phit) + zo * Math.cos(Phit)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)))) - CorrecaoY;
+
+                    xf = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * DistanciaTela * (Math.cos(Rott) * (xd * Math.sin(Tetat) + yd * Math.cos(Tetat)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)) - Math.sin(Rott) * (xd * Math.cos(Tetat) * Math.sin(Phit) - yd * Math.sin(Tetat) * Math.sin(Phit) + zd * Math.cos(Phit)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)))) - CorrecaoX;
+
+                    yf = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * DistanciaTela * (Math.sin(Rott) * (xd * Math.sin(Tetat) + yd * Math.cos(Tetat)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)) + Math.cos(Rott) * (xd * Math.cos(Tetat) * Math.sin(Phit) - yd * Math.sin(Tetat) * Math.sin(Phit) + zd * Math.cos(Phit)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)))) - CorrecaoY;
+
+                    ProdutoEscalaro = xo * Math.cos(Tetat) * Math.cos(Phit) - yo * Math.sin(Tetat) * Math.cos(Phit) * FlagMouseY;
+
+                    ProdutoEscalard = xd * Math.cos(Tetat) * Math.cos(Phit) - yd * Math.sin(Tetat) * Math.cos(Phit) * FlagMouseY;
+
+                    if ((Math.acos(FlagMouseY * ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo)) < AnguloVisao + MargemAnguloVisao) && ((Math.acos(FlagMouseY * ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd)) < AnguloVisao + MargemAnguloVisao) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi + CorrecaoXF, xf + CorrecaoXF) < TamanhoPlanoX) && (Math.max(yi + CorrecaoYF, yf + CorrecaoYF) < TamanhoPlanoY)))
                         {
-                        xi = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * DistanciaTela * (Math.cos(Rott) * (xo * Math.sin(Tetat) + yo * Math.cos(Tetat)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)) - Math.sin(Rott) * (xo * Math.cos(Tetat) * Math.sin(Phit) - yo * Math.sin(Tetat) * Math.sin(Phit) + zo * Math.cos(Phit)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)))) - CorrecaoX;
+                        if (TotalLinhas + 1 < Integer.MAX_VALUE)
+                            TotalLinhas++;
+                        else break labelLinhas;
 
-                        yi = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * DistanciaTela * (Math.sin(Rott) * (xo * Math.sin(Tetat) + yo * Math.cos(Tetat)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)) + Math.cos(Rott) * (xo * Math.cos(Tetat) * Math.sin(Phit) - yo * Math.sin(Tetat) * Math.sin(Phit) + zo * Math.cos(Phit)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)))) - CorrecaoY;
-
-                        xf = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * DistanciaTela * (Math.cos(Rott) * (xd * Math.sin(Tetat) + yd * Math.cos(Tetat)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)) - Math.sin(Rott) * (xd * Math.cos(Tetat) * Math.sin(Phit) - yd * Math.sin(Tetat) * Math.sin(Phit) + zd * Math.cos(Phit)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)))) - CorrecaoX;
-
-                        yf = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * DistanciaTela * (Math.sin(Rott) * (xd * Math.sin(Tetat) + yd * Math.cos(Tetat)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)) + Math.cos(Rott) * (xd * Math.cos(Tetat) * Math.sin(Phit) - yd * Math.sin(Tetat) * Math.sin(Phit) + zd * Math.cos(Phit)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)))) - CorrecaoY;
-
-                        ProdutoEscalaro = xo * Math.cos(Tetat) * Math.cos(Phit) - yo * Math.sin(Tetat) * Math.cos(Phit) * FlagMouseY;
-
-                        ProdutoEscalard = xd * Math.cos(Tetat) * Math.cos(Phit) - yd * Math.sin(Tetat) * Math.cos(Phit) * FlagMouseY;
-
-                        if ((Math.acos(FlagMouseY * ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo)) < AnguloVisao + MargemAnguloVisao) && ((Math.acos(FlagMouseY * ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd)) < AnguloVisao + MargemAnguloVisao) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi + CorrecaoXF, xf + CorrecaoXF) < TamanhoPlanoX) && (Math.max(yi + CorrecaoYF, yf + CorrecaoYF) < TamanhoPlanoY)))
+                        if (Campos.length == 1)
+                            Comp.addLine(xi, yi, xf, yf, CorLinhas, TotalLinhas);
+                        else
                             {
-                            if (TotalLinhas + 1 < Integer.MAX_VALUE)
-                                TotalLinhas++;
-                            else break labelLinhas;
-
-                            if (Campos.length == 1)
-                                Comp.addLine(xi, yi, xf, yf, CorLinhas, i + 1);
-                            else
-                                {
-                                String [] RGB = Campos[1].split(",");
-                                Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), i + 1);
-                                StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
-                                }
+                            String [] RGB = Campos[1].split(",");
+                            Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TotalLinhas);
+                            StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                             }
                         }
-                    catch (Exception e) {}
                     }
                 else
                     {
@@ -1509,47 +1499,46 @@ public class AV3DNavigator extends JComponent
                     int xf;
                     int yf;
 
-                    try
+                    xi = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * ((new Apfloat(DistanciaTela)).multiply(ApfloatMath.cos(new Apfloat(Rott)).multiply(xoa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(yoa.multiply(ApfloatMath.cos(new Apfloat(Tetat))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).add(ApfloatMath.sin(new Apfloat(Rott)).multiply(xoa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).add(yoa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zoa.multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).multiply(new Apfloat(-1))))).doubleValue()) - CorrecaoX;
+
+                    yi = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * ((new Apfloat(DistanciaTela)).multiply(ApfloatMath.sin(new Apfloat(Rott)).multiply(xoa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(yoa.multiply(ApfloatMath.cos(new Apfloat(Tetat))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).add(ApfloatMath.cos(new Apfloat(Rott)).multiply(xoa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).add(yoa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zoa.multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa)))))))).doubleValue()) - CorrecaoY;
+
+                    xf = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * ((new Apfloat(DistanciaTela)).multiply(ApfloatMath.cos(new Apfloat(Rott)).multiply(xda.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(yda.multiply(ApfloatMath.cos(new Apfloat(Tetat))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).add(ApfloatMath.sin(new Apfloat(Rott)).multiply(xda.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).add(yda.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zda.multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).multiply(new Apfloat(-1))))).doubleValue()) - CorrecaoX;
+
+                    yf = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * ((new Apfloat(DistanciaTela)).multiply(ApfloatMath.sin(new Apfloat(Rott)).multiply(xda.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(yda.multiply(ApfloatMath.cos(new Apfloat(Tetat))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).add(ApfloatMath.cos(new Apfloat(Rott)).multiply(xda.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).add(yda.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zda.multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda)))))))).doubleValue()) - CorrecaoY;
+
+                    Apfloat ProdutoEscalaroa = xoa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).add(yoa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(FlagMouseY)).multiply(new Apfloat(-1)));
+
+                    Apfloat ProdutoEscalarda = xda.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).add(yda.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(FlagMouseY)).multiply(new Apfloat(-1)));
+
+                    if ((ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalaroa).divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalarda).divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.min(new Apfloat(xi), ApfloatMath.min(new Apfloat(yi), ApfloatMath.min(new Apfloat(xf), new Apfloat(yf)))).doubleValue() > 0) && (ApfloatMath.max(new Apfloat(xi + CorrecaoXF), (new Apfloat(xf + CorrecaoXF))).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (ApfloatMath.max(new Apfloat(yi + CorrecaoYF), (new Apfloat(yf + CorrecaoYF))).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue()))
                         {
-                        xi = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * ((new Apfloat(DistanciaTela)).multiply(ApfloatMath.cos(new Apfloat(Rott)).multiply(xoa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(yoa.multiply(ApfloatMath.cos(new Apfloat(Tetat))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).add(ApfloatMath.sin(new Apfloat(Rott)).multiply(xoa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).add(yoa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zoa.multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).multiply(new Apfloat(-1))))).doubleValue()) - CorrecaoX;
+                        if (TotalLinhas + 1 < Integer.MAX_VALUE)
+                            TotalLinhas++;
+                        else break labelLinhas;
 
-                        yi = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * ((new Apfloat(DistanciaTela)).multiply(ApfloatMath.sin(new Apfloat(Rott)).multiply(xoa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(yoa.multiply(ApfloatMath.cos(new Apfloat(Tetat))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).add(ApfloatMath.cos(new Apfloat(Rott)).multiply(xoa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).add(yoa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zoa.multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa)))))))).doubleValue()) - CorrecaoY;
-
-                        xf = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * ((new Apfloat(DistanciaTela)).multiply(ApfloatMath.cos(new Apfloat(Rott)).multiply(xda.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(yda.multiply(ApfloatMath.cos(new Apfloat(Tetat))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).add(ApfloatMath.sin(new Apfloat(Rott)).multiply(xda.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).add(yda.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zda.multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).multiply(new Apfloat(-1))))).doubleValue()) - CorrecaoX;
-
-                        yf = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * ((new Apfloat(DistanciaTela)).multiply(ApfloatMath.sin(new Apfloat(Rott)).multiply(xda.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(yda.multiply(ApfloatMath.cos(new Apfloat(Tetat))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).add(ApfloatMath.cos(new Apfloat(Rott)).multiply(xda.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).add(yda.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zda.multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda)))))))).doubleValue()) - CorrecaoY;
-
-                        Apfloat ProdutoEscalaroa = xoa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).add(yoa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(FlagMouseY)).multiply(new Apfloat(-1)));
-
-                        Apfloat ProdutoEscalarda = xda.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).add(yda.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(FlagMouseY)).multiply(new Apfloat(-1)));
-
-                        if ((ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalaroa).divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalarda).divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.min(new Apfloat(xi), ApfloatMath.min(new Apfloat(yi), ApfloatMath.min(new Apfloat(xf), new Apfloat(yf)))).doubleValue() > 0) && (ApfloatMath.max(new Apfloat(xi + CorrecaoXF), (new Apfloat(xf + CorrecaoXF))).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (ApfloatMath.max(new Apfloat(yi + CorrecaoYF), (new Apfloat(yf + CorrecaoYF))).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue()))
+                        if (Campos.length == 1)
+                            Comp.addLine(xi, yi, xf, yf, CorLinhas, TotalLinhas);
+                        else
                             {
-                            if (TotalLinhas + 1 < Integer.MAX_VALUE)
-                                TotalLinhas++;
-                            else break labelLinhas;
-
-                            if (Campos.length == 1)
-                                Comp.addLine(xi, yi, xf, yf, CorLinhas, i + 1);
-                            else
+                            if (! (Campos[1].equals("")))
                                 {
-                                if (! (Campos[1].equals("")))
-                                    {
-                                    String [] RGB = Campos[1].split(",");
-                                    Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), i + 1);
-                                    StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
-                                    }
-                                else
-                                    Comp.addLine(xi, yi, xf, yf, CorLinhas, i + 1);
+                                String [] RGB = Campos[1].split(",");
+                                Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TotalLinhas);
+                                StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                                 }
+                            else
+                                Comp.addLine(xi, yi, xf, yf, CorLinhas, TotalLinhas);
                             }
                         }
-                    catch (Exception e) {}
                     }
                 }
             }
 
-        Comp.clearTriangulosShape();
+        // Para identificar a última linha.
+
+        Comp.addLine(0, 0, 0, 0, Color.WHITE, Integer.MAX_VALUE);
+
         TotalTriangulosShapePreenchidos = 0;
 
         TEspaco = EspacoTriangulosShapePreenchidos.length;
@@ -1562,14 +1551,13 @@ public class AV3DNavigator extends JComponent
                 String [] Campos = EspacoTriangulosShapePreenchidos[i].split("c");
                 String [] Pontos = Campos[0].split(";");
 
-                int ContadorPontos = 0;
-                int ContadorTriangulosDesenhar = 0;
+                Pontoslength = Pontos.length;
 
-                for (j = 0; j < Pontos.length; j++)
+                int ContadorPontos = 0;
+
+                for (j = 0; j < Pontoslength; j++)
                     {
                     String [] Coordenadas = Pontos[j].split(",");
-
-                    ContadorTriangulosDesenhar += Coordenadas.length;
 
                     if (ApfloatFlag == 0)
                         {
@@ -1579,22 +1567,18 @@ public class AV3DNavigator extends JComponent
 
                         double zp = -Double.parseDouble(Coordenadas[2]) - zt;
 
-                        try
+                        xpp = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * DistanciaTela * (Math.cos(Rott) * (xp * Math.sin(Tetat) + yp * Math.cos(Tetat)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)) - Math.sin(Rott) * (xp * Math.cos(Tetat) * Math.sin(Phit) - yp * Math.sin(Tetat) * Math.sin(Phit) + zp * Math.cos(Phit)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)))) - CorrecaoX;
+
+                        ypp = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * DistanciaTela * (Math.sin(Rott) * (xp * Math.sin(Tetat) + yp * Math.cos(Tetat)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)) + Math.cos(Rott) * (xp * Math.cos(Tetat) * Math.sin(Phit) - yp * Math.sin(Tetat) * Math.sin(Phit) + zp * Math.cos(Phit)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)))) - CorrecaoY;
+
+                        ProdutoEscalar = xp * Math.cos(Tetat) * Math.cos(Phit) - yp * Math.sin(Tetat) * Math.cos(Phit) * FlagMouseY;
+
+                        if ((Math.acos(FlagMouseY * ProdutoEscalar / Math.sqrt(xp * xp + yp * yp + zp * zp)) < AnguloVisao + MargemAnguloVisao) && ((Math.min(xpp, ypp) > 0) && (xpp + CorrecaoXF < TamanhoPlanoX) && (ypp + CorrecaoYF < TamanhoPlanoY)))
                             {
-                            xpp = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * DistanciaTela * (Math.cos(Rott) * (xp * Math.sin(Tetat) + yp * Math.cos(Tetat)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)) - Math.sin(Rott) * (xp * Math.cos(Tetat) * Math.sin(Phit) - yp * Math.sin(Tetat) * Math.sin(Phit) + zp * Math.cos(Phit)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)))) - CorrecaoX;
-
-                            ypp = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * DistanciaTela * (Math.sin(Rott) * (xp * Math.sin(Tetat) + yp * Math.cos(Tetat)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)) + Math.cos(Rott) * (xp * Math.cos(Tetat) * Math.sin(Phit) - yp * Math.sin(Tetat) * Math.sin(Phit) + zp * Math.cos(Phit)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)))) - CorrecaoY;
-
-                            ProdutoEscalar = xp * Math.cos(Tetat) * Math.cos(Phit) - yp * Math.sin(Tetat) * Math.cos(Phit) * FlagMouseY;
-
-                            if ((Math.acos(FlagMouseY * ProdutoEscalar / Math.sqrt(xp * xp + yp * yp + zp * zp)) < AnguloVisao + MargemAnguloVisao) && ((Math.min(xpp, ypp) > 0) && (xpp + CorrecaoXF < TamanhoPlanoX) && (ypp + CorrecaoYF < TamanhoPlanoY)))
-                                {
-                                ContadorPontos++;
-                                TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
-                                SomaXP += xp; SomaYP += yp; SomaZP += zp;
-                                }
+                            ContadorPontos++;
+                            TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
+                            SomaXP += xp; SomaYP += yp; SomaZP += zp;
                             }
-                        catch (Exception e) {}
                         }
                     else
                         {
@@ -1604,31 +1588,27 @@ public class AV3DNavigator extends JComponent
 
                         Apfloat zpa = (new Apfloat(-Double.parseDouble(Coordenadas[2]))).add(new Apfloat(-zt));
 
-                        try
+                        xpp = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * ((new Apfloat(DistanciaTela)).multiply(ApfloatMath.cos(new Apfloat(Rott)).multiply(xpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(ypa.multiply(ApfloatMath.cos(new Apfloat(Tetat))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa))))).add(ApfloatMath.sin(new Apfloat(Rott)).multiply(xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zpa.multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa))))).multiply(new Apfloat(-1))))).doubleValue()) - CorrecaoX;
+
+                        ypp = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * ((new Apfloat(DistanciaTela)).multiply(ApfloatMath.sin(new Apfloat(Rott)).multiply(xpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(ypa.multiply(ApfloatMath.cos(new Apfloat(Tetat))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa))))).add(ApfloatMath.cos(new Apfloat(Rott)).multiply(xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zpa.multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa)))))))).doubleValue()) - CorrecaoY;
+
+                        Apfloat ProdutoEscalara = xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(FlagMouseY)).multiply(new Apfloat(-1)));
+
+                        if ((ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalara).divide(ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(zpa))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && ((new Apfloat(xpp + CorrecaoXF)).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (new Apfloat(ypp + CorrecaoYF)).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue())
                             {
-                            xpp = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * ((new Apfloat(DistanciaTela)).multiply(ApfloatMath.cos(new Apfloat(Rott)).multiply(xpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(ypa.multiply(ApfloatMath.cos(new Apfloat(Tetat))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa))))).add(ApfloatMath.sin(new Apfloat(Rott)).multiply(xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zpa.multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa))))).multiply(new Apfloat(-1))))).doubleValue()) - CorrecaoX;
-
-                            ypp = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * ((new Apfloat(DistanciaTela)).multiply(ApfloatMath.sin(new Apfloat(Rott)).multiply(xpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).add(ypa.multiply(ApfloatMath.cos(new Apfloat(Tetat))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa))))).add(ApfloatMath.cos(new Apfloat(Rott)).multiply(xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.sin(new Apfloat(Phit))).multiply(new Apfloat(-1))).add(zpa.multiply(ApfloatMath.cos(new Apfloat(Phit))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa)))))))).doubleValue()) - CorrecaoY;
-
-                            Apfloat ProdutoEscalara = xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(FlagMouseY)).multiply(new Apfloat(-1)));
-
-                            if ((ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalara).divide(ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(zpa))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && ((new Apfloat(xpp + CorrecaoXF)).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (new Apfloat(ypp + CorrecaoYF)).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue())
-                                {
-                                ContadorPontos++;
-                                TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
-                                SomaXP += xpa.doubleValue();
-                                SomaYP += ypa.doubleValue();
-                                SomaZP += zpa.doubleValue();
-                                }
+                            ContadorPontos++;
+                            TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
+                            SomaXP += xpa.doubleValue();
+                            SomaYP += ypa.doubleValue();
+                            SomaZP += zpa.doubleValue();
                             }
-                        catch (Exception e) {}
                         }
 
-                    if (TotalTriangulosShapePreenchidos + Pontos.length < Integer.MAX_VALUE)
-                        TotalTriangulosShapePreenchidos += Pontos.length;
+                    if (TotalTriangulosShapePreenchidos + Pontoslength < Integer.MAX_VALUE)
+                        TotalTriangulosShapePreenchidos += Pontoslength;
                     else break labelPoligonos;
 
-                    if (ContadorPontos == Pontos.length)
+                    if (ContadorPontos == Pontoslength)
                             {
                             String [] PontosTriangulos = TriangulosString.split(";");
                             String [] ParametroTriangulo = new String[3];
@@ -1637,13 +1617,13 @@ public class AV3DNavigator extends JComponent
 
                             do
                                 {
-                                ParametroTriangulo[0] = PontosTriangulos[l % Pontos.length];
+                                ParametroTriangulo[0] = PontosTriangulos[l % Pontoslength];
 
                                 k = 1;
 
                                 do
                                     {
-                                    ParametroTriangulo[k] = PontosTriangulos[(k + l) % Pontos.length];
+                                    ParametroTriangulo[k] = PontosTriangulos[(k + l) % Pontoslength];
                                     } while (k++ < 2);
 
                                 String [] ParametroTrianguloCoordenadas1 = ParametroTriangulo[0].split(",");
@@ -1653,21 +1633,21 @@ public class AV3DNavigator extends JComponent
                                 String [] ParametroTrianguloCoordenadas3 = ParametroTriangulo[2].split(",");
 
                                 if (Campos.length == 1)
-                                    Comp.addTriangulosShape(Integer.parseInt(ParametroTrianguloCoordenadas1[0]), Integer.parseInt(ParametroTrianguloCoordenadas1[1]), Integer.parseInt(ParametroTrianguloCoordenadas2[0]), Integer.parseInt(ParametroTrianguloCoordenadas2[1]), Integer.parseInt(ParametroTrianguloCoordenadas3[0]), Integer.parseInt(ParametroTrianguloCoordenadas3[1]), CorTriangulosShape, (x - SomaXP / Pontos.length) * (x - SomaXP / Pontos.length) + (y - SomaYP / Pontos.length) * (y - SomaYP / Pontos.length) + (z - SomaZP / Pontos.length) * (z - SomaZP / Pontos.length), ContadorTriangulosDesenhar);
+                                    Comp.addTriangulosShape(Integer.parseInt(ParametroTrianguloCoordenadas1[0]), Integer.parseInt(ParametroTrianguloCoordenadas1[1]), Integer.parseInt(ParametroTrianguloCoordenadas2[0]), Integer.parseInt(ParametroTrianguloCoordenadas2[1]), Integer.parseInt(ParametroTrianguloCoordenadas3[0]), Integer.parseInt(ParametroTrianguloCoordenadas3[1]), CorTriangulosShape, (x - SomaXP / Pontoslength) * (x - SomaXP / Pontoslength) + (y - SomaYP / Pontoslength) * (y - SomaYP / Pontoslength) + (z - SomaZP / Pontoslength) * (z - SomaZP / Pontoslength), TotalTriangulosShapePreenchidos);
                                 else
                                     {
                                     if (! (Campos[1].equals("")))
                                         {
                                         String [] RGB = Campos[1].split(",");
-                                        Comp.addTriangulosShape(Integer.parseInt(ParametroTrianguloCoordenadas1[0]), Integer.parseInt(ParametroTrianguloCoordenadas1[1]), Integer.parseInt(ParametroTrianguloCoordenadas2[0]), Integer.parseInt(ParametroTrianguloCoordenadas2[1]), Integer.parseInt(ParametroTrianguloCoordenadas3[0]), Integer.parseInt(ParametroTrianguloCoordenadas3[1]), new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), (x - SomaXP / Pontos.length) * (x - SomaXP / Pontos.length) + (y - SomaYP / Pontos.length) * (y - SomaYP / Pontos.length) + (z - SomaZP / Pontos.length) * (z - SomaZP / Pontos.length), ContadorTriangulosDesenhar);
+                                        Comp.addTriangulosShape(Integer.parseInt(ParametroTrianguloCoordenadas1[0]), Integer.parseInt(ParametroTrianguloCoordenadas1[1]), Integer.parseInt(ParametroTrianguloCoordenadas2[0]), Integer.parseInt(ParametroTrianguloCoordenadas2[1]), Integer.parseInt(ParametroTrianguloCoordenadas3[0]), Integer.parseInt(ParametroTrianguloCoordenadas3[1]), new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), (x - SomaXP / Pontoslength) * (x - SomaXP / Pontoslength) + (y - SomaYP / Pontoslength) * (y - SomaYP / Pontoslength) + (z - SomaZP / Pontoslength) * (z - SomaZP / Pontoslength), TotalTriangulosShapePreenchidos);
                                         StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                                         }
                                     else
-                                        Comp.addTriangulosShape(Integer.parseInt(ParametroTrianguloCoordenadas1[0]), Integer.parseInt(ParametroTrianguloCoordenadas1[1]), Integer.parseInt(ParametroTrianguloCoordenadas2[0]), Integer.parseInt(ParametroTrianguloCoordenadas2[1]), Integer.parseInt(ParametroTrianguloCoordenadas3[0]), Integer.parseInt(ParametroTrianguloCoordenadas3[1]), CorTriangulosShape, (x - SomaXP / Pontos.length) * (x - SomaXP / Pontos.length) + (y - SomaYP / Pontos.length) * (y - SomaYP / Pontos.length) + (z - SomaZP / Pontos.length) * (z - SomaZP / Pontos.length), ContadorTriangulosDesenhar);
+                                        Comp.addTriangulosShape(Integer.parseInt(ParametroTrianguloCoordenadas1[0]), Integer.parseInt(ParametroTrianguloCoordenadas1[1]), Integer.parseInt(ParametroTrianguloCoordenadas2[0]), Integer.parseInt(ParametroTrianguloCoordenadas2[1]), Integer.parseInt(ParametroTrianguloCoordenadas3[0]), Integer.parseInt(ParametroTrianguloCoordenadas3[1]), CorTriangulosShape, (x - SomaXP / Pontoslength) * (x - SomaXP / Pontoslength) + (y - SomaYP / Pontoslength) * (y - SomaYP / Pontoslength) + (z - SomaZP / Pontoslength) * (z - SomaZP / Pontoslength), TotalTriangulosShapePreenchidos);
                                     }
 
                                 k = 0;
-                                } while (l++ < Pontos.length);
+                                } while (l++ < Pontoslength);
 
                             TriangulosString = "";
                             SomaXP = 0; SomaYP = 0; SomaZP = 0;
@@ -1676,7 +1656,11 @@ public class AV3DNavigator extends JComponent
                 }
             }
 
-        Comp.clearTextos();
+        // Para identificar o último triângulo.
+
+        Comp.addTriangulosShape(0, 0, 0, 0, 0, 0, Color.WHITE, 0, Integer.MAX_VALUE);
+
+        TotalLegendas = 0;
 
         int yl = ShiftVerticalLegendas;
 
@@ -1702,13 +1686,27 @@ public class AV3DNavigator extends JComponent
                     if (! (Campos[1].equals("")))
                         {
                         String [] RGB = Campos[1].split(",");
-                        Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, i + 1);
+
+                        // Para identificar a última legenda.
+
+                        if (i == TEspaco - 1)
+                            Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, Integer.MAX_VALUE);
+                        else
+                            Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, i + 1);
+
                         StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                         }
                     else
                         {
                         String [] RGB = Campos[1].split(",");
-                        Comp.addTexto(Campos[0], 5, yl, CorLegendas, TamanhoFonteLegendas, i + 1);
+
+                        // Para identificar a última legenda.
+
+                        if (i == TEspaco - 1)
+                            Comp.addTexto(Campos[0], 5, yl, CorLegendas, TamanhoFonteLegendas, Integer.MAX_VALUE);
+                        else
+                            Comp.addTexto(Campos[0], 5, yl, CorLegendas, TamanhoFonteLegendas, i + 1);
+
                         StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                         }
 
@@ -1719,14 +1717,28 @@ public class AV3DNavigator extends JComponent
                     if (! (Campos[2].equals("")))
                         {
                         String [] RGB = Campos[1].split(",");
-                        Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), Integer.parseInt(Campos[2]), i + 1);
+
+                        // Para identificar a última legenda.
+
+                        if (i == TEspaco - 1)
+                            Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), Integer.parseInt(Campos[2]), Integer.MAX_VALUE);
+                        else
+                            Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), Integer.parseInt(Campos[2]), i + 1);
+
                         StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                         yl += Integer.parseInt(Campos[2]);
                         }
                     else
                         {
                         String [] RGB = Campos[1].split(",");
-                        Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, i + 1);
+
+                        // Para identificar a última legenda.
+
+                        if (i == TEspaco - 1)
+                            Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, Integer.MAX_VALUE);
+                        else
+                            Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, i + 1);
+
                         StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                         yl += TamanhoFonteLegendas + EspacamentoVerticalLegendas;
                         }
@@ -1735,7 +1747,6 @@ public class AV3DNavigator extends JComponent
             }
 
         try {Thread.sleep(SleepTime);} catch(InterruptedException e) {}
-        FlagDesenhar = 0;
         }
         
     public String LerEspaco(String ArquivoEspacoArg)
@@ -1764,9 +1775,11 @@ public class AV3DNavigator extends JComponent
 
                         String [] Pontos = Campos[0].split(";");
 
-                        if (Pontos.length != 2) return "Erro";
+                        Pontoslength = Pontos.length;
 
-                        for (j = 0; j < Pontos.length; j++)
+                        if (Pontoslength != 2) return "Erro";
+
+                        for (j = 0; j < Pontoslength; j++)
                             {
                             String [] Coordenadas = Pontos[j].split(",");
 
@@ -1811,7 +1824,9 @@ public class AV3DNavigator extends JComponent
                         if (Campos.length > 2) return "Erro";
                         String [] Pontos = Campos[0].split(";");
 
-                        for (j = 0; j < Pontos.length; j++)
+                        Pontoslength = Pontos.length;
+
+                        for (j = 0; j < Pontoslength; j++)
                             {
                             String [] Coordenadas = Pontos[j].split(",");
 
