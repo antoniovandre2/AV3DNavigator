@@ -650,10 +650,7 @@ public class AV3DNavigator extends JComponent
                                 Espaco = "";
                                 }
                             else
-                                {
-                                try {Thread.sleep(100);} catch(InterruptedException e) {}
                                 DesenharEspaco(Comp);
-                                }
                             }
                         }
 
@@ -883,7 +880,6 @@ public class AV3DNavigator extends JComponent
         FrameEspaco.pack();
         FrameEspaco.setVisible(true);
 
-        try {Thread.sleep(100);} catch(InterruptedException e) {}
         if (! (Espaco.equals("") || Espaco.equals("Erro"))) DesenharEspaco(Comp);
 
         while(Sair == 0)
@@ -1745,8 +1741,6 @@ public class AV3DNavigator extends JComponent
                     }
                 }
             }
-
-        try {Thread.sleep(SleepTime);} catch(InterruptedException e) {}
         }
         
     public String LerEspaco(String ArquivoEspacoArg)
