@@ -199,6 +199,7 @@ public class AV3DNavigator extends JComponent
     public double FlagMouseY = 1;
     public int TEspaco;
     public int Tpaint;
+    public int FlagRepaint = 0;
     public int Pontoslength;
 
     public class GradientLabel extends JLabel
@@ -1543,9 +1544,11 @@ public class AV3DNavigator extends JComponent
                 }
             }
 
+        if (TEspaco > 0) FlagRepaint = 1;
+
         // Para identificar a última linha.
 
-        if (TEspaco > 0) Comp.addLine(0, 0, 0, 0, Color.WHITE, Integer.MAX_VALUE);
+        // if (TEspaco > 0) Comp.addLine(0, 0, 0, 0, Color.WHITE, Integer.MAX_VALUE);
 
         TotalTriangulosShapePreenchidos = 0;
 
@@ -1664,9 +1667,11 @@ public class AV3DNavigator extends JComponent
                 }
             }
 
+        if (TEspaco > 0) FlagRepaint = 1;
+
         // Para identificar o último triângulo.
 
-        if (TEspaco > 0) Comp.addTriangulosShape(0, 0, 0, 0, 0, 0, Color.WHITE, 0, Integer.MAX_VALUE);
+        //if (TEspaco > 0) Comp.addTriangulosShape(0, 0, 0, 0, 0, 0, Color.WHITE, 0, Integer.MAX_VALUE);
 
         TotalLegendas = 0;
 
@@ -1695,12 +1700,7 @@ public class AV3DNavigator extends JComponent
                         {
                         String [] RGB = Campos[1].split(",");
 
-                        // Para identificar a última legenda.
-
-                        if (i == TEspaco - 1)
-                            Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, Integer.MAX_VALUE);
-                        else
-                            Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, i + 1);
+                        Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, i + 1);
 
                         StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                         }
@@ -1708,12 +1708,7 @@ public class AV3DNavigator extends JComponent
                         {
                         String [] RGB = Campos[1].split(",");
 
-                        // Para identificar a última legenda.
-
-                        if (i == TEspaco - 1)
-                            Comp.addTexto(Campos[0], 5, yl, CorLegendas, TamanhoFonteLegendas, Integer.MAX_VALUE);
-                        else
-                            Comp.addTexto(Campos[0], 5, yl, CorLegendas, TamanhoFonteLegendas, i + 1);
+                        Comp.addTexto(Campos[0], 5, yl, CorLegendas, TamanhoFonteLegendas, i + 1);
 
                         StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                         }
@@ -1726,12 +1721,7 @@ public class AV3DNavigator extends JComponent
                         {
                         String [] RGB = Campos[1].split(",");
 
-                        // Para identificar a última legenda.
-
-                        if (i == TEspaco - 1)
-                            Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), Integer.parseInt(Campos[2]), Integer.MAX_VALUE);
-                        else
-                            Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), Integer.parseInt(Campos[2]), i + 1);
+                        Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), Integer.parseInt(Campos[2]), i + 1);
 
                         StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                         yl += Integer.parseInt(Campos[2]);
@@ -1740,12 +1730,7 @@ public class AV3DNavigator extends JComponent
                         {
                         String [] RGB = Campos[1].split(",");
 
-                        // Para identificar a última legenda.
-
-                        if (i == TEspaco - 1)
-                            Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, Integer.MAX_VALUE);
-                        else
-                            Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, i + 1);
+                        Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, i + 1);
 
                         StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
                         yl += TamanhoFonteLegendas + EspacamentoVerticalLegendas;
@@ -1753,6 +1738,11 @@ public class AV3DNavigator extends JComponent
                     }
                 }
             }
+
+        // Para identificar a última legenda.
+
+        if ((TEspaco > 0) || (FlagRepaint == 1))
+            {Comp.addTexto("", 0, 0, Color.WHITE, 0, Integer.MAX_VALUE); FlagRepaint = 0;}
         }
         
     public String LerEspaco(String ArquivoEspacoArg)
