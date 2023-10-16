@@ -311,16 +311,28 @@ public class AV3DNavigator extends JComponent
     public LinkedList<TextoType> Textos = new LinkedList<TextoType>();
 
     public void addLine(int x1, int x2, int x3, int x4, Color color, int n)
-        {Linhas.add(new LineType(x1, x2, x3, x4, color));}
+        {
+        Linhas.add(new LineType(x1, x2, x3, x4, color));
+
+        // Último repaint para desenhar.
+
+        if (n == Integer.MAX_VALUE) repaint();
+        }
 
     public void addTriangulosShape(int x1, int y1, int x2, int y2, int x3, int y3, Color color, double zbuffer, int n)
-        {TriangulosShape.add(new TrianguloType(x1, y1, x2, y2, x3, y3, color, zbuffer));}
+        {
+        TriangulosShape.add(new TrianguloType(x1, y1, x2, y2, x3, y3, color, zbuffer));
+
+        // Último repaint para desenhar.
+
+        if (n == Integer.MAX_VALUE) repaint();
+        }
 
     public void addTexto(String texto, int x, int y, Color color, int tamanho, int n)
         {
         Textos.add(new TextoType(texto, x, y, color, tamanho));
 
-        // Único repaint para desenhar todos os objetos. Deve ficar aqui, pois os textos são os últimos objetos a ser renderizados.
+        // Último repaint para desenhar.
 
         if (n == Integer.MAX_VALUE) repaint();
         }
@@ -1533,7 +1545,7 @@ public class AV3DNavigator extends JComponent
 
         // Para identificar a última linha.
 
-        Comp.addLine(0, 0, 0, 0, Color.WHITE, Integer.MAX_VALUE);
+        if (TEspaco > 0) Comp.addLine(0, 0, 0, 0, Color.WHITE, Integer.MAX_VALUE);
 
         TotalTriangulosShapePreenchidos = 0;
 
@@ -1654,7 +1666,7 @@ public class AV3DNavigator extends JComponent
 
         // Para identificar o último triângulo.
 
-        Comp.addTriangulosShape(0, 0, 0, 0, 0, 0, Color.WHITE, 0, Integer.MAX_VALUE);
+        if (TEspaco > 0) Comp.addTriangulosShape(0, 0, 0, 0, 0, 0, Color.WHITE, 0, Integer.MAX_VALUE);
 
         TotalLegendas = 0;
 
