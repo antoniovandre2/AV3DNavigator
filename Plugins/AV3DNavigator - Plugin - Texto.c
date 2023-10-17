@@ -227,8 +227,14 @@ int main (int argc, char * argv[])
     printf("@");
 
     double shiftlateral = 0;
+    int lengthfontstr = strlen(fontstring);
+    int kprocurar = -1;
 
-    for (i = 0; i < argi; i++)
+    for (i = 0; i < lengthfontstr; i++)
+        if ((fontstring[i] == '|') && (fontstring[i+1] == '|') && (fontstring[i+2] == '|'))
+            {kprocurar = i + 3; break;}
+
+    if (kprocurar != -1) for (i = 0; i < argi; i++)
         {
         int lengthtexto = strlen(texto[i]);
 
@@ -238,9 +244,8 @@ int main (int argc, char * argv[])
             int flagquadrilateros = 0;
             int flagcurvas = 0;
             double max = 0;
-            int lengthfontstr = strlen(fontstring);
 
-            k = 0;
+            k = kprocurar;
 
             do
                 {
