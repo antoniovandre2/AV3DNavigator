@@ -20,7 +20,7 @@ Argumentos: 1: primeiramente a string título e, após barra vertical "|", strin
 #define VERDADE 1
 
 #define EVALSOFTWARE "antoniovandre_eval_windows.exe"
-#define EVALSOFTWARETAIL " 0 2>> /dev/null \| tr -d '\n'"
+#define EVALSOFTWARETAIL " 0 2>> /dev/null \| tr -d ' ' \| tr -d '\n'"
 #define TOKENINICIOEVAL "("
 #define TOKENFIMEVAL ")"
 
