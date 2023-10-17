@@ -16,7 +16,7 @@ Argumentos: 1: uma string separada por barras verticais "|", cada campo composto
 #include <math.h>
 
 #define MAXITENS 10
-#define MAXTAMANHOCAMPO 1024
+#define MAXTAMANHOCAMPO 8192
 #define VERDADE 1
 
 int main (int argc, char * argv[])
@@ -96,7 +96,7 @@ int main (int argc, char * argv[])
 
     if (fptr == NULL) {printf(mensagemerroarquivofontenaoabrir); return 1;}
 
-    fgets(fontstring, MAXTAMANHOCAMPO, fptr);
+    fread(fontstring, MAXTAMANHOCAMPO, 1, fptr);
 
     fclose(fptr);
 
@@ -227,12 +227,12 @@ int main (int argc, char * argv[])
     printf("@");
 
     double shiftlateral = 0;
-    int lengthfontstr = strlen(fontstring);
-    int kprocurar = -1;
+    long lengthfontstr = strlen(fontstring);
+    long kprocurar = -1;
 
-    for (i = 0; i < lengthfontstr; i++)
-        if ((fontstring[i] == '|') && (fontstring[i+1] == '|') && (fontstring[i+2] == '|'))
-            {kprocurar = i + 3; break;}
+    for (long I = 0; I < lengthfontstr; I++)
+        if ((fontstring[I] == '|') && (fontstring[I+1] == '|') && (fontstring[I+2] == '|'))
+            {kprocurar = I + 3; break;}
 
     if (kprocurar != -1) for (i = 0; i < argi; i++)
         {
