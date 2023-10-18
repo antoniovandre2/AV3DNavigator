@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 15-10-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 18-10-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -1748,11 +1748,14 @@ public class AV3DNavigator extends JComponent
     public String LerEspaco(String ArquivoEspacoArg)
         {
         File file = new File(ArquivoEspacoArg);
+        int ContadorEspacoInvalido = 0;
 
         try
             {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String EspacoStr = br.readLine();
+
+            if (EspacoStr == null) return "Erro";
 
             String [] EspacoStr2 = EspacoStr.split("@");
 
@@ -1761,6 +1764,8 @@ public class AV3DNavigator extends JComponent
                 String [] EspacoLinhas = EspacoStr2[0].split("\\|");
 
                 TEspaco = EspacoLinhas.length;
+
+                ContadorEspacoInvalido += TEspaco;
 
                 for (i = 0; i < TEspaco; i++)
                     {
@@ -1812,6 +1817,8 @@ public class AV3DNavigator extends JComponent
 
                 TEspaco = EspacoTriangulosShapePreenchidos.length;
 
+                ContadorEspacoInvalido += TEspaco;
+
                 for (i = 0; i < TEspaco; i++)
                     {
                     if (! (EspacoTriangulosShapePreenchidos[i].equals("")))
@@ -1862,7 +1869,7 @@ public class AV3DNavigator extends JComponent
 
                 String [] EspacoLegendas = UniaoStringLegendas.split("\\|");
 
-                TEspaco = EspacoLegendas.length;
+                ContadorEspacoInvalido += TEspaco;
 
                 for (i = 0; i < TEspaco; i++)
                     {
@@ -1898,6 +1905,8 @@ public class AV3DNavigator extends JComponent
                         }
                     }
                 }
+
+            if (ContadorEspacoInvalido == 0) return "Erro";
 
             return EspacoStr;
             } catch (IOException e) {return "Erro";}
