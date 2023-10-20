@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 18-10-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 20-10-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -1868,6 +1868,8 @@ public class AV3DNavigator extends JComponent
                     UniaoStringLegendas = UniaoStringLegendas + "@" + EspacoStr2[i];
 
                 String [] EspacoLegendas = UniaoStringLegendas.split("\\|");
+
+                TEspaco = EspacoLegendas.length;
 
                 ContadorEspacoInvalido += TEspaco;
 
