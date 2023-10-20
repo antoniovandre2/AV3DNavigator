@@ -91,7 +91,7 @@ public class AV3DNavigator extends JComponent
     public double FatorAnguloVisao = 1; // Default: 1.
     public static double TetaMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
     public static double PhiMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
-    public static double MargemAnguloVisao = 0.5; // Default: 0.5.
+    public static double MargemAnguloVisao = 0.1; // Default: 0.1.
     public static int TamanhoFonteLabelStatus = 10; // Default: 10.
     public static int TamanhoFonteLabelURL = 11; // Default: 11.
     public static int TamanhoFonteLabelHelp = 11; // Default: 11.
@@ -1471,7 +1471,7 @@ public class AV3DNavigator extends JComponent
 
                     ProdutoEscalard = xd * Math.cos(Tetat) * Math.cos(Phit) - yd * Math.sin(Tetat) * Math.cos(Phit) * FlagMouseY;
 
-                    if ((Math.acos(FlagMouseY * ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo)) < AnguloVisao + MargemAnguloVisao) && ((Math.acos(FlagMouseY * ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd)) < AnguloVisao + MargemAnguloVisao) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi + CorrecaoXF, xf + CorrecaoXF) < TamanhoPlanoX) && (Math.max(yi + CorrecaoYF, yf + CorrecaoYF) < TamanhoPlanoY)))
+                    if ((Math.abs(Math.acos(FlagMouseY * ProdutoEscalaro / Math.sqrt(xo * xo + yo * yo + zo * zo))) < AnguloVisao + MargemAnguloVisao) && ((Math.abs(Math.acos(FlagMouseY * ProdutoEscalard / Math.sqrt(xd * xd + yd * yd + zd * zd))) < AnguloVisao + MargemAnguloVisao) && (Math.min(xi, Math.min(yi, Math.min(xf, yf))) > 0) && (Math.max(xi + CorrecaoXF, xf + CorrecaoXF) < TamanhoPlanoX) && (Math.max(yi + CorrecaoYF, yf + CorrecaoYF) < TamanhoPlanoY)))
                         {
                         if (TotalLinhas + 1 < Integer.MAX_VALUE)
                             TotalLinhas++;
@@ -1520,7 +1520,7 @@ public class AV3DNavigator extends JComponent
 
                     Apfloat ProdutoEscalarda = xda.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).add(yda.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(FlagMouseY)).multiply(new Apfloat(-1)));
 
-                    if ((ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalaroa).divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalarda).divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.min(new Apfloat(xi), ApfloatMath.min(new Apfloat(yi), ApfloatMath.min(new Apfloat(xf), new Apfloat(yf)))).doubleValue() > 0) && (ApfloatMath.max(new Apfloat(xi + CorrecaoXF), (new Apfloat(xf + CorrecaoXF))).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (ApfloatMath.max(new Apfloat(yi + CorrecaoYF), (new Apfloat(yf + CorrecaoYF))).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue()))
+                    if ((ApfloatMath.abs(ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalaroa).divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa)))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.abs(ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalarda).divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda)))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.min(new Apfloat(xi), ApfloatMath.min(new Apfloat(yi), ApfloatMath.min(new Apfloat(xf), new Apfloat(yf)))).doubleValue() > 0) && (ApfloatMath.max(new Apfloat(xi + CorrecaoXF), (new Apfloat(xf + CorrecaoXF))).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (ApfloatMath.max(new Apfloat(yi + CorrecaoYF), (new Apfloat(yf + CorrecaoYF))).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue()))
                         {
                         if (TotalLinhas + 1 < Integer.MAX_VALUE)
                             TotalLinhas++;
@@ -1584,7 +1584,7 @@ public class AV3DNavigator extends JComponent
 
                         ProdutoEscalar = xp * Math.cos(Tetat) * Math.cos(Phit) - yp * Math.sin(Tetat) * Math.cos(Phit) * FlagMouseY;
 
-                        if ((Math.acos(FlagMouseY * ProdutoEscalar / Math.sqrt(xp * xp + yp * yp + zp * zp)) < AnguloVisao + MargemAnguloVisao) && ((Math.min(xpp, ypp) > 0) && (xpp + CorrecaoXF < TamanhoPlanoX) && (ypp + CorrecaoYF < TamanhoPlanoY)))
+                        if ((Math.abs(Math.acos(FlagMouseY * ProdutoEscalar / Math.sqrt(xp * xp + yp * yp + zp * zp))) < AnguloVisao + MargemAnguloVisao) && ((Math.min(xpp, ypp) > 0) && (xpp + CorrecaoXF < TamanhoPlanoX) && (ypp + CorrecaoYF < TamanhoPlanoY)))
                             {
                             ContadorPontos++;
                             TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
@@ -1605,7 +1605,7 @@ public class AV3DNavigator extends JComponent
 
                         Apfloat ProdutoEscalara = xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(FlagMouseY)).multiply(new Apfloat(-1)));
 
-                        if ((ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalara).divide(ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(zpa))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && ((new Apfloat(xpp + CorrecaoXF)).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (new Apfloat(ypp + CorrecaoYF)).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue())
+                        if ((ApfloatMath.abs(ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalara).divide(ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(zpa)))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && ((new Apfloat(xpp + CorrecaoXF)).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (new Apfloat(ypp + CorrecaoYF)).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue())
                             {
                             ContadorPontos++;
                             TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
