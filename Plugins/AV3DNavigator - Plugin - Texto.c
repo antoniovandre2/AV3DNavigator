@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator texto tridimensional.
 
 Argumentos: 1: uma string separada por barras verticais "|", cada campo composto  do texto, do tamanho, da posição x, da posição y, da posição z, do ângulo de rotação teta, da profundidade, o espaçamento entre os caracteres, e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",". 2: o arquivo de fontes. 3: a resolução.
 
-Última atualização: 18-10-2023.
+Última atualização: 19-10-2023.
 */
 
 #include <stdio.h>
@@ -118,9 +118,10 @@ int main (int argc, char * argv[])
 
     if (resolucao == 0) {printf(mensagemerro); return 1;}
 
+    shift = 0;
+
     do
         {
-        shift = 0;
         i = 0;
 
         do
