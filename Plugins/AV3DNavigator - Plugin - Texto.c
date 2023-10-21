@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator texto tridimensional.
 
 Argumentos: 1: uma string separada por barras verticais "|", cada campo composto  do texto, do tamanho, da posição x, da posição y, da posição z, do ângulo de rotação teta, da profundidade, o espaçamento entre os caracteres, e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",". 2: o arquivo de fontes. 3: a resolução.
 
-Última atualização: 19-10-2023.
+Última atualização: 21-10-2023.
 */
 
 #include <stdio.h>
@@ -472,11 +472,27 @@ int main (int argc, char * argv[])
 
                                     fflush(stdout);
 
+                                   printf("%f,%f,%f;%f,%f,%f;%f,%f,%f;", ((vx1 + t * (vx2 - vx1) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * cos(tetavaloresnumericos[i]) + posxvaloresnumericos[i], ((vx1 + t * (vx2 - vx1) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * sin(tetavaloresnumericos[i]) + posyvaloresnumericos[i], (vy1 + t * (vy2 - vy1) / (resolucao - 1)) * tamanhovaloresnumericos[i] + poszvaloresnumericos[i], ((vx1 + t * (vx2 - vx1) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * cos(tetavaloresnumericos[i]) + profundidadevaloresnumericos[i] * cos(M_PI_2 + tetavaloresnumericos[i]) + posxvaloresnumericos[i], ((vx1 + t * (vx2 - vx1) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * sin(tetavaloresnumericos[i]) + profundidadevaloresnumericos[i] * cos(tetavaloresnumericos[i]) + posyvaloresnumericos[i], (vy1 + t * (vy2 - vy1) / (resolucao - 1)) * tamanhovaloresnumericos[i] + poszvaloresnumericos[i], ((vx1 + (t + 1) * (vx2 - vx1) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * cos(tetavaloresnumericos[i]) + profundidadevaloresnumericos[i] * cos(M_PI_2 + tetavaloresnumericos[i]) + posxvaloresnumericos[i], ((vx1 + (t + 1) * (vx2 - vx1) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * sin(tetavaloresnumericos[i]) + profundidadevaloresnumericos[i] * cos(tetavaloresnumericos[i]) + posyvaloresnumericos[i], (vy1 + (t + 1) * (vy2 - vy1) / (resolucao - 1)) * tamanhovaloresnumericos[i] + poszvaloresnumericos[i]);
+
+                                    fflush(stdout);
+
+                                    printf("%f,%f,%fc%s|", ((vx1 + (t + 1) * (vx2 - vx1) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * cos(tetavaloresnumericos[i]) + posxvaloresnumericos[i], ((vx1 + (t + 1) * (vx2 - vx1) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * sin(tetavaloresnumericos[i]) + posyvaloresnumericos[i], (vy1 + (t + 1) * (vy2 - vy1) / (resolucao - 1)) * tamanhovaloresnumericos[i] + poszvaloresnumericos[i], rgb[i]);
+
+                                    fflush(stdout);
+
                                     printf("%f,%f,%f;%f,%f,%f;%f,%f,%f;", ((vx2 + t * (vx3 - vx2) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * cos(tetavaloresnumericos[i]) + posxvaloresnumericos[i], ((vx2 + t * (vx3 - vx2) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * sin(tetavaloresnumericos[i]) + posyvaloresnumericos[i], (vy2 + t * (vy3 - vy2) / (resolucao - 1)) * tamanhovaloresnumericos[i] + poszvaloresnumericos[i], ((vx2 + t * (vx3 - vx2) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * cos(tetavaloresnumericos[i]) + profundidadevaloresnumericos[i] * cos(M_PI_2 + tetavaloresnumericos[i]) + posxvaloresnumericos[i], ((vx2 + t * (vx3 - vx2) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * sin(tetavaloresnumericos[i]) + profundidadevaloresnumericos[i] * cos(tetavaloresnumericos[i]) + posyvaloresnumericos[i], (vy2 + t * (vy3 - vy2) / (resolucao - 1)) * tamanhovaloresnumericos[i] + poszvaloresnumericos[i], ((vx2 + (t + 1) * (vx3 - vx2) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * cos(tetavaloresnumericos[i]) + profundidadevaloresnumericos[i] * cos(M_PI_2 + tetavaloresnumericos[i]) + posxvaloresnumericos[i], ((vx2 + (t + 1) * (vx3 - vx2) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * sin(tetavaloresnumericos[i]) + profundidadevaloresnumericos[i] * cos(tetavaloresnumericos[i]) + posyvaloresnumericos[i], (vy2 + (t + 1) * (vy3 - vy2) / (resolucao - 1)) * tamanhovaloresnumericos[i] + poszvaloresnumericos[i]);
 
                                     fflush(stdout);
 
                                     printf("%f,%f,%fc%s|", ((vx2 + (t + 1) * (vx3 - vx2) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * cos(tetavaloresnumericos[i]) + posxvaloresnumericos[i], ((vx2 + (t + 1) * (vx3 - vx2) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * sin(tetavaloresnumericos[i]) + posyvaloresnumericos[i], (vy2 + (t + 1) * (vy3 - vy2) / (resolucao - 1)) * tamanhovaloresnumericos[i] + poszvaloresnumericos[i], rgb[i]);
+
+                                    fflush(stdout);
+
+                                    printf("%f,%f,%f;%f,%f,%f;%f,%f,%f;", ((vx3 + t * (vx4 - vx3) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * cos(tetavaloresnumericos[i]) + posxvaloresnumericos[i], ((vx3 + t * (vx4 - vx3) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * sin(tetavaloresnumericos[i]) + posyvaloresnumericos[i], (vy3 + t * (vy4 - vy3) / (resolucao - 1)) * tamanhovaloresnumericos[i] + poszvaloresnumericos[i], ((vx3 + t * (vx4 - vx3) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * cos(tetavaloresnumericos[i]) + profundidadevaloresnumericos[i] * cos(M_PI_2 + tetavaloresnumericos[i]) + posxvaloresnumericos[i], ((vx3 + t * (vx4 - vx3) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * sin(tetavaloresnumericos[i]) + profundidadevaloresnumericos[i] * cos(tetavaloresnumericos[i]) + posyvaloresnumericos[i], (vy3 + t * (vy4 - vy3) / (resolucao - 1)) * tamanhovaloresnumericos[i] + poszvaloresnumericos[i], ((vx3 + (t + 1) * (vx4 - vx3) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * cos(tetavaloresnumericos[i]) + profundidadevaloresnumericos[i] * cos(M_PI_2 + tetavaloresnumericos[i]) + posxvaloresnumericos[i], ((vx3 + (t + 1) * (vx4 - vx3) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * sin(tetavaloresnumericos[i]) + profundidadevaloresnumericos[i] * cos(tetavaloresnumericos[i]) + posyvaloresnumericos[i], (vy3 + (t + 1) * (vy4 - vy3) / (resolucao - 1)) * tamanhovaloresnumericos[i] + poszvaloresnumericos[i]);
+
+                                    fflush(stdout);
+
+                                    printf("%f,%f,%fc%s|", ((vx3 + (t + 1) * (vx4 - vx3) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * cos(tetavaloresnumericos[i]) + posxvaloresnumericos[i], ((vx3 + (t + 1) * (vx4 - vx3) / (resolucao - 1)) * tamanhovaloresnumericos[i] + shiftlateral) * sin(tetavaloresnumericos[i]) + posyvaloresnumericos[i], (vy3 + (t + 1) * (vy4 - vy3) / (resolucao - 1)) * tamanhovaloresnumericos[i] + poszvaloresnumericos[i], rgb[i]);
 
                                     fflush(stdout);
                                     }
