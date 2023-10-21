@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de pizza tridimensional.
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",". 2: o raio. 3: a espessura. 4: a resolução.
 
-Última atualização: 13-10-2023.
+Última atualização: 21-10-2023.
 */
 
 #include <stdio.h>
@@ -49,7 +49,7 @@ int main (int argc, char * argv[])
     char * err;
     char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", uma string composta dos item a exibir separados por barra vertical \"|\", cada item composto do valor e da cor separados por ponto e vírgula \";\", a cor RGB com os valores para vermelho, verde e azul separados por vírgula \",\". 2: o raio. 3: a espessura. 4: a resolução.";
 
-    if (argc != 5) {printf("Erro.\n"); return 1;}
+    if (argc != 5) {printf(mensagemerro); return 1;}
 
     for (i = 0; i < MAXTAMANHOCAMPO; i++)
         {mainstring[i] = '\0'; rstring[i] = '\0'; espstring[i] = '\0'; resstring[i] = '\0';titulo[i] = '\0';}
