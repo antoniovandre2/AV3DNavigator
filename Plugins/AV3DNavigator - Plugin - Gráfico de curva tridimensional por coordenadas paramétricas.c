@@ -7,22 +7,41 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de função.
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "t" para "x", função em "t" para "y", função em "t" para "z", o menor valor atribuído a "t", o maior valor atribuído a "t", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 13-10-2023. Sem considerar alterações em variáveis globais.
+Última atualização: 22-10-2023. Sem considerar alterações em variáveis globais.
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include "antoniovandre_eval/antoniovandre_windows.c"
 
 #define MAXITENS 10
 #define MAXTAMANHOCAMPO 1024
-#define VERDADE 1
+
+#define BUILTIN FALSIDADE
+
+#if BUILTIN == VERDADE
+
+#define EVALSOFTWARE ""
+#define EVALSOFTWARETAIL ""
+#define CALLEVALSOFTWARE {char * ptreval = antoniovandre_eval(valorstr); printf("%s", ptreval); free (ptreval);}
+
+#define ASPASINICIAL
+#define ASPASFINAL
+
+#else
 
 #define EVALSOFTWARE "antoniovandre_eval_windows.exe"
 #define EVALSOFTWARETAIL " 0 2>> /dev/null \| tr -d ' ' \| tr -d '\n'"
-#define TOKENINICIOEVAL "("
-#define TOKENFIMEVAL ")"
+#define TOKENINICIOEVAL '('
+#define TOKENFIMEVAL ')'
+#define CALLEVALSOFTWARE system(valorstr);
+
+#define ASPASINICIAL strcat(valorstr, " \"");
+#define ASPASFINAL strcat(valorstr, "\"");
+
+#endif
 
 int main (int argc, char * argv[])
     {
@@ -211,7 +230,7 @@ int main (int argc, char * argv[])
             for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
             strcpy(valorstr, EVALSOFTWARE);
-            strcat(valorstr, " \"");
+            ASPASINICIAL
 
             for (k = 0; k < MAXTAMANHOCAMPO; k++) tempstr[k] = '\0';
 
@@ -228,15 +247,15 @@ int main (int argc, char * argv[])
                     {
                     if (shift == 1)
                         {
-                        strcpy(tempstr, TOKENINICIOEVAL);
+                        tempstr[0] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        strcat(tempstr, TOKENFIMEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                         }
                     else
                         {
-                        strcat(tempstr, TOKENINICIOEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        strcat(tempstr, TOKENFIMEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                         }
 
                     k += strlen(pontostr) + 2;
@@ -246,17 +265,17 @@ int main (int argc, char * argv[])
             tempstr[k] = '\0';
 
             strcat(valorstr, tempstr);
-            strcat(valorstr, "\"");
+            ASPASFINAL
             strcat(valorstr, EVALSOFTWARETAIL);
 
-            system(valorstr); fflush(stdout);
+            CALLEVALSOFTWARE fflush(stdout);
 
             printf(","); fflush(stdout);
 
             for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
             strcpy(valorstr, EVALSOFTWARE);
-            strcat(valorstr, " \"");
+            ASPASINICIAL
 
             for (k = 0; k < MAXTAMANHOCAMPO; k++) tempstr[k] = '\0';
 
@@ -273,15 +292,15 @@ int main (int argc, char * argv[])
                     {
                     if (shift == 1)
                         {
-                        strcpy(tempstr, TOKENINICIOEVAL);
+                        tempstr[0] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        strcat(tempstr, TOKENFIMEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                         }
                     else
                         {
-                        strcat(tempstr, TOKENINICIOEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        strcat(tempstr, TOKENFIMEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                         }
 
                     k += strlen(pontostr) + 2;
@@ -291,17 +310,17 @@ int main (int argc, char * argv[])
             tempstr[k] = '\0';
 
             strcat(valorstr, tempstr);
-            strcat(valorstr, "\"");
+            ASPASFINAL
             strcat(valorstr, EVALSOFTWARETAIL);
 
-            system(valorstr); fflush(stdout);
+            CALLEVALSOFTWARE fflush(stdout);
 
             printf(","); fflush(stdout);
 
             for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
             strcpy(valorstr, EVALSOFTWARE);
-            strcat(valorstr, " \"");
+            ASPASINICIAL
 
             for (k = 0; k < MAXTAMANHOCAMPO; k++) tempstr[k] = '\0';
 
@@ -318,15 +337,15 @@ int main (int argc, char * argv[])
                     {
                     if (shift == 1)
                         {
-                        strcpy(tempstr, TOKENINICIOEVAL);
+                        tempstr[0] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        strcat(tempstr, TOKENFIMEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                         }
                     else
                         {
-                        strcat(tempstr, TOKENINICIOEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        strcat(tempstr, TOKENFIMEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                         }
 
                     k += strlen(pontostr) + 2;
@@ -336,10 +355,10 @@ int main (int argc, char * argv[])
             tempstr[k] = '\0';
 
             strcat(valorstr, tempstr);
-            strcat(valorstr, "\"");
+            ASPASFINAL
             strcat(valorstr, EVALSOFTWARETAIL);
 
-            system(valorstr); fflush(stdout);
+            CALLEVALSOFTWARE fflush(stdout);
 
             printf(";"); fflush(stdout);
 
@@ -350,7 +369,7 @@ int main (int argc, char * argv[])
             for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
             strcpy(valorstr, EVALSOFTWARE);
-            strcat(valorstr, " \"");
+            ASPASINICIAL
 
             for (k = 0; k < MAXTAMANHOCAMPO; k++) tempstr[k] = '\0';
 
@@ -367,15 +386,15 @@ int main (int argc, char * argv[])
                     {
                     if (shift == 1)
                         {
-                        strcpy(tempstr, TOKENINICIOEVAL);
+                        tempstr[0] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        strcat(tempstr, TOKENFIMEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                         }
                     else
                         {
-                        strcat(tempstr, TOKENINICIOEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        strcat(tempstr, TOKENFIMEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                         }
 
                     k += strlen(pontostr) + 2;
@@ -385,17 +404,17 @@ int main (int argc, char * argv[])
             tempstr[k] = '\0';
 
             strcat(valorstr, tempstr);
-            strcat(valorstr, "\"");
+            ASPASFINAL
             strcat(valorstr, EVALSOFTWARETAIL);
 
-            system(valorstr); fflush(stdout);
+            CALLEVALSOFTWARE fflush(stdout);
 
             printf(","); fflush(stdout);
 
             for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
             strcpy(valorstr, EVALSOFTWARE);
-            strcat(valorstr, " \"");
+            ASPASINICIAL
 
             for (k = 0; k < MAXTAMANHOCAMPO; k++) tempstr[k] = '\0';
 
@@ -412,15 +431,15 @@ int main (int argc, char * argv[])
                     {
                     if (shift == 1)
                         {
-                        strcpy(tempstr, TOKENINICIOEVAL);
+                        tempstr[0] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        strcat(tempstr, TOKENFIMEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                         }
                     else
                         {
-                        strcat(tempstr, TOKENINICIOEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        strcat(tempstr, TOKENFIMEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                         }
 
                     k += strlen(pontostr) + 2;
@@ -430,17 +449,17 @@ int main (int argc, char * argv[])
             tempstr[k] = '\0';
 
             strcat(valorstr, tempstr);
-            strcat(valorstr, "\"");
+            ASPASFINAL
             strcat(valorstr, EVALSOFTWARETAIL);
 
-            system(valorstr); fflush(stdout);
+            CALLEVALSOFTWARE fflush(stdout);
 
             printf(","); fflush(stdout);
 
             for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
             strcpy(valorstr, EVALSOFTWARE);
-            strcat(valorstr, " \"");
+            ASPASINICIAL
 
             for (k = 0; k < MAXTAMANHOCAMPO; k++) tempstr[k] = '\0';
 
@@ -457,15 +476,15 @@ int main (int argc, char * argv[])
                     {
                     if (shift == 1)
                         {
-                        strcpy(tempstr, TOKENINICIOEVAL);
+                        tempstr[0] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        strcat(tempstr, TOKENFIMEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                         }
                     else
                         {
-                        strcat(tempstr, TOKENINICIOEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        strcat(tempstr, TOKENFIMEVAL);
+                        tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                         }
 
                     k += strlen(pontostr) + 2;
@@ -475,10 +494,10 @@ int main (int argc, char * argv[])
             tempstr[k] = '\0';
 
             strcat(valorstr, tempstr);
-            strcat(valorstr, "\"");
+            ASPASFINAL
             strcat(valorstr, EVALSOFTWARETAIL);
 
-            system(valorstr); fflush(stdout);
+            CALLEVALSOFTWARE fflush(stdout);
 
             printf("c%s|", rgb[i]); fflush(stdout);
             }
