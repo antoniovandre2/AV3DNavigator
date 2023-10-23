@@ -33,7 +33,7 @@ ____________________
 
 Bugs conhecidos:
 
-Ainda estou trabalhando na compatibilidade com diferentes compiladores. No momento os softwares funcionam perfeitamente com o gcc 11.4.0.
+Ainda estou trabalhando na compatibilidade com diferentes compiladores. No momento os softwares funcionam perfeitamente com o gcc 6.
 __
 
 Se encontrar um, pode, por favor, comunicar a "a.vandre.g@gmail.com"? Alguns bugs podem ser consequências das imperfeições do compilador/hardware.
