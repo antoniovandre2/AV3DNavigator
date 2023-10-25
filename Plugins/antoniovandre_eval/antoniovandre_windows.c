@@ -6,7 +6,7 @@
 
 // Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
 
-// Última atualização: 22-10-2023. Não considerando alterações em variáveis globais.
+// Última atualização: 25-10-2023. Não considerando alterações em variáveis globais.
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -16,7 +16,7 @@
 
 #include "antoniovandre_constantes_windows.c"
 
-#define VERSION 20231022
+#define VERSION 20231025
 #define MENSAGEMNAOCOMPILADOR "Software não compilado em razão do compilador não ser compatível."
 #define TAMANHO_BUFFER_SMALL 75 // Para pequenos buffers.
 #define TAMANHO_BUFFER_WORD 8192 // Para strings pequenas.
@@ -83,14 +83,11 @@ typedef struct {TIPONUMEROREAL real; TIPONUMEROREAL img;} NUMEROCOMPLEXO; // Est
 
 #ifdef __GNUC__
 
-#define COMPILAR VERDADE
-
 #if __GNUC__ > 6
 
 #define GNUGT VERDADE
 
-#undef ESCREVER_ESTATISTICAS
-#define ESCREVER_ESTATISTICAS FALSIDADE
+#define ESCREVER_ESTATISTICAS VERDADE
 
 #define DECLARACAO_antoniovandre_precisao_real_buffer char * antoniovandre_precisao_real_buffer = (char *) malloc (TAMANHO_BUFFER_WORD);
 
@@ -154,7 +151,6 @@ typedef struct {TIPONUMEROREAL real; TIPONUMEROREAL img;} NUMEROCOMPLEXO; // Est
 
 #define GNUGT FALSIDADE
 
-#undef ESCREVER_ESTATISTICAS
 #define ESCREVER_ESTATISTICAS VERDADE
 
 #define DECLARACAO_antoniovandre_precisao_real_buffer char antoniovandre_precisao_real_buffer [TAMANHO_BUFFER_WORD];
@@ -219,7 +215,67 @@ typedef struct {TIPONUMEROREAL real; TIPONUMEROREAL img;} NUMEROCOMPLEXO; // Est
 
 #else
 
-#define COMPILAR FALSIDADE
+#define GNUGT FALSIDADE
+
+#define ESCREVER_ESTATISTICAS FALSIDADE
+
+#define DECLARACAO_antoniovandre_precisao_real_buffer char * antoniovandre_precisao_real_buffer = (char *) malloc (TAMANHO_BUFFER_WORD);
+
+#define DECLARACAO_antoniovandre_estatisticas_buffer char * antoniovandre_estatisticas_buffer = (char *) malloc (TAMANHO_BUFFER_WORD);
+
+#define DECLARACAO_buffer char * buffer = (char *) malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_funcoesconstantes tokenfuncaoconstante * funcoesconstantes = (tokenfuncaoconstante *) malloc (sizeof (tokenfuncaoconstante) * TAMANHO_BUFFER_SMALL);
+
+#define ALOCACAO_funcoesconstantestoken funcoesconstantes [i].token = (char *) malloc (TAMANHO_BUFFER_WORD);
+
+#define ALOCACAO_funcoesconstantescomentario funcoesconstantes [i].comentario = (char *) malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_evalcelulafuncao_buffer char * buffer = malloc (TAMANHO_BUFFER_WORD);
+
+#define DECLARACAO_antoniovandre_evalcelulafuncao_str2 char * str2 = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_evalcelula_strt char strt [TAMANHO_BUFFER_PHRASE];
+
+#define DECLARACAO_antoniovandre_evalcelula_strt2 char * strt2 = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_evalcelula_strt3 char * strt3 = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_evalcelula_strtv1 char * strtv1 = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_evalcelula_strtv2 char * strtv2 = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_evalcelula_strt4 char * strt4 = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_eval_str2 char str2 [TAMANHO_BUFFER_PHRASE];
+
+#define DECLARACAO_antoniovandre_eval_str2t char * str2t = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_eval_str3 char * str3 = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_eval_str4 char * str4 = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_eval_str4t char * str4t = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_eval_str5 char * str5 = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_eval_str6 char * str6 = malloc (TAMANHO_BUFFER_WORD);
+
+#define DECLARACAO_antoniovandre_funcaomaisproxima_buffer char * buffer = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_funcaomaisproxima_buffert char * buffert = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_funcaomaisproxima_buffertt char * buffertt = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_funcaomaisproxima_bufferr2 char * bufferr2 = malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_antoniovandre_funcaomaisproxima_buffer1 char * buffer1 = malloc (TAMANHO_BUFFER_WORD);
+
+#define DECLARACAO_antoniovandre_funcaomaisproxima_buffer2 char * buffer2 = malloc (TAMANHO_BUFFER_WORD);
+
+#define DECLARACAO_strf_antoniovandre_removerletras char * strf = (char *) malloc (TAMANHO_BUFFER_PHRASE);
+
+#define DECLARACAO_strf_antoniovandre_removernumeros char * strf = (char *) malloc (TAMANHO_BUFFER_PHRASE);
 
 #endif
 // Array de letras.
@@ -254,12 +310,6 @@ const char * antoniovandre_operadoresprioritarios = "^";
 
 int antoniovandre_mathsobre ()
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return NUMEROZERO;
-		}
-
 	FILE * filesobre;
 	char antoniovandre_sobre_buffer_char;
 
@@ -284,12 +334,6 @@ int antoniovandre_mathsobre ()
 
 int antoniovandre_salvarmathestatisticas (char * cabecalho)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return NUMEROZERO;
-		}
-
 	if (ESCREVER_ESTATISTICAS)
 		{
 		FILE * filemathestatisticas;
@@ -411,12 +455,6 @@ int antoniovandre_salvarmathestatisticas (char * cabecalho)
 
 int antoniovandre_precisao_real ()
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return NUMEROZERO;
-		}
-
 	FILE * fileprecisaoreal;
 
 	DECLARACAO_antoniovandre_precisao_real_buffer
@@ -458,12 +496,6 @@ int antoniovandre_precisao_real ()
 
 char * antoniovandre_removerletras (char * str)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return STRINGVAZIA;
-		}
-
 	int tam1 = strlen (str);
 	int tam2 = strlen (antoniovandre_letras);
 
@@ -493,12 +525,6 @@ char * antoniovandre_removerletras (char * str)
 
 char * antoniovandre_removernumeros (char * str)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return STRINGVAZIA;
-		}
-
 	int tam1 = strlen (str);
 	int tam2 = strlen (antoniovandre_numeros);
 
@@ -527,12 +553,6 @@ char * antoniovandre_removernumeros (char * str)
 
 int antoniovandre_monomio (char * str)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return NUMEROZERO;
-		}
-
 	int contador = NUMEROZERO;
 	int flag;
 	int i;
@@ -565,12 +585,6 @@ int antoniovandre_monomio (char * str)
 
 TIPONUMEROREAL antoniovandre_partenumericamonomio (char * str)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return NUMEROZERO;
-		}
-
 	char * err;
 
 	if (antoniovandre_monomio (str))
@@ -590,12 +604,6 @@ TIPONUMEROREAL antoniovandre_partenumericamonomio (char * str)
 
 char * antoniovandre_parteliteralmonomio (char * str)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return STRINGVAZIA;
-		}
-
 	if (antoniovandre_monomio (str))
 		return antoniovandre_removernumeros (str);
 	else
@@ -704,12 +712,6 @@ const char * antoniovandre_numeroparastring (TIPONUMEROREAL numero)
 
 int antoniovandre_compararstringssemorden (char * str1, char * str2)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return NUMEROZERO;
-		}
-
 	int tam1 = strlen (str1);
 	int tam2 = strlen (str2);
 	char c;
@@ -742,12 +744,6 @@ int antoniovandre_compararstringssemorden (char * str1, char * str2)
 
 int antoniovandre_compararstringsfree (char * str1, char * str2)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return NUMEROZERO;
-		}
-
 	int tam1 = strlen (str1);
 	int tam2 = strlen (str2);
 	int i;
@@ -777,12 +773,6 @@ int antoniovandre_compararstringsfree (char * str1, char * str2)
 
 char * antoniovandre_nthsubstr (char * str, int n)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return STRINGVAZIA;
-		}
-
 	char * strf = (char *) malloc (TAMANHO_BUFFER_PHRASE);
 	int tam = strlen (str);
 	int inicio = NUMEROZERO;
@@ -825,12 +815,6 @@ char * antoniovandre_nthsubstr (char * str, int n)
 
 unsigned long int antoniovandre_fatorial (unsigned long int n)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return NUMEROZERO;
-		}
-
 	if (n > NUMEROUM) return antoniovandre_fatorial (n - NUMEROUM) * (unsigned long int) n; else return NUMEROUM;
 	}
 
@@ -930,12 +914,6 @@ char * antoniovandre_reduzirtermossemelhantes (char * args)
 
 char * antoniovandre_valornumericopolinomio (char * args)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return STRINGVAZIA;
-		}
-
 	int nargs = NUMEROUM;
 	int indice_inicio = -1;
 	char strt [TAMANHO_BUFFER_WORD];
@@ -1065,12 +1043,6 @@ char * antoniovandre_valornumericopolinomio (char * args)
 
 int antoniovandre_expressao (char * str)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return NUMEROZERO;
-		}
-
 	int flag;
 	int i;
 	int j;
@@ -1097,12 +1069,6 @@ int antoniovandre_expressao (char * str)
 
 const char * antoniovandre_substring (char * str, int inicio, int fim)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return STRINGVAZIA;
-		}
-
 	char * strt = (char *) malloc (fim - inicio + NUMEROUM);
 	int i;
 
@@ -1120,12 +1086,6 @@ const char * antoniovandre_substring (char * str, int inicio, int fim)
 
 const char * antoniovandre_evalcelulafuncao (char * str)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return STRINGVAZIA;
-		}
-
 	DECLARACAO_funcoesconstantes
 
 	int tamanhotokenfuncaoconstante;
@@ -3502,12 +3462,6 @@ const char * antoniovandre_evalcelulafuncao (char * str)
 
 const char * antoniovandre_evalcelula (char * str)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return STRINGVAZIA;
-		}
-
 	DECLARACAO_antoniovandre_evalcelula_strt
 
 	DECLARACAO_antoniovandre_evalcelula_strt2
@@ -3810,12 +3764,6 @@ const char * antoniovandre_evalcelula (char * str)
 
 const char * antoniovandre_eval (char * str)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return STRINGVAZIA;
-		}
-
 	DECLARACAO_antoniovandre_eval_str2
 
 	DECLARACAO_antoniovandre_eval_str2t
@@ -4160,12 +4108,6 @@ const char * antoniovandre_eval (char * str)
 
 char * antoniovandre_derivada (char * str, TIPONUMEROREAL ponto)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return STRINGVAZIA;
-		}
-
 	char str2 [TAMANHO_BUFFER_PHRASE];
 	char str3 [TAMANHO_BUFFER_PHRASE];
 	TIPONUMEROREAL valorsup;
@@ -4235,12 +4177,6 @@ char * antoniovandre_derivada (char * str, TIPONUMEROREAL ponto)
 
 char * antoniovandre_integraldefinida (char * str, TIPONUMEROREAL a, TIPONUMEROREAL b)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return STRINGVAZIA;
-		}
-
 	char str2 [TAMANHO_BUFFER_PHRASE];
 	char str3 [TAMANHO_BUFFER_PHRASE];
 	TIPONUMEROREAL integral = NUMEROZERO;
@@ -4297,12 +4233,6 @@ char * antoniovandre_integraldefinida (char * str, TIPONUMEROREAL a, TIPONUMEROR
 
 char * antoniovandre_funcaomaisproxima (char * arquivopontospath, char * arquivofuncoespath, int log)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return STRINGVAZIA;
-		}
-
 	FILE * arquivopontos;
 	FILE * arquivofuncoes;
 
@@ -4640,12 +4570,6 @@ char * antoniovandre_funcaomaisproxima (char * arquivopontospath, char * arquivo
 
 char * antoniovandre_raizesfuncao (char * funcao, char * mins, char * maxs, TIPONUMEROREAL step, int log)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return STRINGVAZIA;
-		}
-
 	TIPONUMEROREAL min;
 	TIPONUMEROREAL max;
 	TIPONUMEROREAL x;
@@ -4821,13 +4745,6 @@ char * antoniovandre_raizesfuncao (char * funcao, char * mins, char * maxs, TIPO
 
 NUMEROCOMPLEXO antoniovandre_produtocomplexo (NUMEROCOMPLEXO * numeroscomplexos, int numeroargumentos)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		NUMEROCOMPLEXO z; z.real = 0; z.img = 0;
-		return z;
-		}
-
 	NUMEROCOMPLEXO result;
 	TIPONUMEROREAL a;
 	TIPONUMEROREAL b;
@@ -4854,12 +4771,6 @@ NUMEROCOMPLEXO antoniovandre_produtocomplexo (NUMEROCOMPLEXO * numeroscomplexos,
 
 int antoniovandre_dimensoesmatriz (TIPONUMEROREAL ** matriz, int lc)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return NUMEROZERO;
-		}
-
 	int i = NUMEROZERO;
 
 	switch (lc)
@@ -4883,12 +4794,6 @@ int antoniovandre_dimensoesmatriz (TIPONUMEROREAL ** matriz, int lc)
 
 TIPONUMEROREAL ** antoniovandre_removerlinhacoluna (TIPONUMEROREAL ** matriz, int i, int j)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return NUMEROZERO;
-		}
-
 	TIPONUMEROREAL ** matrizt;
 	int dl = antoniovandre_dimensoesmatriz (matriz, NUMEROZERO);
 	int dc = antoniovandre_dimensoesmatriz (matriz, NUMEROUM);
@@ -4930,12 +4835,6 @@ TIPONUMEROREAL ** antoniovandre_removerlinhacoluna (TIPONUMEROREAL ** matriz, in
 
 TIPONUMEROREAL antoniovandre_determinante (TIPONUMEROREAL ** matriz)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return NUMEROZERO;
-		}
-
 	TIPONUMEROREAL det = NUMEROZERO;
 	TIPONUMEROREAL ** matrizt;
 	int i;
@@ -4968,12 +4867,6 @@ TIPONUMEROREAL antoniovandre_determinante (TIPONUMEROREAL ** matriz)
 
 int antoniovandre_copiarstring (char * dest, char * orig)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return NUMEROZERO;
-		}
-
 	unsigned long int tam = TAMANHO_BUFFER_PHRASE;
 	unsigned long int i;
 	char buffer;
@@ -4999,12 +4892,6 @@ int antoniovandre_copiarstring (char * dest, char * orig)
 
 int antoniovandre_concatenarstring (char * dest, char * orig)
 	{
-	if (! (COMPILAR))
-		{
-		puts (MENSAGEMNAOCOMPILADOR);
-		return NUMEROZERO;
-		}
-
 	unsigned long int tam = TAMANHO_BUFFER_PHRASE;
 	unsigned long int inicio = NUMEROZERO;
 	unsigned long int i;
