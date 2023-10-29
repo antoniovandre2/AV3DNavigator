@@ -3,11 +3,11 @@ Proprietário: Antonio Vandré Pedrosa Furtunato Gomes (bit.ly/antoniovandre_leg
 
 Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
-Arquivo gerador de um espaço do AV3DNavigator gráfico de função.
+Arquivo gerador de um espaço do AV3DNavigator superfície tridimensional por coordenadas paramétricas.
 
-Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "u" e "v" para "x", função em "u" e "v" para "y", função em "u" e "v" para "z", o menor valor atribuído a "u", o maior valor atribuído a "u", o menor valor atribuído a "v", o maior valor atribuído a "v", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: "grid" apenas para grid ou "fill" para polígonos preenchidos. 3: a resolução.
+Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "U" e "V" para "x", função em "U" e "V" para "y", função em "U" e "V" para "z", o menor valor atribuído a "U", o maior valor atribuído a "U", o menor valor atribuído a "V", o maior valor atribuído a "V", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: "grid" apenas para grid ou "fill" para polígonos preenchidos. 3: a resolução.
 
-Última atualização: 22-10-2023. Sem considerar alterações em variáveis globais.
+Última atualização: 29-10-2023. Sem considerar alterações em variáveis globais.
 */
 
 #include <stdio.h>
@@ -80,7 +80,7 @@ int main (int argc, char * argv[])
     double menoresv [MAXITENS];
     double maioresv [MAXITENS];
     char * err;
-    char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em \"u\" e \"v\" para \"x\", função em \"u\" e \"v\" para \"y\", função em \"u\" e \"v\" para \"z\", o menor valor atribuído a \"u\", o maior valor atribuído a \"u\", o menor valor atribuído a \"v\", o maior valor atribuído a \"v\", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: \"grid\" apenas para grid ou \"fill\" para polígonos preenchidos. 3: a resolução.\n";
+    char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em \"U\" e \"V\" para \"x\", função em \"U\" e \"V\" para \"y\", função em \"U\" e \"V\" para \"z\", o menor valor atribuído a \"U\", o maior valor atribuído a \"U\", o menor valor atribuído a \"V\", o maior valor atribuído a \"V\", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: \"grid\" apenas para grid ou \"fill\" para polígonos preenchidos. 3: a resolução.\n";
     char valorstr [MAXTAMANHOCAMPO];
     char tempstr [MAXTAMANHOCAMPO];
     char tempstr2 [MAXTAMANHOCAMPO];
@@ -346,7 +346,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaox[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -376,7 +376,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -421,7 +421,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoy[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -451,7 +451,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -496,7 +496,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoz[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -526,7 +526,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -575,7 +575,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaox[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -605,7 +605,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -650,7 +650,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoy[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -680,7 +680,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -725,7 +725,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoz[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -755,7 +755,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -815,7 +815,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaox[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -845,7 +845,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -890,7 +890,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoy[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -920,7 +920,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -965,7 +965,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoz[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -995,7 +995,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -1044,7 +1044,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaox[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -1074,7 +1074,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -1119,7 +1119,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoy[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -1149,7 +1149,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -1194,7 +1194,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoz[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -1224,7 +1224,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -1295,7 +1295,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaox[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -1325,7 +1325,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -1370,7 +1370,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoy[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -1400,7 +1400,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -1445,7 +1445,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoz[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -1475,7 +1475,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -1524,7 +1524,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaox[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -1554,7 +1554,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -1599,7 +1599,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoy[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -1629,7 +1629,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -1674,7 +1674,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoz[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -1704,7 +1704,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -1757,7 +1757,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaox[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -1787,7 +1787,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -1832,7 +1832,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoy[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -1862,7 +1862,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -1907,7 +1907,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoz[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -1937,7 +1937,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -1986,7 +1986,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaox[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -2016,7 +2016,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -2061,7 +2061,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoy[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -2091,7 +2091,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {
@@ -2136,7 +2136,7 @@ int main (int argc, char * argv[])
                         {
                         c = funcaoz[i][shift++];
 
-                        if (c != 'u')
+                        if (c != 'U')
                             {tempstr[k++] = c;}
                         else
                             {
@@ -2166,7 +2166,7 @@ int main (int argc, char * argv[])
                         {
                         c = tempstr[shift++];
 
-                        if (c != 'v')
+                        if (c != 'V')
                             {tempstr2[k++] = c;}
                         else
                             {

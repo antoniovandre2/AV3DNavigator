@@ -3,11 +3,11 @@ Proprietário: Antonio Vandré Pedrosa Furtunato Gomes (bit.ly/antoniovandre_leg
 
 Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
-Arquivo gerador de um espaço do AV3DNavigator gráfico de função.
+Arquivo gerador de um espaço do AV3DNavigator gráfico de uma curva tridimensional por coordenadas paramétricas.
 
-Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "t" para "x", função em "t" para "y", função em "t" para "z", o menor valor atribuído a "t", o maior valor atribuído a "t", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
+Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "T" para "x", função em "T" para "y", função em "T" para "z", o menor valor atribuído a "T", o maior valor atribuído a "T", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 22-10-2023. Sem considerar alterações em variáveis globais.
+Última atualização: 29-10-2023. Sem considerar alterações em variáveis globais.
 */
 
 #include <stdio.h>
@@ -71,7 +71,7 @@ int main (int argc, char * argv[])
     double menores [MAXITENS];
     double maiores [MAXITENS];
     char * err;
-    char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em \"t\" para \"x\", função em \"t\" para \"y\", função em \"t\" para \"z\", o menor valor atribuído a \"t\", o maior valor atribuído a \"t\", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: a resolução.\n";
+    char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em \"T\" para \"x\", função em \"T\" para \"y\", função em \"T\" para \"z\", o menor valor atribuído a \"T\", o maior valor atribuído a \"T\", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: a resolução.\n";
 
     if (argc != 3) {printf(mensagemerro); return 1;}
 
@@ -241,7 +241,7 @@ int main (int argc, char * argv[])
                 {
                 c = funcaox[i][shift++];
 
-                if (c != 't')
+                if (c != 'T')
                     {tempstr[k++] = c;}
                 else
                     {
@@ -286,7 +286,7 @@ int main (int argc, char * argv[])
                 {
                 c = funcaoy[i][shift++];
 
-                if (c != 't')
+                if (c != 'T')
                     {tempstr[k++] = c;}
                 else
                     {
@@ -331,7 +331,7 @@ int main (int argc, char * argv[])
                 {
                 c = funcaoz[i][shift++];
 
-                if (c != 't')
+                if (c != 'T')
                     {tempstr[k++] = c;}
                 else
                     {
@@ -380,7 +380,7 @@ int main (int argc, char * argv[])
                 {
                 c = funcaox[i][shift++];
 
-                if (c != 't')
+                if (c != 'T')
                     {tempstr[k++] = c;}
                 else
                     {
@@ -425,7 +425,7 @@ int main (int argc, char * argv[])
                 {
                 c = funcaoy[i][shift++];
 
-                if (c != 't')
+                if (c != 'T')
                     {tempstr[k++] = c;}
                 else
                     {
@@ -470,7 +470,7 @@ int main (int argc, char * argv[])
                 {
                 c = funcaoz[i][shift++];
 
-                if (c != 't')
+                if (c != 'T')
                     {tempstr[k++] = c;}
                 else
                     {
