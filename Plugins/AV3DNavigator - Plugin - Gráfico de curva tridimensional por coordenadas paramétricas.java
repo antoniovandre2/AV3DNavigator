@@ -1,7 +1,7 @@
 /*
 Proprietário: Antonio Vandré Pedrosa Furtunato Gomes (bit.ly/antoniovandre_legadoontologico)
 
-Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
+AV3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador de um espaço do AV3DNavigator gráfico de uma curva tridimensional por coordenadas paramétricas. Versão Java.
 
