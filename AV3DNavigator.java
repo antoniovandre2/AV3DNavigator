@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 29-10-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 30-10-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -74,6 +74,7 @@ public class AV3DNavigator extends JComponent
     {
     public static String ArquivoAV3DNavigatorVersao = "AV3DNavigatorVersao.txt";
     public static String ArquivoAV3DNavigatorURL = "AV3DNavigatorURL.txt";
+    public static String ArquivoAV3DNavigatorINI = "AV3DNavigator.ini";
 
     // Variáveis globais.
 
@@ -91,7 +92,7 @@ public class AV3DNavigator extends JComponent
     public double FatorAnguloVisao = 1; // Default: 1.
     public static double TetaMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
     public static double PhiMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
-    public static double MargemAnguloVisao = 0.1; // Default: 0.1.
+    public static double MargemAnguloVisao = 0.3; // Default: 0.3.
     public static int TamanhoFonteLabelStatus = 10; // Default: 10.
     public static int TamanhoFonteLabelURL = 11; // Default: 11.
     public static int TamanhoFonteLabelHelp = 11; // Default: 11.
@@ -110,6 +111,8 @@ public class AV3DNavigator extends JComponent
 
     public String Versao;
     public String URL;
+    public String INI = new String("");
+    public int FlagINI = 0;
     public int CorrecaoX = 8;
     public int CorrecaoY = 0;
     public int CorrecaoXF = 15;
@@ -434,6 +437,16 @@ public class AV3DNavigator extends JComponent
             URL = brURL.readLine();
             } catch (IOException e) {}
 
+        File fileINI = new File(ArquivoAV3DNavigatorINI);
+
+        try
+            {
+            BufferedReader brINI = new BufferedReader(new FileReader(fileINI));
+            String linha = null;
+            while ((linha = brINI.readLine()) != null)
+                INI = INI + "\n" + linha;
+            } catch (IOException e) {}
+
         if (! ArquivoEspaco.equals(""))
             {
             Espaco = LerEspaco(ArquivoEspaco);
@@ -446,6 +459,187 @@ public class AV3DNavigator extends JComponent
             }
         else
             Espaco = "";
+
+        if (! INI.equals(""))
+            {
+            String[] INIarr = INI.split("\\r?\\n");
+
+            for (i = 0; i < INIarr.length; i++)
+                {
+                if (! INIarr[i].equals(""))
+                    if (INIarr[i].replaceAll(" ", "").charAt(0) != '#')
+                        {
+                        String[] INIelements = INIarr[i].split("=");
+
+                        if (INIelements.length == 2)
+                            switch (INIelements[0].replaceAll(" ", ""))
+                                {
+                                case "x":
+                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                        {
+                                        x = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        xt = x;
+                                        FlagINI = 1;
+                                        }
+
+                                    break;
+
+                                case "y":
+                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                        {
+                                        y = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        yt = y;
+                                        FlagINI = 1;
+                                        }
+
+                                    break;
+
+                                case "z":
+                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                        {
+                                        z = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        zt = z;
+                                        FlagINI = 1;
+                                        }
+
+                                    break;
+
+                                case "Teta":
+                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                        {
+                                        Teta = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        Tetat = Teta;
+                                        FlagINI = 1;
+                                        }
+
+                                    break;
+
+                                case "Phi":
+                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                        {
+                                        Phi = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        Phit = Phi;
+                                        FlagINI = 1;
+                                        }
+
+                                    break;
+
+                                case "Rot":
+                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                        {
+                                        Rot = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        Rott = Rot;
+                                        FlagINI = 1;
+                                        }
+
+                                    break;
+
+                                case "RaioTeta":
+                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                        {
+                                        RaioTeta = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        FlagINI = 1;
+                                        }
+
+                                    break;
+
+                                case "RotacaoTeta":
+                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                        {
+                                        RotacaoTeta = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        FlagINI = 1;
+                                        }
+
+                                    break;
+
+                                case "RaioPhi":
+                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                        {
+                                        RaioPhi = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        FlagINI = 1;
+                                        }
+
+                                    break;
+
+                                case "RotacaoPhi":
+                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                        {
+                                        RotacaoPhi = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        FlagINI = 1;
+                                        }
+
+                                    break;
+
+                                case "DistanciaTela":
+                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                        {
+                                        DistanciaTela = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        FlagINI = 1;
+                                        }
+
+                                    break;
+
+                                case "AnguloVisao":
+                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                        {
+                                        AnguloVisao = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        FlagINI = 1;
+                                        }
+
+                                    break;
+
+                                case "MargemAnguloVisao":
+                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                        {
+                                        MargemAnguloVisao = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        FlagINI = 1;
+                                        }
+
+                                    break;
+
+                                case "Apfloat":
+                                    if (AntonioVandre.NumeroInteiro(INIelements[1].replaceAll(" ", "")))
+                                        if ((Integer.parseInt(INIelements[1].replaceAll(" ", "")) == 0) || (Integer.parseInt(INIelements[1].replaceAll(" ", "")) == 1))
+                                            {
+                                            ApfloatFlag = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+                                            FlagINI = 1;
+                                            }
+
+                                    break;
+
+                                case "fillPolygon":
+                                    if (AntonioVandre.NumeroInteiro(INIelements[1].replaceAll(" ", "")))
+                                        if ((Integer.parseInt(INIelements[1].replaceAll(" ", "")) == 0) || (Integer.parseInt(INIelements[1].replaceAll(" ", "")) == 1))
+                                            {
+                                            TrianguloPoligono = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+                                            FlagINI = 1;
+                                            }
+
+                                    break;
+
+                                case "ResolucaoTriangulos":
+                                    if (AntonioVandre.NumeroInteiro(INIelements[1].replaceAll(" ", "")))
+                                        if (Integer.parseInt(INIelements[1].replaceAll(" ", "")) > 0)
+                                            {
+                                            ResolucaoTriangulos = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+                                            FlagINI = 1;
+                                            }
+
+                                    break;
+
+                                case "SleepTime":
+                                    if (AntonioVandre.NumeroInteiro(INIelements[1].replaceAll(" ", "")))
+                                        if (Integer.parseInt(INIelements[1].replaceAll(" ", "")) > 0)
+                                            {
+                                            SleepTime = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+                                            FlagINI = 1;
+                                            }
+
+                                    break;
+                                }
+                        }
+                }
+            }
 
         JFrame FrameEspaco = new JFrame("AV3DNavigator - " + Versao);
         FrameEspaco.setIconImage(new ImageIcon(getClass().getResource(AV3DNavigatorIconFilePath)).getImage());
@@ -1396,6 +1590,8 @@ public class AV3DNavigator extends JComponent
 
                 FlagAlteracaoStatus = 0;
                 }
+
+            if (FlagINI == 1) {FlagAlteracaoStatus = 1; FlagINI = 0;}
 
             try {Thread.sleep(SleepTime);} catch(InterruptedException e) {}
             }
