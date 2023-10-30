@@ -487,7 +487,7 @@ public class AV3DNavigator extends JComponent
                                 case "y":
                                     if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
                                         {
-                                        y = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        y = -Double.parseDouble(INIelements[1].replaceAll(" ", ""));
                                         yt = y;
                                         FlagINI = 1;
                                         }
@@ -497,7 +497,7 @@ public class AV3DNavigator extends JComponent
                                 case "z":
                                     if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
                                         {
-                                        z = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        z = -Double.parseDouble(INIelements[1].replaceAll(" ", ""));
                                         zt = z;
                                         FlagINI = 1;
                                         }
