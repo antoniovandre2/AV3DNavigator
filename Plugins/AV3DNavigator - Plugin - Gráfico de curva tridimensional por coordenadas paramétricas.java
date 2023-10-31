@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de uma curva tridimensio
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "T" para "x", função em "T" para "y", função em "T" para "z", o menor valor atribuído a "T", o maior valor atribuído a "T", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 29-10-2023. Sem considerar alterações em variáveis globais.
+Última atualização: 31-10-2023. Sem considerar alterações em variáveis globais.
 */
 
 import org.mariuszgromada.math.mxparser.*;
@@ -23,8 +23,6 @@ public class AV3DNgctcp
         Expression expr;
         double resultado;
 
-        int shift = 0;
-        int inicio = 0;
         int argi = 0;
         int i;
         int j;
@@ -92,7 +90,6 @@ public class AV3DNgctcp
             for (j = 0; j < resolucao - 1; j++)
                 {
                 String valorstr;
-                String tempstr;
                 String pontostr;
 
                 pontostr =  Double.toString(menores[i] + j * (maiores[i] - menores[i]) / (resolucao - 1));
