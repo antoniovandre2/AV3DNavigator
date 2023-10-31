@@ -96,7 +96,6 @@ public class AV3DNavigator extends JComponent
     public static int TamanhoEspacoInvalidoX = 300; // Default: 300.
     public static int TamanhoEspacoInvalidoY = 80; // Default: 80.
     public static int MinTamanhoPlanoX = 400; // Default: 400.
-    public static int MinTamanhoPlanoYMaisLabels = 400 + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL; // Default: 400 + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL.
     public static String AV3DNavigatorIconFilePath = "AV3DNavigator - Logo - 200p.png";
     public double FatorAnguloVisao = 1; // Default: 1.
     public static double TetaMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
@@ -118,14 +117,17 @@ public class AV3DNavigator extends JComponent
 
     // Variáveis de funcionamento interno.
 
+    JPanel LabelStatusLabelURLPanel;
     public String Versao;
     public String URL;
     public String INI = new String("");
     public int FlagINI = 0;
+    public int FlagMostrarLabel = 1;
     public int CorrecaoX = 8;
     public int CorrecaoY = 0;
     public int CorrecaoXF = 15;
     public int CorrecaoYF = 0;
+    public int MinTamanhoPlanoYMaisLabels = TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL;
     public double RaioTeta = 0;
     public double RaioPhi = 0;
     double ProdutoEscalar;
@@ -780,13 +782,13 @@ public class AV3DNavigator extends JComponent
         LabelURL.setBorder(new EmptyBorder(5, 5, 5, 5));
         LabelURL.setFont(new Font("Monospaced", Font.BOLD | Font.ITALIC, TamanhoFonteLabelURL));
         LabelStatus.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoEspacoLabelStatus));
-        JPanel LabelStatusLabelURLPanel = new JPanel(new GridBagLayout());
+        LabelStatusLabelURLPanel = new JPanel(new GridBagLayout());
         GridBagConstraints GridBagConstraintsLabelStatusLabelURL = new GridBagConstraints();
         GridBagConstraintsLabelStatusLabelURL.gridx = 0;
         GridBagConstraintsLabelStatusLabelURL.gridy = 0;
         GridBagConstraintsLabelStatusLabelURL.fill = GridBagConstraints.BOTH;
         GridBagConstraintsLabelStatusLabelURL.weightx = TamanhoPlanoX;
-        GridBagConstraintsLabelStatusLabelURL.weighty = TamanhoEspacoLabelStatus - 20;
+        GridBagConstraintsLabelStatusLabelURL.weighty = TamanhoEspacoLabelStatus - TamanhoEspacoLabelURL;
         LabelStatusLabelURLPanel.add(LabelStatus, GridBagConstraintsLabelStatusLabelURL);
         GridBagConstraintsLabelStatusLabelURL.gridx = 0;
         GridBagConstraintsLabelStatusLabelURL.gridy = 1;
@@ -794,7 +796,7 @@ public class AV3DNavigator extends JComponent
         GridBagConstraintsLabelStatusLabelURL.weightx = TamanhoPlanoX;
         GridBagConstraintsLabelStatusLabelURL.weighty = TamanhoEspacoLabelURL;
         LabelStatusLabelURLPanel.add(LabelURL, GridBagConstraintsLabelStatusLabelURL);
-        FrameEspaco.add(LabelStatusLabelURLPanel);
+        FrameEspaco.getContentPane().add(LabelStatusLabelURLPanel);
 
         FrameEspaco.addMouseListener(new MouseListener()
             {
@@ -875,7 +877,7 @@ public class AV3DNavigator extends JComponent
                         {
                         JFrame FrameHelp = new JFrame("AV3DNavigator - Ajuda");
                         FrameHelp.setPreferredSize(new Dimension(TamanhoEspacoHelpX, TamanhoEspacoHelpY));
-                        GradientLabel LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>\"K\" para rotação vertical positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação vertical. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor padrão da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>INSERT para shift negativo na cor padrão das legendas. HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br>\"1\" para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br><br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB));
+                        GradientLabel LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>\"K\" para rotação vertical positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação vertical. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor padrão da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>INSERT para shift negativo na cor padrão das legendas. HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br>\"1\" para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br><br>F3 para ocultar e mostrar os labels.<br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB));
                         LabelHelp.setBorder(new EmptyBorder(5, 5, 5, 5));
                         LabelHelp.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelHelp));
                         FrameHelp.add(LabelHelp);
@@ -902,6 +904,7 @@ public class AV3DNavigator extends JComponent
                         BufferedImage ImagemFrame = new BufferedImage(TamanhoPlanoX, TamanhoPlanoY + FrameEspaco.getInsets().top, BufferedImage.TYPE_INT_RGB);
                         Graphics2D g2d = ImagemFrame.createGraphics();
                         FrameEspaco.printAll(g2d);
+
                         g2d.setFont(new Font("SansSerif", Font.ITALIC, TamanhoFonteLabelPrint));
 
                         Random geradorPrint = new Random();
@@ -938,7 +941,11 @@ public class AV3DNavigator extends JComponent
                         if (TentativasCores == MaxTentativasCores)
                             g2d.setColor(Color.WHITE);
 
-                        g2d.drawString(URL, 5 + FrameEspaco.getInsets().left, TamanhoPlanoY + FrameEspaco.getInsets().top - 5);
+                        if (FlagMostrarLabel == 1)
+                            g2d.drawString(URL, 5 + FrameEspaco.getInsets().left, TamanhoPlanoY + FrameEspaco.getInsets().top - 5);
+                        else
+                            g2d.drawString(URL, TamanhoPlanoX - FrameEspaco.getInsets().right - 250, FrameEspaco.getInsets().top + 20);
+
                         g2d.dispose();
                         BufferedImage ImagemFramePrint = ImagemFrame.getSubimage(FrameEspaco.getInsets().left, FrameEspaco.getInsets().top, TamanhoPlanoX - FrameEspaco.getInsets().left - FrameEspaco.getInsets().right, TamanhoPlanoY);
                         try {ImageIO.write(ImagemFramePrint, "png", new File("AV3DNavigator - Screenshot - " + dtf.format(now) + ".png"));} catch(IOException e) {}
@@ -990,11 +997,46 @@ public class AV3DNavigator extends JComponent
                         {
                         int Tamanho = Math.min(TamanhoPlanoX, TamanhoPlanoY);
 
-                        FrameEspaco.setPreferredSize(new Dimension(Tamanho, Tamanho + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
+                        if (FlagMostrarLabel == 1)
+                            FrameEspaco.setPreferredSize(new Dimension(Tamanho, Tamanho + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
+                        else
+                            FrameEspaco.setPreferredSize(new Dimension(Tamanho, Tamanho + TamanhoEspacoLabelURL));
 
-                        FrameEspaco.setSize(new Dimension(Tamanho, Tamanho + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
+                        FrameEspaco.revalidate(); FrameEspaco.repaint(); FrameEspaco.pack();
+                        }
 
-                        FrameEspaco.pack();
+                    if (keyCode == KeyEvent.VK_F3)
+                        {
+                        if (FlagMostrarLabel == 0)
+                            {
+                            FrameEspaco.getContentPane().remove(LabelURL);
+                            GridBagConstraintsLabelStatusLabelURL.gridx = 0;
+                            GridBagConstraintsLabelStatusLabelURL.gridy = 1;
+                            GridBagConstraintsLabelStatusLabelURL.fill = GridBagConstraints.HORIZONTAL;
+                            GridBagConstraintsLabelStatusLabelURL.weightx = TamanhoPlanoX;
+                            GridBagConstraintsLabelStatusLabelURL.weighty = TamanhoEspacoLabelURL;
+                            LabelStatusLabelURLPanel.add(LabelURL, GridBagConstraintsLabelStatusLabelURL);
+                            FrameEspaco.getContentPane().add(LabelStatusLabelURLPanel);
+
+                            MinTamanhoPlanoYMaisLabels = TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL;
+
+                            FrameEspaco.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
+
+                            FlagMostrarLabel = 1;
+                            }
+                        else
+                            {
+                            FrameEspaco.getContentPane().remove(LabelStatusLabelURLPanel);
+                            FrameEspaco.getContentPane().add(LabelURL, BorderLayout.PAGE_END);
+
+                            MinTamanhoPlanoYMaisLabels = TamanhoPlanoY + TamanhoEspacoLabelURL;
+
+                            FrameEspaco.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY + TamanhoEspacoLabelURL));
+
+                            FlagMostrarLabel = 0;
+                            }
+
+                        FrameEspaco.revalidate(); FrameEspaco.repaint(); FrameEspaco.pack();
                         }
 
                     if (keyCode == KeyEvent.VK_END) {TamanhoFonteLegendas++;}
@@ -1225,7 +1267,6 @@ public class AV3DNavigator extends JComponent
                 {
                 widthFrameEspaco = MinTamanhoPlanoX;
                 FrameEspaco.setPreferredSize(new Dimension(widthFrameEspaco, heightFrameEspaco));
-                FrameEspaco.setSize(widthFrameEspaco, heightFrameEspaco);
                 FlagRedimensionarOver = 1;
                 }
 
@@ -1233,21 +1274,31 @@ public class AV3DNavigator extends JComponent
                 {
                 heightFrameEspaco = MinTamanhoPlanoYMaisLabels;
                 FrameEspaco.setPreferredSize(new Dimension(widthFrameEspaco, heightFrameEspaco));
-                FrameEspaco.setSize(widthFrameEspaco, heightFrameEspaco);
                 FlagRedimensionarOver = 1;
                 }
 
             if (FlagRedimensionarOver == 0)
-                if ((widthFrameEspaco != TamanhoPlanoX) || (heightFrameEspaco != TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL))
+                if ((widthFrameEspaco != TamanhoPlanoX) || ((FlagMostrarLabel == 1) && (heightFrameEspaco != TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL)) || (FlagMostrarLabel == 0) && (heightFrameEspaco != TamanhoPlanoY + TamanhoEspacoLabelURL))
                     {
                     TamanhoPlanoX = widthFrameEspaco;
-                    TamanhoPlanoY = heightFrameEspaco - TamanhoEspacoLabelStatus - TamanhoEspacoLabelURL;
 
-                    FrameEspaco.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
+                    if (FlagMostrarLabel == 1)
+                        {
+                        TamanhoPlanoY = heightFrameEspaco - TamanhoEspacoLabelStatus - TamanhoEspacoLabelURL;
+
+                        FrameEspaco.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
+                        }
+                    else
+                        {
+                        TamanhoPlanoY = heightFrameEspaco - TamanhoEspacoLabelURL;
+
+                        FrameEspaco.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY + TamanhoEspacoLabelURL));
+                        }
+
                     Comp.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY));
-                    FrameEspaco.pack();
+                    FrameEspaco.revalidate(); FrameEspaco.repaint(); FrameEspaco.pack();
 
-/* Reinicialização opcional das variáveis de localização.
+                    /* Reinicialização opcional das variáveis de localização.
 
                     x = 0;
                     y = 0;
@@ -1275,7 +1326,7 @@ public class AV3DNavigator extends JComponent
 
                     DesenharEspaco(Comp);
                     FlagAlteracaoStatus = 1;
-                    }
+                }
 
             Point reference = FrameEspaco.getLocationOnScreen();
             MouseX = MouseInfo.getPointerInfo().getLocation().x - reference.x;
