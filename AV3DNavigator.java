@@ -75,6 +75,7 @@ public class AV3DNavigator extends JComponent
     public static String ArquivoAV3DNavigatorVersao = "AV3DNavigatorVersao.txt";
     public static String ArquivoAV3DNavigatorURL = "AV3DNavigatorURL.txt";
     public static String ArquivoAV3DNavigatorINI = "AV3DNavigator.ini";
+    public static String ArquivoAV3DNavigatorAtribuicao = "AV3DNavigatorAtribuicao.txt";
 
     // Variáveis globais.
 
@@ -120,6 +121,7 @@ public class AV3DNavigator extends JComponent
     JPanel LabelStatusLabelURLPanel;
     public String Versao;
     public String URL;
+    public String AtribuicaoString;
     public String INI = new String("");
     public int FlagINI = 0;
     public int FlagMostrarLabel = 1;
@@ -431,6 +433,7 @@ public class AV3DNavigator extends JComponent
         {
         Versao = "Versão desconhecida.";
         URL = "URL desconhecida.";
+        AtribuicaoString = "Antonio Vandré's AV3DNavigator.|bit.ly/antoniovandre_legadoontologico";
 
         File fileVersao = new File(ArquivoAV3DNavigatorVersao);
 
@@ -446,6 +449,14 @@ public class AV3DNavigator extends JComponent
             {
             BufferedReader brURL = new BufferedReader(new FileReader(fileURL));
             URL = brURL.readLine();
+            } catch (IOException e) {}
+
+        File fileAtribuicao = new File(ArquivoAV3DNavigatorAtribuicao);
+
+        try
+            {
+            BufferedReader brAtribuicao = new BufferedReader(new FileReader(fileAtribuicao));
+            AtribuicaoString = brAtribuicao.readLine();
             } catch (IOException e) {}
 
         File fileINI = new File(ArquivoAV3DNavigatorINI);
@@ -948,7 +959,12 @@ public class AV3DNavigator extends JComponent
                         if (FlagMostrarLabel == 1)
                             g2d.drawString(URL, 5 + FrameEspaco.getInsets().left, TamanhoPlanoY + FrameEspaco.getInsets().top - 5);
                         else
-                            g2d.drawString(URL, TamanhoPlanoX - FrameEspaco.getInsets().right - 250, FrameEspaco.getInsets().top + 20);
+                            {
+                            String[] AtribuicaoStringArr = AtribuicaoString.split("\\|");
+
+                            for (i = 0; i < AtribuicaoStringArr.length; i++)
+                                g2d.drawString(AtribuicaoStringArr[i], TamanhoPlanoX - FrameEspaco.getInsets().right - 230, FrameEspaco.getInsets().top + 20 + i * 20);
+                            }
 
                         g2d.dispose();
                         BufferedImage ImagemFramePrint = ImagemFrame.getSubimage(FrameEspaco.getInsets().left, FrameEspaco.getInsets().top, TamanhoPlanoX - FrameEspaco.getInsets().left - FrameEspaco.getInsets().right, TamanhoPlanoY);
@@ -1021,6 +1037,14 @@ public class AV3DNavigator extends JComponent
                         if (FlagMostrarLabel == 0)
                             {
                             FrameEspaco.getContentPane().remove(LabelURL);
+                            LabelStatusLabelURLPanel = new JPanel(new GridBagLayout());
+                            GridBagConstraints GridBagConstraintsLabelStatusLabelURL = new GridBagConstraints();
+                            GridBagConstraintsLabelStatusLabelURL.gridx = 0;
+                            GridBagConstraintsLabelStatusLabelURL.gridy = 0;
+                            GridBagConstraintsLabelStatusLabelURL.fill = GridBagConstraints.BOTH;
+                            GridBagConstraintsLabelStatusLabelURL.weightx = TamanhoPlanoX;
+                            GridBagConstraintsLabelStatusLabelURL.weighty = TamanhoEspacoLabelStatus - TamanhoEspacoLabelURL;
+                            LabelStatusLabelURLPanel.add(LabelStatus, GridBagConstraintsLabelStatusLabelURL);
                             GridBagConstraintsLabelStatusLabelURL.gridx = 0;
                             GridBagConstraintsLabelStatusLabelURL.gridy = 1;
                             GridBagConstraintsLabelStatusLabelURL.fill = GridBagConstraints.HORIZONTAL;
@@ -1028,6 +1052,8 @@ public class AV3DNavigator extends JComponent
                             GridBagConstraintsLabelStatusLabelURL.weighty = TamanhoEspacoLabelURL;
                             LabelStatusLabelURLPanel.add(LabelURL, GridBagConstraintsLabelStatusLabelURL);
                             FrameEspaco.getContentPane().add(LabelStatusLabelURLPanel);
+                            LabelStatusLabelURLPanel.setVisible(true);
+                            LabelStatusLabelURLPanel.revalidate(); LabelStatusLabelURLPanel.repaint();
 
                             MinTamanhoPlanoYMaisLabels = TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL;
 
@@ -1038,8 +1064,12 @@ public class AV3DNavigator extends JComponent
                             }
                         else
                             {
+                            LabelStatusLabelURLPanel.removeAll();
                             FrameEspaco.getContentPane().remove(LabelStatusLabelURLPanel);
                             FrameEspaco.getContentPane().add(LabelURL, BorderLayout.PAGE_END);
+                            LabelURL.setVisible(true);
+                            LabelStatusLabelURLPanel.setVisible(false);
+                            LabelStatusLabelURLPanel.revalidate(); LabelStatusLabelURLPanel.repaint();
 
                             MinTamanhoPlanoYMaisLabels = TamanhoPlanoY + TamanhoEspacoLabelURL;
 

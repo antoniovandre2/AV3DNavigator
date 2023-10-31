@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 26-09-2023.
+ * Última atualização: 31-10-2023.
  */
 
 import java.awt.Dimension;
@@ -34,7 +34,7 @@ import java.io.*;
 
 public class AV3DNavigatorLauncher
     {
-    public static String VersaoLauncher = "26-09-2023";
+    public static String VersaoLauncher = "31-10-2023";
 
     public static String URL3DNavigatorVersao = "https://github.com/antoniovandre2/AV3DNavigator/raw/main/AV3DNavigatorVersao.txt";
 
@@ -48,9 +48,13 @@ public class AV3DNavigatorLauncher
 
     public static String ArquivoAV3DNavigatorURL = "AV3DNavigatorURL.txt";
 
+    public static String URL3DNavigatorAtribuicao = "https://github.com/antoniovandre2/AV3DNavigator/raw/main/AV3DNavigatorAtribuicao.txt";
+
+    public static String ArquivoAV3DNavigatorAtribuicao = "AV3DNavigatorAtribuicao.txt";
+
     public static String MensagemErroAtualizar = "Erro ao atualizar o AV3DNavigator.";
 
-    public static String MensagemErroExecutar = "Erro ao executar AV3DNavigator.";
+    public static String MensagemErroExecutar = "Erro ao executar AV3DNavigator. Pode ser perda de conexão com a internet.";
 
     public class GradientLabel extends JLabel
         {
@@ -106,6 +110,11 @@ public class AV3DNavigatorLauncher
         try
             {
             downloadUsingStream(URL3DNavigatorURL, ArquivoAV3DNavigatorURL);
+            } catch (IOException e) {}
+
+        try
+            {
+            downloadUsingStream(URL3DNavigatorAtribuicao, ArquivoAV3DNavigatorAtribuicao);
             } catch (IOException e) {}
 
         try
