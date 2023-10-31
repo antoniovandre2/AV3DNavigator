@@ -1080,6 +1080,8 @@ public class AV3DNavigator extends JComponent
                             }
 
                         FrameEspaco.revalidate(); FrameEspaco.repaint(); FrameEspaco.pack();
+
+                        try {Thread.sleep(50);} catch(InterruptedException e) {}
                         }
 
                     if (keyCode == KeyEvent.VK_END) {TamanhoFonteLegendas++;}
