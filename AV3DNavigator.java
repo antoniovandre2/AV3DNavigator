@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 30-10-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 31-10-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -78,12 +78,15 @@ public class AV3DNavigator extends JComponent
 
     // Variáveis globais.
 
-    public int CorJanelaR = 0;
-    public int CorJanelaG = 0;
-    public int CorJanelaB = 255;
-    public int CorFonteJanelaR = 255;
-    public int CorFonteJanelaG = 255;
-    public int CorFonteJanelaB = 255;
+    public int CorJanelaR = 0; // Default: 0.
+    public int CorJanelaG = 0; // Default: 0.
+    public int CorJanelaB = 255; // Default: 255.
+    public int CorJanelaGradienteR = 0; // Default: 0.
+    public int CorJanelaGradienteG = 0; // Default: 0.
+    public int CorJanelaGradienteB = 0; // Default: 0.
+    public int CorFonteJanelaR = 255; // Default: 255.
+    public int CorFonteJanelaG = 255; // Default: 255.
+    public int CorFonteJanelaB = 255; // Default: 255.
     public int TamanhoPlanoX = 400; // Default: 400.
     public int TamanhoPlanoY = 400; // Default: 400.
     public static int TamanhoEspacoLabelStatus = 375; // Default: 375.
@@ -115,7 +118,6 @@ public class AV3DNavigator extends JComponent
 
     // Variáveis de funcionamento interno.
 
-    public String[] Cores;
     public String Versao;
     public String URL;
     public String INI = new String("");
@@ -470,6 +472,11 @@ public class AV3DNavigator extends JComponent
         if (! INI.equals(""))
             {
             String[] INIarr = INI.split("\\r?\\n");
+            Double ValorReal;
+            int ValorInteiro;
+            int ValorInteiro1;
+            int ValorInteiro2;
+            String[] Cores;
 
             for (i = 0; i < INIarr.length; i++)
                 if (! INIarr[i].equals(""))
@@ -542,11 +549,15 @@ public class AV3DNavigator extends JComponent
 
                                 case "RaioTeta":
                                     if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
-                                        if (Double.parseDouble(INIelements[1].replaceAll(" ", "")) > 0)
+                                        {
+                                        ValorReal = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+                                        if (ValorReal > 0)
                                             {
-                                            RaioTeta = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                            RaioTeta = ValorReal;
                                             FlagINI = 1;
                                             }
+                                        }
 
                                     break;
 
@@ -561,11 +572,15 @@ public class AV3DNavigator extends JComponent
 
                                 case "RaioPhi":
                                     if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
-                                        if (Double.parseDouble(INIelements[1].replaceAll(" ", "")) > 0)
+                                        {
+                                        ValorReal = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+                                        if (ValorReal > 0)
                                             {
-                                            RaioPhi = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                            RaioPhi = ValorReal;
                                             FlagINI = 1;
                                             }
+                                        }
 
                                     break;
 
@@ -580,71 +595,99 @@ public class AV3DNavigator extends JComponent
 
                                 case "DistanciaTela":
                                     if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
-                                        if (Double.parseDouble(INIelements[1].replaceAll(" ", "")) > 0)
+                                        {
+                                        ValorReal = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+                                        if (ValorReal > 0)
                                             {
-                                            DistanciaTela = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                            DistanciaTela = ValorReal;
                                             FlagINI = 1;
                                             }
+                                        }
 
                                     break;
 
                                 case "FatorAnguloVisao":
                                     if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
-                                        if (Double.parseDouble(INIelements[1].replaceAll(" ", "")) > 0)
+                                        {
+                                        ValorReal = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+                                        if (ValorReal > 0)
                                             {
-                                            FatorAnguloVisao = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                            FatorAnguloVisao = ValorReal;
                                             FlagINI = 1;
                                             }
+                                        }
 
                                     break;
 
                                 case "MargemAnguloVisao":
                                     if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
-                                        if (Double.parseDouble(INIelements[1].replaceAll(" ", "")) > 0)
+                                        {
+                                        ValorReal = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+                                        if (ValorReal > 0)
                                             {
-                                            MargemAnguloVisao = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                            MargemAnguloVisao = ValorReal;
                                             FlagINI = 1;
                                             }
+                                        }
 
                                     break;
 
                                 case "Apfloat":
                                     if (AntonioVandre.NumeroInteiro(INIelements[1].replaceAll(" ", "")))
-                                        if ((Integer.parseInt(INIelements[1].replaceAll(" ", "")) == 0) || (Integer.parseInt(INIelements[1].replaceAll(" ", "")) == 1))
+                                        {
+                                        ValorInteiro = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+
+                                        if ((ValorInteiro == 0) || (ValorInteiro == 1))
                                             {
-                                            ApfloatFlag = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+                                            ApfloatFlag = ValorInteiro;
                                             FlagINI = 1;
                                             }
+                                        }
 
                                     break;
 
                                 case "fillPolygon":
                                     if (AntonioVandre.NumeroInteiro(INIelements[1].replaceAll(" ", "")))
-                                        if ((Integer.parseInt(INIelements[1].replaceAll(" ", "")) == 0) || (Integer.parseInt(INIelements[1].replaceAll(" ", "")) == 1))
+                                        {
+                                        ValorInteiro = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+
+                                        if ((ValorInteiro == 0) || (ValorInteiro == 1))
                                             {
-                                            TrianguloPoligono = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+                                            TrianguloPoligono = ValorInteiro;
                                             FlagINI = 1;
                                             }
+                                        }
 
                                     break;
 
                                 case "ResolucaoTriangulos":
                                     if (AntonioVandre.NumeroInteiro(INIelements[1].replaceAll(" ", "")))
-                                        if (Integer.parseInt(INIelements[1].replaceAll(" ", "")) > 0)
+                                        {
+                                        ValorInteiro = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+
+                                        if (ValorInteiro > 0)
                                             {
-                                            ResolucaoTriangulos = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+                                            ResolucaoTriangulos = ValorInteiro;
                                             FlagINI = 1;
                                             }
+                                        }
 
                                     break;
 
                                 case "SleepTime":
                                     if (AntonioVandre.NumeroInteiro(INIelements[1].replaceAll(" ", "")))
-                                        if (Integer.parseInt(INIelements[1].replaceAll(" ", "")) > 0)
+                                        {
+                                        ValorInteiro = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+
+                                        if (ValorInteiro > 0)
                                             {
-                                            SleepTime = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+                                            SleepTime = ValorInteiro;
                                             FlagINI = 1;
                                             }
+                                        }
 
                                     break;
 
@@ -653,13 +696,21 @@ public class AV3DNavigator extends JComponent
 
                                     if (Cores.length == 3)
                                         if ((AntonioVandre.NumeroInteiro(Cores[0].replaceAll(" ", ""))) && (AntonioVandre.NumeroInteiro(Cores[1].replaceAll(" ", ""))) && (AntonioVandre.NumeroInteiro(Cores[2].replaceAll(" ", ""))))
-                                            if ((Integer.parseInt(Cores[0].replaceAll(" ", "")) >= 0) && (Integer.parseInt(Cores[0].replaceAll(" ", "")) <= 255) && (Integer.parseInt(Cores[1].replaceAll(" ", "")) >= 0) && (Integer.parseInt(Cores[1].replaceAll(" ", "")) <= 255) && (Integer.parseInt(Cores[2].replaceAll(" ", "")) >= 0) && (Integer.parseInt(Cores[2].replaceAll(" ", "")) <= 255))
+                                            {
+                                            ValorInteiro = Integer.parseInt(Cores[0].replaceAll(" ", ""));
+
+                                            ValorInteiro1 = Integer.parseInt(Cores[1].replaceAll(" ", ""));
+
+                                            ValorInteiro2 = Integer.parseInt(Cores[2].replaceAll(" ", ""));
+
+                                            if ((ValorInteiro >= 0) && (ValorInteiro <= 255) && (ValorInteiro1 >= 0) && (ValorInteiro1 <= 255) && (ValorInteiro2 >= 0) && (ValorInteiro2 <= 255))
                                                 {
-                                                CorJanelaR = Integer.parseInt(Cores[0].replaceAll(" ", ""));
-                                                CorJanelaG = Integer.parseInt(Cores[1].replaceAll(" ", ""));
-                                                CorJanelaB = Integer.parseInt(Cores[2].replaceAll(" ", ""));
+                                                CorJanelaR = ValorInteiro;
+                                                CorJanelaG = ValorInteiro1;
+                                                CorJanelaB = ValorInteiro2;
                                                 FlagINI = 1;
                                                 }
+                                            }
 
                                     break;
 
@@ -668,14 +719,48 @@ public class AV3DNavigator extends JComponent
 
                                     if (Cores.length == 3)
                                         if ((AntonioVandre.NumeroInteiro(Cores[0].replaceAll(" ", ""))) && (AntonioVandre.NumeroInteiro(Cores[1].replaceAll(" ", ""))) && (AntonioVandre.NumeroInteiro(Cores[2].replaceAll(" ", ""))))
-                                            if ((Integer.parseInt(Cores[0].replaceAll(" ", "")) >= 0) && (Integer.parseInt(Cores[0].replaceAll(" ", "")) <= 255) && (Integer.parseInt(Cores[1].replaceAll(" ", "")) >= 0) && (Integer.parseInt(Cores[1].replaceAll(" ", "")) <= 255) && (Integer.parseInt(Cores[2].replaceAll(" ", "")) >= 0) && (Integer.parseInt(Cores[2].replaceAll(" ", "")) <= 255))
+                                            {
+                                            ValorInteiro = Integer.parseInt(Cores[0].replaceAll(" ", ""));
+
+                                            ValorInteiro1 = Integer.parseInt(Cores[1].replaceAll(" ", ""));
+
+                                            ValorInteiro2 = Integer.parseInt(Cores[2].replaceAll(" ", ""));
+
+                                            if ((ValorInteiro >= 0) && (ValorInteiro <= 255) && (ValorInteiro1 >= 0) && (ValorInteiro1 <= 255) && (ValorInteiro2 >= 0) && (ValorInteiro2 <= 255))
                                                 {
-                                                CorFonteJanelaR = Integer.parseInt(Cores[0].replaceAll(" ", ""));
-                                                CorFonteJanelaG = Integer.parseInt(Cores[1].replaceAll(" ", ""));
-                                                CorFonteJanelaB = Integer.parseInt(Cores[2].replaceAll(" ", ""));
+                                                CorFonteJanelaR = ValorInteiro;
+                                                CorFonteJanelaG = ValorInteiro1;
+                                                CorFonteJanelaB = ValorInteiro2;
                                                 FlagINI = 1;
                                                 }
+                                            }
 
+                                    break;
+
+                                case "CorJanelaGradiente":
+                                    Cores = INIelements[1].replaceAll(" ", "").split(",");
+
+                                    if (Cores.length == 3)
+                                        if ((AntonioVandre.NumeroInteiro(Cores[0].replaceAll(" ", ""))) && (AntonioVandre.NumeroInteiro(Cores[1].replaceAll(" ", ""))) && (AntonioVandre.NumeroInteiro(Cores[2].replaceAll(" ", ""))))
+                                            {
+                                            ValorInteiro = Integer.parseInt(Cores[0].replaceAll(" ", ""));
+
+                                            ValorInteiro1 = Integer.parseInt(Cores[1].replaceAll(" ", ""));
+
+                                            ValorInteiro2 = Integer.parseInt(Cores[2].replaceAll(" ", ""));
+
+                                            if ((ValorInteiro >= 0) && (ValorInteiro <= 255) && (ValorInteiro1 >= 0) && (ValorInteiro1 <= 255) && (ValorInteiro2 >= 0) && (ValorInteiro2 <= 255))
+                                                {
+                                                CorJanelaGradienteR = ValorInteiro;
+                                                CorJanelaGradienteG = ValorInteiro1;
+                                                CorJanelaGradienteB = ValorInteiro2;
+                                                FlagINI = 1;
+                                                }
+                                            }
+
+                                    break;
+
+                                default:
                                     break;
                                 }
                         }
@@ -688,7 +773,7 @@ public class AV3DNavigator extends JComponent
         AV3DNavigator Comp = new AV3DNavigator();
         Comp.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY));
         FrameEspaco.getContentPane().add(Comp, BorderLayout.PAGE_START);
-        GradientLabel LabelStatus = new GradientLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ".<br>z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ".<br>Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ".<br>Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao + MargemAnguloVisao) + "<br>Aspect ratio = 1.0.<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br>fillPolygon = " + String.valueOf(TrianguloPoligono) + ".<br>ResolucaoTriangulos = " + String.valueOf(ResolucaoTriangulos) + ".<br>SleepTime = " + String.valueOf(SleepTime) + ".<br><br>Aperte F1 para ajuda.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), Color.BLACK, new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB));
+        GradientLabel LabelStatus = new GradientLabel("<html>x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ".<br>z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ".<br>Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ".<br>Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao + MargemAnguloVisao) + "<br>Aspect ratio = 1.0.<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ".<br>fillPolygon = " + String.valueOf(TrianguloPoligono) + ".<br>ResolucaoTriangulos = " + String.valueOf(ResolucaoTriangulos) + ".<br>SleepTime = " + String.valueOf(SleepTime) + ".<br><br>Aperte F1 para ajuda.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB));
         LabelStatus.setBorder(new EmptyBorder(5, 5, 5, 5));
         LabelStatus.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelStatus));
         GradientLabel LabelURL = new GradientLabel("<html>" + URL + "</html>", Color.WHITE, Color.BLACK, Color.BLUE);
@@ -790,7 +875,7 @@ public class AV3DNavigator extends JComponent
                         {
                         JFrame FrameHelp = new JFrame("AV3DNavigator - Ajuda");
                         FrameHelp.setPreferredSize(new Dimension(TamanhoEspacoHelpX, TamanhoEspacoHelpY));
-                        GradientLabel LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>\"K\" para rotação vertical positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação vertical. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor padrão da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>INSERT para shift negativo na cor padrão das legendas. HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br>\"1\" para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br><br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), Color.BLACK, new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB));
+                        GradientLabel LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>\"K\" para rotação vertical positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação vertical. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor padrão da linha. \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor de fundo. \"I\" para shift positivo.<br>\"O\" para shift negativo na cor padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>INSERT para shift negativo na cor padrão das legendas. HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>\"0\" para toggle alta precisão Apfloat (com custo computacional).<br>\"1\" para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br><br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB));
                         LabelHelp.setBorder(new EmptyBorder(5, 5, 5, 5));
                         LabelHelp.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelHelp));
                         FrameHelp.add(LabelHelp);
@@ -873,7 +958,7 @@ public class AV3DNavigator extends JComponent
                                 {
                                 JFrame FrameErroEspacoInvalido = new JFrame("AV3DNavigator - Espaço inválido");
                                 FrameErroEspacoInvalido.setPreferredSize(new Dimension(TamanhoEspacoInvalidoX, TamanhoEspacoInvalidoY));
-                                GradientLabel LabelErroEspacoInvalido = new GradientLabel(MensagemErroEspacoInvalido, new Color(CorJanelaR, CorJanelaG, CorJanelaB), Color.BLACK, new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB));
+                                GradientLabel LabelErroEspacoInvalido = new GradientLabel(MensagemErroEspacoInvalido, new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB));
                                 LabelErroEspacoInvalido.setBorder(new EmptyBorder(5, 5, 5, 5));
                                 LabelErroEspacoInvalido.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelErroEspacoInvalido));
                                 FrameErroEspacoInvalido.add(LabelErroEspacoInvalido);
@@ -1004,16 +1089,16 @@ public class AV3DNavigator extends JComponent
                         {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioTeta - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {RaioTeta += DeslocamentoLinear;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_PERIOD)
-                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioTeta > DeslocamentoLinear) {RaioTeta -= DeslocamentoLinear;}}
+                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioTeta >= DeslocamentoLinear) {RaioTeta -= DeslocamentoLinear;}}
 
                     if (keyCode == KeyEvent.VK_OPEN_BRACKET)
                         {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioPhi - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {RaioPhi += DeslocamentoLinear;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_CLOSE_BRACKET)
-                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioPhi > DeslocamentoLinear) {RaioPhi -= DeslocamentoLinear;}}
+                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioPhi >= DeslocamentoLinear) {RaioPhi -= DeslocamentoLinear;}}
 
                     if (keyCode == KeyEvent.VK_Q)
-                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (DistanciaTela > 1) DistanciaTela -= 1;}
+                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (DistanciaTela >= 1) DistanciaTela -= 1;}
 
                     if (keyCode == KeyEvent.VK_W)
                         {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(DistanciaTela) - 1 <= Double.MAX_VALUE - 1) DistanciaTela += 1; else VariavelLimiteAtingido();}
