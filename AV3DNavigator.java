@@ -90,7 +90,7 @@ public class AV3DNavigator extends JComponent
     public int CorFonteJanelaB = 255; // Default: 255.
     public int TamanhoPlanoX = 400; // Default: 400.
     public int TamanhoPlanoY = 400; // Default: 400.
-    public static int TamanhoEspacoLabelStatus = 375; // Default: 375.
+    public static int TamanhoEspacoLabelStatus = 335; // Default: 335.
     public static int TamanhoEspacoLabelURL = 65; // Default: 65.
     public static int TamanhoEspacoHelpX = 700; // Default: 700.
     public static int TamanhoEspacoHelpY = 610; // Default: 610.
