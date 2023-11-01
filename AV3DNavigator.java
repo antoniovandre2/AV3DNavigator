@@ -3,7 +3,7 @@
  * 
  * Software AV3DNavigator.
  * 
- * Dependências: AntonioVandre, Apfloat 1.11.0 (http://www.apfloat.org).
+ * Dependências: AntonioVandre >= 20231101, Apfloat 1.11.0 (http://www.apfloat.org).
  * 
  * Motor Gráfico: AV3D-n (para objetos próximos).
  * 
@@ -55,6 +55,7 @@ import java.util.ConcurrentModificationException;
 import java.lang.Math;
 import java.lang.NullPointerException;
 import java.lang.IndexOutOfBoundsException;
+import java.lang.NumberFormatException;
 
 import javax.imageio.ImageIO;
 
@@ -108,6 +109,7 @@ public class AV3DNavigator extends JComponent
     public static int TamanhoFonteLabelPrint = 12; // Default: 12.
     public static int TamanhoFonteLabelErroEspacoInvalido = 11; // Default: 11.
     public double DistanciaTela = 2; // Default: valor inicial: 2.
+    public static String MensagemErroAntonioVandreLib = "Requer AntonioVandre >= 20231101.";
     public static String MensagemErroEspacoAusente = "Entre com um arquivo de espaço.";
     public static String MensagemErroEspacoInvalido = "Entre com um arquivo de espaço válido.";
     public static double FatorMouseWheel = 3; // Default: 3.
@@ -125,7 +127,6 @@ public class AV3DNavigator extends JComponent
     public String INI = new String("");
     public int FlagINI = 0;
     public int FlagMostrarLabel = 1;
-    public Double ValorReal;
     public int ValorInteiro;
     public int ValorInteiro1;
     public int ValorInteiro2;
@@ -163,6 +164,7 @@ public class AV3DNavigator extends JComponent
     public int MaxTentativasCores = Integer.MAX_VALUE;
     public int SleepTime = 7; // Default: valor inicial: 7.
 
+    public long ValorInteiroLong;
     public int i;
     public int j;
     public int k;
@@ -439,6 +441,22 @@ public class AV3DNavigator extends JComponent
         URL = "URL desconhecida.";
         AtribuicaoString = "Antonio Vandré's AV3DNavigator.|bit.ly/antoniovandre_legadoontologico";
 
+        try
+            {
+            ValorInteiroLong = Long.parseLong(String.valueOf(AntonioVandre.Versao));
+            }
+        catch (NumberFormatException e)
+            {
+            System.out.println(MensagemErroAntonioVandreLib);
+            return;
+            }
+
+        if (AntonioVandre.Versao < 20231101)
+            {
+            System.out.println(MensagemErroAntonioVandreLib);
+            return;
+            }
+
         File fileVersao = new File(ArquivoAV3DNavigatorVersao);
 
         try
@@ -561,15 +579,10 @@ public class AV3DNavigator extends JComponent
                                     break;
 
                                 case "RaioTeta":
-                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                    if (AntonioVandre.NumeroRealNaoNegativo(INIelements[1].replaceAll(" ", "")))
                                         {
-                                        ValorReal = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-
-                                        if (ValorReal > 0)
-                                            {
-                                            RaioTeta = ValorReal;
-                                            FlagINI = 1;
-                                            }
+                                        RaioTeta = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        FlagINI = 1;
                                         }
 
                                     break;
@@ -584,15 +597,10 @@ public class AV3DNavigator extends JComponent
                                     break;
 
                                 case "RaioPhi":
-                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                    if (AntonioVandre.NumeroRealNaoNegativo(INIelements[1].replaceAll(" ", "")))
                                         {
-                                        ValorReal = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-
-                                        if (ValorReal > 0)
-                                            {
-                                            RaioPhi = ValorReal;
-                                            FlagINI = 1;
-                                            }
+                                        RaioPhi = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        FlagINI = 1;
                                         }
 
                                     break;
@@ -607,43 +615,28 @@ public class AV3DNavigator extends JComponent
                                     break;
 
                                 case "DistanciaTela":
-                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                    if (AntonioVandre.NumeroRealPositivo(INIelements[1].replaceAll(" ", "")))
                                         {
-                                        ValorReal = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-
-                                        if (ValorReal > 0)
-                                            {
-                                            DistanciaTela = ValorReal;
-                                            FlagINI = 1;
-                                            }
+                                        DistanciaTela = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        FlagINI = 1;
                                         }
 
                                     break;
 
                                 case "FatorAnguloVisao":
-                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                    if (AntonioVandre.NumeroRealPositivo(INIelements[1].replaceAll(" ", "")))
                                         {
-                                        ValorReal = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-
-                                        if (ValorReal > 0)
-                                            {
-                                            FatorAnguloVisao = ValorReal;
-                                            FlagINI = 1;
-                                            }
+                                        FatorAnguloVisao = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        FlagINI = 1;
                                         }
 
                                     break;
 
                                 case "MargemAnguloVisao":
-                                    if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+                                    if (AntonioVandre.NumeroRealNaoNegativo(INIelements[1].replaceAll(" ", "")))
                                         {
-                                        ValorReal = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-
-                                        if (ValorReal > 0)
-                                            {
-                                            MargemAnguloVisao = ValorReal;
-                                            FlagINI = 1;
-                                            }
+                                        MargemAnguloVisao = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+                                        FlagINI = 1;
                                         }
 
                                     break;
@@ -677,29 +670,19 @@ public class AV3DNavigator extends JComponent
                                     break;
 
                                 case "ResolucaoTriangulos":
-                                    if (AntonioVandre.NumeroInteiro(INIelements[1].replaceAll(" ", "")))
+                                    if (AntonioVandre.NumeroNaturalPositivo(INIelements[1].replaceAll(" ", "")))
                                         {
-                                        ValorInteiro = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
-
-                                        if (ValorInteiro > 0)
-                                            {
-                                            ResolucaoTriangulos = ValorInteiro;
-                                            FlagINI = 1;
-                                            }
+                                        ResolucaoTriangulos = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+                                        FlagINI = 1;
                                         }
 
                                     break;
 
                                 case "SleepTime":
-                                    if (AntonioVandre.NumeroInteiro(INIelements[1].replaceAll(" ", "")))
+                                    if (AntonioVandre.NumeroNaturalPositivo(INIelements[1].replaceAll(" ", "")))
                                         {
-                                        ValorInteiro = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
-
-                                        if (ValorInteiro > 0)
-                                            {
-                                            SleepTime = ValorInteiro;
-                                            FlagINI = 1;
-                                            }
+                                        SleepTime = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+                                        FlagINI = 1;
                                         }
 
                                     break;
@@ -708,7 +691,7 @@ public class AV3DNavigator extends JComponent
                                     Cores = INIelements[1].replaceAll(" ", "").split(",");
 
                                     if (Cores.length == 3)
-                                        if ((AntonioVandre.NumeroInteiro(Cores[0].replaceAll(" ", ""))) && (AntonioVandre.NumeroInteiro(Cores[1].replaceAll(" ", ""))) && (AntonioVandre.NumeroInteiro(Cores[2].replaceAll(" ", ""))))
+                                        if ((AntonioVandre.NumeroNatural(Cores[0].replaceAll(" ", ""))) && (AntonioVandre.NumeroNatural(Cores[1].replaceAll(" ", ""))) && (AntonioVandre.NumeroNatural(Cores[2].replaceAll(" ", ""))))
                                             {
                                             ValorInteiro = Integer.parseInt(Cores[0].replaceAll(" ", ""));
 
@@ -731,7 +714,7 @@ public class AV3DNavigator extends JComponent
                                     Cores = INIelements[1].replaceAll(" ", "").split(",");
 
                                     if (Cores.length == 3)
-                                        if ((AntonioVandre.NumeroInteiro(Cores[0].replaceAll(" ", ""))) && (AntonioVandre.NumeroInteiro(Cores[1].replaceAll(" ", ""))) && (AntonioVandre.NumeroInteiro(Cores[2].replaceAll(" ", ""))))
+                                        if ((AntonioVandre.NumeroNatural(Cores[0].replaceAll(" ", ""))) && (AntonioVandre.NumeroNatural(Cores[1].replaceAll(" ", ""))) && (AntonioVandre.NumeroNatural(Cores[2].replaceAll(" ", ""))))
                                             {
                                             ValorInteiro = Integer.parseInt(Cores[0].replaceAll(" ", ""));
 
@@ -754,7 +737,7 @@ public class AV3DNavigator extends JComponent
                                     Cores = INIelements[1].replaceAll(" ", "").split(",");
 
                                     if (Cores.length == 3)
-                                        if ((AntonioVandre.NumeroInteiro(Cores[0].replaceAll(" ", ""))) && (AntonioVandre.NumeroInteiro(Cores[1].replaceAll(" ", ""))) && (AntonioVandre.NumeroInteiro(Cores[2].replaceAll(" ", ""))))
+                                        if ((AntonioVandre.NumeroNatural(Cores[0].replaceAll(" ", ""))) && (AntonioVandre.NumeroNatural(Cores[1].replaceAll(" ", ""))) && (AntonioVandre.NumeroNatural(Cores[2].replaceAll(" ", ""))))
                                             {
                                             ValorInteiro = Integer.parseInt(Cores[0].replaceAll(" ", ""));
 
@@ -964,17 +947,12 @@ public class AV3DNavigator extends JComponent
 
                             if (AtribuicaoStringArrP.length == 2)
                                 {
-                                if (AntonioVandre.NumeroInteiro(AtribuicaoStringArrP[0].replaceAll(" ", "")))
+                                if (AntonioVandre.NumeroNaturalPositivo(AtribuicaoStringArrP[0].replaceAll(" ", "")))
                                     {
-                                    ValorInteiro = Integer.parseInt(AtribuicaoStringArrP[0].replaceAll(" ", ""));
+                                    String[] AtribuicaoStringArr = AtribuicaoStringArrP[1].split(";");
 
-                                    if (ValorInteiro > 0)
-                                        {
-                                        String[] AtribuicaoStringArr = AtribuicaoStringArrP[1].split(";");
-
-                                        for (i = 0; i < AtribuicaoStringArr.length; i++)
-                                            g2d.drawString(AtribuicaoStringArr[i], TamanhoPlanoX - FrameEspaco.getInsets().right - ValorInteiro, TamanhoPlanoY + FrameEspaco.getInsets().top - 5 - ((AtribuicaoStringArr.length - 1) * 20) + i * 20);
-                                        }
+                                    for (i = 0; i < AtribuicaoStringArr.length; i++)
+                                        g2d.drawString(AtribuicaoStringArr[i], TamanhoPlanoX - FrameEspaco.getInsets().right - Integer.parseInt(AtribuicaoStringArrP[0].replaceAll(" ", "")), TamanhoPlanoY + FrameEspaco.getInsets().top - 5 - ((AtribuicaoStringArr.length - 1) * 20) + i * 20);
                                     }
                                 }
                             }
@@ -2235,7 +2213,7 @@ public class AV3DNavigator extends JComponent
 
                                 for (k = 0; k < RGB.length; k++)
                                     {
-                                    if (! AntonioVandre.NumeroInteiro(RGB[k])) return "Erro";
+                                    if (! AntonioVandre.NumeroNatural(RGB[k])) return "Erro";
 
                                     if ((Integer.parseInt(RGB[k]) < 0) || (Integer.parseInt(RGB[k]) > 255))
                                         return "Erro";
@@ -2284,7 +2262,7 @@ public class AV3DNavigator extends JComponent
 
                                 for (k = 0; k < RGB.length; k++)
                                     {
-                                    if (! AntonioVandre.NumeroInteiro(RGB[k])) return "Erro";
+                                    if (! AntonioVandre.NumeroNatural(RGB[k])) return "Erro";
 
                                     if ((Integer.parseInt(RGB[k]) < 0) || (Integer.parseInt(RGB[k]) > 255))
                                         return "Erro";
@@ -2325,7 +2303,7 @@ public class AV3DNavigator extends JComponent
 
                                 for (k = 0; k < RGB.length; k++)
                                     {
-                                    if (! AntonioVandre.NumeroInteiro(RGB[k])) return "Erro";
+                                    if (! AntonioVandre.NumeroNatural(RGB[k])) return "Erro";
 
                                     if ((Integer.parseInt(RGB[k]) < 0) || (Integer.parseInt(RGB[k]) > 255))
                                         return "Erro";
@@ -2335,10 +2313,7 @@ public class AV3DNavigator extends JComponent
 
                         if (Campos.length == 3)
                             if (! (Campos[2].equals("")))
-                                {
-                                if (! AntonioVandre.NumeroInteiro(Campos[2])) return "Erro";
-                                if (Integer.parseInt(Campos[2]) <= 0) return "Erro";
-                                }
+                                if (! AntonioVandre.NumeroNaturalPositivo(Campos[2])) return "Erro";
                         }
                     }
                 }
