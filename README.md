@@ -83,7 +83,12 @@ F11 para setar aspect ratio 1.
 
 F12 para screenshot.
 
+F3 para ocultar e mostrar os labels.
+
 ESC para sair.
+____________________
+
+Há suporte para o arquivo "AV3DNavigator.ini", onde se pode já inicializar variáveis ao próprio gosto.
 ____________________
 
 ![AV3D-n logo](https://antoniovandre2.github.io/AV3DNavigator/Powered%20by%20AV3D-n%20engine%20-%20200p.png)
