@@ -125,6 +125,10 @@ public class AV3DNavigator extends JComponent
     public String INI = new String("");
     public int FlagINI = 0;
     public int FlagMostrarLabel = 1;
+    public Double ValorReal;
+    public int ValorInteiro;
+    public int ValorInteiro1;
+    public int ValorInteiro2;
     public int CorrecaoX = 8;
     public int CorrecaoY = 0;
     public int CorrecaoXF = 15;
@@ -485,10 +489,6 @@ public class AV3DNavigator extends JComponent
         if (! INI.equals(""))
             {
             String[] INIarr = INI.split("\\r?\\n");
-            Double ValorReal;
-            int ValorInteiro;
-            int ValorInteiro1;
-            int ValorInteiro2;
             String[] Cores;
 
             for (i = 0; i < INIarr.length; i++)
@@ -960,10 +960,23 @@ public class AV3DNavigator extends JComponent
                             g2d.drawString(URL, 5 + FrameEspaco.getInsets().left, TamanhoPlanoY + FrameEspaco.getInsets().top - 5);
                         else
                             {
-                            String[] AtribuicaoStringArr = AtribuicaoString.split("\\|");
+                            String[] AtribuicaoStringArrP = AtribuicaoString.split("\\|");
 
-                            for (i = AtribuicaoStringArr.length - 1; i >= 0; i--)
-                                g2d.drawString(AtribuicaoStringArr[i], TamanhoPlanoX - 230, TamanhoPlanoY - 20 + i * 20);
+                            if (AtribuicaoStringArrP.length == 2)
+                                {
+                                if (AntonioVandre.NumeroInteiro(AtribuicaoStringArrP[0].replaceAll(" ", "")))
+                                    {
+                                    ValorInteiro = Integer.parseInt(AtribuicaoStringArrP[0].replaceAll(" ", ""));
+
+                                    if (ValorInteiro > 0)
+                                        {
+                                        String[] AtribuicaoStringArr = AtribuicaoStringArrP[1].split(";");
+
+                                        for (i = 0; i < AtribuicaoStringArr.length; i++)
+                                            g2d.drawString(AtribuicaoStringArr[i], TamanhoPlanoX - FrameEspaco.getInsets().right - ValorInteiro, TamanhoPlanoY + FrameEspaco.getInsets().top - 5 - ((AtribuicaoStringArr.length - 1) * 20) + i * 20);
+                                        }
+                                    }
+                                }
                             }
 
                         g2d.dispose();
