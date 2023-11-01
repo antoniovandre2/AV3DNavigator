@@ -816,7 +816,7 @@ public class AV3DNavigator extends JComponent
             });
 
         FrameEspaco.addMouseWheelListener(e -> {
-            if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(z) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
+            if ((Math.abs(x) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear) || (Math.abs(z) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear))
                 VariavelLimiteAtingido();
             else
                 {
@@ -1096,47 +1096,47 @@ public class AV3DNavigator extends JComponent
                         {if (SleepTime > 1) SleepTime--;}
 
                     if (keyCode == KeyEvent.VK_A)
-                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(x) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {x += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(x) - DeslocamentoLinear <= AntonioVandre.MaximoValorReal - DeslocamentoLinear) {x += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_Z)
-                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(x) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {x -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(x) - DeslocamentoLinear <= AntonioVandre.MaximoValorReal - DeslocamentoLinear) {x -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_S)
-                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(y) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {y -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(y) - DeslocamentoLinear <= AntonioVandre.MaximoValorReal - DeslocamentoLinear) {y -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_X)
-                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(y) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {y += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(y) - DeslocamentoLinear <= AntonioVandre.MaximoValorReal - DeslocamentoLinear) {y += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_D)
-                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(z) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {z -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(z) - DeslocamentoLinear <= AntonioVandre.MaximoValorReal - DeslocamentoLinear) {z -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_C)
-                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(z) - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {z += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(z) - DeslocamentoLinear <= AntonioVandre.MaximoValorReal - DeslocamentoLinear) {z += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_F)
-                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Teta) < TetaMax - DeslocamentoAngular) {Teta += DeslocamentoAngular; ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaSuperior = 1;}} else VariavelLimiteAtingido();}
+                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(Teta) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Teta) < TetaMax - DeslocamentoAngular) {Teta += DeslocamentoAngular; ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaSuperior = 1;}} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_V)
-                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(Teta) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Teta) < TetaMax - DeslocamentoAngular) {Teta -= DeslocamentoAngular; ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}} else VariavelLimiteAtingido();}
+                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(Teta) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Teta) < TetaMax - DeslocamentoAngular) {Teta -= DeslocamentoAngular; ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_B)
-                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {Phi -= DeslocamentoAngular; ContadorFrames = 0;} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiInferior = 1;}} else VariavelLimiteAtingido();}
+                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(Phi) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {Phi -= DeslocamentoAngular; ContadorFrames = 0;} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiInferior = 1;}} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_G)
-                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(Phi) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {Phi += DeslocamentoAngular; ContadorFrames = 0;} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}} else VariavelLimiteAtingido();}
+                        {FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(Phi) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {Phi += DeslocamentoAngular; ContadorFrames = 0;} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_H)
-                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(Rot) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Rot += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(Rot) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {Rot += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_N)
-                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(Rot) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {Rot -= DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(Rot) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {Rot -= DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_J)
                         {
                         FlagMouseY = 1; FlagCoordRotHor = 1; FlagCoordRotVert = 0;
                         RotacaoTeta += DeslocamentoAngular;
 
-                        if (Math.abs(Teta + Math.PI) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Teta + Math.PI) < TetaMax - DeslocamentoAngular) {Teta += DeslocamentoAngular; x = xRotacaoTeta + RaioTeta * Math.cos(RotacaoTeta) * Math.cos(Phi); y = yRotacaoTeta - RaioTeta * Math.sin(RotacaoTeta) * Math.cos(Phi); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaSuperior = 1;}} else VariavelLimiteAtingido();
+                        if (Math.abs(Teta + Math.PI) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Teta + Math.PI) < TetaMax - DeslocamentoAngular) {Teta += DeslocamentoAngular; x = xRotacaoTeta + RaioTeta * Math.cos(RotacaoTeta) * Math.cos(Phi); y = yRotacaoTeta - RaioTeta * Math.sin(RotacaoTeta) * Math.cos(Phi); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaSuperior = 1;}} else VariavelLimiteAtingido();
                         }
 
                     if (keyCode == KeyEvent.VK_M)
@@ -1144,7 +1144,7 @@ public class AV3DNavigator extends JComponent
                         FlagMouseY = 1; FlagCoordRotHor = 1; FlagCoordRotVert = 0;
                         RotacaoTeta -= DeslocamentoAngular;
 
-                        if (Math.abs(Teta + Math.PI) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Teta + Math.PI) < TetaMax - DeslocamentoAngular) {Teta -= DeslocamentoAngular; x = xRotacaoTeta + RaioTeta * Math.cos(RotacaoTeta) * Math.cos(Phi); y = yRotacaoTeta - RaioTeta * Math.sin(RotacaoTeta) * Math.cos(Phi); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}} else VariavelLimiteAtingido();
+                        if (Math.abs(Teta + Math.PI) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Teta + Math.PI) < TetaMax - DeslocamentoAngular) {Teta -= DeslocamentoAngular; x = xRotacaoTeta + RaioTeta * Math.cos(RotacaoTeta) * Math.cos(Phi); y = yRotacaoTeta - RaioTeta * Math.sin(RotacaoTeta) * Math.cos(Phi); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}} else VariavelLimiteAtingido();
                         }
 
                     if (keyCode == KeyEvent.VK_K)
@@ -1152,7 +1152,7 @@ public class AV3DNavigator extends JComponent
                         FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 1;
                         RotacaoPhi -= DeslocamentoAngular;
 
-                        if (Math.abs(Phi + Math.PI) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Phi + Math.PI) < PhiMax - DeslocamentoAngular) {Phi -= DeslocamentoAngular; x = xRotacaoPhi + RaioPhi * Math.cos(RotacaoPhi) * Math.cos(Teta); y = yRotacaoPhi - RaioPhi * Math.cos(RotacaoPhi) * Math.sin(Teta); z = zRotacaoPhi - RaioPhi * Math.sin(RotacaoPhi); ContadorFrames = 0;} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiInferior = 1;}} else VariavelLimiteAtingido();
+                        if (Math.abs(Phi + Math.PI) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Phi + Math.PI) < PhiMax - DeslocamentoAngular) {Phi -= DeslocamentoAngular; x = xRotacaoPhi + RaioPhi * Math.cos(RotacaoPhi) * Math.cos(Teta); y = yRotacaoPhi - RaioPhi * Math.cos(RotacaoPhi) * Math.sin(Teta); z = zRotacaoPhi - RaioPhi * Math.sin(RotacaoPhi); ContadorFrames = 0;} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiInferior = 1;}} else VariavelLimiteAtingido();
                         }
 
                     if (keyCode == KeyEvent.VK_COMMA)
@@ -1160,17 +1160,17 @@ public class AV3DNavigator extends JComponent
                         FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 1;
                         RotacaoPhi += DeslocamentoAngular;
 
-                        if (Math.abs(Phi + Math.PI) - DeslocamentoAngular <= Double.MAX_VALUE - DeslocamentoAngular) {if (Math.abs(Phi + Math.PI) < PhiMax - DeslocamentoAngular) {Phi += DeslocamentoAngular; x = xRotacaoPhi + RaioPhi * Math.cos(RotacaoPhi) * Math.cos(Teta); y = yRotacaoPhi - RaioPhi * Math.cos(RotacaoPhi) * Math.sin(Teta); z = zRotacaoPhi - RaioPhi * Math.sin(RotacaoPhi); ContadorFrames = 0;} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}} else VariavelLimiteAtingido();
+                        if (Math.abs(Phi + Math.PI) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Phi + Math.PI) < PhiMax - DeslocamentoAngular) {Phi += DeslocamentoAngular; x = xRotacaoPhi + RaioPhi * Math.cos(RotacaoPhi) * Math.cos(Teta); y = yRotacaoPhi - RaioPhi * Math.cos(RotacaoPhi) * Math.sin(Teta); z = zRotacaoPhi - RaioPhi * Math.sin(RotacaoPhi); ContadorFrames = 0;} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}} else VariavelLimiteAtingido();
                         }
 
                     if (keyCode == KeyEvent.VK_L)
-                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioTeta - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {RaioTeta += DeslocamentoLinear;} else VariavelLimiteAtingido();}
+                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioTeta - DeslocamentoLinear <= AntonioVandre.MaximoValorReal - DeslocamentoLinear) {RaioTeta += DeslocamentoLinear;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_PERIOD)
                         {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioTeta >= DeslocamentoLinear) {RaioTeta -= DeslocamentoLinear;}}
 
                     if (keyCode == KeyEvent.VK_OPEN_BRACKET)
-                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioPhi - DeslocamentoLinear <= Double.MAX_VALUE - DeslocamentoLinear) {RaioPhi += DeslocamentoLinear;} else VariavelLimiteAtingido();}
+                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioPhi - DeslocamentoLinear <= AntonioVandre.MaximoValorReal - DeslocamentoLinear) {RaioPhi += DeslocamentoLinear;} else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_CLOSE_BRACKET)
                         {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (RaioPhi >= DeslocamentoLinear) {RaioPhi -= DeslocamentoLinear;}}
@@ -1179,13 +1179,13 @@ public class AV3DNavigator extends JComponent
                         {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (DistanciaTela >= 1) DistanciaTela -= 1;}
 
                     if (keyCode == KeyEvent.VK_W)
-                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(DistanciaTela) - 1 <= Double.MAX_VALUE - 1) DistanciaTela += 1; else VariavelLimiteAtingido();}
+                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(DistanciaTela) - 1 <= AntonioVandre.MaximoValorReal - 1) DistanciaTela += 1; else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_E)
                         {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (FatorAnguloVisao > 1) FatorAnguloVisao -= 1;}
 
                     if (keyCode == KeyEvent.VK_R)
-                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(FatorAnguloVisao) - 1 <= Double.MAX_VALUE - 1) FatorAnguloVisao += 1; else VariavelLimiteAtingido();}
+                        {FlagCoordRotHor = 0; FlagCoordRotVert = 0; if (Math.abs(FatorAnguloVisao) - 1 <= AntonioVandre.MaximoValorReal - 1) FatorAnguloVisao += 1; else VariavelLimiteAtingido();}
 
                     if (keyCode == KeyEvent.VK_T)
                         if (ContadorCorLinhas > 0) ContadorCorLinhas -= 1;
@@ -1221,7 +1221,7 @@ public class AV3DNavigator extends JComponent
                         {
                         FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
 
-                        if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(z) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
+                        if ((Math.abs(x) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear) || (Math.abs(z) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear))
                             VariavelLimiteAtingido();
                         else
                             {
@@ -1237,7 +1237,7 @@ public class AV3DNavigator extends JComponent
                         {
                         FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
 
-                        if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(z) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
+                        if ((Math.abs(x) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear) || (Math.abs(z) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear))
                             VariavelLimiteAtingido();
                         else
                             {
@@ -1253,7 +1253,7 @@ public class AV3DNavigator extends JComponent
                         {
                         FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
 
-                        if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
+                        if ((Math.abs(x) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear))
                             VariavelLimiteAtingido();
                         else
                             {
@@ -1268,7 +1268,7 @@ public class AV3DNavigator extends JComponent
                         {
                         FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
 
-                        if ((Math.abs(x) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > Double.MAX_VALUE - DeslocamentoLinear))
+                        if ((Math.abs(x) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear))
                             VariavelLimiteAtingido();
                         else
                             {
@@ -1464,7 +1464,7 @@ public class AV3DNavigator extends JComponent
 
             if (FlagMouseDownArea == 1)
                 {
-                if ((Math.abs(Teta) - DeslocamentoAngular > Double.MAX_VALUE - DeslocamentoAngular) || (Math.abs(Phi) - DeslocamentoAngular > Double.MAX_VALUE - DeslocamentoAngular))
+                if ((Math.abs(Teta) - DeslocamentoAngular > AntonioVandre.MaximoValorReal - DeslocamentoAngular) || (Math.abs(Phi) - DeslocamentoAngular > AntonioVandre.MaximoValorReal - DeslocamentoAngular))
                     VariavelLimiteAtingido();
                 else
                     {
