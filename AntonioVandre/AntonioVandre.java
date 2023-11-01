@@ -210,7 +210,7 @@ public class AntonioVandre
 
     // Verdade se a string é um número natural long positivo.
 
-    public static boolean NumeroNaturalLongPositivo(String strNum)
+    public static boolean NumeroNaturalPositivoLong(String strNum)
         {
         if (! AntonioVandre.NumeroNaturalLong(strNum)) {return false;}
 
