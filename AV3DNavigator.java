@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 31-10-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 01-11-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -91,7 +91,7 @@ public class AV3DNavigator extends JComponent
     public int TamanhoPlanoX = 400; // Default: 400.
     public int TamanhoPlanoY = 400; // Default: 400.
     public static int TamanhoEspacoLabelStatus = 375; // Default: 375.
-    public static int TamanhoEspacoLabelURL = 20; // Default: 20.
+    public static int TamanhoEspacoLabelURL = 65; // Default: 65.
     public static int TamanhoEspacoHelpX = 700; // Default: 700.
     public static int TamanhoEspacoHelpY = 610; // Default: 610.
     public static int TamanhoEspacoInvalidoX = 300; // Default: 300.
@@ -802,11 +802,11 @@ public class AV3DNavigator extends JComponent
         GridBagConstraintsLabelStatusLabelURL.gridy = 0;
         GridBagConstraintsLabelStatusLabelURL.fill = GridBagConstraints.BOTH;
         GridBagConstraintsLabelStatusLabelURL.weightx = TamanhoPlanoX;
-        GridBagConstraintsLabelStatusLabelURL.weighty = TamanhoEspacoLabelStatus - TamanhoEspacoLabelURL;
+        GridBagConstraintsLabelStatusLabelURL.weighty = TamanhoEspacoLabelStatus;
         LabelStatusLabelURLPanel.add(LabelStatus, GridBagConstraintsLabelStatusLabelURL);
         GridBagConstraintsLabelStatusLabelURL.gridx = 0;
         GridBagConstraintsLabelStatusLabelURL.gridy = 1;
-        GridBagConstraintsLabelStatusLabelURL.fill = GridBagConstraints.HORIZONTAL;
+        GridBagConstraintsLabelStatusLabelURL.fill = GridBagConstraints.BOTH;
         GridBagConstraintsLabelStatusLabelURL.weightx = TamanhoPlanoX;
         GridBagConstraintsLabelStatusLabelURL.weighty = TamanhoEspacoLabelURL;
         LabelStatusLabelURLPanel.add(LabelURL, GridBagConstraintsLabelStatusLabelURL);
@@ -962,8 +962,8 @@ public class AV3DNavigator extends JComponent
                             {
                             String[] AtribuicaoStringArr = AtribuicaoString.split("\\|");
 
-                            for (i = 0; i < AtribuicaoStringArr.length; i++)
-                                g2d.drawString(AtribuicaoStringArr[i], TamanhoPlanoX - FrameEspaco.getInsets().right - 230, FrameEspaco.getInsets().top + 20 + i * 20);
+                            for (i = AtribuicaoStringArr.length - 1; i >= 0; i--)
+                                g2d.drawString(AtribuicaoStringArr[i], TamanhoPlanoX - 230, TamanhoPlanoY - 20 + i * 20);
                             }
 
                         g2d.dispose();
@@ -1043,11 +1043,11 @@ public class AV3DNavigator extends JComponent
                             GridBagConstraintsLabelStatusLabelURL.gridy = 0;
                             GridBagConstraintsLabelStatusLabelURL.fill = GridBagConstraints.BOTH;
                             GridBagConstraintsLabelStatusLabelURL.weightx = TamanhoPlanoX;
-                            GridBagConstraintsLabelStatusLabelURL.weighty = TamanhoEspacoLabelStatus - TamanhoEspacoLabelURL;
+                            GridBagConstraintsLabelStatusLabelURL.weighty = TamanhoEspacoLabelStatus;
                             LabelStatusLabelURLPanel.add(LabelStatus, GridBagConstraintsLabelStatusLabelURL);
                             GridBagConstraintsLabelStatusLabelURL.gridx = 0;
                             GridBagConstraintsLabelStatusLabelURL.gridy = 1;
-                            GridBagConstraintsLabelStatusLabelURL.fill = GridBagConstraints.HORIZONTAL;
+                            GridBagConstraintsLabelStatusLabelURL.fill = GridBagConstraints.BOTH;
                             GridBagConstraintsLabelStatusLabelURL.weightx = TamanhoPlanoX;
                             GridBagConstraintsLabelStatusLabelURL.weighty = TamanhoEspacoLabelURL;
                             LabelStatusLabelURLPanel.add(LabelURL, GridBagConstraintsLabelStatusLabelURL);
