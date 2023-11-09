@@ -141,6 +141,7 @@ public class AV3DNavigator extends JComponent
     double ProdutoEscalaro;
     double ProdutoEscalard;
     public double AnguloVisao;
+    String TriangulosString = "";
     public int xi;
     public int yi;
     public int xf;
@@ -1212,7 +1213,7 @@ public class AV3DNavigator extends JComponent
                         if (ContadorCorLegendas < 15) ContadorCorLegendas += 1;
 
                     if (keyCode == KeyEvent.VK_0)
-                        if (ApfloatFlag == 0) ApfloatFlag = 1; else ApfloatFlag = 0;
+                        if (ApfloatFlag == 0) {ApfloatFlag = 1; TriangulosString = "";} else ApfloatFlag = 0;
 
                     if (keyCode == KeyEvent.VK_1)
                         if (TrianguloPoligono == 0) TrianguloPoligono = 1; else TrianguloPoligono = 0;
@@ -1786,13 +1787,13 @@ public class AV3DNavigator extends JComponent
 
                 if (ApfloatFlag == 0)
                     {
-                    AnguloVisao = Math.atan(TamanhoPlanoX / 2 / DistanciaTela);
+                    AnguloVisao = Math.atan(Math.max(TamanhoPlanoX, TamanhoPlanoY) / 2 / DistanciaTela);
 
                     AnguloVisao /= FatorAnguloVisao;
                     }
                 else
                     {
-                    AnguloVisao = ApfloatMath.atan(new Apfloat(TamanhoPlanoX).divide(new Apfloat(2)).divide(new Apfloat(DistanciaTela))).doubleValue();
+                    AnguloVisao = ApfloatMath.atan(ApfloatMath.max((new Apfloat(TamanhoPlanoX)), (new Apfloat(TamanhoPlanoY))).divide(new Apfloat(2)).divide(new Apfloat(DistanciaTela))).doubleValue();
 
                     AnguloVisao = (new Apfloat(AnguloVisao)).divide(new Apfloat(FatorAnguloVisao)).doubleValue();
                     }
@@ -1971,7 +1972,7 @@ public class AV3DNavigator extends JComponent
             {
             if (! (EspacoTriangulosShapePreenchidos[i].equals("")))
                 {
-                String TriangulosString = "";
+                TriangulosString = "";
                 String [] Campos = EspacoTriangulosShapePreenchidos[i].split("c");
                 String [] Pontos = Campos[0].split(";");
 
@@ -2006,6 +2007,8 @@ public class AV3DNavigator extends JComponent
                         }
                     else
                         {
+                        // Alta precisão com o Apfloat, porém com custo computacional.
+
                         Apfloat xpa = (new Apfloat(Double.parseDouble(Coordenadas[0]))).add(new Apfloat(-xt));
 
                         Apfloat ypa = (new Apfloat(-Double.parseDouble(Coordenadas[1]))).add(new Apfloat(-yt));
@@ -2018,7 +2021,7 @@ public class AV3DNavigator extends JComponent
 
                         Apfloat ProdutoEscalara = xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(ApfloatMath.cos(new Apfloat(Phit))).multiply(new Apfloat(-1)));
 
-                        if ((ApfloatMath.abs(ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalara).divide(ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(zpa)))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && ((new Apfloat(xpp + CorrecaoXF)).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (new Apfloat(ypp + CorrecaoYF)).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue())
+                        if ((ApfloatMath.abs(ApfloatMath.acos((new Apfloat(FlagMouseY)).multiply(ProdutoEscalara).divide(ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Tetat))).multiply(zpa)))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.min(new Apfloat(xpp), new Apfloat(ypp)).doubleValue() > 0) && ((new Apfloat(xpp + CorrecaoXF)).doubleValue() < (new Apfloat(TamanhoPlanoX)).doubleValue()) && (new Apfloat(ypp + CorrecaoYF)).doubleValue() < (new Apfloat(TamanhoPlanoY)).doubleValue())
                             {
                             ContadorPontos++;
                             TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
