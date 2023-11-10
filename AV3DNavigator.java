@@ -1213,7 +1213,7 @@ public class AV3DNavigator extends JComponent
                         if (ContadorCorLegendas < 15) ContadorCorLegendas += 1;
 
                     if (keyCode == KeyEvent.VK_0)
-                        if (ApfloatFlag == 0) ApfloatFlag = 1; else ApfloatFlag = 0; TriangulosString = "";
+                        {if (ApfloatFlag == 0) ApfloatFlag = 1; else ApfloatFlag = 0; TriangulosString = "";}
 
                     if (keyCode == KeyEvent.VK_1)
                         if (TrianguloPoligono == 0) TrianguloPoligono = 1; else TrianguloPoligono = 0;
