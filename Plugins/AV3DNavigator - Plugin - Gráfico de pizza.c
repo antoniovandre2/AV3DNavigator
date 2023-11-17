@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de pizza tridimensional.
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",". 2: o raio. 3: a espessura. 4: a resolução.
 
-Última atualização: 24-10-2023.
+Última atualização: 17-11-2023.
 */
 
 #include <stdio.h>
@@ -24,6 +24,7 @@ int main (int argc, char * argv[])
     int shift = 0;
     int inicio = 0;
     int argi = 0;
+    int flagdescricao;
     int i;
     int j;
     int k;
@@ -47,7 +48,7 @@ int main (int argc, char * argv[])
     double valoresnumericos [MAXITENS];
     double anguloinicial = 0;
     char * err;
-    char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", uma string composta dos item a exibir separados por barra vertical \"|\", cada item composto do valor e da cor separados por ponto e vírgula \";\", a cor RGB com os valores para vermelho, verde e azul separados por vírgula \",\". 2: o raio. 3: a espessura. 4: a resolução.";
+    char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", uma string composta dos item a exibir separados por barra vertical \"|\", cada item composto do valor e da cor separados por ponto e vírgula \";\", a cor RGB com os valores para vermelho, verde e azul separados por vírgula \",\". 2: o raio. 3: a espessura. 4: a resolução.\n";
 
     if (argc != 5) {printf(mensagemerro); return 1;}
 
@@ -115,11 +116,13 @@ int main (int argc, char * argv[])
     do
         {
         i = 0;
+        flagdescricao = 0;
 
         do
             {
             c = mainstring[shift++ + 1];
-            if ((c != '|') && (c != '\0')) {item[argi][i++] = c;} else break;
+            if (c == ';') flagdescricao = 1;
+            if (! ((c == ' ') && (flagdescricao == 1))) if ((c != '|') && (c != '\0')) {item[argi][i++] = c;} else break;
             } while (VERDADE);
 
         item[argi][i] = '\0';
@@ -141,7 +144,7 @@ int main (int argc, char * argv[])
         do
             {
             c = item[argi][j + k + 1];
-            if (c != ' ') if ((c != ';') && (c != '\0')) {valor[argi][k++] = c;} else break;
+            if ((c != ';') && (c != '\0')) {valor[argi][k++] = c;} else break;
             } while (VERDADE);
 
         valor[argi][k] = '\0';
@@ -157,7 +160,7 @@ int main (int argc, char * argv[])
         do
             {
             c = item[argi][j + k + l + 2];
-            if (c != ' ') if (c != '\0') {rgb[argi][l++] = c;} else break;
+            if (c != '\0') {rgb[argi][l++] = c;} else break;
             } while (VERDADE);
 
         rgb[argi][l] = '\0';

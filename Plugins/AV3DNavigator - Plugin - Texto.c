@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator texto tridimensional.
 
 Argumentos: 1: uma string separada por barras verticais "|", cada campo composto  do texto, do tamanho, da posição x, da posição y, da posição z, do ângulo de rotação teta, da profundidade, o espaçamento entre os caracteres, e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",". 2: o arquivo de fontes. 3: a resolução.
 
-Última atualização: 21-10-2023.
+Última atualização: 17-11-2023.
 */
 
 #include <stdio.h>
@@ -25,6 +25,7 @@ int main (int argc, char * argv[])
     long shift = 0;
     long inicio = 0;
     long argi = 0;
+    int flagtexto;
     long i;
     long j;
     long k;
@@ -123,11 +124,13 @@ int main (int argc, char * argv[])
     do
         {
         i = 0;
+        flagtexto = 0;
 
         do
             {
             c = mainstring[shift++];
-            if ((c != '|') && (c != '\0')) {item[argi][i++] = c;} else break;
+            if (c == ';') flagtexto = 1;
+            if (! ((c == ' ') && (flagtexto == 1))) if ((c != '|') && (c != '\0')) {item[argi][i++] = c;} else break;
             } while (VERDADE);
 
         item[argi][i] = '\0';
@@ -149,7 +152,7 @@ int main (int argc, char * argv[])
         do
             {
             c = item[argi][j + k + 1];
-            if (c != ' ') if ((c != ';') && (c != '\0')) {tamanho[argi][k++] = c;} else break;
+            if ((c != ';') && (c != '\0')) {tamanho[argi][k++] = c;} else break;
             } while (VERDADE);
 
         tamanho[argi][k] = '\0';
@@ -163,7 +166,7 @@ int main (int argc, char * argv[])
         do
             {
             c = item[argi][j + k + l + 2];
-            if (c != ' ') if ((c != ';') && (c != '\0')) {posx[argi][l++] = c;} else break;
+            if ((c != ';') && (c != '\0')) {posx[argi][l++] = c;} else break;
             } while (VERDADE);
 
         posx[argi][l] = '\0';
@@ -177,7 +180,7 @@ int main (int argc, char * argv[])
         do
             {
             c = item[argi][j + k + l + m + 3];
-            if (c != ' ') if ((c != ';') && (c != '\0')) {posy[argi][m++] = c;} else break;
+            if ((c != ';') && (c != '\0')) {posy[argi][m++] = c;} else break;
             } while (VERDADE);
 
         posy[argi][m] = '\0';
@@ -191,7 +194,7 @@ int main (int argc, char * argv[])
         do
             {
             c = item[argi][j + k + l + m + n + 4];
-            if (c != ' ') if ((c != ';') && (c != '\0')) {posz[argi][n++] = c;} else break;
+            if ((c != ';') && (c != '\0')) {posz[argi][n++] = c;} else break;
             } while (VERDADE);
 
         posy[argi][n] = '\0';
@@ -205,7 +208,7 @@ int main (int argc, char * argv[])
         do
             {
             c = item[argi][j + k + l + m + n + o + 5];
-            if (c != ' ') if ((c != ';') && (c != '\0')) {teta[argi][o++] = c;} else break;
+            if ((c != ';') && (c != '\0')) {teta[argi][o++] = c;} else break;
             } while (VERDADE);
 
         teta[argi][o] = '\0';
@@ -219,7 +222,7 @@ int main (int argc, char * argv[])
         do
             {
             c = item[argi][j + k + l + m + n + o + p + 6];
-            if (c != ' ') if ((c != ';') && (c != '\0')) {profundidade[argi][p++] = c;} else break;
+            if ((c != ';') && (c != '\0')) {profundidade[argi][p++] = c;} else break;
             } while (VERDADE);
 
         profundidade[argi][p] = '\0';
@@ -233,7 +236,7 @@ int main (int argc, char * argv[])
         do
             {
             c = item[argi][j + k + l + m + n + o + p + q + 7];
-            if (c != ' ') if ((c != ';') && (c != '\0')) {espacamento[argi][q++] = c;} else break;
+            if ((c != ';') && (c != '\0')) {espacamento[argi][q++] = c;} else break;
             } while (VERDADE);
 
         espacamento[argi][q] = '\0';
@@ -247,7 +250,7 @@ int main (int argc, char * argv[])
         do
             {
             c = item[argi][j + k + l + m + n + o + p + q + r + 8];
-            if (c != ' ') if (c != '\0') {rgb[argi][r++] = c;} else break;
+            if (c != '\0') {rgb[argi][r++] = c;} else break;
             } while (VERDADE);
 
         rgb[argi][r] = '\0';
@@ -304,7 +307,7 @@ int main (int argc, char * argv[])
                     {
                     if ((fontstring[k + 1] != '\0'))
                         {
-                        if ((texto[i][j] == fontstring[k]) && (fontstring[k + 1] == ';'))
+                        if ((fontstring[k - 1] == '|') && (texto[i][j] == fontstring[k]) && (fontstring[k + 1] == ';'))
                             flagfonteencontrada = 1;
 
                         if ((flagfonteencontrada == 1) && (flagquadrilateros == 0)) if ((fontstring[k] == 'q') && (fontstring[k - 1] != '|'))
