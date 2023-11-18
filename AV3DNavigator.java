@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 17-11-2023. Não considerando alterações em variáveis globais.
+ * Última atualização: 18-11-2023. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -102,7 +102,7 @@ public class AV3DNavigator extends JComponent
     public double FatorAnguloVisao = 1; // Default: 1.
     public static double TetaMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
     public static double PhiMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
-    public static double MargemAnguloVisao = 0.3; // Default: 0.3.
+    public static double MargemAnguloVisao = 0.6; // Default: 0.6.
     public static int TamanhoFonteLabelStatus = 10; // Default: 10.
     public static int TamanhoFonteLabelURL = 11; // Default: 11.
     public static int TamanhoFonteLabelHelp = 11; // Default: 11.
