@@ -75,6 +75,8 @@ PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.
 
 "1" para toggle preenchimento dos polígonos com linhas ou fillPolygon.
 
+"2" para toggle produto escalar positivo para exibição.
+
 Setas para strafe. Mouse pode ser utilizado para movimentar.
 
 Barra de espaços para resetar as variáveis.
