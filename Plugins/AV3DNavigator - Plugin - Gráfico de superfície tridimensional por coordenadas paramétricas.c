@@ -14,7 +14,7 @@ Argumentos: 1: primeiramente a string título e, após barra vertical "|", strin
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "antoniovandre_eval/antoniovandre_windows.c"
+#include "antoniovandre_eval/antoniovandre.c"
 
 #define MAXITENS 10
 #define MAXTAMANHOCAMPO 1024
@@ -32,7 +32,7 @@ Argumentos: 1: primeiramente a string título e, após barra vertical "|", strin
 
 #else
 
-#define EVALSOFTWARE "antoniovandre_eval_windows.exe"
+#define EVALSOFTWARE "antoniovandre_eval"
 #define EVALSOFTWARETAIL " 0 2>> /dev/null \| tr -d ' ' \| tr -d '\n'"
 #define TOKENINICIOEVAL '('
 #define TOKENFIMEVAL ')'
