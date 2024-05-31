@@ -1,0 +1,213 @@
+                                        
+      .':clllc;'.   ..;clll:,.          
+    .col;'..,cxxl,,ldo:'.,lxxl.         
+  .:dc.      .lkkxxl:.  .cdxkx:         
+ .cd:.       .lkkko.    ;xkkkd'         
+ ,o:.        ,dkkx:     .;cc;.   .......
+  .         .ckkko.         ....''''''''
+            ,dkkx;       ...''''''''''''
+           .ckkko.    ..''''''''''''''''
+           'dkkx:. ..'''''',;,''''''''''
+ .:cc;.   .ckkkd,.'''''''';odc''''''''''
+;dkkkx,   ;xkkkl,'''''''';oxl,''''''''''
+ckkxd:.  ,dxxkxo,'''''',cddc,'''''''''''
+'okdc'.,coc':dxxo::::clddl;'''''''''''''
+ .,:clcc;.  .;clooooool:;'''''''''''''''
+           .''''',,,''''''''''''''''''''
+          .'''''''''''''''''''''''''''''
+          .'''''''''''''''''''''''''''''
+         .''''''''''''''''''''''''''''''
+         .''''''''''''''''''''''''''''''
+
+Projeto Mathematical Ramblings (bit.ly/mathematicalramblings_github).
+____________________
+
+Operadores disponíveis para "antoniovandre_eval":
+
+"+": soma.
+
+"-": subtração.
+
+"*": multiplicação.
+
+"/": divisão.
+
+"^": exponenciação.
+
+"%": resto da divisão.
+
+"@": arranjos (Análise Combinatória).
+
+"#": combinações (Análise Combinatória).
+
+"$": arredondamento para a ordem de grandeza.
+
+">": máximo.
+
+"<": mínimo.
+
+":": logaritmo na base.
+
+"~": retorna "1" se é valor aproximado, e "0" se não.
+_____
+
+Parênteses podem ser utilizados em "antoniovandre_eval".
+_____
+
+Constantes disponíveis para "antoniovandre_eval":
+
+"PI": razão entre o comprimento e o diâmetro de uma circunferência.
+
+"T": tau, o dobro de pi.
+
+"E": base dos logaritmos naturais.
+
+"C": velocidade da luz no vácuo, no SI.
+
+"G": constante da Gravitação Universal, no SI.
+
+"QE": carga elementar, no SI.
+
+"H": constante de Planck, no SI.
+
+"HH": Constante reduzida de Planck, no SI.
+
+"K": constante de Boltzmann, no SI.
+
+"ME": massa do elétron, no SI.
+
+"MP": massa do próton, no SI.
+
+"MN": massa do neutron, no SI.
+
+"AM": número de Avogadro, vezes 10^(-23), em mol^(-1).
+
+"KE": constante de Coulomb, constante eletrostática, no SI.
+
+"R": constante universal dos gases perfeitos, no SI.
+
+"SB": constante de Stefan-Boltzmann, no SI.
+
+"PM": onstante de permeabilidade magnética no vácuo, no SI.
+
+"PE": constante de permeabilidade elétrica do vácuo, no SI.
+
+"B": constante de deslocamento de Wien, no SI.
+
+"P": razão áurea.
+
+"CC": constante de Catalan.
+
+"EM": constante de Euler-Mascheroni.
+
+"FA": constante alfa de Feigenbaum.
+
+"FS": constante sigma de Feigenbaum.
+
+"AP": constante de Apéry.
+
+"CO": constante de Conway.
+
+"KH": constante de Khinchin.
+
+"GK": constante de Glaisher-Kinkelin.
+_____
+
+Funções disponíveis para "antoniovandre_eval":
+
+"sen": função seno.
+
+"cos": função cosseno.
+
+"tg": função tangente.
+
+"cotg": função cotangente.
+
+"sec": função secante.
+
+"cossec": função cossecante.
+
+"arcsen": função arco-seno.
+
+"arccos": função arco-cosseno.
+
+"arctg": função arco-tangente.
+
+"arccotg": função arco-cotangente.
+
+"arcsec": função arco-secante.
+
+"arccossec": função arco-cossecante.
+
+"ln": função logaritmo natural.
+
+"logdez": função logaritmo na base 10.
+
+"logdois": função logaritmo na base 2.
+
+"senh": função seno hiperbólico.
+
+"cosh": função cosseno hiperbólico.
+
+"tgh": função tangente hiperbólica.
+
+"cotgh": função cotangente hiperbólica.
+
+"sech": função secante hiperbólica.
+
+"cossech": função cossecante hiperbólica.
+
+"arcsenh": função arco-seno hiperbólico.
+
+"arccosh": função arco-cosseno hiperbólico.
+
+"arctgh": função arco-tangente hiperbólico.
+
+"arccotgh": função arco-cotangente hiperbólico.
+
+"arcsech": função arco-secante hiperbólico.
+
+"arccossech": função arco-cossecante hiperbólico.
+
+"fatorial": função fatorial.
+
+"modulo": função módulo.
+
+"piso": função piso.
+
+"teto": função teto.
+
+"radparagrau": função para converter radianos para graus.
+
+"radparagrado": função para converter radianos para grados.
+
+"graupararad": função para converter graus para radianos.
+
+"grauparagrado": função para converter graus para grados.
+
+"gradopararad": função para converter grados para radianos.
+
+"gradoparagrau": função para converter grados para graus.
+
+"kelvinparacelsius": função para converter temperatura em Kelvin para Celsius.
+
+"kelvinparafahrenheit": função para converter temperatura em Kelvin para Fahrenheit.
+
+"celsiusparakelvin": função para converter temperatura em Celsius para Kelvin.
+
+"celsiusparafahrenheit": função para converter temperatura em Celsius para Fahrenheit.
+
+"fahrenheitparakelvin": função para converter temperatura em Fahrenheit para Kelvin.
+
+"fahrenheitparacelsius": função para converter temperatura em Fahrenheit para Celsius.
+_____
+
+Exemplo de cálculo em "antoniovandre_eval":
+
+Entrada: "(2 + ln (5 - 2 ^ (8 - 6))) * 3";
+
+Saída: "6". 
+____________________
+
+Sugestões ou comunicar erros: "a.vandre.g@gmail.com".
+____________________
