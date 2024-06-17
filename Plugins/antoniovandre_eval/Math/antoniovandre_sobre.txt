@@ -200,6 +200,14 @@ Funções disponíveis para "antoniovandre_eval":
 "fahrenheitparakelvin": função para converter temperatura em Fahrenheit para Kelvin.
 
 "fahrenheitparacelsius": função para converter temperatura em Fahrenheit para Celsius.
+
+"seigual": função condicional igual; requer quatro argumentos separados por "|", se o primeiro for igual ao segundo, retorna o terceiro, caso contrário o quarto.
+
+"sediferente": função condicional diferente; requer quatro argumentos separados por "|", se o primeiro for diferente do segundo, retorna o terceiro, caso contrário o quarto.
+
+"semaiorouigual": função condicional maior ou igual; requer quatro argumentos separados por "|", se o primeiro for maior ou igual ao segundo, retorna o terceiro, caso contrário o quarto.
+
+"semenorouigual": função condicional igual; requer quatro argumentos separados por "|", se o primeiro for menor ou igual ao segundo, retorna o terceiro, caso contrário o quarto.
 _____
 
 Exemplo de cálculo em "antoniovandre_eval":
