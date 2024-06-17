@@ -38,9 +38,10 @@
 #define VARIAVELPADRAO 'X'
 #define ESPACOBRANCO ' '
 #define STRINGVAZIA ""
-#define DELIMITADORSTRING ',' // Deve ser um char e diferente de DELIMITADORSTRING2 e DELIMITADORSTRINGARGUMENTOS.
-#define DELIMITADORSTRING2 ';' // Deve ser um char e diferente de DELIMITADORSTRING e DELIMITADORSTRINGARGUMENTOS.
-#define DELIMITADORSTRINGARGUMENTOS '|' // Para separar os argumentos de funcões com mais de um parâmetro. Deve ser um char, diferente de DELIMITADORSTRING e DELIMITADORSTRING2.
+#define DELIMITADORSTRING ',' // Deve ser um char e diferente de DELIMITADORSTRING2, de DELIMITADORSTRING3 e DELIMITADORSTRINGARGUMENTOS.
+#define DELIMITADORSTRING2 ';' // Deve ser um char e diferente de DELIMITADORSTRING, de DELIMITADORSTRING3 e DELIMITADORSTRINGARGUMENTOS.
+#define DELIMITADORSTRING3 '\\' // Deve ser um char e diferente de DELIMITADORSTRING, de DELIMITADORSTRING2 e DELIMITADORSTRINGARGUMENTOS.
+#define DELIMITADORSTRINGARGUMENTOS '|' // Para separar os argumentos de funcões com mais de um parâmetro. Deve ser um char, diferente de DELIMITADORSTRING, de DELIMITADORSTRING2 e DELIMITADORSTRING3.
 #define CARACTEREFIMLINHA '\n' // Caractere de fim de linha.
 #define STRINGSAIDAERRO "Erro de saída de uma string."
 #define STRINGSAIDAERROOVER "Erro de saída de uma string por over."
