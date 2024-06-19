@@ -19,7 +19,7 @@ Argumentos: 1: primeiramente a string título e, após barra vertical "|", strin
 #define MAXITENS 10
 #define MAXTAMANHOCAMPO 1024
 
-#define BUILTIN FALSIDADE
+#define BUILTIN VERDADE
 
 #if BUILTIN == VERDADE
 
