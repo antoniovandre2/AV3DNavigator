@@ -7,7 +7,7 @@ Projeto Mathematical Ramblings (mathematicalramblings.blogspot.com).
 
 README dos meus softwares em C.
 
-Última atualização: 17-06-2024.
+Última atualização: 19-06-2024.
 ____________________
 
 Bugs conhecidos:
