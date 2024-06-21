@@ -208,6 +208,10 @@ Funções disponíveis para "antoniovandre_eval":
 "semaiorouigual": função condicional maior ou igual; requer quatro argumentos separados por "|", se o primeiro for maior ou igual ao segundo, retorna o terceiro, caso contrário o quarto.
 
 "semenorouigual": função condicional igual; requer quatro argumentos separados por "|", se o primeiro for menor ou igual ao segundo, retorna o terceiro, caso contrário o quarto.
+
+"semaior": função condicional maior; requer quatro argumentos separados por "|", se o primeiro for maior que o segundo, retorna o terceiro, caso contrário o quarto.
+
+"semenor": função condicional menor; requer quatro argumentos separados por "|", se o primeiro for menor que o segundo, retorna o terceiro, caso contrário o quarto.
 _____
 
 Exemplo de cálculo em "antoniovandre_eval":
