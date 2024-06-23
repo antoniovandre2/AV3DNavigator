@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de uma curva tridimensio
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "T" para "x", função em "T" para "y", função em "T" para "z", o menor valor atribuído a "T", o maior valor atribuído a "T", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 29-10-2023. Sem considerar alterações em variáveis globais.
+Última atualização: 23-06-2024. Sem considerar alterações em variáveis globais.
 */
 
 #include <stdio.h>
@@ -217,7 +217,7 @@ int main (int argc, char * argv[])
         } while (flag == 0);
 
     for (i = 0; i < argi; i++)
-        for (j = 0; j < resolucao - 1; j++)
+        for (j = 0; j < resolucao; j++)
             {
             char valorstr [MAXTAMANHOCAMPO];
             char tempstr [MAXTAMANHOCAMPO];

@@ -326,7 +326,7 @@ int main (int argc, char * argv[])
 
                 sprintf(pontostrv, "%f", menoresv[i] + l * (maioresv[i] - menoresv[i]) / resolucao);
 
-                for (j = 0; j < resolucao - 1; j++)
+                for (j = 0; j < resolucao; j++)
                     {
                     for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
@@ -795,7 +795,7 @@ int main (int argc, char * argv[])
 
                 sprintf(pontostru, "%f", menoresu[i] + l * (maioresu[i] - menoresu[i]) / (resolucao - 1));
 
-                for (j = 0; j < resolucao - 1; j++)
+                for (j = 0; j < resolucao; j++)
                     {
                     for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
 
@@ -1271,7 +1271,7 @@ int main (int argc, char * argv[])
                 char pontostru [MAXTAMANHOCAMPO];
                 char pontostrv [MAXTAMANHOCAMPO];
 
-                for (j = 0; j < resolucao - 1; j++)
+                for (j = 0; j < resolucao; j++)
                     {
                     for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
 

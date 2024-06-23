@@ -219,7 +219,7 @@ int main (int argc, char * argv[])
         } while (flag == 0);
 
     for (i = 0; i < argi; i++)
-        for (j = 0; j < resolucao - 1; j++)
+        for (j = 0; j < resolucao; j++)
             {
             flag = 0;
 
