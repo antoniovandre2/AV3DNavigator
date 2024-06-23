@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator superfície tridimensional por co
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "U" e "V" para "x", função em "U" e "V" para "y", função em "U" e "V" para "z", o menor valor atribuído a "U", o maior valor atribuído a "U", o menor valor atribuído a "V", o maior valor atribuído a "V", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: "grid" apenas para grid ou "fill" para polígonos preenchidos. 3: a resolução.
 
-Última atualização: 29-10-2023. Sem considerar alterações em variáveis globais.
+Última atualização: 23-06-2024. Sem considerar alterações em variáveis globais.
 */
 
 #include <stdio.h>
@@ -433,7 +433,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -508,7 +508,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -581,13 +581,14 @@ int main (int argc, char * argv[])
                             {
                             if (shift == 1)
                                 {
+printf("%s , %d\n", tempstr, shift); getchar();
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -662,7 +663,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -737,7 +738,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -827,7 +828,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -902,7 +903,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -977,7 +978,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -1056,7 +1057,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -1131,7 +1132,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -1206,7 +1207,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -1307,7 +1308,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -1382,7 +1383,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -1457,7 +1458,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -1536,7 +1537,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -1611,7 +1612,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -1686,7 +1687,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -1769,7 +1770,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -1844,7 +1845,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -1919,7 +1920,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -1998,7 +1999,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -2073,7 +2074,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }
@@ -2148,7 +2149,7 @@ int main (int argc, char * argv[])
                                 }
                             else
                                 {
-                                strcat(tempstr, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
                                 tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
                                 }

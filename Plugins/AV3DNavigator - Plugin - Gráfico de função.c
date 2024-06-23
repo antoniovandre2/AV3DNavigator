@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de função.
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "Y", o menor valor atribuído a "Y", o maior valor atribuído a "Y", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 31-10-2023. Sem considerar alterações em variáveis globais.
+Última atualização: 23-06-2024. Sem considerar alterações em variáveis globais.
 */
 
 #include <stdio.h>
@@ -266,7 +266,7 @@ int main (int argc, char * argv[])
                             }
                         else
                             {
-                            strcat(tempstr, TOKENINICIOEVAL);
+                            char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                             strcat(tempstr, pontostr);
                             strcat(tempstr, TOKENFIMEVAL);
                             }
@@ -317,7 +317,7 @@ int main (int argc, char * argv[])
                             }
                         else
                             {
-                            strcat(tempstr, TOKENINICIOEVAL);
+                            char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                             strcat(tempstr, pontostr);
                             strcat(tempstr, TOKENFIMEVAL);
                             }
