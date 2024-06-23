@@ -354,16 +354,16 @@ int main (int argc, char * argv[])
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 tempstr[strlen(tempstr) - 1] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -384,16 +384,16 @@ int main (int argc, char * argv[])
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -429,16 +429,16 @@ int main (int argc, char * argv[])
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -459,16 +459,16 @@ int main (int argc, char * argv[])
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -504,16 +504,16 @@ int main (int argc, char * argv[])
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -534,16 +534,16 @@ int main (int argc, char * argv[])
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -581,19 +581,18 @@ int main (int argc, char * argv[])
                             {
                             if (shift == 1)
                                 {
-printf("%s , %d\n", tempstr, shift); getchar();
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -614,16 +613,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -659,16 +658,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -689,16 +688,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -734,16 +733,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -764,16 +763,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -824,16 +823,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -854,16 +853,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -899,16 +898,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -929,16 +928,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -974,16 +973,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -1004,16 +1003,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -1053,16 +1052,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -1083,16 +1082,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -1128,16 +1127,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -1158,16 +1157,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -1203,16 +1202,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -1233,16 +1232,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -1304,16 +1303,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -1334,16 +1333,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -1379,16 +1378,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -1409,16 +1408,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -1454,16 +1453,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -1484,16 +1483,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -1533,16 +1532,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -1563,16 +1562,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -1608,16 +1607,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -1638,16 +1637,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -1683,16 +1682,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -1713,16 +1712,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -1766,16 +1765,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -1796,16 +1795,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -1841,16 +1840,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -1871,16 +1870,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -1916,16 +1915,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -1946,16 +1945,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -1995,16 +1994,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -2025,16 +2024,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -2070,16 +2069,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -2100,16 +2099,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
@@ -2145,16 +2144,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr[0] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
                                 char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 2;
+                            k += strlen(pontostru) + 1;
                             }
                         } while (c != '\0');
 
@@ -2175,16 +2174,16 @@ printf("%s , %d\n", tempstr, shift); getchar();
                                 {
                                 tempstr2[0] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                strcat(tempstr2, TOKENINICIOEVAL);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 2;
+                            k += strlen(pontostrv) + 1;
                             }
                         } while (c != '\0');
 
