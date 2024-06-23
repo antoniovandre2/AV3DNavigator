@@ -212,6 +212,10 @@ Funções disponíveis para "antoniovandre_eval":
 "semaior": função condicional maior; requer quatro argumentos separados por "|", se o primeiro for maior que o segundo, retorna o terceiro, caso contrário o quarto.
 
 "semenor": função condicional menor; requer quatro argumentos separados por "|", se o primeiro for menor que o segundo, retorna o terceiro, caso contrário o quarto.
+
+"pitagoras": função pitágoras, retorna a hipotenusa dados os catetos; requer dois argumentos separados por "|", os catetos.
+
+"diagonalparalelepipedo": retorna a diagonal de um paralelepípedo; requer três argumentos separados por "|", as arestas.
 _____
 
 Exemplo de cálculo em "antoniovandre_eval":
