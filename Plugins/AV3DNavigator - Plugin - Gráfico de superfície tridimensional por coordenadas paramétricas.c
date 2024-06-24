@@ -7,13 +7,9 @@ Arquivo gerador de um espaço do AV3DNavigator superfície tridimensional por co
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "U" e "V" para "x", função em "U" e "V" para "y", função em "U" e "V" para "z", o menor valor atribuído a "U", o maior valor atribuído a "U", o menor valor atribuído a "V", o maior valor atribuído a "V", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: "grid" apenas para grid ou "fill" para polígonos preenchidos. 3: a resolução.
 
-Última atualização: 23-06-2024. Sem considerar alterações em variáveis globais.
+Última atualização: 24-06-2024. Sem considerar alterações em variáveis globais.
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
 #include "antoniovandre_eval/antoniovandre.c"
 
 #define MAXITENS 10
@@ -45,9 +41,9 @@ Argumentos: 1: primeiramente a string título e, após barra vertical "|", strin
 
 int main (int argc, char * argv[])
     {
-    int shift = 0;
-    int inicio = 0;
-    int argi = 0;
+    int shift = NUMEROZERO;
+    int inicio = NUMEROZERO;
+    int argi = NUMEROZERO;
     int i;
     int j;
     int k;
@@ -58,7 +54,7 @@ int main (int argc, char * argv[])
     int p;
     int q;
     char c;
-    int flag = 0;
+    int flag = NUMEROZERO;
     char mainstring [MAXTAMANHOCAMPO];
     char fillstring [MAXTAMANHOCAMPO];
     char resstring [MAXTAMANHOCAMPO];
@@ -89,23 +85,23 @@ int main (int argc, char * argv[])
 
     if (argc != 4) {printf(mensagemerro); return 1;}
 
-    for (i = 0; i < MAXTAMANHOCAMPO; i++) {mainstring[i] = '\0'; fillstring[i] = '\0'; resstring[i] = '\0';}
+    for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++) {mainstring[i] = '\0'; fillstring[i] = '\0'; resstring[i] = '\0';}
 
-    for (i = 0; i < MAXITENS; i++)
-        for (j = 0; j < MAXTAMANHOCAMPO; j++)
+    for (i = NUMEROZERO; i < MAXITENS; i++)
+        for (j = NUMEROZERO; j < MAXTAMANHOCAMPO; j++)
             {item[i][j] = '\0'; funcaox[i][j] = '\0'; funcaoy[i][j] = '\0'; funcaoz[i][j] = '\0'; menoru[i][j] = '\0'; maioru[i][j] = '\0'; menorv[i][j] = '\0'; maiorv[i][j] = '\0'; rgb[i][j] = '\0'; rgbs[i][j] = '\0';}
 
-    j = 0;
+    j = NUMEROZERO;
 
-    for (i = 0; i < MAXTAMANHOCAMPO; i++)
+    for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++)
         {
         if (argv[1][i] == '\0') break;
         mainstring[j++] = argv[1][i];
         }
 
-    j = 0;
+    j = NUMEROZERO;
 
-    for (i = 0; i < MAXTAMANHOCAMPO; i++)
+    for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++)
         {
         if (argv[2][i] == '\0') break;
         fillstring[j++] = argv[2][i];
@@ -114,9 +110,9 @@ int main (int argc, char * argv[])
     if ((strcmp(fillstring, "grid")) && (strcmp(fillstring, "fill")))
         {printf(mensagemerro); return 1;}
 
-    j = 0;
+    j = NUMEROZERO;
 
-    for (i = 0; i < MAXTAMANHOCAMPO; i++)
+    for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++)
         {
         if (argv[3][i] == '\0') break;
         resstring[j++] = argv[3][i];
@@ -124,7 +120,7 @@ int main (int argc, char * argv[])
 
     int resolucao = atoi(resstring);
 
-    if (resolucao == 0) {printf(mensagemerro); return 1;}
+    if (resolucao == NUMEROZERO) {printf(mensagemerro); return 1;}
 
     do
         {
@@ -138,7 +134,7 @@ int main (int argc, char * argv[])
 
     do
         {
-        i = 0;
+        i = NUMEROZERO;
 
         do
             {
@@ -148,9 +144,9 @@ int main (int argc, char * argv[])
 
         item[argi][i] = '\0';
 
-        if (c == '\0') flag = 1;
+        if (c == '\0') flag = NUMEROUM;
 
-        j = 0;
+        j = NUMEROZERO;
 
         do
             {
@@ -160,7 +156,7 @@ int main (int argc, char * argv[])
 
         funcaox[argi][j] = '\0';
 
-        k = 0;
+        k = NUMEROZERO;
 
         do
             {
@@ -170,7 +166,7 @@ int main (int argc, char * argv[])
 
         funcaoy[argi][k] = '\0';
 
-        l = 0;
+        l = NUMEROZERO;
 
         do
             {
@@ -180,7 +176,7 @@ int main (int argc, char * argv[])
 
         funcaoz[argi][l] = '\0';
 
-        m = 0;
+        m = NUMEROZERO;
 
         do
             {
@@ -194,7 +190,7 @@ int main (int argc, char * argv[])
 
         if ((! strcmp(menoru[argi], "")) || (err == menoru[argi])) {printf(mensagemerro); return 1;}
 
-        n = 0;
+        n = NUMEROZERO;
 
         do
             {
@@ -210,7 +206,7 @@ int main (int argc, char * argv[])
 
         if (menoresu[argi] >= maioresu[argi]) {printf(mensagemerro); return 1;}
 
-        o = 0;
+        o = NUMEROZERO;
 
         do
             {
@@ -224,7 +220,7 @@ int main (int argc, char * argv[])
 
         if ((! strcmp(menorv[argi], "")) || (err == menorv[argi])) {printf(mensagemerro); return 1;}
 
-        p = 0;
+        p = NUMEROZERO;
 
         do
             {
@@ -240,7 +236,7 @@ int main (int argc, char * argv[])
 
         if (menoresv[argi] >= maioresv[argi]) {printf(mensagemerro); return 1;}
 
-        q = 0;
+        q = NUMEROZERO;
 
         do
             {
@@ -250,14 +246,14 @@ int main (int argc, char * argv[])
 
         rgb[argi][q] = '\0';
 
-        i = 0;
-        l = 0;
+        i = NUMEROZERO;
+        l = NUMEROZERO;
 
         do
             {
-            j = 0;
+            j = NUMEROZERO;
 
-            for(int k = 0; k < MAXTAMANHOCAMPO; k++) {verifstr[k] = '\0';}
+            for(int k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {verifstr[k] = '\0';}
 
             do
                 {
@@ -276,11 +272,11 @@ int main (int argc, char * argv[])
                 {
                 char tstr [MAXTAMANHOCAMPO];
 
-                for(int k = 0; k < MAXTAMANHOCAMPO; k++) {tstr[k] = '\0';}
+                for(int k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tstr[k] = '\0';}
 
                 sprintf(tstr, "%d", rgbi + deslocamentorgb);
 
-                if (l == 1)
+                if (l == NUMEROUM)
                     {
                     strcpy(rgbs[argi], tstr);
                     strcat(rgbs[argi], ",");
@@ -299,7 +295,7 @@ int main (int argc, char * argv[])
 
                 sprintf(tstr, "%d", rgbi - deslocamentorgb);
 
-                if (l == 1)
+                if (l == NUMEROUM)
                     {
                     strcpy(rgbs[argi], tstr);
                     strcat(rgbs[argi], ",");
@@ -315,32 +311,32 @@ int main (int argc, char * argv[])
             } while (c != '\0');
 
         if (++argi > MAXITENS) {printf(mensagemerro); return 1;}
-        } while (flag == 0);
+        } while (flag == NUMEROZERO);
 
     if (! strcmp(fillstring, "grid"))
         {
-        for (i = 0; i < argi; i++)
-            for (l = 0; l < resolucao; l++)
+        for (i = NUMEROZERO; i < argi; i++)
+            for (l = NUMEROZERO; l < resolucao; l++)
                 {
-                for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
+                for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
 
                 sprintf(pontostrv, "%f", menoresv[i] + l * (maioresv[i] - menoresv[i]) / resolucao);
 
-                for (j = 0; j < resolucao; j++)
+                for (j = NUMEROZERO; j < resolucao; j++)
                     {
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
                     sprintf(pontostru, "%f", menoresu[i] + j * (maioresu[i] - menoresu[i]) / (resolucao - 1));
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -350,27 +346,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                tempstr[strlen(tempstr) - 1] = TOKENINICIOEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -380,20 +376,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -407,15 +403,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -425,27 +421,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -455,20 +451,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -482,15 +478,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -500,27 +496,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -530,20 +526,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -557,19 +553,19 @@ int main (int argc, char * argv[])
 
                     printf(";"); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
                     sprintf(pontostru, "%f", menoresu[i] + (j + 1) * (maioresu[i] - menoresu[i]) / (resolucao - 1));
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -579,27 +575,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -609,20 +605,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -636,15 +632,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -654,27 +650,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -684,20 +680,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -711,15 +707,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -729,27 +725,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -759,20 +755,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -788,28 +784,28 @@ int main (int argc, char * argv[])
                     }
                 }
 
-        for (i = 0; i < argi; i++)
-            for (l = 0; l < resolucao; l++)
+        for (i = NUMEROZERO; i < argi; i++)
+            for (l = NUMEROZERO; l < resolucao; l++)
                 {
-                for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
+                for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
                 sprintf(pontostru, "%f", menoresu[i] + l * (maioresu[i] - menoresu[i]) / (resolucao - 1));
 
-                for (j = 0; j < resolucao; j++)
+                for (j = NUMEROZERO; j < resolucao; j++)
                     {
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
 
                     sprintf(pontostrv, "%f", menoresv[i] + j * (maioresv[i] - menoresv[i]) / resolucao);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -819,27 +815,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -849,20 +845,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -876,15 +872,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -894,27 +890,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -924,20 +920,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -951,15 +947,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -969,27 +965,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -999,20 +995,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -1026,19 +1022,19 @@ int main (int argc, char * argv[])
 
                     printf(";"); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
 
                     sprintf(pontostrv, "%f", menoresv[i] + (j + 1) * (maioresv[i] - menoresv[i]) / resolucao);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1048,27 +1044,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1078,20 +1074,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -1105,15 +1101,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1123,27 +1119,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1153,20 +1149,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -1180,15 +1176,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1198,27 +1194,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1228,20 +1224,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -1262,8 +1258,8 @@ int main (int argc, char * argv[])
 
     if (! strcmp(fillstring, "fill"))
         {
-        for (i = 0; i < argi; i++)
-            for (l = 0; l < resolucao - 1; l++)
+        for (i = NUMEROZERO; i < argi; i++)
+            for (l = NUMEROZERO; l < resolucao - 1; l++)
                 {
                 char valorstr [MAXTAMANHOCAMPO];
                 char tempstr [MAXTAMANHOCAMPO];
@@ -1271,25 +1267,25 @@ int main (int argc, char * argv[])
                 char pontostru [MAXTAMANHOCAMPO];
                 char pontostrv [MAXTAMANHOCAMPO];
 
-                for (j = 0; j < resolucao; j++)
+                for (j = NUMEROZERO; j < resolucao; j++)
                     {
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
 
                     sprintf(pontostrv, "%f", menoresv[i] + l * (maioresv[i] - menoresv[i]) / (resolucao - 1));
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
                     sprintf(pontostru, "%f", menoresu[i] + j * (maioresu[i] - menoresu[i]) / (resolucao - 1));
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1299,27 +1295,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1329,20 +1325,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -1356,15 +1352,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1374,27 +1370,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1404,20 +1400,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -1431,15 +1427,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1449,27 +1445,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1479,20 +1475,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -1506,19 +1502,19 @@ int main (int argc, char * argv[])
 
                     printf(";"); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
                     sprintf(pontostru, "%f", menoresu[i] + (j + 1) * (maioresu[i] - menoresu[i]) / (resolucao - 1));
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1528,27 +1524,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1558,20 +1554,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -1585,15 +1581,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1603,27 +1599,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1633,20 +1629,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -1660,15 +1656,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1678,27 +1674,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1708,20 +1704,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -1735,23 +1731,23 @@ int main (int argc, char * argv[])
 
                     printf(";"); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
 
                     sprintf(pontostrv, "%f", menoresv[i] + (l + 1) * (maioresv[i] - menoresv[i]) / (resolucao - 1));
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
                     sprintf(pontostru, "%f", menoresu[i] + (j + 1) * (maioresu[i] - menoresu[i]) / (resolucao - 1));
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1761,27 +1757,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1791,20 +1787,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -1818,15 +1814,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1836,27 +1832,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1866,20 +1862,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -1893,15 +1889,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1911,27 +1907,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1941,20 +1937,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -1968,19 +1964,19 @@ int main (int argc, char * argv[])
 
                     printf(";"); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
                     sprintf(pontostru, "%f", menoresu[i] + j * (maioresu[i] - menoresu[i]) / (resolucao - 1));
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -1990,27 +1986,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -2020,20 +2016,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -2047,15 +2043,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -2065,27 +2061,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -2095,20 +2091,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -2122,15 +2118,15 @@ int main (int argc, char * argv[])
 
                     printf(","); fflush(stdout);
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
                     strcpy(valorstr, EVALSOFTWARE);
                     ASPASINICIAL
 
-                    for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
+                    for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; tempstr2[k] = '\0';}
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -2140,27 +2136,27 @@ int main (int argc, char * argv[])
                             {tempstr[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr[0] = TOKENINICIOEVAL;
+                                tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
                                 strcat(tempstr, pontostru);
-                                tempstr[strlen(tempstr) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostru) + 1;
+                            k += strlen(pontostru) + NUMEROUM;
                             }
                         } while (c != '\0');
 
                     tempstr[k] = '\0';
 
-                    shift = 0;
-                    k = 0;
+                    shift = NUMEROZERO;
+                    k = NUMEROZERO;
 
                     do
                         {
@@ -2170,20 +2166,20 @@ int main (int argc, char * argv[])
                             {tempstr2[k++] = c;}
                         else
                             {
-                            if (shift == 1)
+                            if (shift == NUMEROUM)
                                 {
-                                tempstr2[0] = TOKENINICIOEVAL;
+                                tempstr2[NUMEROZERO] = TOKENINICIOEVAL;
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
                             else
                                 {
-                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, 1);
+                                char tc = TOKENINICIOEVAL; strncat(tempstr2, & tc, NUMEROUM);
                                 strcat(tempstr2, pontostrv);
-                                tempstr2[strlen(tempstr2) - 1] = TOKENFIMEVAL; c = TOKENFIMEVAL;
+                                tempstr2[strlen(tempstr2) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                                 }
 
-                            k += strlen(pontostrv) + 1;
+                            k += strlen(pontostrv) + NUMEROUM;
                             }
                         } while (c != '\0');
 
@@ -2195,7 +2191,7 @@ int main (int argc, char * argv[])
 
                     CALLEVALSOFTWARE fflush(stdout);
 
-                    if ((j + l) % 2 == 0)
+                    if ((j + l) % 2 == NUMEROZERO)
                         printf("c%s|", rgb[i]);
                     else
                         printf("c%s|", rgbs[i]);
@@ -2207,6 +2203,6 @@ int main (int argc, char * argv[])
 
     printf("@%s|_____|", titulo); fflush(stdout);
 
-    for (i = 0; i < argi; i++)
+    for (i = NUMEROZERO; i < argi; i++)
         printf("x = %s, y = %s, z = %s;%s|", funcaox[i], funcaoy[i], funcaoz[i], rgb[i]);
     }
