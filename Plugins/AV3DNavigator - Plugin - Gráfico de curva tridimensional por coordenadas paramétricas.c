@@ -245,16 +245,16 @@ int main (int argc, char * argv[])
                         {
                         tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL;
+                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                         }
                     else
                         {
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENINICIOEVAL;
+                        char tc = TOKENINICIOEVAL; strncat (tempstr, & tc, NUMEROUM);
                         strcat(tempstr, pontostr);
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL;
+                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                         }
 
-                    k += strlen(pontostr) + 2;
+                    k += strlen(pontostr) + NUMEROUM;
                     }
                 } while (c != '\0');
 
@@ -290,16 +290,16 @@ int main (int argc, char * argv[])
                         {
                         tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL;
+                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                         }
                     else
                         {
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENINICIOEVAL;
+                        char tc = TOKENINICIOEVAL; strncat (tempstr, & tc, NUMEROUM);
                         strcat(tempstr, pontostr);
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL;
+                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                         }
 
-                    k += strlen(pontostr) + 2;
+                    k += strlen(pontostr) + NUMEROUM;
                     }
                 } while (c != '\0');
 
@@ -335,16 +335,16 @@ int main (int argc, char * argv[])
                         {
                         tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL;
+                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                         }
                     else
                         {
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENINICIOEVAL;
+                        char tc = TOKENINICIOEVAL; strncat (tempstr, & tc, NUMEROUM);
                         strcat(tempstr, pontostr);
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL;
+                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                         }
 
-                    k += strlen(pontostr) + 2;
+                    k += strlen(pontostr) + NUMEROUM;
                     }
                 } while (c != '\0');
 
@@ -384,16 +384,16 @@ int main (int argc, char * argv[])
                         {
                         tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL;
+                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                         }
                     else
                         {
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENINICIOEVAL;
+                        char tc = TOKENINICIOEVAL; strncat (tempstr, & tc, NUMEROUM);
                         strcat(tempstr, pontostr);
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL;
+                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                         }
 
-                    k += strlen(pontostr) + 2;
+                    k += strlen(pontostr) + NUMEROUM;
                     }
                 } while (c != '\0');
 
@@ -429,16 +429,16 @@ int main (int argc, char * argv[])
                         {
                         tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL;
+                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                         }
                     else
                         {
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENINICIOEVAL;
+                        char tc = TOKENINICIOEVAL; strncat (tempstr, & tc, NUMEROUM);
                         strcat(tempstr, pontostr);
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL;
+                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                         }
 
-                    k += strlen(pontostr) + 2;
+                    k += strlen(pontostr) + NUMEROUM;
                     }
                 } while (c != '\0');
 
@@ -474,16 +474,16 @@ int main (int argc, char * argv[])
                         {
                         tempstr[NUMEROZERO] = TOKENINICIOEVAL;
                         strcat(tempstr, pontostr);
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL;
+                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                         }
                     else
                         {
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENINICIOEVAL;
+                        char tc = TOKENINICIOEVAL; strncat (tempstr, & tc, NUMEROUM);
                         strcat(tempstr, pontostr);
-                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL;
+                        tempstr[strlen(tempstr) - NUMEROUM] = TOKENFIMEVAL; c = TOKENFIMEVAL;
                         }
 
-                    k += strlen(pontostr) + 2;
+                    k += strlen(pontostr) + NUMEROUM;
                     }
                 } while (c != '\0');
 
