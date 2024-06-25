@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de função.
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "Y", o menor valor atribuído a "Y", o maior valor atribuído a "Y", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 23-06-2024. Sem considerar alterações em variáveis globais.
+Última atualização: 25-06-2024. Sem considerar alterações em variáveis globais.
 */
 
 #include <stdio.h>
@@ -224,7 +224,7 @@ int main (int argc, char * argv[])
             flag = 0;
 
             if (strlen(exclusao[i]) != 0) for (k = 0; k < o; k++)
-                if ((exclusoes[i][k] >= menores[i] + j * (maiores[i] - menores[i]) / (resolucao - 1) - margemexclusao) && (exclusoes[i][k] <= menores[i] + (j + 1) * (maiores[i] - menores[i]) / (resolucao - 1) + margemexclusao))
+                if ((exclusoes[i][k] >= menores[i] + j * (maiores[i] - menores[i]) / resolucao - margemexclusao) && (exclusoes[i][k] <= menores[i] + (j + 1) * (maiores[i] - menores[i]) / resolucao + margemexclusao))
                     flag = 1;
 
             if (flag == 0)
@@ -233,7 +233,7 @@ int main (int argc, char * argv[])
 
                 for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
-                printf("0,%f,", menores[i] + j * (maiores[i] - menores[i]) / (resolucao - 1));
+                printf("0,%f,", menores[i] + j * (maiores[i] - menores[i]) / resolucao);
 
                 fflush(stdout);
 
@@ -248,7 +248,7 @@ int main (int argc, char * argv[])
                 shift = 0;
                 k = 0;
 
-                sprintf(pontostr, "%f", menores[i] + j * (maiores[i] - menores[i]) / (resolucao - 1));
+                sprintf(pontostr, "%f", menores[i] + j * (maiores[i] - menores[i]) / resolucao);
 
                 do
                     {
@@ -285,7 +285,7 @@ int main (int argc, char * argv[])
 
                 fflush(stdout);
 
-                printf(";0,%f,", menores[i] + (j + 1) * (maiores[i] - menores[i]) / (resolucao - 1));
+                printf(";0,%f,", menores[i] + (j + 1) * (maiores[i] - menores[i]) / resolucao);
 
                 fflush(stdout);
 
@@ -299,7 +299,7 @@ int main (int argc, char * argv[])
                 shift = 0;
                 k = 0;
 
-                sprintf(pontostr, "%f", menores[i] + (j + 1) * (maiores[i] - menores[i]) / (resolucao - 1));
+                sprintf(pontostr, "%f", menores[i] + (j + 1) * (maiores[i] - menores[i]) / resolucao);
 
                 do
                     {

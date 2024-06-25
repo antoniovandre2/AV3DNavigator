@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de uma curva tridimensio
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "T" para "x", função em "T" para "y", função em "T" para "z", o menor valor atribuído a "T", o maior valor atribuído a "T", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 24-06-2024. Sem considerar alterações em variáveis globais.
+Última atualização: 25-06-2024. Sem considerar alterações em variáveis globais.
 */
 
 #include "antoniovandre_eval/antoniovandre.c"
@@ -221,7 +221,7 @@ int main (int argc, char * argv[])
 
             for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostr[k] = '\0';
 
-            sprintf(pontostr, "%f", menores[i] + j * (maiores[i] - menores[i]) / (resolucao - 1));
+            sprintf(pontostr, "%f", menores[i] + j * (maiores[i] - menores[i]) / resolucao);
 
             for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
@@ -360,7 +360,7 @@ int main (int argc, char * argv[])
 
             for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostr[k] = '\0';
 
-            sprintf(pontostr, "%f", menores[i] + (j + 1) * (maiores[i] - menores[i]) / (resolucao - 1));
+            sprintf(pontostr, "%f", menores[i] + (j + 1) * (maiores[i] - menores[i]) / resolucao);
 
             for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 

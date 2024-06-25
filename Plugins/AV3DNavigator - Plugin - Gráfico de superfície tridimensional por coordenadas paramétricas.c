@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator superfície tridimensional por co
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "U" e "V" para "x", função em "U" e "V" para "y", função em "U" e "V" para "z", o menor valor atribuído a "U", o maior valor atribuído a "U", o menor valor atribuído a "V", o maior valor atribuído a "V", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: "grid" apenas para grid ou "fill" para polígonos preenchidos. 3: a resolução.
 
-Última atualização: 24-06-2024. Sem considerar alterações em variáveis globais.
+Última atualização: 25-06-2024. Sem considerar alterações em variáveis globais.
 */
 
 #include "antoniovandre_eval/antoniovandre.c"
@@ -326,7 +326,7 @@ int main (int argc, char * argv[])
                     {
                     for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
-                    sprintf(pontostru, "%f", menoresu[i] + j * (maioresu[i] - menoresu[i]) / (resolucao - 1));
+                    sprintf(pontostru, "%f", menoresu[i] + j * (maioresu[i] - menoresu[i]) / resolucao);
 
                     for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
@@ -555,7 +555,7 @@ int main (int argc, char * argv[])
 
                     for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
-                    sprintf(pontostru, "%f", menoresu[i] + (j + 1) * (maioresu[i] - menoresu[i]) / (resolucao - 1));
+                    sprintf(pontostru, "%f", menoresu[i] + (j + 1) * (maioresu[i] - menoresu[i]) / resolucao);
 
                     for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
@@ -789,7 +789,7 @@ int main (int argc, char * argv[])
                 {
                 for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
-                sprintf(pontostru, "%f", menoresu[i] + l * (maioresu[i] - menoresu[i]) / (resolucao - 1));
+                sprintf(pontostru, "%f", menoresu[i] + l * (maioresu[i] - menoresu[i]) / resolucao);
 
                 for (j = NUMEROZERO; j < resolucao; j++)
                     {
@@ -1259,7 +1259,7 @@ int main (int argc, char * argv[])
     if (! strcmp(fillstring, "fill"))
         {
         for (i = NUMEROZERO; i < argi; i++)
-            for (l = NUMEROZERO; l < resolucao - 1; l++)
+            for (l = NUMEROZERO; l < resolucao; l++)
                 {
                 char valorstr [MAXTAMANHOCAMPO];
                 char tempstr [MAXTAMANHOCAMPO];
@@ -1271,11 +1271,11 @@ int main (int argc, char * argv[])
                     {
                     for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
 
-                    sprintf(pontostrv, "%f", menoresv[i] + l * (maioresv[i] - menoresv[i]) / (resolucao - 1));
+                    sprintf(pontostrv, "%f", menoresv[i] + l * (maioresv[i] - menoresv[i]) / resolucao);
 
                     for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
-                    sprintf(pontostru, "%f", menoresu[i] + j * (maioresu[i] - menoresu[i]) / (resolucao - 1));
+                    sprintf(pontostru, "%f", menoresu[i] + j * (maioresu[i] - menoresu[i]) / resolucao);
 
                     for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
@@ -1504,7 +1504,7 @@ int main (int argc, char * argv[])
 
                     for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
-                    sprintf(pontostru, "%f", menoresu[i] + (j + 1) * (maioresu[i] - menoresu[i]) / (resolucao - 1));
+                    sprintf(pontostru, "%f", menoresu[i] + (j + 1) * (maioresu[i] - menoresu[i]) / resolucao);
 
                     for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
@@ -1733,11 +1733,11 @@ int main (int argc, char * argv[])
 
                     for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
 
-                    sprintf(pontostrv, "%f", menoresv[i] + (l + 1) * (maioresv[i] - menoresv[i]) / (resolucao - 1));
+                    sprintf(pontostrv, "%f", menoresv[i] + (l + 1) * (maioresv[i] - menoresv[i]) / resolucao);
 
                     for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
-                    sprintf(pontostru, "%f", menoresu[i] + (j + 1) * (maioresu[i] - menoresu[i]) / (resolucao - 1));
+                    sprintf(pontostru, "%f", menoresu[i] + (j + 1) * (maioresu[i] - menoresu[i]) / resolucao);
 
                     for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
@@ -1966,7 +1966,7 @@ int main (int argc, char * argv[])
 
                     for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
-                    sprintf(pontostru, "%f", menoresu[i] + j * (maioresu[i] - menoresu[i]) / (resolucao - 1));
+                    sprintf(pontostru, "%f", menoresu[i] + j * (maioresu[i] - menoresu[i]) / resolucao);
 
                     for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
