@@ -45,11 +45,15 @@ F2 para selecionar e abrir arquivo de espaço.
 
 "J" para rotação horizontal positiva. "M" para negativa.
 
-"K" para rotação vertical positiva. "," para negativa.
+Shift + "J" para rotação vertical positiva. Shift + "M" para negativa.
+
+"K" para rotação total positiva. "," para negativa.
 
 "L" para incrementar o raio de rotação horizontal. "." para decrementar.
 
-"[" para incrementar o raio de rotação vertical. "]" para decrementar.
+Shift + "L" para incrementar o raio de rotação vertical. Shift + "." para decrementar.
+
+"\[" para incrementar o raio de rotação total. "\]" para decrementar.
 
 "W" para aumentar a distância da tela. "Q" para reduzir.
 
