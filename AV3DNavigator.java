@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 28-06-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 29-06-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -1183,7 +1183,7 @@ public class AV3DNavigator extends JComponent
 
                         Rotacao -= DeslocamentoAngular;
 
-                        if (Math.abs(Teta + Math.PI) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Teta + Math.PI) < TetaMax - DeslocamentoAngular) {if (Math.abs(Phi + Math.PI) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Phi + Math.PI) < PhiMax - DeslocamentoAngular) {Teta -= DeslocamentoAngular; Phi = Phi0Rotacao * Math.cos(Rotacao); x = xRotacao + RaioRot * Math.cos(Phi + Math.PI) * Math.cos(Rotacao); y = yRotacao - RaioRot * Math.cos(Phi + Math.PI) * Math.sin(Rotacao); z = zRotacao - RaioRot * Math.sin(Phi + Math.PI); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiInferior = 1;}}}} else VariavelLimiteAtingido();
+                        if (Math.abs(Teta + Math.PI) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Teta + Math.PI) < TetaMax - DeslocamentoAngular) {if (Math.abs(Phi + Math.PI) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Phi + Math.PI) < PhiMax - DeslocamentoAngular) {Teta -= DeslocamentoAngular; Phi = Phi0Rotacao * Math.cos(Rotacao); x = xRotacao + RaioRot * Math.cos(Phi + Math.PI) * Math.cos(Teta); y = yRotacao - RaioRot * Math.cos(Phi + Math.PI) * Math.sin(Teta); z = zRotacao - RaioRot * Math.sin(Phi + Math.PI); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiInferior = 1;}}}} else VariavelLimiteAtingido();
                         }
 
                     if (keyCode == KeyEvent.VK_COMMA)
@@ -1192,7 +1192,7 @@ public class AV3DNavigator extends JComponent
 
                         Rotacao += DeslocamentoAngular;
 
-                        if (Math.abs(Teta + Math.PI) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Teta + Math.PI) < TetaMax - DeslocamentoAngular) {if (Math.abs(Phi + Math.PI) - DeslocamentoAngular * Math.abs(Math.sin(Phi0Rotacao )) <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Phi + Math.PI) < PhiMax - DeslocamentoAngular) {Teta += DeslocamentoAngular; Phi = Phi0Rotacao * Math.cos(Rotacao); x = xRotacao + RaioRot * Math.cos(Phi + Math.PI) * Math.cos(Rotacao); y = yRotacao - RaioRot * Math.cos(Phi + Math.PI) * Math.sin(Rotacao); z = zRotacao - RaioRot * Math.sin(Phi + Math.PI); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiInferior = 1;}}}} else VariavelLimiteAtingido();
+                        if (Math.abs(Teta + Math.PI) - DeslocamentoAngular <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Teta + Math.PI) < TetaMax - DeslocamentoAngular) {if (Math.abs(Phi + Math.PI) - DeslocamentoAngular * Math.abs(Math.sin(Phi0Rotacao )) <= AntonioVandre.MaximoValorReal - DeslocamentoAngular) {if (Math.abs(Phi + Math.PI) < PhiMax - DeslocamentoAngular) {Teta += DeslocamentoAngular; Phi = Phi0Rotacao * Math.cos(Rotacao); x = xRotacao + RaioRot * Math.cos(Phi + Math.PI) * Math.cos(Teta); y = yRotacao - RaioRot * Math.cos(Phi + Math.PI) * Math.sin(Teta); z = zRotacao - RaioRot * Math.sin(Phi + Math.PI); ContadorFrames = 0;} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiInferior = 1;}}}} else VariavelLimiteAtingido();
                         }
 
                     if (keyCode == KeyEvent.VK_L)
