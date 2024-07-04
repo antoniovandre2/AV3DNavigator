@@ -6,7 +6,7 @@
 
 // Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
 
-// Última atualização: 23-06-2024. Não considerando alterações em variáveis globais.
+// Última atualização: 03-07-2024. Não considerando alterações em variáveis globais.
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -17,7 +17,7 @@
 
 #include "antoniovandre_constantes.c"
 
-#define VERSION 20240623
+#define VERSION 20240703
 #define MENSAGEMNAOCOMPILADOR "Software não compilado em razão do compilador não ser compatível."
 #define TAMANHO_BUFFER_SMALL 90 // Para pequenos buffers.
 #define TAMANHO_BUFFER_WORD 1024 // Para strings pequenas.
@@ -28,6 +28,8 @@
 #define VALOR_MAX_3 50 // Valor máximo. Terceira opção.
 #define MARCADORREAL VALOR_MAX + 1 // Útil para delimitar memórias alocadas.
 #define TAMANHO_MAX_ARQUIVO 1000000000000 // A fim de evitar erros de saída.
+#define MARGEMFORMATACAOREAIS 3 // Para formatação de outputs reais.
+#define NUMEROSTRINGPERSONAL VERDADE // Método pessoal de conversao de números para strings.
 #define NUMEROZERO 0
 #define NUMEROUM 1
 #define NUMEROMENOSUM -1
@@ -69,7 +71,7 @@
 #define APROXIMACAO6 0.005 // Para verificação de aproximação numérica. Sexta opção.
 #define MAXNUMERADORFRACOES 1000000 // Para a conversão de números em frações. Útil para, dentre outras coisas, calcular potências de bases negativas.
 #define MINPRECISAO 8 // A fim de garantir retornos corretos de algumas funções.
-#define MAXPRECISAO 19 // A fim de evitar erros de saída.
+#define MAXPRECISAO 16 // A fim de evitar erros de saída.
 
 typedef double TIPONUMEROREAL;
 
@@ -346,7 +348,7 @@ int antoniovandre_compararstringsfree (char * str1, char * str2)
 	int i;
 	int resultado;
 
-	if (tam1 != tam2) return NUMEROMENOSUM;
+	if (tam1 != tam2) return  NUMEROMENOSUM;
 
 	for (i = NUMEROZERO; i < tam1; i++)
 		if (str1[i] != str2 [i])
@@ -404,7 +406,7 @@ int antoniovandre_mathsobre ()
 	if (filesobre == NULL)
 		{
 		printf ("Erro ao abrir arquivo sobre.\n");
-		return NUMEROMENOSUM;
+		return  NUMEROMENOSUM;
 		}
 
 	while (! feof (filesobre))
@@ -450,7 +452,7 @@ int antoniovandre_salvarmathestatisticas (char * cabecalho)
 			if (filemathestatisticas == NULL)
 				{
 				printf ("Erro ao abrir ou criar arquivo de estatísticas.\n");
-				return NUMEROMENOSUM;
+				return  NUMEROMENOSUM;
 				}
 
 			flag2 = NUMEROUM;
@@ -554,7 +556,7 @@ int antoniovandre_precisao_real ()
 	if (fileprecisaoreal == NULL)
 		{
 		printf ("Erro ao abrir arquivo de precisão real.\n");
-		return NUMEROMENOSUM;
+		return  NUMEROMENOSUM;
 		}
 
 	fscanf (fileprecisaoreal, "%s", antoniovandre_precisao_real_buffer);
@@ -564,10 +566,11 @@ int antoniovandre_precisao_real ()
 	if (antoniovandre_precisao_real_valor == NUMEROZERO)
 		{
 		printf ("Erro ao ler arquivo de precisão real.\n");
-		return NUMEROMENOSUM;
+		return  NUMEROMENOSUM;
 		}
 
 	if (MACROALOCACAODINAMICA) free (antoniovandre_precisao_real_buffer);
+
 	fclose (fileprecisaoreal);
 
 	if (antoniovandre_precisao_real_valor < MINPRECISAO)
@@ -678,7 +681,7 @@ TIPONUMEROREAL antoniovandre_partenumericamonomio (char * str)
 		if (! antoniovandre_compararstringsfree (antoniovandre_removerletras (str), STRINGVAZIA))
 			return NUMEROUM;
 		else if (! antoniovandre_compararstringsfree (antoniovandre_removerletras (str), "-") && strlen (str) != NUMEROUM)
-			return NUMEROMENOSUM;
+			return  NUMEROMENOSUM;
 		else
 			return (strtold (antoniovandre_removerletras (str), & err));
 		}
@@ -698,101 +701,108 @@ char * antoniovandre_parteliteralmonomio (char * str)
 
 // Número para string.
 
-char * antoniovandre_numeroparastring (TIPONUMEROREAL numero)
+char * antoniovandre_numeroparastring (TIPONUMEROREAL numero, int precisao)
 	{
-	int precisao = antoniovandre_precisao_real ();
 	char * strr = (char *) malloc (TAMANHO_BUFFER_WORD);
-	int parteinteira = (int) (log10 (fabs (numero)) + NUMEROUM);
+	int parteinteira = (int) (log10 (fabsl (numero)) + NUMEROUM);
+	int potencia_min;
+	int potencia_max = (int) log10 (fabsl(numero)) + NUMEROUM;
+	TIPONUMEROREAL fator;
+	int algarismo;
+	int i;
 
 	if (numero != VERSION) if ((numero > VALOR_MAX) || (numero < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 
+	if (precisao > MAXPRECISAO) precisao = MAXPRECISAO;
+
+	if (precisao < MINPRECISAO) precisao = MINPRECISAO;
+
 	if (numero == NUMEROZERO)
-		sprintf (strr, "%*lf", precisao, 0);
+		{
+		int i;
+		char tc = '0';
+
+		antoniovandre_copiarstring (strr, STRINGVAZIA);
+		strcat (strr, "0.");
+
+		for (i = NUMEROUM; i < precisao; i++) strncat (strr, &tc, NUMEROUM);
+		}
 	else
 		{
-		if (parteinteira > NUMEROZERO)
-			sprintf (strr, "%.*lf", precisao - parteinteira, numero);
-		else
-			sprintf (strr, "%.*lf", precisao, numero);
-		}
-
-/*	int potencia_min = (NUMEROMENOSUM) * precisao;
-	int potencia_max = log10 (VALOR_MAX);
-	TIPONUMEROREAL fator = powl (10, potencia_max);
-	int algarismo;
-	int i;
-	int flag = NUMEROZERO;
-	int contador = NUMEROZERO;
-
-	antoniovandre_copiarstring (strr, STRINGVAZIA);
-
-	if (numero < NUMEROZERO)
-		{
-		numero *= -1;
-		antoniovandre_concatenarstring (strr, "-");
-		}
-
-	if ((numero > VALOR_MAX) || (numero < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
-
-	for (i = potencia_max; i >= potencia_min; i--)
-		{
-		if (i == NUMEROMENOSUM)
+		if (NUMEROSTRINGPERSONAL)
 			{
-			if (numero < NUMEROUM) antoniovandre_concatenarstring (strr, "0");
+			potencia_min = (precisao - parteinteira) * NUMEROMENOSUM;
 
-			antoniovandre_concatenarstring (strr, ".");
-			}
+			if (potencia_max < NUMEROUM) potencia_max = NUMEROUM;
 
-		algarismo = (int) fmodl (((TIPONUMEROREAL) numero / (TIPONUMEROREAL) fator), 10);
+			fator = powl (10, -(potencia_max - NUMEROUM));
 
-		fator /= (TIPONUMEROREAL) 10;
+			antoniovandre_copiarstring (strr, STRINGVAZIA);
 
-		if (algarismo != NUMEROZERO) flag = NUMEROUM;
-
-		if (flag == NUMEROUM) contador++;
-
-		if (((flag == NUMEROUM) || i < NUMEROZERO) && (contador <= precisao))
-			{
-			switch (algarismo)
+			if (numero < NUMEROZERO)
 				{
-				case NUMEROZERO:
-					antoniovandre_concatenarstring (strr, "0");
-					break;
-				case NUMEROUM:
-					antoniovandre_concatenarstring (strr, "1");
-					break;
-				case 2:
-					antoniovandre_concatenarstring (strr, "2");
-					break;
-				case 3:
-					antoniovandre_concatenarstring (strr, "3");
-					break;
-				case 4:
-					antoniovandre_concatenarstring (strr, "4");
-					break;
-				case 5:
-					antoniovandre_concatenarstring (strr, "5");
-					break;
-				case 6:
-					antoniovandre_concatenarstring (strr, "6");
-					break;
-				case 7:
-					antoniovandre_concatenarstring (strr, "7");
-					break;
-				case 8:
-					antoniovandre_concatenarstring (strr, "8");
-					break;
-				case 9:
-					antoniovandre_concatenarstring (strr, "9");
-					break;
-				default:
-					antoniovandre_concatenarstring (strr, "0");
+				numero *= NUMEROMENOSUM;
+				antoniovandre_concatenarstring (strr, "-");
+				}
+
+			for (i = potencia_max; i > potencia_min; i--)
+				{
+				if (i == NUMEROZERO)
+					antoniovandre_concatenarstring (strr, ".");
+
+				algarismo = (int) fmodl ((numero * fator), 10);
+
+				fator *= 10;
+
+				switch (algarismo)
+					{
+					case NUMEROZERO:
+						antoniovandre_concatenarstring (strr, "0");
+						break;
+					case NUMEROUM:
+						antoniovandre_concatenarstring (strr, "1");
+						break;
+					case 2:
+						antoniovandre_concatenarstring (strr, "2");
+						break;
+					case 3:
+						antoniovandre_concatenarstring (strr, "3");
+						break;
+					case 4:
+						antoniovandre_concatenarstring (strr, "4");
+						break;
+					case 5:
+						antoniovandre_concatenarstring (strr, "5");
+						break;
+					case 6:
+						antoniovandre_concatenarstring (strr, "6");
+						break;
+					case 7:
+						antoniovandre_concatenarstring (strr, "7");
+						break;
+					case 8:
+						antoniovandre_concatenarstring (strr, "8");
+						break;
+					case 9:
+						antoniovandre_concatenarstring (strr, "9");
+						break;
+					default:
+						antoniovandre_concatenarstring (strr, "0");
+					}
 				}
 			}
+		else
+			{
+			if (parteinteira > NUMEROZERO)
+				sprintf (strr, "%.*lf", precisao - parteinteira, numero);
+			else
+				sprintf (strr, "%.*lf", precisao, numero);
+			}
 		}
-*/
+
 	return strr;
 	}
+
 
 // Comparar strings sem ordem.
 
@@ -818,10 +828,10 @@ int antoniovandre_compararstringssemorden (char * str1, char * str2)
 
 		for (j = NUMEROZERO; j < tam2; j++) if (c == str2 [j]) contador2++;
 
-		if (contador1 != contador2) return NUMEROMENOSUM;
+		if (contador1 != contador2) return  NUMEROMENOSUM;
 		}
 
-	if (tam1 != tam2) return NUMEROMENOSUM;
+	if (tam1 != tam2) return  NUMEROMENOSUM;
 
 	return NUMEROZERO;
 	}
@@ -888,6 +898,8 @@ char * antoniovandre_reduzirtermossemelhantes (char * args)
 	int flag;
 	int contador = NUMEROZERO;
 
+	int precisao = antoniovandre_precisao_real ();
+
 	for (i = NUMEROZERO; i < strlen (args); i++) if (args [i] == DELIMITADORSTRING) nargs++;
 
 	char * strlit [nargs];
@@ -938,7 +950,7 @@ char * antoniovandre_reduzirtermossemelhantes (char * args)
 	for (i = NUMEROZERO; i < contador; i++)
 		if (coefs [i] != NUMEROZERO)
 			{
-			char * temp = antoniovandre_numeroparastring (coefs [i]);
+			char * temp = antoniovandre_numeroparastring (coefs [i], precisao);
 			antoniovandre_copiarstring (strt, temp);
 			free (temp);
 
@@ -946,7 +958,7 @@ char * antoniovandre_reduzirtermossemelhantes (char * args)
 
 			if (i == NUMEROZERO)
 				{
-				char * temp = antoniovandre_numeroparastring (coefs [i]);
+				char * temp = antoniovandre_numeroparastring (coefs [i], precisao);
 				memmove (strf, strt, strlen (temp));
 				free (temp);
 				}
@@ -964,7 +976,7 @@ char * antoniovandre_reduzirtermossemelhantes (char * args)
 	if (flag == NUMEROUM)
 		return (strf);
 	else
-		return (antoniovandre_numeroparastring (0));
+		return (antoniovandre_numeroparastring (0, precisao));
 	}
 
 // Valor numérico de um polinômio.
@@ -972,7 +984,7 @@ char * antoniovandre_reduzirtermossemelhantes (char * args)
 char * antoniovandre_valornumericopolinomio (char * args)
 	{
 	int nargs = NUMEROUM;
-	int indice_inicio = -1;
+	int indice_inicio = NUMEROMENOSUM;
 	char strt [TAMANHO_BUFFER_WORD];
 	char strt2 [TAMANHO_BUFFER_WORD];
 	char str [TAMANHO_BUFFER_WORD];
@@ -990,6 +1002,8 @@ char * antoniovandre_valornumericopolinomio (char * args)
 	int flag2 = NUMEROZERO;
 	char c = DELIMITADORSTRING;
 	char * err;
+
+	int precisao = antoniovandre_precisao_real ();
 
 	antoniovandre_copiarstring (strt, STRINGVAZIA);
 	antoniovandre_copiarstring (strt2, STRINGVAZIA);
@@ -1073,7 +1087,7 @@ char * antoniovandre_valornumericopolinomio (char * args)
 
 				char temps [TAMANHO_BUFFER_WORD];
 
-				char * temp = antoniovandre_numeroparastring (coef);
+				char * temp = antoniovandre_numeroparastring (coef, precisao);
 				antoniovandre_copiarstring (temps, temp);
 				free (temp);
 
@@ -1139,10 +1153,10 @@ char * antoniovandre_substring (char * str, int inicio, int fim)
 
 // Formatar reais.
 
-char * antoniovandre_formatarreal (char * result)
+char * antoniovandre_formatarreal (char * result, int precisao)
 	{
-	int precisao = antoniovandre_precisao_real ();
 	int i;
+	int j;
 	char * err;
 	TIPONUMEROREAL valor;
 
@@ -1150,25 +1164,28 @@ char * antoniovandre_formatarreal (char * result)
 
 	for (i = 0; i < precisao; i++)
 		{
-		if (fabs ((floorl (valor * powl (10, i))) - valor * powl(10, i)) < powl (10, -precisao) * powl(10, i))
+		if (fabsl ((floorl (valor * powl (10, i))) - valor * powl(10, i)) < powl (10, -precisao + NUMEROUM) * powl(10, i))
 			{
 			free (result);
-			return antoniovandre_numeroparastring (floorl (valor * powl (10, i)) / powl (10, i));
+			return antoniovandre_numeroparastring (floorl (valor * powl (10, i)) / powl (10, i), precisao);
 			}
 
-		if (fabs ((floorl (valor * powl (10, i) + 1)) - valor * powl(10, i)) < powl (10, -precisao) * powl(10, i))
+		for (j = 1; j < MARGEMFORMATACAOREAIS; j++)
 			{
-			free (result);
-			return antoniovandre_numeroparastring (floorl (valor * powl (10, i) + 1) / powl (10, i));
+			if (fabsl ((floorl (valor * powl (10, i) + j)) - valor * powl(10, i)) < powl (10, -precisao + NUMEROUM) * powl(10, i))
+				{
+				free (result);
+				return antoniovandre_numeroparastring (floorl (valor * powl (10, i) + j) / powl (10, i), precisao);
+				}
+
+			if (fabsl ((floorl (valor * powl (10, i) - j)) - valor * powl(10, i)) < powl (10, -precisao + NUMEROUM) * powl(10, i))
+				{
+				free (result);
+				return antoniovandre_numeroparastring (floorl (valor * powl (10, i) - j) / powl (10, i), precisao);
+				}
 			}
 
-		if (fabs ((floorl (valor * powl (10, i) - 1)) - valor * powl(10, i)) < powl (10, -precisao) * powl(10, i))
-			{
-			free (result);
-			return antoniovandre_numeroparastring (floorl (valor * powl (10, i) - 1) / powl (10, i));
-			}
-
-		if (i == precisao - 1) return result;
+		if (i == precisao - 1) return antoniovandre_numeroparastring (valor, precisao);
 		}
 	}
 
@@ -1176,13 +1193,13 @@ char * antoniovandre_formatarreal (char * result)
 
 // Por falhas dos compiladores substituí as verificações "* err != NUMEROZERO" por "FALSIDADE".
 
-char * antoniovandre_evalcelulafuncao (char * str)
+char * antoniovandre_evalcelulafuncao (char * str, int precisao)
 	{
 	DECLARACAO_funcoesconstantes
 
 	int tamanhotokenfuncaoconstante;
 	int tamanhotokenfuncaoconstantemax = NUMEROZERO;
-	int tokenid = -1;
+	int tokenid = NUMEROMENOSUM;
 	int tokeninicio;
 	TIPONUMEROREAL resultado;
 	TIPONUMEROREAL argumento;
@@ -1527,7 +1544,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -1555,7 +1572,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * argumento);
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento), precisao);
 			}
 
 	for (i = NUMEROZERO; i < len; i++)
@@ -1577,7 +1594,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -1632,7 +1649,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento), precisao);
 			}
 
 		free (temp);
@@ -1657,7 +1674,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -1712,7 +1729,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento), precisao);
 			}
 
 		free (temp);
@@ -1737,7 +1754,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -1792,7 +1809,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento), precisao);
 			}
 
 		free (temp);
@@ -1817,7 +1834,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -1872,7 +1889,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento), precisao);
 			}
 
 		free (temp);
@@ -1897,7 +1914,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -1952,7 +1969,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento), precisao);
 			}
 
 		free (temp);
@@ -1977,7 +1994,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2032,7 +2049,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento), precisao);
 			}
 
 		free (temp);
@@ -2057,7 +2074,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2095,9 +2112,9 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				}
 
 			if (! strcmp (argumentos0, STRINGSAIDAERROOVER))
-				{free (temp); free (argumentos0); free (argumentos2);temp = antoniovandre_evalcelulafuncao (argumentos1); TIPONUMEROREAL result = strtold (temp, & err); free (temp); return antoniovandre_numeroparastring (coeficiente * result);}
+				{free (temp); free (argumentos0); free (argumentos2);temp = antoniovandre_evalcelulafuncao (argumentos1, precisao); TIPONUMEROREAL result = strtold (temp, & err); free (temp); return antoniovandre_numeroparastring (coeficiente * result, precisao);}
 			else
-				{free (temp); free (argumentos0); free (argumentos1);temp = antoniovandre_evalcelulafuncao (argumentos2); TIPONUMEROREAL result = strtold (temp, & err); free (temp); return antoniovandre_numeroparastring (coeficiente * result);}
+				{free (temp); free (argumentos0); free (argumentos1);temp = antoniovandre_evalcelulafuncao (argumentos2, precisao); TIPONUMEROREAL result = strtold (temp, & err); free (temp); return antoniovandre_numeroparastring (coeficiente * result, precisao);}
 			}
 
 		free (temp);
@@ -2122,7 +2139,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2160,9 +2177,9 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				}
 
 			if (! strcmp (argumentos0, STRINGSAIDAERRO))
-				{free (temp); free (argumentos0); free (argumentos2);temp = antoniovandre_evalcelulafuncao (argumentos1); TIPONUMEROREAL result = strtold (temp, & err); free (temp); return antoniovandre_numeroparastring (coeficiente * result);}
+				{free (temp); free (argumentos0); free (argumentos2);temp = antoniovandre_evalcelulafuncao (argumentos1, precisao); TIPONUMEROREAL result = strtold (temp, & err); free (temp); return antoniovandre_numeroparastring (coeficiente * result, precisao);}
 			else
-				{free (temp); free (argumentos0); free (argumentos1);temp = antoniovandre_evalcelulafuncao (argumentos2); TIPONUMEROREAL result = strtold (temp, & err); free (temp); return antoniovandre_numeroparastring (coeficiente * result);}
+				{free (temp); free (argumentos0); free (argumentos1);temp = antoniovandre_evalcelulafuncao (argumentos2, precisao); TIPONUMEROREAL result = strtold (temp, & err); free (temp); return antoniovandre_numeroparastring (coeficiente * result, precisao);}
 			}
 
 		free (temp);
@@ -2187,7 +2204,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2234,7 +2251,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento), precisao);
 			}
 
 		free (temp);
@@ -2259,7 +2276,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2310,7 +2327,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento), precisao);
 			}
 
 		free (temp);
@@ -2335,7 +2352,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2375,7 +2392,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) resultado);
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) resultado, precisao);
 			}
 
 		free (temp);
@@ -2400,7 +2417,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2440,7 +2457,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) resultado);
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) resultado, precisao);
 			}
 
 		free (temp);
@@ -2465,7 +2482,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2495,7 +2512,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) (5 * (argumento - 32) / 9));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) (5 * (argumento - 32) / 9), precisao);
 			}
 
 		free (temp);
@@ -2520,7 +2537,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2550,7 +2567,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((5 * (argumento - 32) / 9) + 273.15));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((5 * (argumento - 32) / 9) + 273.15), precisao);
 			}
 
 		free (temp);
@@ -2575,7 +2592,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2605,7 +2622,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((9 * argumento / 5) + 32));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((9 * argumento / 5) + 32), precisao);
 			}
 
 		free (temp);
@@ -2630,7 +2647,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2660,7 +2677,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) (argumento - 273.15));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) (argumento - 273.15), precisao);
 			}
 
 		free (temp);
@@ -2685,7 +2702,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2715,7 +2732,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((9 * (argumento - 273.15) / 5) + 32));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((9 * (argumento - 273.15) / 5) + 32), precisao);
 			}
 
 		free (temp);
@@ -2740,7 +2757,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2770,7 +2787,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) (argumento + 273.15));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) (argumento + 273.15), precisao);
 			}
 
 		free (temp);
@@ -2795,7 +2812,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2825,7 +2842,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) argumento * 9 / 10);
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) argumento * 9 / 10, precisao);
 			}
 
 		free (temp);
@@ -2850,7 +2867,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2880,7 +2897,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) argumento * M_PI / 200);
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) argumento * M_PI / 200, precisao);
 			}
 
 		free (temp);
@@ -2905,7 +2922,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2935,7 +2952,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) argumento * 10 / 9);
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) argumento * 10 / 9, precisao);
 			}
 
 		free (temp);
@@ -2960,7 +2977,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -2990,7 +3007,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) argumento * M_PI / 180);
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) argumento * M_PI / 180, precisao);
 			}
 
 		free (temp);
@@ -3015,7 +3032,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3045,7 +3062,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) argumento * 200 / M_PI);
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) argumento * 200 / M_PI, precisao);
 			}
 
 		free (temp);
@@ -3070,7 +3087,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3100,7 +3117,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) argumento * 180 / M_PI);
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) argumento * 180 / M_PI, precisao);
 			}
 
 		free (temp);
@@ -3125,7 +3142,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3155,7 +3172,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) fabs (argumento));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) fabsl (argumento), precisao);
 			}
 
 		free (temp);
@@ -3180,7 +3197,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3210,7 +3227,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) antoniovandre_fatorial ((unsigned long int) argumento));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) antoniovandre_fatorial ((unsigned long int) argumento), precisao);
 			}
 
 		free (temp);
@@ -3235,7 +3252,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3265,7 +3282,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((TIPONUMEROREAL) (logl ((TIPONUMEROREAL) (NUMEROUM + (TIPONUMEROREAL) powl (NUMEROUM + (TIPONUMEROREAL) powl ((TIPONUMEROREAL) argumento, 2), 0.5)) / ((TIPONUMEROREAL) argumento))))));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((TIPONUMEROREAL) (logl ((TIPONUMEROREAL) (NUMEROUM + (TIPONUMEROREAL) powl (NUMEROUM + (TIPONUMEROREAL) powl ((TIPONUMEROREAL) argumento, 2), 0.5)) / ((TIPONUMEROREAL) argumento))))), precisao);
 			}
 
 		free (temp);
@@ -3290,7 +3307,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3320,7 +3337,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((TIPONUMEROREAL) (logl ((TIPONUMEROREAL) (NUMEROUM + (TIPONUMEROREAL) powl (1 - (TIPONUMEROREAL) powl ((TIPONUMEROREAL) argumento, 2), 0.5)) / ((TIPONUMEROREAL) argumento))))));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((TIPONUMEROREAL) (logl ((TIPONUMEROREAL) (NUMEROUM + (TIPONUMEROREAL) powl (1 - (TIPONUMEROREAL) powl ((TIPONUMEROREAL) argumento, 2), 0.5)) / ((TIPONUMEROREAL) argumento))))), precisao);
 			}
 
 		free (temp);
@@ -3345,7 +3362,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3375,7 +3392,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((TIPONUMEROREAL) ((logl ((TIPONUMEROREAL) ((TIPONUMEROREAL) argumento + NUMEROUM) / ((TIPONUMEROREAL) argumento - NUMEROUM))) / 2))));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((TIPONUMEROREAL) ((logl ((TIPONUMEROREAL) ((TIPONUMEROREAL) argumento + NUMEROUM) / ((TIPONUMEROREAL) argumento - NUMEROUM))) / 2))), precisao);
 			}
 
 		free (temp);
@@ -3400,7 +3417,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3430,7 +3447,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((TIPONUMEROREAL) ((logl ((TIPONUMEROREAL) (NUMEROUM + (TIPONUMEROREAL) argumento) / (1 - (TIPONUMEROREAL) argumento))) / 2))));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((TIPONUMEROREAL) ((logl ((TIPONUMEROREAL) (NUMEROUM + (TIPONUMEROREAL) argumento) / (1 - (TIPONUMEROREAL) argumento))) / 2))), precisao);
 			}
 
 		free (temp);
@@ -3455,7 +3472,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3485,7 +3502,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((TIPONUMEROREAL) logl ((TIPONUMEROREAL) (argumento + powl ((TIPONUMEROREAL) (powl ((TIPONUMEROREAL) argumento, 2) - NUMEROUM), 0.5))))));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((TIPONUMEROREAL) logl ((TIPONUMEROREAL) (argumento + powl ((TIPONUMEROREAL) (powl ((TIPONUMEROREAL) argumento, 2) - NUMEROUM), 0.5))))), precisao);
 			}
 
 		free (temp);
@@ -3510,7 +3527,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3540,7 +3557,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((TIPONUMEROREAL) logl ((TIPONUMEROREAL) (argumento + powl ((TIPONUMEROREAL) (powl ((TIPONUMEROREAL) argumento, 2) + NUMEROUM), 0.5))))));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((TIPONUMEROREAL) logl ((TIPONUMEROREAL) (argumento + powl ((TIPONUMEROREAL) (powl ((TIPONUMEROREAL) argumento, 2) + NUMEROUM), 0.5))))), precisao);
 			}
 
 		free (temp);
@@ -3565,7 +3582,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3595,7 +3612,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) (2 / (powl (M_E, (TIPONUMEROREAL) argumento) - powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))))));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) (2 / (powl (M_E, (TIPONUMEROREAL) argumento) - powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))))), precisao);
 			}
 
 		free (temp);
@@ -3620,7 +3637,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3650,7 +3667,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) (2 / (powl (M_E, (TIPONUMEROREAL) argumento) + powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))))));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) (2 / (powl (M_E, (TIPONUMEROREAL) argumento) + powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))))), precisao);
 			}
 
 		free (temp);
@@ -3675,7 +3692,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3705,7 +3722,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((powl (M_E, (TIPONUMEROREAL) argumento) + powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))) / (powl (M_E, (TIPONUMEROREAL) argumento) - powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))))));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((powl (M_E, (TIPONUMEROREAL) argumento) + powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))) / (powl (M_E, (TIPONUMEROREAL) argumento) - powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))))), precisao);
 			}
 
 		free (temp);
@@ -3730,7 +3747,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3760,7 +3777,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((powl (M_E, (TIPONUMEROREAL) argumento) - powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))) / (powl (M_E, (TIPONUMEROREAL) argumento) + powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))))));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((powl (M_E, (TIPONUMEROREAL) argumento) - powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))) / (powl (M_E, (TIPONUMEROREAL) argumento) + powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))))), precisao);
 			}
 
 		free (temp);
@@ -3785,7 +3802,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3815,7 +3832,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((powl (M_E, (TIPONUMEROREAL) argumento) - powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))) / 2)));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((powl (M_E, (TIPONUMEROREAL) argumento) - powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))) / 2)), precisao);
 			}
 
 		free (temp);
@@ -3840,7 +3857,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3870,7 +3887,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((powl (M_E, (TIPONUMEROREAL) argumento) + powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))) / 2)));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * (TIPONUMEROREAL) ((powl (M_E, (TIPONUMEROREAL) argumento) + powl (M_E, ((NUMEROMENOSUM) * (TIPONUMEROREAL) argumento))) / 2)), precisao);
 			}
 
 		free (temp);
@@ -3895,7 +3912,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3925,7 +3942,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * asin (1 / (TIPONUMEROREAL) argumento)));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * asin (1 / (TIPONUMEROREAL) argumento)), precisao);
 			}
 
 		free (temp);
@@ -3950,7 +3967,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -3980,7 +3997,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * acos (1 / (TIPONUMEROREAL) argumento)));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * acos (1 / (TIPONUMEROREAL) argumento)), precisao);
 			}
 
 		free (temp);
@@ -4005,7 +4022,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -4037,7 +4054,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) resultado);
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) resultado, precisao);
 			}
 
 		free (temp);
@@ -4062,7 +4079,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -4092,7 +4109,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * atan ((TIPONUMEROREAL) argumento)));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * atan ((TIPONUMEROREAL) argumento)), precisao);
 			}
 
 		free (temp);
@@ -4117,7 +4134,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -4147,7 +4164,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * acos ((TIPONUMEROREAL) argumento)));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * acos ((TIPONUMEROREAL) argumento)), precisao);
 			}
 
 		free (temp);
@@ -4172,7 +4189,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -4202,7 +4219,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * asin ((TIPONUMEROREAL) argumento)));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * asin ((TIPONUMEROREAL) argumento)), precisao);
 			}
 
 		free (temp);
@@ -4227,7 +4244,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -4257,7 +4274,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente / sin ((TIPONUMEROREAL) argumento)));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente / sin ((TIPONUMEROREAL) argumento)), precisao);
 			}
 
 		free (temp);
@@ -4282,7 +4299,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -4297,7 +4314,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			free (temp);
 
-			temp = antoniovandre_numeroparastring (M_PI_2);
+			temp = antoniovandre_numeroparastring (M_PI_2, precisao);
 			if ((FALSIDADE) || (fmodl (argumento, M_PI) == strtold (temp, & err2))) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); if (MACROALOCACAODINAMICA) {free (str2); free (buffer);	for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++)	{free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);} free (funcoesconstantes); return result;}}
 			free (temp);
 
@@ -4314,7 +4331,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente / cos ((TIPONUMEROREAL) argumento)));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente / cos ((TIPONUMEROREAL) argumento)), precisao);
 			}
 
 		free (temp);
@@ -4339,7 +4356,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -4369,7 +4386,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * sinl ((TIPONUMEROREAL) argumento)));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * sinl ((TIPONUMEROREAL) argumento)), precisao);
 			}
 
 		free (temp);
@@ -4394,7 +4411,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -4424,7 +4441,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * cosl ((TIPONUMEROREAL) argumento)));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * cosl ((TIPONUMEROREAL) argumento)), precisao);
 			}
 
 		free (temp);
@@ -4449,7 +4466,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -4479,7 +4496,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente / tan ((TIPONUMEROREAL) argumento)));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente / tan ((TIPONUMEROREAL) argumento)), precisao);
 			}
 
 		free (temp);
@@ -4504,7 +4521,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -4519,7 +4536,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 
 			free (temp);
 
-			temp = antoniovandre_numeroparastring (M_PI_2);
+			temp = antoniovandre_numeroparastring (M_PI_2, precisao);
 
 			if ((FALSIDADE) || (fmodl (argumento, M_PI) == strtold (temp, & err2))) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); if (MACROALOCACAODINAMICA) {free (str2); free (buffer);	for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++)	{free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);} free (funcoesconstantes); return result;}}
 			free (temp);
@@ -4537,7 +4554,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * tan ((TIPONUMEROREAL) argumento)));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * tan ((TIPONUMEROREAL) argumento)), precisao);
 			}
 
 		free (temp);
@@ -4562,7 +4579,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -4592,7 +4609,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * logl ((TIPONUMEROREAL) argumento) / M_LN2));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * logl ((TIPONUMEROREAL) argumento) / M_LN2), precisao);
 			}
 
 		free (temp);
@@ -4617,7 +4634,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -4647,7 +4664,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * logl ((TIPONUMEROREAL) argumento) / M_LN10));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * logl ((TIPONUMEROREAL) argumento) / M_LN10), precisao);
 			}
 
 		free (temp);
@@ -4672,7 +4689,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (temp);
 
 				if (! strcmp (buffer, "-"))
-					coeficiente = -1;
+					coeficiente = NUMEROMENOSUM;
 				else
 					{
 					coeficiente = strtold (buffer, & err);
@@ -4702,7 +4719,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 				free (funcoesconstantes);
 				}
 
-			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * logl ((TIPONUMEROREAL) argumento)));
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * logl ((TIPONUMEROREAL) argumento)), precisao);
 			}
 
 		free (temp);
@@ -4735,7 +4752,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (TAMANHO_BUFFER_SMALL);
+				return antoniovandre_numeroparastring (TAMANHO_BUFFER_SMALL, precisao);
 				}
 			else if (! strcmp (str2, "tamanho_buffer_word"))
 				{
@@ -4750,7 +4767,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (TAMANHO_BUFFER_WORD);
+				return antoniovandre_numeroparastring (TAMANHO_BUFFER_WORD, precisao);
 				}
 			else if (! strcmp (str2, "tamanho_buffer_phrase"))
 				{
@@ -4765,7 +4782,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (TAMANHO_BUFFER_PHRASE);
+				return antoniovandre_numeroparastring (TAMANHO_BUFFER_PHRASE, precisao);
 				}
 			else if (! strcmp (str2, "valor_max"))
 				{
@@ -4780,10 +4797,10 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (VALOR_MAX);
+				return antoniovandre_numeroparastring (VALOR_MAX, precisao);
 				}
 			else if (! strcmp (str2, "tamanho_max_arquivo"))
-				return antoniovandre_numeroparastring (TAMANHO_MAX_ARQUIVO);
+				return antoniovandre_numeroparastring (TAMANHO_MAX_ARQUIVO, precisao);
 			else if (! strcmp (str2, "variavelpadrao"))
 				{
 				if (MACROALOCACAODINAMICA)
@@ -4798,7 +4815,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					}
 
 				tc = VARIAVELPADRAO;
-				return antoniovandre_numeroparastring ((int) tc);
+				return antoniovandre_numeroparastring ((int) tc, precisao);
 				}
 			else if (! strcmp (str2, "delimitadorstring"))
 				{
@@ -4814,7 +4831,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					}
 
 				tc = DELIMITADORSTRING;
-				return antoniovandre_numeroparastring ((int) tc);
+				return antoniovandre_numeroparastring ((int) tc, precisao);
 				}
 			else if (! strcmp (str2, "delimitadorstring2"))
 				{
@@ -4830,7 +4847,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					}
 
 				tc = DELIMITADORSTRING2;
-				return antoniovandre_numeroparastring ((int) tc);
+				return antoniovandre_numeroparastring ((int) tc, precisao);
 				}
 			else if (! strcmp (str2, "DELIMITADORSTRINGARGUMENTOS"))
 				{
@@ -4846,7 +4863,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					}
 
 				tc = DELIMITADORSTRINGARGUMENTOS;
-				return antoniovandre_numeroparastring ((int) tc);
+				return antoniovandre_numeroparastring ((int) tc, precisao);
 				}
 			else if (! strcmp (str2, "tentativaslogicas"))
 				{
@@ -4861,7 +4878,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (TENTATIVASLOGICAS);
+				return antoniovandre_numeroparastring (TENTATIVASLOGICAS, precisao);
 				}
 			else if (! strcmp (str2, "tokeninicioeval"))
 				{
@@ -4877,7 +4894,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					}
 
 				tc = TOKENINICIOEVAL;
-				return antoniovandre_numeroparastring ((int) tc);
+				return antoniovandre_numeroparastring ((int) tc, precisao);
 				}
 			else if (! strcmp (str2, "tokenfimeval"))
 				{
@@ -4893,7 +4910,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					}
 
 				tc = TOKENFIMEVAL;
-				return antoniovandre_numeroparastring ((int) tc);
+				return antoniovandre_numeroparastring ((int) tc, precisao);
 				}
 			else if (! strcmp (str2, "epsilon"))
 				{
@@ -4908,7 +4925,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (EPSILON);
+				return antoniovandre_numeroparastring (EPSILON, precisao);
 				}
 			else if (! strcmp (str2, "variaveldesubstituicao"))
 				{
@@ -4924,7 +4941,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					}
 
 				tc = VARIAVELDESUBSTITUICAO;
-				return antoniovandre_numeroparastring ((int) tc);
+				return antoniovandre_numeroparastring ((int) tc, precisao);
 				}
 			else if (! strcmp (str2, "variaveldesubstituicao2"))
 				{
@@ -4940,7 +4957,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					}
 
 				tc = VARIAVELDESUBSTITUICAO2;
-				return antoniovandre_numeroparastring ((int) tc);
+				return antoniovandre_numeroparastring ((int) tc, precisao);
 				}
 			else if (! strcmp (str2, "variaveldesubstituicao3"))
 				{
@@ -4956,7 +4973,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					}
 
 				tc = VARIAVELDESUBSTITUICAO3;
-				return antoniovandre_numeroparastring ((int) tc);
+				return antoniovandre_numeroparastring ((int) tc, precisao);
 				}
 			else if (! strcmp (str2, "variaveldesubstituicao4"))
 				{
@@ -4972,7 +4989,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					}
 
 				tc = VARIAVELDESUBSTITUICAO4;
-				return antoniovandre_numeroparastring ((int) tc);
+				return antoniovandre_numeroparastring ((int) tc, precisao);
 				}
 			else if (! strcmp (str2, "numeroparticoessomariemann"))
 				{
@@ -4987,7 +5004,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (NUMEROPARTICOESSOMARIEMANN);
+				return antoniovandre_numeroparastring (NUMEROPARTICOESSOMARIEMANN, precisao);
 				}
 			else if (! strcmp (str2, "intervaloprogresso"))
 				{
@@ -5002,7 +5019,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (INTERVALOPROGRESSO);
+				return antoniovandre_numeroparastring (INTERVALOPROGRESSO, precisao);
 				}
 			else if (! strcmp (str2, "intervaloprogresso2"))
 				{
@@ -5017,7 +5034,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (INTERVALOPROGRESSO2);
+				return antoniovandre_numeroparastring (INTERVALOPROGRESSO2, precisao);
 				}
 			else if (! strcmp (str2, "intervaloprogresso3"))
 				{
@@ -5032,7 +5049,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (INTERVALOPROGRESSO3);
+				return antoniovandre_numeroparastring (INTERVALOPROGRESSO3, precisao);
 				}
 			else if (! strcmp (str2, "intervaloprogresso4"))
 				{
@@ -5047,7 +5064,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (INTERVALOPROGRESSO4);
+				return antoniovandre_numeroparastring (INTERVALOPROGRESSO4, precisao);
 				}
 			else if (! strcmp (str2, "aproximacao"))
 				{
@@ -5062,7 +5079,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (APROXIMACAO);
+				return antoniovandre_numeroparastring (APROXIMACAO, precisao);
 				}
 			else if (! strcmp (str2, "aproximacao2"))
 				{
@@ -5077,7 +5094,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (APROXIMACAO2);
+				return antoniovandre_numeroparastring (APROXIMACAO2, precisao);
 				}
 			else if (! strcmp (str2, "aproximacao3"))
 				{
@@ -5092,7 +5109,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (APROXIMACAO3);
+				return antoniovandre_numeroparastring (APROXIMACAO3, precisao);
 				}
 			else if (! strcmp (str2, "aproximacao4"))
 				{
@@ -5107,7 +5124,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (APROXIMACAO4);
+				return antoniovandre_numeroparastring (APROXIMACAO4, precisao);
 				}
 			else if (! strcmp (str2, "aproximacao5"))
 				{
@@ -5122,7 +5139,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (APROXIMACAO5);
+				return antoniovandre_numeroparastring (APROXIMACAO5, precisao);
 				}
 			else if (! strcmp (str2, "aproximacao6"))
 				{
@@ -5137,7 +5154,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (APROXIMACAO6);
+				return antoniovandre_numeroparastring (APROXIMACAO6, precisao);
 				}
 			else if (! strcmp (str2, "maxnumeradorfracoes"))
 				{
@@ -5152,7 +5169,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (MAXNUMERADORFRACOES);
+				return antoniovandre_numeroparastring (MAXNUMERADORFRACOES, precisao);
 				}
 			else if (! strcmp (str2, "minprecisao"))
 				{
@@ -5167,7 +5184,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (MINPRECISAO);
+				return antoniovandre_numeroparastring (MINPRECISAO, precisao);
 				}
 			else if (! strcmp (str2, "maxprecisao"))
 				{
@@ -5182,7 +5199,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (MAXPRECISAO);
+				return antoniovandre_numeroparastring (MAXPRECISAO, precisao);
 				}
 			else if (! strcmp (str2, "version"))
 				{
@@ -5197,7 +5214,7 @@ char * antoniovandre_evalcelulafuncao (char * str)
 					free (funcoesconstantes);
 					}
 
-				return antoniovandre_numeroparastring (VERSION);
+				return antoniovandre_numeroparastring (VERSION, precisao);
 				}
 			else
 				{char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); if (MACROALOCACAODINAMICA) {free (str2); free (buffer);	for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++)	{free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);} free (funcoesconstantes); return result;}}
@@ -5226,13 +5243,13 @@ char * antoniovandre_evalcelulafuncao (char * str)
 		{char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 	else
 		{
-		return antoniovandre_formatarreal (antoniovandre_numeroparastring (resultado));
+		return antoniovandre_formatarreal (antoniovandre_numeroparastring (resultado, precisao), precisao);
 		}
 	}
 
 // Função eval célula.
 
-char * antoniovandre_evalcelula (char * str)
+char * antoniovandre_evalcelula (char * str, int precisao)
 	{
 	DECLARACAO_antoniovandre_evalcelula_strt
 
@@ -5287,7 +5304,7 @@ char * antoniovandre_evalcelula (char * str)
 
 	while (VERDADE)
 		{
-		for (i = NUMEROZERO; i < TAMANHO_BUFFER_PHRASE; i++) posicoes_operadores [i] = -1;
+		for (i = NUMEROZERO; i < TAMANHO_BUFFER_PHRASE; i++) posicoes_operadores [i] = NUMEROMENOSUM;
 
 		contador = NUMEROZERO; flag4 = NUMEROZERO;
 
@@ -5349,11 +5366,11 @@ char * antoniovandre_evalcelula (char * str)
 				if ((! strcmp (strt2, STRINGVAZIA)) || (! strcmp (strt3, STRINGVAZIA)))
 					{char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 
-				char * temp2 = antoniovandre_evalcelulafuncao (strt2);
+				char * temp2 = antoniovandre_evalcelulafuncao (strt2, precisao);
 				antoniovandre_copiarstring (strtv1, temp2);
 				free (temp2);
 
-				temp2 = antoniovandre_evalcelulafuncao (strt3);
+				temp2 = antoniovandre_evalcelulafuncao (strt3, precisao);
 				antoniovandre_copiarstring (strtv2, temp2);
 				free (temp2);
 
@@ -5373,22 +5390,22 @@ char * antoniovandre_evalcelula (char * str)
 					{
 					if (valort < NUMEROZERO)
 						{
-						if (fmodl (fabs (valort2), 2) == NUMEROZERO)
-							valor = powl (fabs ((TIPONUMEROREAL) valort), (TIPONUMEROREAL) valort2);
-						else if (fmodl (fabs (valort2), 2) == NUMEROUM)
-							valor = (NUMEROMENOSUM) * powl (fabs ((TIPONUMEROREAL) valort), (TIPONUMEROREAL) valort2);
+						if (fmodl (fabsl (valort2), 2) == NUMEROZERO)
+							valor = powl (fabsl ((TIPONUMEROREAL) valort), (TIPONUMEROREAL) valort2);
+						else if (fmodl (fabsl (valort2), 2) == NUMEROUM)
+							valor = (NUMEROMENOSUM) * powl (fabsl ((TIPONUMEROREAL) valort), (TIPONUMEROREAL) valort2);
 						else
 							{
 							contador2 = NUMEROUM; flag5 = NUMEROZERO;
 
 							do
 								{
-								if ((fmodl ((contador2 / fabs (valort2)), 2) > NUMEROUM + (NUMEROMENOSUM) * APROXIMACAO2) && (fmodl ((contador2 / fabs (valort2)), 2) < NUMEROUM + APROXIMACAO2))
+								if ((fmodl ((contador2 / fabsl (valort2)), 2) > NUMEROUM + (NUMEROMENOSUM) * APROXIMACAO2) && (fmodl ((contador2 / fabsl (valort2)), 2) < NUMEROUM + APROXIMACAO2))
 									{
 									if (fmodl (contador2, 2) == NUMEROZERO)
-										valor = powl (fabs ((TIPONUMEROREAL) valort), (TIPONUMEROREAL) valort2);
+										valor = powl (fabsl ((TIPONUMEROREAL) valort), (TIPONUMEROREAL) valort2);
 									else
-										valor = (NUMEROMENOSUM) * powl (fabs ((TIPONUMEROREAL) valort), (TIPONUMEROREAL) valort2);
+										valor = (NUMEROMENOSUM) * powl (fabsl ((TIPONUMEROREAL) valort), (TIPONUMEROREAL) valort2);
 
 									flag5 = NUMEROUM;
 									}
@@ -5492,7 +5509,7 @@ char * antoniovandre_evalcelula (char * str)
 
 				if ((strt [posicoes_operadores [i]] == '~') && (flag == NUMEROZERO) && (flag2 == NUMEROZERO))
 					{
-					if (fabs (logl (valort) - logl (valort2)) < APROXIMACAO)
+					if (fabsl (logl (valort) - logl (valort2)) < APROXIMACAO)
 						valor = NUMEROUM;
 					else
 						valor = NUMEROZERO;
@@ -5509,7 +5526,7 @@ char * antoniovandre_evalcelula (char * str)
 
 		char temps [TAMANHO_BUFFER_WORD];
 
-		char * temp = antoniovandre_numeroparastring (valor);
+		char * temp = antoniovandre_numeroparastring (valor, precisao);
 		antoniovandre_copiarstring (temps, temp);
 		free (temp);
 
@@ -5530,7 +5547,7 @@ char * antoniovandre_evalcelula (char * str)
 		free (strt2);
 		}
 
-	return antoniovandre_evalcelulafuncao (strt);
+	return antoniovandre_evalcelulafuncao (strt, precisao);
 	}
 
 // Função eval.
@@ -5568,6 +5585,8 @@ char * antoniovandre_eval (char * str)
 	int contador;
 	char tc;
 	char tc2;
+
+	int precisao = antoniovandre_precisao_real ();
 
 	antoniovandre_copiarstring (str2, STRINGVAZIA);
 	antoniovandre_copiarstring (str2t, STRINGVAZIA);
@@ -5810,7 +5829,7 @@ char * antoniovandre_eval (char * str)
 				free (str2t);
 				}
 
-			return antoniovandre_evalcelulafuncao (temp);
+			return antoniovandre_evalcelulafuncao (temp, precisao);
 			}
 
 		antoniovandre_copiarstring (str3, STRINGVAZIA);
@@ -5884,7 +5903,7 @@ char * antoniovandre_eval (char * str)
 			for (i = contador; i < strlen (str4); i++)
 				strncat (str4t, & str4 [i], NUMEROUM);
 
-			char * temp = antoniovandre_evalcelula (str4t);
+			char * temp = antoniovandre_evalcelula (str4t, precisao);
 			antoniovandre_copiarstring (str5, temp);
 			free (temp);
 
@@ -5926,7 +5945,7 @@ char * antoniovandre_eval (char * str)
 		free (str2t);
 		}
 
-	char * result = antoniovandre_evalcelula (str2);
+	char * result = antoniovandre_evalcelula (str2, precisao);
 
 	for (i = NUMEROZERO; i < strlen (result); i++)
 		{
@@ -5954,6 +5973,8 @@ char * antoniovandre_derivada (char * str, TIPONUMEROREAL ponto)
 	char tc;
 	char * err;
 
+	int precisao = antoniovandre_precisao_real ();
+
 	if ((ponto > VALOR_MAX) || (ponto < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 
 	antoniovandre_copiarstring (str2, STRINGVAZIA);
@@ -5963,7 +5984,7 @@ char * antoniovandre_derivada (char * str, TIPONUMEROREAL ponto)
 			{
 			char temps [TAMANHO_BUFFER_WORD];
 
-			char * temp = antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) ponto + (TIPONUMEROREAL) EPSILON));
+			char * temp = antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) ponto + (TIPONUMEROREAL) EPSILON), precisao);
 			antoniovandre_copiarstring (temps, temp);
 			free (temp);
 
@@ -5989,7 +6010,7 @@ char * antoniovandre_derivada (char * str, TIPONUMEROREAL ponto)
 			{
 			char temps [TAMANHO_BUFFER_WORD];
 
-			char * temp = antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) ponto - (TIPONUMEROREAL) EPSILON));
+			char * temp = antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) ponto - (TIPONUMEROREAL) EPSILON), precisao);
 			antoniovandre_copiarstring (temps, temp);
 			free (temp);
 
@@ -6008,7 +6029,7 @@ char * antoniovandre_derivada (char * str, TIPONUMEROREAL ponto)
 
 	if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 
-	return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) valorsup - (TIPONUMEROREAL) valorinf) / (TIPONUMEROREAL) (2 * (TIPONUMEROREAL) EPSILON));
+	return antoniovandre_formatarreal(antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) valorsup - (TIPONUMEROREAL) valorinf) / (TIPONUMEROREAL) (2 * (TIPONUMEROREAL) EPSILON), precisao), precisao);
 	}
 
 // Integral definida.
@@ -6025,6 +6046,8 @@ char * antoniovandre_integraldefinida (char * str, TIPONUMEROREAL a, TIPONUMEROR
 	char tc;
 	char * err;
 
+	int precisao = antoniovandre_precisao_real ();
+
 	norma = (TIPONUMEROREAL) ( (TIPONUMEROREAL) b - (TIPONUMEROREAL) a) / (TIPONUMEROREAL) NUMEROPARTICOESSOMARIEMANN;
 
 	for (j = NUMEROZERO; j < NUMEROPARTICOESSOMARIEMANN; j++)
@@ -6036,7 +6059,7 @@ char * antoniovandre_integraldefinida (char * str, TIPONUMEROREAL a, TIPONUMEROR
 				{
 				char temps [TAMANHO_BUFFER_WORD];
 
-				char * temp = antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) a + (TIPONUMEROREAL) j * (TIPONUMEROREAL) norma + (TIPONUMEROREAL) ((TIPONUMEROREAL) norma / 2)));
+				char * temp = antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) a + (TIPONUMEROREAL) j * (TIPONUMEROREAL) norma + (TIPONUMEROREAL) ((TIPONUMEROREAL) norma / 2)), precisao);
 				antoniovandre_copiarstring (temps, temp);
 				free (temp);
 
@@ -6064,7 +6087,7 @@ char * antoniovandre_integraldefinida (char * str, TIPONUMEROREAL a, TIPONUMEROR
 		if ((integral > VALOR_MAX) || (integral < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); return result;}
 		}
 
-	return antoniovandre_numeroparastring (integral);
+	return antoniovandre_formatarreal (antoniovandre_numeroparastring (integral, precisao), precisao);
 	}
 
 // Retorna a função mais próxima, dados os pontos e as funções em arquivos.
@@ -6109,6 +6132,8 @@ char * antoniovandre_funcaomaisproxima (char * arquivopontospath, char * arquivo
 	char tc;
 	char tc2;
 	char * err;
+
+	int precisao = antoniovandre_precisao_real ();
 
 	if (log == NUMEROUM)
 		{
@@ -6324,7 +6349,7 @@ char * antoniovandre_funcaomaisproxima (char * arquivopontospath, char * arquivo
 					{
 					char temps [TAMANHO_BUFFER_WORD];
 
-					char * temp = antoniovandre_numeroparastring ((TIPONUMEROREAL) x);
+					char * temp = antoniovandre_numeroparastring ((TIPONUMEROREAL) x, precisao);
 					antoniovandre_copiarstring (temps, temp);
 					free (temp);
 
@@ -6356,7 +6381,7 @@ char * antoniovandre_funcaomaisproxima (char * arquivopontospath, char * arquivo
 			if (flag4 == NUMEROZERO)
 				{
 				mt += (y - yt);
-				mt2 += fabs (y - yt);
+				mt2 += fabsl (y - yt);
 				}
 			else
 				{
@@ -6365,7 +6390,7 @@ char * antoniovandre_funcaomaisproxima (char * arquivopontospath, char * arquivo
 				}
 			}
 
-		if ((flag4 == NUMEROZERO) && (flag2 == NUMEROUM) && (fabs (mt) <= fabs (m)))
+		if ((flag4 == NUMEROZERO) && (flag2 == NUMEROUM) && (fabsl (mt) <= fabsl (m)))
 			{
 			m = mt;
 
@@ -6432,6 +6457,8 @@ char * antoniovandre_raizesfuncao (char * funcao, char * mins, char * maxs, TIPO
 	char tc;
 	char * err;
 
+	int precisao = antoniovandre_precisao_real ();
+
 	antoniovandre_copiarstring (strr, STRINGVAZIA);
 
 	char * temp = antoniovandre_eval (mins);
@@ -6459,7 +6486,7 @@ char * antoniovandre_raizesfuncao (char * funcao, char * mins, char * maxs, TIPO
 
 	do
 		{
-		if ((log == NUMEROUM) && (contador % INTERVALOPROGRESSO4 == NUMEROZERO)) {printf ("\r%.5f%% concluído.", (TIPONUMEROREAL) 100 * fabs ((x - min) / (max - min + step))); fflush (stdout);}
+		if ((log == NUMEROUM) && (contador % INTERVALOPROGRESSO4 == NUMEROZERO)) {printf ("\r%.5f%% concluído.", (TIPONUMEROREAL) 100 * fabsl ((x - min) / (max - min + step))); fflush (stdout);}
 
 		if (x > max + step) flag4 = NUMEROUM;
 
@@ -6471,7 +6498,7 @@ char * antoniovandre_raizesfuncao (char * funcao, char * mins, char * maxs, TIPO
 				{
 				char temps [TAMANHO_BUFFER_WORD];
 
-				char * temp = antoniovandre_numeroparastring (x);
+				char * temp = antoniovandre_numeroparastring (x, precisao);
 				antoniovandre_copiarstring (temps, temp);
 				free (temp);
 
@@ -6501,7 +6528,7 @@ char * antoniovandre_raizesfuncao (char * funcao, char * mins, char * maxs, TIPO
 
 		if (* err == NUMEROZERO)
 			{
-			if ((fabs (y) <= step / 20) && (flag4 == NUMEROZERO))
+			if ((fabsl (y) <= step / 20) && (flag4 == NUMEROZERO))
 				{
 				if ((flag == NUMEROZERO) || ((TIPONUMEROREAL) contador2 > (0.1 / step)))
 					{
@@ -6524,13 +6551,13 @@ char * antoniovandre_raizesfuncao (char * funcao, char * mins, char * maxs, TIPO
 					else
 						xr = (xi + xf) / 2;
 
-					if (fabs (xr - xrt) > step)
+					if (fabsl (xr - xrt) > step)
 						{
 						if (xr > max) xr = max;
 
 						if (! strcmp (strr, STRINGVAZIA))
 							{
-							char * temp = antoniovandre_numeroparastring (xr);
+							char * temp = antoniovandre_numeroparastring (xr, precisao);
 							antoniovandre_copiarstring (strr, temp);
 							free (temp);
 							}
@@ -6538,7 +6565,7 @@ char * antoniovandre_raizesfuncao (char * funcao, char * mins, char * maxs, TIPO
 							{
 							char temps [TAMANHO_BUFFER_WORD];
 
-							char * temp = antoniovandre_numeroparastring (xr);
+							char * temp = antoniovandre_numeroparastring (xr, precisao);
 							antoniovandre_copiarstring (temps, temp);
 							free (temp);
 
