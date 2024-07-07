@@ -216,6 +216,26 @@ Funções disponíveis para "antoniovandre_eval":
 "pitagoras": função pitágoras, retorna a hipotenusa dados os catetos; requer dois argumentos separados por "|", os catetos.
 
 "diagonalparalelepipedo": retorna a diagonal de um paralelepípedo; requer três argumentos separados por "|", as arestas.
+
+"pat": retorna o n-ésimo termo de uma PA; requer três argumentos separados por "|", o primeiro termo, a razão, e a posição "n".
+
+"par": retorna a razão de uma PA; requer três argumentos separados por "|", o primeiro termo, o último termo, e o número de termos.
+
+"pas": retorna a soma dos termos de uma PA; requer três argumentos separados por "|", o primeiro termo, o último termo, e o número de termos.
+
+"pasr": retorna a soma dos termos de uma PA; requer três argumentos separados por "|", o primeiro termo, a razão, e o número de termos.
+
+"pgt": retorna o n-ésimo termo de uma PG; requer três argumentos separados por "|", o primeiro termo, a razão, e a posição "n".
+
+"pgr": retorna a razão de uma PG; requer três argumentos separados por "|", o primeiro termo, o último termo, e o número de termos.
+
+"pgs": retorna a soma dos termos de uma PG; requer três argumentos separados por "|", o primeiro termo, o último termo, e o número de termos.
+
+"pgsr": retorna a soma dos termos de uma PG; requer três argumentos separados por "|", o primeiro termo, a razão, e o número de termos.
+
+"mmc": retorna o mmc dos argumentos, argumentos inteiros positivos separados por "|".
+
+"mdc": retorna o mdc dos argumentos, argumentos inteiros positivos separados por "|".
 _____
 
 Exemplo de cálculo em "antoniovandre_eval":
