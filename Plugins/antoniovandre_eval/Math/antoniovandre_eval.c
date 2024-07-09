@@ -4,7 +4,7 @@
 
 // Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
 
-// Última atualização: 04-02-2023. Não considerando alterações em variáveis globais.
+// Última atualização: 08-07-2024. Não considerando alterações em variáveis globais.
 
 #include "../antoniovandre.c"
 
@@ -18,6 +18,7 @@ int main (int argc, char *argv [])
 	int i;
 	int j;
 	int flag = NUMEROZERO;
+	int precisao = antoniovandre_precisao_real ();
 
 	argvb = (char *) malloc (TAMANHO_BUFFER_PHRASE);
 
@@ -43,7 +44,7 @@ int main (int argc, char *argv [])
 		return 0;
 		}
 
-	strf = antoniovandre_eval (argvb);
+	strf = antoniovandre_eval (argvb, precisao);
 
 	if (! strcmp (strf, STRINGSAIDAERRO))
 		{

@@ -236,6 +236,18 @@ Funções disponíveis para "antoniovandre_eval":
 "mmc": retorna o mmc dos argumentos, argumentos inteiros positivos separados por "|".
 
 "mdc": retorna o mdc dos argumentos, argumentos inteiros positivos separados por "|".
+
+"mediaaritmetica": retorna a média aritmética dos argumentos, argumentos separados por "|".
+
+"mediaaritmeticaponderada": retorna a média aritmética ponderada dos argumentos, argumentos em pares, primeiro os pesos, segundo os valores, separados por "|".
+
+"mediageometrica": retorna a média geométrica dos argumentos, argumentos separados por "|".
+
+"mediaharmonica": retorna a média aritmética dos argumentos, argumentos separados por "|".
+
+"sum": retorna o somatório; argumentos separados por "|", primeiro a função na variável padrão, segundo o primeiro índice, e terceiro o segundo índice.
+
+"prod": retorna o produtório; argumentos separados por "|", primeiro a função na variável padrão, segundo o primeiro índice, e terceiro o segundo índice.
 _____
 
 Exemplo de cálculo em "antoniovandre_eval":
