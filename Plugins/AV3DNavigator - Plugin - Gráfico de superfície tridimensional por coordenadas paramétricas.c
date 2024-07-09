@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator superfície tridimensional por co
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "U" e "V" para "x", função em "U" e "V" para "y", função em "U" e "V" para "z", o menor valor atribuído a "U", o maior valor atribuído a "U", o menor valor atribuído a "V", o maior valor atribuído a "V", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: "grid" apenas para grid ou "fill" para polígonos preenchidos. 3: a resolução.
 
-Última atualização: 25-06-2024. Sem considerar alterações em variáveis globais.
+Última atualização: 09-07-2024. Sem considerar alterações em variáveis globais.
 */
 
 #include "antoniovandre_eval/antoniovandre.c"
@@ -21,7 +21,7 @@ Argumentos: 1: primeiramente a string título e, após barra vertical "|", strin
 
 #define EVALSOFTWARE ""
 #define EVALSOFTWARETAIL ""
-#define CALLEVALSOFTWARE {char * ptreval = antoniovandre_eval(valorstr); printf("%s", ptreval); free (ptreval);}
+#define CALLEVALSOFTWARE {char * ptreval = antoniovandre_eval(valorstr, precisao); printf("%s", ptreval); free (ptreval);}
 
 #define ASPASINICIAL
 #define ASPASFINAL
@@ -30,8 +30,6 @@ Argumentos: 1: primeiramente a string título e, após barra vertical "|", strin
 
 #define EVALSOFTWARE "antoniovandre_eval"
 #define EVALSOFTWARETAIL " 0 2>> /dev/null \| tr -d ' ' \| tr -d '\n'"
-#define TOKENINICIOEVAL '('
-#define TOKENFIMEVAL ')'
 #define CALLEVALSOFTWARE system(valorstr);
 
 #define ASPASINICIAL strcat(valorstr, " \"");
@@ -82,6 +80,8 @@ int main (int argc, char * argv[])
     char tempstr2 [MAXTAMANHOCAMPO];
     char pontostru [MAXTAMANHOCAMPO];
     char pontostrv [MAXTAMANHOCAMPO];
+
+	int precisao = antoniovandre_precisao_real ();
 
     if (argc != 4) {printf(mensagemerro); return 1;}
 
