@@ -248,6 +248,8 @@ Funções disponíveis para "antoniovandre_eval":
 "sum": retorna o somatório; argumentos separados por "|", primeiro a função na variável padrão, segundo o primeiro índice, e terceiro o segundo índice.
 
 "prod": retorna o produtório; argumentos separados por "|", primeiro a função na variável padrão, segundo o primeiro índice, e terceiro o segundo índice.
+
+"composicao": retorna o valor numérico da composta da função passada como argumento; argumentos separados por "|", primeiro a função na variável padrão, segundo o ponto, e terceiro o número de composições.
 _____
 
 Exemplo de cálculo em "antoniovandre_eval":
