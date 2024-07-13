@@ -250,6 +250,18 @@ Funções disponíveis para "antoniovandre_eval":
 "prod": retorna o produtório; argumentos separados por "|", primeiro a função na variável padrão, segundo o primeiro índice, e terceiro o segundo índice.
 
 "composicao": retorna o valor numérico da composta da função passada como argumento; argumentos separados por "|", primeiro a função na variável padrão, segundo o ponto, e terceiro o número de composições.
+
+"base": retorna o múmero correspondente à string passada como primeiro argumento, a string deve estar entre "[" e "]" para que seu processamento seja ignorado; a base correspondente é o segundo argumento; argumentos separados por "|".
+
+"max": retorna o máximo valor dentre os argumentos passados; argumentos separados por "|".
+
+"min": retorna o mínimo valor dentre os argumentos passados; argumentos separados por "|".
+
+"mediana": retorna a mediana estatística dos argumentos passados; argumentos separados por "|".
+
+"variancia": retorna a variância estatística dos argumentos passados; argumentos separados por "|".
+
+"desviopadrao": retorna o desvio padrão dos argumentos passados; argumentos separados por "|".
 _____
 
 Exemplo de cálculo em "antoniovandre_eval":
