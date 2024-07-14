@@ -8,7 +8,7 @@
 
 #include "../antoniovandre.c"
 
-#define EVAL_MENSAGEM_USO "Use antoniovandre_eval <EXPRESSÃO VÁLIDA> [LOG].\n\nPipes também podem ser utilizados, consistem de uma string separada por DELIMITADORSTRING, o primeiro campo a substring a avaliar, e o segundo 0 para não gerar log ou qualquer outro valor para gerar log."
+#define EVAL_MENSAGEM_USO "Use \"antoniovandre_eval <EXPRESSÃO VÁLIDA> [LOG]\". Ou simplesmente \"antoniovandre_eval\" para entrar no modo interativo; pipes também podem ser utilizados.\n\nNo modo interativo entre com uma string separada por DELIMITADORSTRING, o primeiro campo a substring a avaliar, e o segundo 0 para não gerar log ou qualquer outro valor para gerar log."
 #define CABECALHO_ESTATISTICAS_MATHEVAL "eval"
 
 int main (int argc, char *argv [])
