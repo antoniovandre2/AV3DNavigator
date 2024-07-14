@@ -6,7 +6,7 @@
 
 // Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
 
-// Última atualização: 13-07-2024. Não considerando alterações em variáveis globais.
+// Última atualização: 14-07-2024. Não considerando alterações em variáveis globais.
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -17,22 +17,22 @@
 
 #include "antoniovandre_constantes.c"
 
-#define VERSION 20240713
+#define VERSION 20240714
 #define MENSAGEMNAOCOMPILADOR "Software não compilado em razão do compilador não ser compatível."
+#define NUMEROZERO 0
+#define NUMEROUM 1
+#define NUMEROMENOSUM -1
 #define TAMANHO_BUFFER_SMALL 110 // Para pequenos buffers.
 #define TAMANHO_BUFFER_WORD 1024 // Para strings pequenas.
 #define TAMANHO_BUFFER_PHRASE 16384 // Para strings grandes.
 #define TAMANHO_BUFFER_TEXT 500000000 // Para conteúdos de arquivos.
-#define VALOR_MAX 1000000000 // A fim de evitar erros de saída.
+#define VALOR_MAX 99999999999999999 // A fim de evitar erros de saída.
 #define VALOR_MAX_2 10000000 // Valor máximo. Segunda opção.
 #define VALOR_MAX_3 50 // Valor máximo. Terceira opção.
-#define MARCADORREAL VALOR_MAX + 1 // Útil para delimitar memórias alocadas.
+#define MARCADORREAL VALOR_MAX + NUMEROUM // Útil para delimitar memórias alocadas.
 #define TAMANHO_MAX_ARQUIVO 1000000000000 // A fim de evitar erros de saída.
-#define MARGEMFORMATACAOREAIS 1 // Para formatação de outputs reais.
+#define MARGEMFORMATACAOREAIS NUMEROUM // Para formatação de outputs reais.
 #define NUMEROSTRINGPERSONAL VERDADE // Método pessoal de conversao de números para strings.
-#define NUMEROZERO 0
-#define NUMEROUM 1
-#define NUMEROMENOSUM -1
 #define OPERADORSUBTRACAO '-'
 #define OPERADORMULTIPLICACAO '*'
 #define CHARUM '1'
@@ -1216,6 +1216,25 @@ char * antoniovandre_evalcelulafuncao (char * str, int precisao)
 	char * err;
 	char * err2;
 
+	char * ignstr;
+	flag = NUMEROZERO;
+
+	for (j = NUMEROZERO; j < len; j++)
+		{
+		if (str [j] == TOKENINICIOIGN)
+			{
+			flag = NUMEROUM;
+			ignstr = (char *) malloc (TAMANHO_BUFFER_PHRASE);
+			antoniovandre_copiarstring (ignstr, STRINGVAZIA);
+			continue;
+			}
+
+		if ((str [j] == TOKENFIMIGN) && (flag == NUMEROUM)) {return (ignstr);}
+
+		if (flag == NUMEROUM)
+			strncat (ignstr, & str [j], NUMEROUM);
+		}
+
 	for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++)
 		{
 		ALOCACAO_funcoesconstantestoken
@@ -1572,6 +1591,12 @@ char * antoniovandre_evalcelulafuncao (char * str, int precisao)
 
 	antoniovandre_copiarstring (funcoesconstantes [103].token, "desviopadrao");
 	antoniovandre_copiarstring (funcoesconstantes [103].comentario, "Desvio padrão.");
+
+	antoniovandre_copiarstring (funcoesconstantes [104].token, "tamanhostring");
+	antoniovandre_copiarstring (funcoesconstantes [104].comentario, "Tamanho de uma string.");
+
+	antoniovandre_copiarstring (funcoesconstantes [105].token, "numeroocorrenciasstring");
+	antoniovandre_copiarstring (funcoesconstantes [105].comentario, "Número de ocorrências de uma substring em uma string.");
 
 	for (i = NUMEROZERO; i < len; i++)
 		for (j = NUMEROZERO; j < TAMANHO_BUFFER_SMALL; j++)
@@ -4725,6 +4750,153 @@ char * antoniovandre_evalcelulafuncao (char * str, int precisao)
 
 	for (i = NUMEROZERO; i < len; i++)
 		{
+		char * temp = antoniovandre_substring (str, i, i + 12);
+
+		if (! strcmp (temp, "tamanhostring"))
+			{
+			free (temp);
+
+			coeficiente = NUMEROUM;
+
+			if (i > NUMEROZERO)
+				{
+				char * temp = antoniovandre_substring (str, NUMEROZERO, i - NUMEROUM);
+
+				antoniovandre_copiarstring (buffer, temp);
+
+				free (temp);
+
+				if (! strcmp (buffer, "-"))
+					coeficiente = NUMEROMENOSUM;
+				else
+					{
+					coeficiente = strtold (buffer, & err);
+					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); if (MACROALOCACAODINAMICA) {free (str2); free (buffer); for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++) {free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);} free (funcoesconstantes); return result;}}
+					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); if (MACROALOCACAODINAMICA) {free (str2); free (buffer); for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++) {free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);} free (funcoesconstantes); return result;}}
+					}
+				}
+
+			temp = antoniovandre_substring (str, i + 13, len - NUMEROUM);
+
+			int posicoes [NUMEROUM];
+			int contador = NUMEROZERO;
+
+			for (j = NUMEROZERO; j < strlen (temp); j++)
+				if (temp [j] == DELIMITADORSTRINGARGUMENTOS)
+					{if (contador < NUMEROUM) posicoes [contador] = j; contador++;}
+
+			if (contador != NUMEROZERO) {free (temp); char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); if (MACROALOCACAODINAMICA) {free (str2); free (buffer); for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++) {free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);} free (funcoesconstantes); return result;}}
+
+			char * argumentos0 = antoniovandre_substring (temp, NUMEROZERO, strlen (temp) - NUMEROUM);
+
+			argumento = strlen (argumentos0);
+
+			free (argumentos0);
+
+			free (temp);
+
+			if ((argumento > VALOR_MAX) || (argumento < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); if (MACROALOCACAODINAMICA) {free (str2); free (buffer); for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++) {free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);} free (funcoesconstantes); return result;}}
+
+			if (MACROALOCACAODINAMICA)
+				{
+				free (str2);
+				free (buffer);
+
+				for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++)
+					{free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);}
+
+				free (funcoesconstantes);
+				}
+
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento), precisao);
+			}
+
+		free (temp);
+		}
+
+	for (i = NUMEROZERO; i < len; i++)
+		{
+		char * temp = antoniovandre_substring (str, i, i + 22);
+
+		if (! strcmp (temp, "numeroocorrenciasstring"))
+			{
+			free (temp);
+
+			coeficiente = NUMEROUM;
+
+			if (i > NUMEROZERO)
+				{
+				char * temp = antoniovandre_substring (str, NUMEROZERO, i - NUMEROUM);
+
+				antoniovandre_copiarstring (buffer, temp);
+
+				free (temp);
+
+				if (! strcmp (buffer, "-"))
+					coeficiente = NUMEROMENOSUM;
+				else
+					{
+					coeficiente = strtold (buffer, & err);
+					if (* err != NUMEROZERO) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); if (MACROALOCACAODINAMICA) {free (str2); free (buffer); for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++) {free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);} free (funcoesconstantes); return result;}}
+					if ((coeficiente > VALOR_MAX) || (coeficiente < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); if (MACROALOCACAODINAMICA) {free (str2); free (buffer); for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++) {free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);} free (funcoesconstantes); return result;}}
+					}
+				}
+
+			temp = antoniovandre_substring (str, i + 23, len - NUMEROUM);
+
+			int posicoes [NUMEROUM];
+			int contador = NUMEROZERO;
+
+			for (j = NUMEROZERO; j < strlen (temp); j++)
+				if (temp [j] == DELIMITADORSTRINGARGUMENTOS)
+					{if (contador < NUMEROUM) posicoes [contador] = j; contador++;}
+
+			if (contador != NUMEROUM) {free (temp); char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); if (MACROALOCACAODINAMICA) {free (str2); free (buffer); for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++) {free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);} free (funcoesconstantes); return result;}}
+
+			char * argumentos0 = antoniovandre_substring (temp, NUMEROZERO, posicoes [NUMEROZERO] - NUMEROUM);
+
+			char * argumentos1 = antoniovandre_substring (temp, posicoes[NUMEROZERO] + NUMEROUM, strlen (temp) - NUMEROUM);
+
+			unsigned long long ocorrencias = NUMEROZERO;
+			char * comp;
+
+			for (j = NUMEROZERO; j <= strlen (argumentos0) - strlen (argumentos1); j++)
+				{
+				comp = antoniovandre_substring (argumentos0, j, j + strlen (argumentos1) - NUMEROUM);
+
+				if (! strcmp (comp, argumentos1)) ocorrencias++;
+
+				free (comp);
+				}
+
+			free (argumentos0);
+			free (argumentos1);
+
+			argumento = (TIPONUMEROREAL) ocorrencias;
+
+			free (temp);
+
+			if ((argumento > VALOR_MAX) || (argumento < (NUMEROMENOSUM) * VALOR_MAX)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); if (MACROALOCACAODINAMICA) {free (str2); free (buffer); for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++) {free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);} free (funcoesconstantes); return result;}}
+
+			if (MACROALOCACAODINAMICA)
+				{
+				free (str2);
+				free (buffer);
+
+				for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++)
+					{free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);}
+
+				free (funcoesconstantes);
+				}
+
+			return antoniovandre_numeroparastring ((TIPONUMEROREAL) ((TIPONUMEROREAL) coeficiente * argumento), precisao);
+			}
+
+		free (temp);
+		}
+
+	for (i = NUMEROZERO; i < len; i++)
+		{
 		char * temp = antoniovandre_substring (str, i, i + 3);
 
 		if (! strcmp (temp, "teto"))
@@ -7624,25 +7796,6 @@ char * antoniovandre_evalcelulafuncao (char * str, int precisao)
 		free (funcoesconstantes);
 		}
 
-	char * ignstr;
-	flag = NUMEROZERO;
-
-	for (j = NUMEROZERO; j < len; j++)
-		{
-		if (str [j] == TOKENINICIOIGN)
-			{
-			flag = NUMEROUM;
-			ignstr = (char *) malloc (TAMANHO_BUFFER_PHRASE);
-			antoniovandre_copiarstring (ignstr, STRINGVAZIA);
-			continue;
-			}
-
-		if ((str [j] == TOKENFIMIGN) && (flag == NUMEROUM)) {return (ignstr);}
-
-		if (flag == NUMEROUM)
-			strncat (ignstr, & str [j], NUMEROUM);
-		}
-
 	flag = NUMEROZERO;
 
 	for (j = NUMEROZERO; j < len; j++)
@@ -8089,6 +8242,10 @@ char * antoniovandre_eval (char * str, int precisao)
 		for (i = NUMEROZERO; i < strlen (str); i++) if (str [i] != ESPACOBRANCO) strncat (str2, & str [i], NUMEROUM);
 
 	flag = NUMEROZERO;
+	int inicioargumentos = NUMEROMENOSUM;
+	int fimargumentos;
+	int inicioargumentostemp = NUMEROMENOSUM;
+	int fimargumentostemp;
 
 	for (i = NUMEROZERO; i < strlen (str2); i++)
 		if (str2 [i] == DELIMITADORSTRINGARGUMENTOS)
@@ -8096,8 +8253,6 @@ char * antoniovandre_eval (char * str, int precisao)
 
 	if (flag == NUMEROUM)
 		{
-		tc = TOKENINICIOEVAL; strncat (str3, & tc, NUMEROUM);
-
 		for (i = NUMEROZERO; i < strlen (str2); i++)
 			if (str2 [i] != ESPACOBRANCO)
 				{
@@ -8106,14 +8261,71 @@ char * antoniovandre_eval (char * str, int precisao)
 				else
 					strncat (str3, & str2 [i], NUMEROUM);
 				}
-
-		tc = TOKENFIMEVAL; strncat (str3, & tc, NUMEROUM);
 		}
 	else
 		for (i = NUMEROZERO; i < strlen (str2); i++) if (str2 [i] != ESPACOBRANCO) strncat (str3, & str2 [i], NUMEROUM);
 
 	antoniovandre_copiarstring (str2, str3);
 	antoniovandre_copiarstring (str3, STRINGVAZIA);
+
+	if (flag == NUMEROUM)
+		{
+		for (i = NUMEROZERO; i < strlen (str2); i++)
+			if (str2 [i] == DELIMITADORSTRINGARGUMENTOS)
+				{
+				if (inicioargumentostemp == NUMEROMENOSUM) inicioargumentostemp = i;
+
+				fimargumentostemp = i;
+				}
+		}
+
+	if (flag == NUMEROUM) for (i = inicioargumentostemp - NUMEROUM; i >= NUMEROZERO; i--)
+		{
+		if (inicioargumentos != NUMEROMENOSUM) break;
+
+		if (str2 [i] == TOKENINICIOEVAL) contador++;
+		if (str2 [i] == TOKENFIMEVAL) contador--;
+
+		if (contador == NUMEROZERO)
+			{
+			for (j = i - NUMEROUM; j >= NUMEROZERO; j--)
+				{
+				if (inicioargumentos != NUMEROMENOSUM) break;
+
+				flag2 = NUMEROZERO;
+
+				for (k = NUMEROZERO; k < strlen (antoniovandre_letrasminusculas); k++)
+					if (str2 [j] == antoniovandre_letrasminusculas [k]) flag2 = NUMEROUM;
+
+				if (flag2 == NUMEROZERO) {inicioargumentos = j; break;}
+				}
+			}
+		}
+
+	if (flag == NUMEROUM) for (i = fimargumentostemp; i < strlen (str2); i++) if (str2 [i] == TOKENFIMEVAL) {fimargumentos = i;}
+
+	if (flag == NUMEROUM)
+		{
+		flag2 = NUMEROZERO;
+
+		for (i = NUMEROZERO; i < strlen (str2); i++)
+			{
+			if ((flag2 == NUMEROZERO) && (inicioargumentos == NUMEROMENOSUM))
+				{tc = TOKENINICIOEVAL; strncat (str3, & tc, NUMEROUM); strncat (str3, & tc, NUMEROUM); flag2 = NUMEROUM;}
+
+			strncat (str3, & str2 [i], NUMEROUM);
+
+			if (i == inicioargumentos)
+				{tc = TOKENINICIOEVAL; strncat (str3, & tc, NUMEROUM); strncat (str3, & tc, NUMEROUM);}
+
+			if (i == fimargumentos)
+				{tc = TOKENFIMEVAL; strncat (str3, & tc, NUMEROUM); strncat (str3, & tc, NUMEROUM);}
+			}
+
+		antoniovandre_copiarstring (str2, str3);
+		antoniovandre_copiarstring (str3, STRINGVAZIA);
+		contador = NUMEROZERO;
+		}
 
 	if (! strcmp (str2, STRINGVAZIA)) {char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); return result;}
 
