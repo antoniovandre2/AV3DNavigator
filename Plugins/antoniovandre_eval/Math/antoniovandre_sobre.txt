@@ -262,6 +262,10 @@ Funções disponíveis para "antoniovandre_eval":
 "variancia": retorna a variância estatística dos argumentos passados; argumentos separados por "|".
 
 "desviopadrao": retorna o desvio padrão dos argumentos passados; argumentos separados por "|".
+
+"tamanhostring": retorna o tamanho da string passada como argumento; deve estar entre os caracteres "[" e "]" para que seu processamento seja ignorado.
+
+"numeroocorrenciasstring": retorna o número de ocorrências de uma substring em uma string passadas como argumentos; primeiro: a main string; segundo: a substring; devem estar entre os caracteres "[" e "]" para que seus processamentos sejam ignorados.
 _____
 
 Exemplo de cálculo em "antoniovandre_eval":
