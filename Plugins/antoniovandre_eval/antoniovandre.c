@@ -8299,8 +8299,10 @@ char * antoniovandre_eval (char * str, int precisao)
 
 				flag2 = NUMEROZERO;
 
-				for (k = NUMEROZERO; k < strlen (antoniovandre_letrasminusculas); k++)
-					if (str2 [j] == antoniovandre_letrasminusculas [k]) flag2 = NUMEROUM;
+				if (str2 [j] == VARIAVELPADRAO) flag2 = NUMEROUM;
+
+				if (flag2 == NUMEROZERO) for (k = NUMEROZERO; k < strlen (antoniovandre_letrasminusculas); k++)
+					if (str2 [j] == antoniovandre_letrasminusculas [k]) {flag2 = NUMEROUM; break;}
 
 				if (flag2 == NUMEROZERO) {inicioargumentos = j; break;}
 				}
