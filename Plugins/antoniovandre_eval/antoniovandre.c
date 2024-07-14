@@ -706,9 +706,9 @@ char * antoniovandre_parteliteralmonomio (char * str)
 char * antoniovandre_numeroparastring (TIPONUMEROREAL numero, int precisao)
 	{
 	char * strr = (char *) malloc (TAMANHO_BUFFER_WORD);
-	int parteinteira = (int) (log10 (fabsl (numero)) + NUMEROUM);
+	int parteinteira = (int) (log10l (fabsl (numero)) + NUMEROUM);
 	int potencia_min;
-	int potencia_max = (int) log10 (fabsl(numero)) + NUMEROUM;
+	int potencia_max = (int) log10l (fabsl(numero)) + NUMEROUM;
 	TIPONUMEROREAL fator;
 	int algarismo;
 	int i;
@@ -736,6 +736,7 @@ char * antoniovandre_numeroparastring (TIPONUMEROREAL numero, int precisao)
 			potencia_min = (precisao - parteinteira) * NUMEROMENOSUM;
 
 			if (potencia_max < NUMEROUM) potencia_max = NUMEROUM;
+			if (potencia_min < -precisao + potencia_max) potencia_min = -precisao + potencia_max;
 
 			fator = powl (10, -(potencia_max - NUMEROUM));
 
@@ -7824,7 +7825,11 @@ char * antoniovandre_evalcelula (char * str, int precisao)
 	char tc;
 
 	for (i = NUMEROZERO; i < strlen (str); i++)
-		if (str [i] == VARIAVELPADRAO) flag = NUMEROUM;
+		if (str [i] == DELIMITADORSTRINGARGUMENTOS)
+			{return antoniovandre_evalcelulafuncao (str, precisao);}
+
+	for (i = NUMEROZERO; i < strlen (str); i++)
+		if (str [i] == VARIAVELPADRAO) {flag = NUMEROUM; break;}
 
 	if (flag == NUMEROUM)
 		{
@@ -8311,15 +8316,15 @@ char * antoniovandre_eval (char * str, int precisao)
 		for (i = NUMEROZERO; i < strlen (str2); i++)
 			{
 			if ((flag2 == NUMEROZERO) && (inicioargumentos == NUMEROMENOSUM))
-				{tc = TOKENINICIOEVAL; strncat (str3, & tc, NUMEROUM); strncat (str3, & tc, NUMEROUM); flag2 = NUMEROUM;}
+				{tc = TOKENINICIOEVAL; strncat (str3, & tc, NUMEROUM); flag2 = NUMEROUM;}
 
 			strncat (str3, & str2 [i], NUMEROUM);
 
 			if (i == inicioargumentos)
-				{tc = TOKENINICIOEVAL; strncat (str3, & tc, NUMEROUM); strncat (str3, & tc, NUMEROUM);}
+				{tc = TOKENINICIOEVAL; strncat (str3, & tc, NUMEROUM);}
 
 			if (i == fimargumentos)
-				{tc = TOKENFIMEVAL; strncat (str3, & tc, NUMEROUM); strncat (str3, & tc, NUMEROUM);}
+				{tc = TOKENFIMEVAL; strncat (str3, & tc, NUMEROUM);}
 			}
 
 		antoniovandre_copiarstring (str2, str3);
@@ -8656,9 +8661,7 @@ char * antoniovandre_eval (char * str, int precisao)
 		free (str2t);
 		}
 
-	char * result = antoniovandre_evalcelula (str2, precisao);
-
-	return result;
+	return antoniovandre_evalcelula (str2, precisao);
 	}
 
 // Derivada em um ponto.
