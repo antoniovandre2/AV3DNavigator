@@ -6,7 +6,7 @@
 
 // Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
 
-// Última atualização: 16-07-2024. Não considerando alterações em variáveis globais.
+// Última atualização: 17-07-2024. Não considerando alterações em variáveis globais.
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -17,7 +17,7 @@
 
 #include "antoniovandre_constantes.c"
 
-#define VERSION 20240716
+#define VERSION 20240717
 #define MENSAGEMNAOCOMPILADOR "Software não compilado em razão do compilador não ser compatível."
 #define NUMEROZERO 0
 #define NUMEROUM 1
@@ -4995,7 +4995,7 @@ char * antoniovandre_evalcelulafuncao (char * str, int precisao)
 
 			for (k = NUMEROZERO; k < argumento2; k++)
 				for (j = NUMEROZERO; j < (int) powl (2, argumento2 - k - NUMEROUM); j++)
-					argumentorr [j] = (argumentorr [2 * j + NUMEROUM] - argumentorr [2 * j]) / (2 * powl (10, -argumento3));
+					argumentorr [j] = (argumentorr [2 * j + NUMEROUM] - argumentorr [2 * j]) / (powl (2, k + NUMEROUM) * powl (10, -argumento3));
 
 			argumento = argumentorr [NUMEROZERO];
 
