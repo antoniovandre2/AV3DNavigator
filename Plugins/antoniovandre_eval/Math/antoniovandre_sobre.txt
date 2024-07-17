@@ -266,6 +266,10 @@ Funções disponíveis para "antoniovandre_eval":
 "tamanhostring": retorna o tamanho da string passada como argumento; deve estar entre os caracteres "[" e "]" para que seu processamento seja ignorado.
 
 "numeroocorrenciasstring": retorna o número de ocorrências de uma substring em uma string passadas como argumentos; primeiro: a main string; segundo: a substring; devem estar entre os caracteres "[" e "]" para que seus processamentos sejam ignorados.
+
+"der": derivada em um ponto. Requer 4 argumentos separados por "|": a função na variável padrão, o ponto, a ordem da derivada, e o número natural precisão.
+
+"int": Integral definida. Requer 4 argumentos separados por "|": a função na variável padrão, o limite inferior, o limite superior, e o número natural precisão.
 _____
 
 Exemplo de cálculo em "antoniovandre_eval":
