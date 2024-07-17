@@ -8544,8 +8544,8 @@ char * antoniovandre_eval (char * str, int precisao)
 				if (flag2 == NUMEROZERO) for (k = NUMEROZERO; k < strlen (antoniovandre_letrasminusculas); k++)
 					if (str2 [j] == antoniovandre_letrasminusculas [k]) {flag2 = NUMEROUM; break;}
 
-				if (flag2 == NUMEROZERO) for (k = NUMEROZERO; k < strlen (antoniovandre_operadores); k++)
-					if (str2 [j] == antoniovandre_operadores [k]) {flag2 = NUMEROUM; break;}
+				if (flag2 == NUMEROZERO) for (k = NUMEROZERO; k < strlen (antoniovandre_numeros); k++)
+					if (str2 [j] == antoniovandre_numeros [k]) {flag2 = NUMEROUM; break;}
 
 				if (flag2 == NUMEROZERO) {inicioargumentos = j; break;}
 				}
