@@ -1557,53 +1557,53 @@ char * antoniovandre_evalcelulafuncao (char * str, int precisao)
 	antoniovandre_copiarstring (funcoesconstantes [92].token, "sum");
 	antoniovandre_copiarstring (funcoesconstantes [92].comentario, "Somatório.");
 
-	antoniovandre_copiarstring (funcoesconstantes [92].token, "prod");
-	antoniovandre_copiarstring (funcoesconstantes [92].comentario, "Produtório.");
+	antoniovandre_copiarstring (funcoesconstantes [93].token, "prod");
+	antoniovandre_copiarstring (funcoesconstantes [93].comentario, "Produtório.");
 
-	antoniovandre_copiarstring (funcoesconstantes [93].token, "mediaaritmeticaponderada");
-	antoniovandre_copiarstring (funcoesconstantes [93].comentario, "Média aritmética ponderada.");
+	antoniovandre_copiarstring (funcoesconstantes [94].token, "mediaaritmeticaponderada");
+	antoniovandre_copiarstring (funcoesconstantes [94].comentario, "Média aritmética ponderada.");
 
-	antoniovandre_copiarstring (funcoesconstantes [94].token, "mediaaritmetica");
-	antoniovandre_copiarstring (funcoesconstantes [94].comentario, "Média aritmética.");
+	antoniovandre_copiarstring (funcoesconstantes [95].token, "mediaaritmetica");
+	antoniovandre_copiarstring (funcoesconstantes [95].comentario, "Média aritmética.");
 
-	antoniovandre_copiarstring (funcoesconstantes [95].token, "mediageometrica");
-	antoniovandre_copiarstring (funcoesconstantes [95].comentario, "Média geométrica.");
+	antoniovandre_copiarstring (funcoesconstantes [96].token, "mediageometrica");
+	antoniovandre_copiarstring (funcoesconstantes [96].comentario, "Média geométrica.");
 
-	antoniovandre_copiarstring (funcoesconstantes [96].token, "mediaharmonica");
-	antoniovandre_copiarstring (funcoesconstantes [96].comentario, "Média harmônica.");
+	antoniovandre_copiarstring (funcoesconstantes [97].token, "mediaharmonica");
+	antoniovandre_copiarstring (funcoesconstantes [97].comentario, "Média harmônica.");
 
-	antoniovandre_copiarstring (funcoesconstantes [97].token, "composicao");
-	antoniovandre_copiarstring (funcoesconstantes [97].comentario, "Composição de funções.");
+	antoniovandre_copiarstring (funcoesconstantes [98].token, "composicao");
+	antoniovandre_copiarstring (funcoesconstantes [98].comentario, "Composição de funções.");
 
-	antoniovandre_copiarstring (funcoesconstantes [98].token, "base");
-	antoniovandre_copiarstring (funcoesconstantes [98].comentario, "Conversão de números em uma base.");
+	antoniovandre_copiarstring (funcoesconstantes [99].token, "base");
+	antoniovandre_copiarstring (funcoesconstantes [99].comentario, "Conversão de números em uma base.");
 
-	antoniovandre_copiarstring (funcoesconstantes [99].token, "max");
-	antoniovandre_copiarstring (funcoesconstantes [99].comentario, "Máximo valor.");
+	antoniovandre_copiarstring (funcoesconstantes [100].token, "max");
+	antoniovandre_copiarstring (funcoesconstantes [100].comentario, "Máximo valor.");
 
-	antoniovandre_copiarstring (funcoesconstantes [100].token, "min");
-	antoniovandre_copiarstring (funcoesconstantes [100].comentario, "Mínimo valor.");
+	antoniovandre_copiarstring (funcoesconstantes [101].token, "min");
+	antoniovandre_copiarstring (funcoesconstantes [101].comentario, "Mínimo valor.");
 
-	antoniovandre_copiarstring (funcoesconstantes [101].token, "mediana");
-	antoniovandre_copiarstring (funcoesconstantes [101].comentario, "Mediana estatística.");
+	antoniovandre_copiarstring (funcoesconstantes [102].token, "mediana");
+	antoniovandre_copiarstring (funcoesconstantes [102].comentario, "Mediana estatística.");
 
-	antoniovandre_copiarstring (funcoesconstantes [102].token, "variancia");
-	antoniovandre_copiarstring (funcoesconstantes [102].comentario, "Variância estatística.");
+	antoniovandre_copiarstring (funcoesconstantes [103].token, "variancia");
+	antoniovandre_copiarstring (funcoesconstantes [103].comentario, "Variância estatística.");
 
-	antoniovandre_copiarstring (funcoesconstantes [103].token, "desviopadrao");
-	antoniovandre_copiarstring (funcoesconstantes [103].comentario, "Desvio padrão.");
+	antoniovandre_copiarstring (funcoesconstantes [104].token, "desviopadrao");
+	antoniovandre_copiarstring (funcoesconstantes [104].comentario, "Desvio padrão.");
 
-	antoniovandre_copiarstring (funcoesconstantes [104].token, "tamanhostring");
-	antoniovandre_copiarstring (funcoesconstantes [104].comentario, "Tamanho de uma string.");
+	antoniovandre_copiarstring (funcoesconstantes [105].token, "tamanhostring");
+	antoniovandre_copiarstring (funcoesconstantes [105].comentario, "Tamanho de uma string.");
 
-	antoniovandre_copiarstring (funcoesconstantes [105].token, "numeroocorrenciasstring");
-	antoniovandre_copiarstring (funcoesconstantes [105].comentario, "Número de ocorrências de uma substring em uma string.");
+	antoniovandre_copiarstring (funcoesconstantes [106].token, "numeroocorrenciasstring");
+	antoniovandre_copiarstring (funcoesconstantes [106].comentario, "Número de ocorrências de uma substring em uma string.");
 
-	antoniovandre_copiarstring (funcoesconstantes [106].token, "der");
-	antoniovandre_copiarstring (funcoesconstantes [106].comentario, "Derivada em um ponto.");
+	antoniovandre_copiarstring (funcoesconstantes [107].token, "der");
+	antoniovandre_copiarstring (funcoesconstantes [107].comentario, "Derivada em um ponto.");
 
-	antoniovandre_copiarstring (funcoesconstantes [107].token, "int");
-	antoniovandre_copiarstring (funcoesconstantes [107].comentario, "Integral definida.");
+	antoniovandre_copiarstring (funcoesconstantes [108].token, "int");
+	antoniovandre_copiarstring (funcoesconstantes [108].comentario, "Integral definida.");
 
 	for (i = NUMEROZERO; i < len; i++)
 		for (j = NUMEROZERO; j < TAMANHO_BUFFER_SMALL; j++)
