@@ -190,6 +190,13 @@ int main (int argc, char * argv[])
 		if (++argi > MAXITENS) {printf(mensagemerro); return 1;}
 		} while (flag == 0);
 
+	H = 3 * largura * valoresnumericos[0] / max / (pow(largura * valoresnumericos[0], 2));
+
+	for (i = 1; i < argi; i++)
+		{H += 3 * largura * valoresnumericos[i] / (pow(largura * valoresnumericos[i] / max, 2) + pow(pow(largura * valoresnumericos[i] / max, 2) * pow(largura * valoresnumericos[i-1] / max, 2), 0.5) + pow(largura * valoresnumericos[i-1] / max, 2));}
+
+	max = H;
+
 	printf("@");
 
 	for (i = 0; i < argi; i++)
