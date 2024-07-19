@@ -269,7 +269,9 @@ Funções disponíveis para "antoniovandre_eval":
 
 "der": derivada em um ponto. Requer 4 argumentos separados por "|": a função na variável padrão, o ponto, a ordem da derivada, e o número natural precisão.
 
-"int": Integral definida. Requer 4 argumentos separados por "|": a função na variável padrão, o limite inferior, o limite superior, e o número natural precisão.
+"int": integral definida. Requer 4 argumentos separados por "|": a função na variável padrão, o limite inferior, o limite superior, e o número natural precisão.
+
+"raizes": retorna as raízes da função passada como parâmetro; requer 5 argumentos: a função na variável padrão, o ponto inferior de pesquisa, o ponto superior de pesquiza, a raiz a ser encontrada, iniciando com "0" para a primeira raiz encontrada, "1" se for encontrada uma segunda raiz, "2" se for encontrada uma terceira raiz, etc, ou "-1" para retornar o número de raízes encontradas, e como último argumento o inteiro positivo resolução da pesquisa.
 _____
 
 Exemplo de cálculo em "antoniovandre_eval":
