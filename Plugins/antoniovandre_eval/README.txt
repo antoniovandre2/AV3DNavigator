@@ -7,7 +7,7 @@ Projeto Mathematical Ramblings (mathematicalramblings.blogspot.com).
 
 README dos meus softwares em C.
 
-Última atualização: 19-06-2024.
+Última atualização: 19-07-2024.
 ____________________
 
 Bugs conhecidos:
@@ -20,9 +20,7 @@ Se encontrar um, pode, por favor, comunicar a "a.vandre.g@gmail.com"? Alguns bug
 Caso deseje compilar e utilizar os softwares, basta modificar as variáveis nos cabeçalhos afim de, por exemplo, especificar os paths.
 ____________________
 
-Por limitações do compilador/hardware, quando são muitos os dígitos significativos, os mais desprezíveis podem ser ignorados.
-
-Também por imperfeições do compilador/hardware, podem haver resultados errados, falhas de execução, ou kill dos processos, como, por exemplo, memória insuficiente.
+Por imperfeições do compilador/hardware, podem haver resultados imprecisos.
 ____________________
 
 Sugestões ou comunicar erros: "a.vandre.g@gmail.com".
