@@ -6,7 +6,7 @@
 
 // Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
 
-// Última atualização: 19-07-2024. Não considerando alterações em variáveis globais.
+// Última atualização: 20-07-2024. Não considerando alterações em variáveis globais.
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -17,7 +17,7 @@
 
 #include "antoniovandre_constantes.c"
 
-#define VERSION 20240719
+#define VERSION 20240720
 #define MENSAGEMNAOCOMPILADOR "Software não compilado em razão do compilador não ser compatível."
 #define NUMEROZERO 0
 #define NUMEROUM 1
@@ -5247,7 +5247,7 @@ char * antoniovandre_evalcelulafuncao (char * str, int precisao)
 				else
 					{if ((k > NUMEROZERO) && (valor * valorp < NUMEROZERO))contador++;}
 
-				if ((contador > NUMEROZERO) && (contador == (unsigned long long int) argumento3 + NUMEROUM))
+				if ((contador > NUMEROZERO) && (contador == (long long int) argumento3 + NUMEROUM))
 					{
 					if (k == NUMEROZERO)
 						argumento = ponto;
@@ -5266,7 +5266,9 @@ char * antoniovandre_evalcelulafuncao (char * str, int precisao)
 
 			free (argumentos0);
 
-			if (flag = NUMEROZERO) {free (argumentos0); free (temp); char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); if (MACROALOCACAODINAMICA) {free (str2); free (buffer); for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++) {free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);} free (funcoesconstantes); return result;}}
+			if (contador <= (long long int) argumento3) {free (temp); char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERROOVER); if (MACROALOCACAODINAMICA) {free (str2); free (buffer); for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++) {free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);} free (funcoesconstantes); return result;}}
+
+			if (flag = NUMEROZERO) {free (temp); char * result = (char *) malloc (TAMANHO_BUFFER_PHRASE); antoniovandre_copiarstring (result, STRINGSAIDAERRO); if (MACROALOCACAODINAMICA) {free (str2); free (buffer); for (i = NUMEROZERO; i < TAMANHO_BUFFER_SMALL; i++) {free (funcoesconstantes [i].token); free (funcoesconstantes [i].comentario);} free (funcoesconstantes); return result;}}
 
 			free (temp);
 
