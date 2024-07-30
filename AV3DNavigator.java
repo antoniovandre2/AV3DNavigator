@@ -117,7 +117,7 @@ public class AV3DNavigator extends JComponent
 	public static double DeslocamentoAngular = 0.1; // Default: 0.1.
 	public static int FramesDeslocamento = 4; // Default: 4.
 	public static int EspacamentoVerticalLegendas = 6; // Default: 6.
-	public static int PrecisaoApfloat = 20; // Default: 20.
+	public int PrecisaoApfloat = 20; // Default: 20.
 	public int LabelAnimado = 1;
 	public int PrintR;
 	public int PrintG;
@@ -862,6 +862,15 @@ public class AV3DNavigator extends JComponent
 											LabelAnimado = ValorInteiro;
 											FlagINI = 1;
 											}
+										}
+
+									break;
+
+								case "PrecisaoApfloat":
+									if (AntonioVandre.NumeroNaturalPositivo(INIelements[1].replaceAll(" ", "")))
+										{
+										SleepTime = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+										FlagINI = 1;
 										}
 
 									break;
