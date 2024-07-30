@@ -56,6 +56,7 @@ import java.lang.Math;
 import java.lang.NullPointerException;
 import java.lang.IndexOutOfBoundsException;
 import java.lang.NumberFormatException;
+import java.lang.ArithmeticException;
 
 import javax.imageio.ImageIO;
 
@@ -68,6 +69,7 @@ import java.io.*;
 
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
+import org.apfloat.InfiniteExpansionException;
 
 import AntonioVandre.*;
 
@@ -1965,37 +1967,29 @@ public class AV3DNavigator extends JComponent
 
 					Apfloat ProdutoEscalarda = xda.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))).add(yda.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zda.multiply(new Apfloat(Phit, PrecisaoApfloat)).multiply(new Apfloat(-1, PrecisaoApfloat)));
 
-					int flagAp = 0;
-
-					Apfloat Aptemp1 = (new Apfloat(FlagMouseY, PrecisaoApfloat)).multiply(ProdutoEscalaroa).divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))));
-
-					Apfloat Aptemp2 = (new Apfloat(FlagMouseY, PrecisaoApfloat)).multiply(ProdutoEscalarda).divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))));
-
-					if (((Aptemp1.doubleValue() == 0) || (Aptemp2.doubleValue() == 0)) && (1 < AnguloVisao + MargemAnguloVisao))
-						flagAp = 1;
-					else if ((ApfloatMath.acos(Aptemp1).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.acos(Aptemp2).doubleValue() < AnguloVisao + MargemAnguloVisao))
-						flagAp = 1;
-
-					if ((flagAp == 1) && (ApfloatMath.min(new Apfloat(xi, PrecisaoApfloat), ApfloatMath.min(new Apfloat(yi, PrecisaoApfloat), ApfloatMath.min(new Apfloat(xf, PrecisaoApfloat), new Apfloat(yf, PrecisaoApfloat)))).doubleValue() > 0) && (ApfloatMath.max(new Apfloat(xi + CorrecaoXF, PrecisaoApfloat), (new Apfloat(xf + CorrecaoXF, PrecisaoApfloat))).doubleValue() < (new Apfloat(TamanhoPlanoX, PrecisaoApfloat)).doubleValue()) && (ApfloatMath.max(new Apfloat(yi + CorrecaoYF, PrecisaoApfloat), (new Apfloat(yf + CorrecaoYF, PrecisaoApfloat))).doubleValue() < (new Apfloat(TamanhoPlanoY, PrecisaoApfloat)).doubleValue()))
+					try
 						{
-						if (TotalLinhas + 1 < Integer.MAX_VALUE)
-							TotalLinhas++;
-						else break labelLinhas;
-
-						if (Campos.length == 1)
-							Comp.addLine(xi, yi, xf, yf, CorLinha, TotalLinhas);
-						else
+						if ((ApfloatMath.acos((new Apfloat(FlagMouseY, PrecisaoApfloat)).multiply(ProdutoEscalaroa).divide(ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.acos((new Apfloat(FlagMouseY, PrecisaoApfloat)).multiply(ProdutoEscalarda).divide(ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yoa)).add(zda.multiply(zoa))))).doubleValue() < AnguloVisao + MargemAnguloVisao) && (ApfloatMath.min(new Apfloat(xi, PrecisaoApfloat), ApfloatMath.min(new Apfloat(yi, PrecisaoApfloat), ApfloatMath.min(new Apfloat(xf, PrecisaoApfloat), new Apfloat(yf, PrecisaoApfloat)))).doubleValue() > 0) && (ApfloatMath.max(new Apfloat(xi + CorrecaoXF, PrecisaoApfloat), (new Apfloat(xf + CorrecaoXF, PrecisaoApfloat))).doubleValue() < (new Apfloat(TamanhoPlanoX, PrecisaoApfloat)).doubleValue()) && (ApfloatMath.max(new Apfloat(yi + CorrecaoYF, PrecisaoApfloat), (new Apfloat(yf + CorrecaoYF, PrecisaoApfloat))).doubleValue() < (new Apfloat(TamanhoPlanoY, PrecisaoApfloat)).doubleValue()))
 							{
-							if (! (Campos[1].equals("")))
-								{
-								String [] RGB = Campos[1].split(",");
-								Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TotalLinhas);
-								StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
-								}
-							else
+							if (TotalLinhas + 1 < Integer.MAX_VALUE)
+								TotalLinhas++;
+							else break labelLinhas;
+
+							if (Campos.length == 1)
 								Comp.addLine(xi, yi, xf, yf, CorLinha, TotalLinhas);
+							else
+								{
+								if (! (Campos[1].equals("")))
+									{
+									String [] RGB = Campos[1].split(",");
+									Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TotalLinhas);
+									StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
+									}
+								else
+									Comp.addLine(xi, yi, xf, yf, CorLinha, TotalLinhas);
+								}
 							}
-						}
+						} catch (InfiniteExpansionException | ArithmeticException e) {}
 					}
 				}
 			}
@@ -2063,24 +2057,19 @@ public class AV3DNavigator extends JComponent
 
 						Apfloat ProdutoEscalara = xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zpa.multiply(new Apfloat(Phit, PrecisaoApfloat)).multiply(new Apfloat(-1, PrecisaoApfloat)));
 
-						int flagAp = 0;
-
-						Apfloat Aptemp = (new Apfloat(FlagMouseY, PrecisaoApfloat)).multiply(ProdutoEscalara).divide(ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(zpa))));
-
-						if ((Aptemp.doubleValue() == 0) && (1 < AnguloVisao + MargemAnguloVisao))
-							flagAp = 1;
-						else if (ApfloatMath.acos(Aptemp).doubleValue() < AnguloVisao + MargemAnguloVisao)
-							flagAp = 1;
-
-						if ((flagAp == 1) && (ApfloatMath.min(new Apfloat(xpp, PrecisaoApfloat), new Apfloat(ypp, PrecisaoApfloat)).doubleValue() > 0) && ((new Apfloat(xpp + CorrecaoXF)).doubleValue() < (new Apfloat(TamanhoPlanoX, PrecisaoApfloat)).doubleValue()) && (new Apfloat(ypp + CorrecaoYF)).doubleValue() < (new Apfloat(TamanhoPlanoY, PrecisaoApfloat)).doubleValue())
+						try
 							{
-							ContadorPontos++;
-							TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
-							SomaXP += xpa.doubleValue();
-							SomaYP += ypa.doubleValue();
-							SomaZP += zpa.doubleValue();
-							}
-						}
+							if (((ApfloatMath.acos((new Apfloat(FlagMouseY, PrecisaoApfloat)).multiply(ProdutoEscalara).divide(ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(zpa))))).doubleValue() < AnguloVisao + MargemAnguloVisao)) && (ApfloatMath.min(new Apfloat(xpp, PrecisaoApfloat), new Apfloat(ypp, PrecisaoApfloat)).doubleValue() > 0) && ((new Apfloat(xpp + CorrecaoXF)).doubleValue() < (new Apfloat(TamanhoPlanoX, PrecisaoApfloat)).doubleValue()) && (new Apfloat(ypp + CorrecaoYF)).doubleValue() < (new Apfloat(TamanhoPlanoY, PrecisaoApfloat)).doubleValue())
+								{
+								ContadorPontos++;
+								TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
+								SomaXP += xpa.doubleValue();
+								SomaYP += ypa.doubleValue();
+								SomaZP += zpa.doubleValue();
+								}
+							} catch (InfiniteExpansionException | ArithmeticException e) {}
+					}
+
 
 					if (TotalTriangulosShapePreenchidos + Pontoslength < Integer.MAX_VALUE)
 						TotalTriangulosShapePreenchidos += Pontoslength;
