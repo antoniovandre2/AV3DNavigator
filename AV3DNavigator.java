@@ -937,20 +937,23 @@ public class AV3DNavigator extends JComponent
 			});
 
 		FrameEspaco.addMouseWheelListener(e -> {
-			if ((Math.abs(x) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear) || (Math.abs(z) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear))
-				VariavelLimiteAtingido();
-			else
+			if ((MouseX > 0) && (MouseX <= TamanhoPlanoX) && (MouseY > FrameEspaco.getInsets().top) && (MouseY <= TamanhoPlanoY + FrameEspaco.getInsets().top))
 				{
-				x -= FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phit) * Math.cos(Teta);
+				if ((Math.abs(x) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear) || (Math.abs(y) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear) || (Math.abs(z) - DeslocamentoLinear > AntonioVandre.MaximoValorReal - DeslocamentoLinear))
+					VariavelLimiteAtingido();
+				else
+					{
+					x -= FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phit) * Math.cos(Teta);
 
-				y += FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phit) * Math.sin(Teta);
+					y += FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phit) * Math.sin(Teta);
 
-				z += FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.sin(Phit);
+					z += FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.sin(Phit);
 
-				xt = x; yt = y; zt = z;
+					xt = x; yt = y; zt = z;
 
-				FlagAlteracaoStatus = 1;
-				FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
+					FlagAlteracaoStatus = 1;
+					FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
+					}
 				}
 			});
 
