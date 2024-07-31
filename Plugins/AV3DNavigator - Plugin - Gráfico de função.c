@@ -10,19 +10,15 @@ Argumentos: 1: primeiramente a string título e, após barra vertical "|", strin
 Última atualização: 31-07-2024. Sem considerar alterações em variáveis globais.
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
+#include "antoniovandre_eval/antoniovandre.c"
+
+#define BUILTIN VERDADE
 
 #define MAXITENS 10
 #define MAXTAMANHOCAMPO 1024
-#define VERDADE 1
 
 #define EVALSOFTWARE "antoniovandre_eval"
 #define EVALSOFTWARETAIL " 0 2>> /dev/null \| tr -d ' ' \| tr -d '\n'"
-#define TOKENINICIOEVAL '('
-#define TOKENFIMEVAL ')'
 
 int main (int argc, char * argv[])
 	{
@@ -51,13 +47,16 @@ int main (int argc, char * argv[])
 	char exclusaoarr [MAXITENS] [MAXITENS] [MAXTAMANHOCAMPO];
 	char rgb [MAXITENS] [MAXTAMANHOCAMPO];
 	char verifstr [MAXTAMANHOCAMPO];
-	long double menores [MAXITENS];
-	long double maiores [MAXITENS];
-	long double exclusoes [MAXITENS] [MAXITENS];
-	long double margemexclusao = 0.1;
+	TIPONUMEROREAL menores [MAXITENS];
+	TIPONUMEROREAL maiores [MAXITENS];
+	TIPONUMEROREAL exclusoes [MAXITENS] [MAXITENS];
+	TIPONUMEROREAL margemexclusao = 0.1;
 	char * err;
 	char tc;
+	char * output;
 	char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em \"Y\", o menor valor atribuído a \"Y\", o maior valor atribuído a \"Y\", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: a resolução.\n";
+
+	int precisao = antoniovandre_precisao_real ();
 
 	if (argc != 3) {printf(mensagemerro); return 1;}
 
@@ -238,8 +237,11 @@ int main (int argc, char * argv[])
 
 				fflush(stdout);
 
-				strcpy(valorstr, EVALSOFTWARE);
-				strcat(valorstr, " \"");
+				if (! BUILTIN)
+					{
+					strcpy(valorstr, EVALSOFTWARE);
+					strcat(valorstr, " \"");
+					}
 
 				char tempstr [MAXTAMANHOCAMPO];
 				char pontostr [MAXTAMANHOCAMPO];
@@ -270,10 +272,21 @@ int main (int argc, char * argv[])
 				tempstr[k] = '\0';
 
 				strcat(valorstr, tempstr);
-				strcat(valorstr, "\"");
-				strcat(valorstr, EVALSOFTWARETAIL);
 
-				system(valorstr);
+				if (! BUILTIN)
+					{
+					strcat(valorstr, "\"");
+					strcat(valorstr, EVALSOFTWARETAIL);
+					}
+
+				if (BUILTIN)
+					{
+					output = antoniovandre_eval (valorstr, precisao);
+					printf("%s", output);
+					free (output);
+					}
+				else
+					system(valorstr);
 
 				fflush(stdout);
 
@@ -283,8 +296,11 @@ int main (int argc, char * argv[])
 
 				for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
-				strcpy(valorstr, EVALSOFTWARE);
-				strcat(valorstr, " \"");
+				if (! BUILTIN)
+					{
+					strcpy(valorstr, EVALSOFTWARE);
+					strcat(valorstr, " \"");
+					}
 
 				for (k = 0; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; pontostr[k] = '\0';}
 
@@ -321,10 +337,21 @@ int main (int argc, char * argv[])
 				tempstr[k] = '\0';
 
 				strcat(valorstr, tempstr);
-				strcat(valorstr, "\"");
-				strcat(valorstr, EVALSOFTWARETAIL);
 
-				system(valorstr);
+				if (! BUILTIN)
+					{
+					strcat(valorstr, "\"");
+					strcat(valorstr, EVALSOFTWARETAIL);
+					}
+
+				if (BUILTIN)
+					{
+					output = antoniovandre_eval (valorstr, precisao);
+					printf("%s", output);
+					free (output);
+					}
+				else
+					system(valorstr);
 
 				fflush(stdout);
 
