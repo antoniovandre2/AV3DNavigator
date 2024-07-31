@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de barras tridimensional
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 25-06-2024.
+Última atualização: 31-07-2024.
 */
 
 #include <stdio.h>
@@ -45,8 +45,8 @@ int main (int argc, char * argv[])
 	char valor [MAXITENS] [MAXTAMANHOCAMPO];
 	char rgb [MAXITENS] [MAXTAMANHOCAMPO];
 	char verifstr [MAXTAMANHOCAMPO];
-	double max = 0;
-	double valoresnumericos [MAXITENS];
+	long double max = 0;
+	long double valoresnumericos [MAXITENS];
 	char * err;
 	char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", uma string composta dos item a exibir separados por barra vertical \"|\", cada item composto do valor e da cor separados por ponto e vírgula \";\", a cor RGB com os valores para vermelho, verde e azul separados por vírgula \",\". 2: a largura. 3: a profundidade. 4: o espaçamento. 5: a altura. 6: a resolução.\n";
 
@@ -219,21 +219,21 @@ int main (int argc, char * argv[])
 			{
 			double x = 0;
 
-			printf("%f,%f,%f;%f,%f,%f;%f,%f,%f;", x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + j * largura / resolucao), 0, x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + (j + 1) * largura / resolucao), 0, x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + (j + 1) * largura / resolucao), altura * valoresnumericos[i] / max);
+			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;", x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + j * largura / resolucao), 0, x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + (j + 1) * largura / resolucao), 0, x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + (j + 1) * largura / resolucao), altura * valoresnumericos[i] / max);
 
 			fflush(stdout);
 
-			printf("%f,%f,%fc%s|", x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + j * largura / resolucao), altura * valoresnumericos[i] / max, rgb[i]);
+			printf("%Lf,%Lf,%Lfc%s|", x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + j * largura / resolucao), altura * valoresnumericos[i] / max, rgb[i]);
 
 			fflush(stdout);
 
 			x = profundidade;
 
-			printf("%f,%f,%f;%f,%f,%f;%f,%f,%f;", x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + j * largura / resolucao), 0, x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + (j + 1) * largura / resolucao), 0, x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + (j + 1) * largura / resolucao), altura * valoresnumericos[i] / max);
+			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;", x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + j * largura / resolucao), 0, x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + (j + 1) * largura / resolucao), 0, x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + (j + 1) * largura / resolucao), altura * valoresnumericos[i] / max);
 
 			fflush(stdout);
 
-			printf("%f,%f,%fc%s|", x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + j * largura / resolucao), altura * valoresnumericos[i] / max, rgb[i]);
+			printf("%Lf,%Lf,%Lfc%s|", x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + j * largura / resolucao), altura * valoresnumericos[i] / max, rgb[i]);
 
 			fflush(stdout);
 			}
@@ -242,21 +242,21 @@ int main (int argc, char * argv[])
 			{
 			double y = 0;
 
-			printf("%f,%f,%f;%f,%f,%f;%f,%f,%f;", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), 0, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), 0, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), altura * valoresnumericos[i] / max);
+			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), 0, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), 0, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), altura * valoresnumericos[i] / max);
 
 			fflush(stdout);
 
-			printf("%f,%f,%fc%s|", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), altura * valoresnumericos[i] / max, rgb[i]);
+			printf("%Lf,%Lf,%Lfc%s|", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), altura * valoresnumericos[i] / max, rgb[i]);
 
 			fflush(stdout);
 
 			y = largura;
 
-			printf("%f,%f,%f;%f,%f,%f;%f,%f,%f;", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), 0, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), 0, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), altura * valoresnumericos[i] / max);
+			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), 0, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), 0, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), altura * valoresnumericos[i] / max);
 
 			fflush(stdout);
 
-			printf("%f,%f,%fc%s|", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), altura * valoresnumericos[i] / max, rgb[i]);
+			printf("%Lf,%Lf,%Lfc%s|", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), altura * valoresnumericos[i] / max, rgb[i]);
 
 			fflush(stdout);
 			}
@@ -266,21 +266,21 @@ int main (int argc, char * argv[])
 			{
 			double z = 0;
 
-			printf("%f,%f,%f;%f,%f,%f;%f,%f,%f;", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2), z, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2), z, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + largura), z);
+			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2), z, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2), z, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + largura), z);
 
 			fflush(stdout);
 
-			printf("%f,%f,%fc%s|", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + largura), z, rgb[i]);
+			printf("%Lf,%Lf,%Lfc%s|", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + largura), z, rgb[i]);
 
 			fflush(stdout);
 
 			z = altura * valoresnumericos[i] / max;
 
-			printf("%f,%f,%f;%f,%f,%f;%f,%f,%f;", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2), z, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2), z, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + largura), z);
+			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2), z, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2), z, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + largura), z);
 
 			fflush(stdout);
 
-			printf("%f,%f,%fc%s|", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + largura), z, rgb[i]);
+			printf("%Lf,%Lf,%Lfc%s|", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + largura), z, rgb[i]);
 
 			fflush(stdout);
 		   }

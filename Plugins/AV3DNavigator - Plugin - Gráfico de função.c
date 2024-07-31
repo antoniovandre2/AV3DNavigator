@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de função.
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "Y", o menor valor atribuído a "Y", o maior valor atribuído a "Y", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 25-06-2024. Sem considerar alterações em variáveis globais.
+Última atualização: 31-07-2024. Sem considerar alterações em variáveis globais.
 */
 
 #include <stdio.h>
@@ -21,8 +21,8 @@ Argumentos: 1: primeiramente a string título e, após barra vertical "|", strin
 
 #define EVALSOFTWARE "antoniovandre_eval"
 #define EVALSOFTWARETAIL " 0 2>> /dev/null \| tr -d ' ' \| tr -d '\n'"
-#define TOKENINICIOEVAL "("
-#define TOKENFIMEVAL ")"
+#define TOKENINICIOEVAL '('
+#define TOKENFIMEVAL ')'
 
 int main (int argc, char * argv[])
 	{
@@ -51,11 +51,12 @@ int main (int argc, char * argv[])
 	char exclusaoarr [MAXITENS] [MAXITENS] [MAXTAMANHOCAMPO];
 	char rgb [MAXITENS] [MAXTAMANHOCAMPO];
 	char verifstr [MAXTAMANHOCAMPO];
-	double menores [MAXITENS];
-	double maiores [MAXITENS];
-	double exclusoes [MAXITENS] [MAXITENS];
-	double margemexclusao = 0.1;
+	long double menores [MAXITENS];
+	long double maiores [MAXITENS];
+	long double exclusoes [MAXITENS] [MAXITENS];
+	long double margemexclusao = 0.1;
 	char * err;
+	char tc;
 	char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em \"Y\", o menor valor atribuído a \"Y\", o maior valor atribuído a \"Y\", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: a resolução.\n";
 
 	if (argc != 3) {printf(mensagemerro); return 1;}
@@ -233,7 +234,7 @@ int main (int argc, char * argv[])
 
 				for (k = 0; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
-				printf("0,%f,", menores[i] + j * (maiores[i] - menores[i]) / resolucao);
+				printf("0,%Lf,", menores[i] + j * (maiores[i] - menores[i]) / resolucao);
 
 				fflush(stdout);
 
@@ -248,7 +249,7 @@ int main (int argc, char * argv[])
 				shift = 0;
 				k = 0;
 
-				sprintf(pontostr, "%f", menores[i] + j * (maiores[i] - menores[i]) / resolucao);
+				sprintf(pontostr, "%Lf", menores[i] + j * (maiores[i] - menores[i]) / resolucao);
 
 				do
 					{
@@ -258,18 +259,9 @@ int main (int argc, char * argv[])
 						{tempstr[k++] = c;}
 					else
 						{
-						if (shift == 1)
-							{
-							strcpy(tempstr, TOKENINICIOEVAL);
-							strcat(tempstr, pontostr);
-							strcat(tempstr, TOKENFIMEVAL);
-							}
-						else
-							{
-							char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
-							strcat(tempstr, pontostr);
-							strcat(tempstr, TOKENFIMEVAL);
-							}
+						tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+						strcat(tempstr, pontostr);
+						tc = TOKENFIMEVAL; strncat(tempstr, & tc, 1);
 
 						k += strlen(pontostr) + 2;
 						}
@@ -285,7 +277,7 @@ int main (int argc, char * argv[])
 
 				fflush(stdout);
 
-				printf(";0,%f,", menores[i] + (j + 1) * (maiores[i] - menores[i]) / resolucao);
+				printf(";0,%Lf,", menores[i] + (j + 1) * (maiores[i] - menores[i]) / resolucao);
 
 				fflush(stdout);
 
@@ -299,7 +291,7 @@ int main (int argc, char * argv[])
 				shift = 0;
 				k = 0;
 
-				sprintf(pontostr, "%f", menores[i] + (j + 1) * (maiores[i] - menores[i]) / resolucao);
+				sprintf(pontostr, "%Lf", menores[i] + (j + 1) * (maiores[i] - menores[i]) / resolucao);
 
 				do
 					{
@@ -311,15 +303,15 @@ int main (int argc, char * argv[])
 						{
 						if (shift == 1)
 							{
-							strcpy(tempstr, TOKENINICIOEVAL);
+							tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
 							strcat(tempstr, pontostr);
-							strcat(tempstr, TOKENFIMEVAL);
+							tc = TOKENFIMEVAL; strncat(tempstr, & tc, 1);
 							}
 						else
 							{
-							char tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
+							tc = TOKENINICIOEVAL; strncat(tempstr, & tc, 1);
 							strcat(tempstr, pontostr);
-							strcat(tempstr, TOKENFIMEVAL);
+							tc = TOKENFIMEVAL; strncat(tempstr, & tc, 1);
 							}
 
 						k += strlen(pontostr) + 2;

@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de linhas tridimensional
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 16-07-2024.
+Última atualização: 31-07-2024.
 */
 
 #include <stdio.h>
@@ -40,8 +40,8 @@ int main (int argc, char * argv[])
 	int valorn [MAXITENS];
 	char rgb [MAXITENS] [MAXTAMANHOCAMPO];
 	char verifstr [MAXTAMANHOCAMPO];
-	double max = 0;
-	double valoresnumericos [MAXITENS] [MAXITENS];
+	long double max = 0;
+	long double valoresnumericos [MAXITENS] [MAXITENS];
 	char * err;
 	char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", uma string composta dos item a exibir separados por barra vertical \"|\", cada item composto dos valores separados por vírgula \",\", e da cor separados por ponto e vírgula \";\", a cor RGB com os valores para vermelho, verde e azul separados por vírgula \",\". 2: a altura máxima.\n";
 
@@ -184,7 +184,7 @@ int main (int argc, char * argv[])
 	for (i = 0; i < argi; i++)
 		for (j = 0; j < valorn[i] - 1; j++)
 			{
-			printf("0,%d,%f;0,%d,%fc%s|", j, altura * valoresnumericos[i][j] / max, j+1, altura * valoresnumericos[i][j+1] / max, rgb[i]);
+			printf("0,%d,%Lf;0,%d,%Lfc%s|", j, altura * valoresnumericos[i][j] / max, j+1, altura * valoresnumericos[i][j+1] / max, rgb[i]);
 
 			fflush(stdout);
 			}

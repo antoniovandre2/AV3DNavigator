@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de pizza tridimensional.
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",". 2: o raio. 3: a espessura. 4: a resolução.
 
-Última atualização: 17-11-2023.
+Última atualização: 31-07-2024.
 */
 
 #include <stdio.h>
@@ -44,9 +44,9 @@ int main (int argc, char * argv[])
 	char valor [MAXITENS] [MAXTAMANHOCAMPO];
 	char rgb [MAXITENS] [MAXTAMANHOCAMPO];
 	char verifstr [MAXTAMANHOCAMPO];
-	double soma = 0;
-	double valoresnumericos [MAXITENS];
-	double anguloinicial = 0;
+	long double soma = 0;
+	long double valoresnumericos [MAXITENS];
+	long double anguloinicial = 0;
 	char * err;
 	char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", uma string composta dos item a exibir separados por barra vertical \"|\", cada item composto do valor e da cor separados por ponto e vírgula \";\", a cor RGB com os valores para vermelho, verde e azul separados por vírgula \",\". 2: o raio. 3: a espessura. 4: a resolução.\n";
 
@@ -196,11 +196,11 @@ int main (int argc, char * argv[])
 			{
 			double x = 0;
 
-			printf("%f,%f,%f;%f,%f,%f;%f,%f,%fc%s|", x, 0, 0, x, raio * cos(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), x, raio * cos(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), rgb[i]);
+			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", x, 0, 0, x, raio * cos(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), x, raio * cos(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), rgb[i]);
 
 			x = espessura;
 
-			printf("%f,%f,%f;%f,%f,%f;%f,%f,%fc%s|", x, 0, 0, x, raio * cos(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), x, raio * cos(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), rgb[i]);
+			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", x, 0, 0, x, raio * cos(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), x, raio * cos(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), rgb[i]);
 			}
 		}
 
@@ -211,7 +211,7 @@ int main (int argc, char * argv[])
 		if (i > 0) anguloinicial += 2 * M_PI * valoresnumericos[i - 1] / soma;
 
 		for (j = 0; j < resolucao; j++)
-			printf("%f,%f,%f;%f,%f,%f;%f,%f,%f;%f,%f,%fc%s|", 0, raio * cos(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), espessura, raio * cos(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), espessura, raio * cos(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), 0, raio * cos(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), rgb[i]);
+			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", 0, raio * cos(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), espessura, raio * cos(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), espessura, raio * cos(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), 0, raio * cos(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sin(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), rgb[i]);
 		}
 
 	printf("@");

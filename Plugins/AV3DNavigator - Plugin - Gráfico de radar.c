@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de radar tridimensional.
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 17-11-2023.
+Última atualização: 31-07-2024.
 */
 
 #include <stdio.h>
@@ -44,8 +44,8 @@ int main (int argc, char * argv[])
 	char valor [MAXITENS] [MAXTAMANHOCAMPO];
 	char rgb [MAXITENS] [MAXTAMANHOCAMPO];
 	char verifstr [MAXTAMANHOCAMPO];
-	double max = 0;
-	double valoresnumericos [MAXITENS];
+	long double max = 0;
+	long double valoresnumericos [MAXITENS];
 	char * err;
 	char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", uma string composta dos item a exibir separados por barra vertical \"|\", cada item composto do valor e da cor separados por ponto e vírgula \";\", a cor RGB com os valores para vermelho, verde e azul separados por vírgula \",\". 2: o raio principal. 3: o raio dos itens. 4: a resolução.\n";
 
@@ -188,16 +188,16 @@ int main (int argc, char * argv[])
 
 	for (i = 0; i < argi; i++)
 		for (j = 0; j < resolucao; j++)
-			printf("%f,%f,%f;%f,%f,%fc%s|", 0, raioprincipal * valoresnumericos[i] / max * cos(j * 2 * M_PI / resolucao), raioprincipal * valoresnumericos[i] / max * sin(j * 2 * M_PI / resolucao), 0, raioprincipal * valoresnumericos[i] / max * cos((j + 1) * 2 * M_PI / resolucao), raioprincipal * valoresnumericos[i] / max * sin((j + 1) * 2 * M_PI / resolucao), rgb[i]);
+			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", 0, raioprincipal * valoresnumericos[i] / max * cos(j * 2 * M_PI / resolucao), raioprincipal * valoresnumericos[i] / max * sin(j * 2 * M_PI / resolucao), 0, raioprincipal * valoresnumericos[i] / max * cos((j + 1) * 2 * M_PI / resolucao), raioprincipal * valoresnumericos[i] / max * sin((j + 1) * 2 * M_PI / resolucao), rgb[i]);
 
 	for (i = 0; i < argi; i++)
-		printf("%f,%f,%f;%f,%f,%f|", 0, raioprincipal * valoresnumericos[i] / max * cos(i * 2 * M_PI / argi), raioprincipal* valoresnumericos[i] / max * sin(i * 2 * M_PI / argi), 0, raioprincipal * valoresnumericos[(i + 1) % argi] / max * cos((i + 1) * 2 * M_PI / argi), raioprincipal* valoresnumericos[(i + 1) % argi] / max * sin((i + 1) * 2 * M_PI / argi));
+		printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf|", 0, raioprincipal * valoresnumericos[i] / max * cos(i * 2 * M_PI / argi), raioprincipal* valoresnumericos[i] / max * sin(i * 2 * M_PI / argi), 0, raioprincipal * valoresnumericos[(i + 1) % argi] / max * cos((i + 1) * 2 * M_PI / argi), raioprincipal* valoresnumericos[(i + 1) % argi] / max * sin((i + 1) * 2 * M_PI / argi));
 
 	printf("@");
 
 	for (i = 0; i < argi; i++)
 		for (j = 0; j < resolucao; j++)
-			printf("%f,%f,%f;%f,%f,%f;%f,%f,%fc%s|", 0, raioprincipal * valoresnumericos[i] / max * cos(i * 2 * M_PI / argi), raioprincipal * valoresnumericos[i] / max * sin(i * 2 * M_PI / argi), 0, raioprincipal * valoresnumericos[i] / max * cos(i * 2 * M_PI / argi) + raioitens * cos(j * 2 * M_PI / resolucao), raioprincipal * valoresnumericos[i] / max * sin(i * 2 * M_PI / argi) + raioitens * sin(j * 2 * M_PI / resolucao), 0, raioprincipal * valoresnumericos[i] / max * cos(i * 2 * M_PI / argi) + raioitens * cos((j + 1) * 2 * M_PI / resolucao), raioprincipal * valoresnumericos[i] / max * sin(i * 2 * M_PI / argi) + raioitens * sin((j + 1) * 2 * M_PI / resolucao), rgb[i]);
+			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", 0, raioprincipal * valoresnumericos[i] / max * cos(i * 2 * M_PI / argi), raioprincipal * valoresnumericos[i] / max * sin(i * 2 * M_PI / argi), 0, raioprincipal * valoresnumericos[i] / max * cos(i * 2 * M_PI / argi) + raioitens * cos(j * 2 * M_PI / resolucao), raioprincipal * valoresnumericos[i] / max * sin(i * 2 * M_PI / argi) + raioitens * sin(j * 2 * M_PI / resolucao), 0, raioprincipal * valoresnumericos[i] / max * cos(i * 2 * M_PI / argi) + raioitens * cos((j + 1) * 2 * M_PI / resolucao), raioprincipal * valoresnumericos[i] / max * sin(i * 2 * M_PI / argi) + raioitens * sin((j + 1) * 2 * M_PI / resolucao), rgb[i]);
 
 	printf("@");
 
