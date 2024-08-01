@@ -3,11 +3,11 @@ Proprietário: Antonio Vandré Pedrosa Furtunato Gomes (bit.ly/antoniovandre_leg
 
 AV3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
-Arquivo gerador de um espaço do AV3DNavigator gráfico de função.
+Arquivo gerador de um espaço do AV3DNavigator gráfico de curva em coordenadas paramétrico-polares.
 
-Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "Y", o menor valor atribuído a "Y", o maior valor atribuído a "Y", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
+Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função θ em "U", a função ρ em "U", o menor valor atribuído a "U", o maior valor atribuído a "U", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 31-07-2024. Sem considerar alterações em variáveis globais.
+Última atualização: 31-06-2024. Sem considerar alterações em variáveis globais.
 */
 
 #include "antoniovandre_eval/antoniovandre.c"
@@ -34,13 +34,17 @@ int main (int argc, char * argv[])
 	int o;
 	int p;
 	int q;
+	int r;
 	char c;
 	int flag = NUMEROZERO;
 	char mainstring [MAXTAMANHOCAMPO];
 	char resstring [MAXTAMANHOCAMPO];
 	char titulo [MAXTAMANHOCAMPO];
 	char item [MAXITENS] [MAXTAMANHOCAMPO];
-	char funcao [MAXITENS] [MAXTAMANHOCAMPO];
+	char funcaoteta [MAXITENS] [MAXTAMANHOCAMPO];
+	char funcaorho [MAXITENS] [MAXTAMANHOCAMPO];
+	char funcaox [MAXITENS] [MAXTAMANHOCAMPO];
+	char funcaoy [MAXITENS] [MAXTAMANHOCAMPO];
 	char menor [MAXITENS] [MAXTAMANHOCAMPO];
 	char maior [MAXITENS] [MAXTAMANHOCAMPO];
 	char exclusao [MAXITENS] [MAXTAMANHOCAMPO];
@@ -54,7 +58,7 @@ int main (int argc, char * argv[])
 	char * err;
 	char tc;
 	char * output;
-	char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em \"Y\", o menor valor atribuído a \"Y\", o maior valor atribuído a \"Y\", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: a resolução.\n";
+	char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função θ em \"U\", a função ρ em \"U\", o menor valor atribuído a \"U\", o maior valor atribuído a \"U\", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: a resolução.\n";
 
 	int precisao = antoniovandre_precisao_real ();
 
@@ -64,7 +68,7 @@ int main (int argc, char * argv[])
 
 	for (i = NUMEROZERO; i < MAXITENS; i++)
 		for (j = NUMEROZERO; j < MAXTAMANHOCAMPO; j++)
-			{item[i][j] = '\0'; funcao[i][j] = '\0'; menor[i][j] = '\0'; maior[i][j] = '\0'; exclusao[i][j] = '\0'; rgb[i][j] = '\0';}
+			{item[i][j] = '\0'; funcaoteta[i][j] = '\0'; funcaorho[i][j] = '\0'; funcaox[i][j] = '\0'; funcaoy[i][j] = '\0'; menor[i][j] = '\0'; maior[i][j] = '\0'; exclusao[i][j] = '\0'; rgb[i][j] = '\0';}
 
 	j = NUMEROZERO;
 
@@ -115,34 +119,44 @@ int main (int argc, char * argv[])
 		do
 			{
 			c = item[argi][j];
-			if ((c != ';') && (c != '\0')) {funcao[argi][j++] = c;} else break;
+			if ((c != ';') && (c != '\0')) {funcaoteta[argi][j++] = c;} else break;
 			} while (VERDADE);
 
-		funcao[argi][j] = '\0';
+		funcaoteta[argi][j] = '\0';
 
 		k = NUMEROZERO;
 
 		do
 			{
 			c = item[argi][j + k + NUMEROUM];
-			if ((c != ';') && (c != '\0')) {menor[argi][k++] = c;} else break;
+			if ((c != ';') && (c != '\0')) {funcaorho[argi][k++] = c;} else break;
 			} while (VERDADE);
 
-		menor[argi][k] = '\0';
-
-		menores[argi] = strtod(menor[argi], &err);
-
-		if ((! strcmp(menor[argi], "")) || (err == menor[argi])) {printf(mensagemerro); return NUMEROUM;}
+		funcaorho[argi][k] = '\0';
 
 		l = NUMEROZERO;
 
 		do
 			{
 			c = item[argi][j + k + l + 2];
-			if ((c != ';') && (c != '\0')) {maior[argi][l++] = c;} else break;
+			if ((c != ';') && (c != '\0')) {menor[argi][l++] = c;} else break;
 			} while (VERDADE);
 
-		maior[argi][l] = '\0';
+		menor[argi][l] = '\0';
+
+		menores[argi] = strtod(menor[argi], &err);
+
+		if ((! strcmp(menor[argi], "")) || (err == menor[argi])) {printf(mensagemerro); return NUMEROUM;}
+
+		m = NUMEROZERO;
+
+		do
+			{
+			c = item[argi][j + k + l + m + 3];
+			if ((c != ';') && (c != '\0')) {maior[argi][m++] = c;} else break;
+			} while (VERDADE);
+
+		maior[argi][m] = '\0';
 
 		maiores[argi] = strtod(maior[argi], &err);
 
@@ -150,15 +164,15 @@ int main (int argc, char * argv[])
 
 		if (menores[argi] >= maiores[argi]) {printf(mensagemerro); return NUMEROUM;}
 
-		m = NUMEROZERO;
+		n = NUMEROZERO;
 
 		do
 			{
-			c = item[argi][j + k + l + m + 3];
-			if ((c != ';') && (c != '\0')) {exclusao[argi][m++] = c;} else break;
+			c = item[argi][j + k + l + m + n + 4];
+			if ((c != ';') && (c != '\0')) {exclusao[argi][n++] = c;} else break;
 			} while (VERDADE);
 
-		exclusao[argi][m] = '\0';
+		exclusao[argi][n] = '\0';
 
 		o = NUMEROZERO;
 		p = NUMEROZERO;
@@ -187,15 +201,15 @@ int main (int argc, char * argv[])
 			o++;
 			} while (c != '\0');
 
-		n = NUMEROZERO;
+		r = NUMEROZERO;
 
 		do
 			{
-			c = item[argi][j + k + l + m + n + 4];
-			if (c != '\0') {rgb[argi][n++] = c;} else break;
+			c = item[argi][j + k + l + m + n + r + 5];
+			if (c != '\0') {rgb[argi][r++] = c;} else break;
 			} while (VERDADE);
 
-		rgb[argi][n] = '\0';
+		rgb[argi][r] = '\0';
 
 		i = NUMEROZERO;
 
@@ -219,6 +233,36 @@ int main (int argc, char * argv[])
 		} while (flag == NUMEROZERO);
 
 	for (i = NUMEROZERO; i < argi; i++)
+		{
+		shift = NUMEROZERO;
+		tc = TOKENINICIOEVAL; strncat(funcaox[i], & tc, NUMEROUM);
+
+		do strncat(funcaox[i], & funcaorho[i][shift], NUMEROUM); while (funcaorho[i][++shift] != '\0');
+
+		tc = TOKENFIMEVAL; strncat(funcaox[i], & tc, NUMEROUM);
+
+		strcat(funcaox[i], "cos");
+		tc = TOKENINICIOEVAL; strncat(funcaox[i], & tc, NUMEROUM);
+		strcat(funcaox[i], funcaoteta[i]);
+		tc = TOKENFIMEVAL; strncat(funcaox[i], & tc, NUMEROUM);
+		}
+
+	for (i = NUMEROZERO; i < argi; i++)
+		{
+		shift = NUMEROZERO;
+		tc = TOKENINICIOEVAL; strncat(funcaoy[i], & tc, NUMEROUM);
+
+		do strncat(funcaoy[i], & funcaorho[i][shift], NUMEROUM); while (funcaorho[i][++shift] != '\0');
+
+		tc = TOKENFIMEVAL; strncat(funcaoy[i], & tc, NUMEROUM);
+
+		strcat(funcaoy[i], "sen");
+		tc = TOKENINICIOEVAL; strncat(funcaoy[i], & tc, NUMEROUM);
+		strcat(funcaoy[i], funcaoteta[i]);
+		tc = TOKENFIMEVAL; strncat(funcaoy[i], & tc, NUMEROUM);
+		}
+
+	for (i = NUMEROZERO; i < argi; i++)
 		for (j = NUMEROZERO; j < resolucao; j++)
 			{
 			flag = NUMEROZERO;
@@ -230,21 +274,16 @@ int main (int argc, char * argv[])
 			if (flag == NUMEROZERO)
 				{
 				char valorstr [MAXTAMANHOCAMPO];
+				char tempstr [MAXTAMANHOCAMPO];
+				char pontostr [MAXTAMANHOCAMPO];
 
 				for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
-
-				printf("0,%Lf,", menores[i] + j * (maiores[i] - menores[i]) / resolucao);
-
-				fflush(stdout);
 
 				if (! BUILTIN)
 					{
 					strcpy(valorstr, EVALSOFTWARE);
 					strcat(valorstr, " \"");
 					}
-
-				char tempstr [MAXTAMANHOCAMPO];
-				char pontostr [MAXTAMANHOCAMPO];
 
 				for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; pontostr[k] = '\0';}
 
@@ -255,9 +294,63 @@ int main (int argc, char * argv[])
 
 				do
 					{
-					c = funcao[i][shift++];
+					c = funcaox[i][shift++];
 
-					if (c != 'Y')
+					if (c != 'U')
+						{tempstr[k++] = c;}
+					else
+						{
+						tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
+						strcat(tempstr, pontostr);
+						tc = TOKENFIMEVAL; strncat(tempstr, & tc, NUMEROUM);
+
+						k += strlen(pontostr) + 2;
+						}
+					} while (c != '\0');
+
+				tempstr[k] = '\0';
+
+				strcat(valorstr, tempstr);
+
+				if (! BUILTIN)
+					{
+					strcat(valorstr, "\"");
+					strcat(valorstr, EVALSOFTWARETAIL);
+					}
+
+				printf("0,"); fflush(stdout);
+
+				if (BUILTIN)
+					{
+					output = antoniovandre_eval (valorstr, precisao);
+					printf("%s", output);
+					free (output);
+					}
+				else
+					system(valorstr);
+
+				fflush(stdout);
+
+				printf(","); fflush(stdout);
+
+				for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+
+				if (! BUILTIN)
+					{
+					strcpy(valorstr, EVALSOFTWARE);
+					strcat(valorstr, " \"");
+					}
+
+				for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0';}
+
+				shift = NUMEROZERO;
+				k = NUMEROZERO;
+
+				do
+					{
+					c = funcaoy[i][shift++];
+
+					if (c != 'U')
 						{tempstr[k++] = c;}
 					else
 						{
@@ -290,9 +383,7 @@ int main (int argc, char * argv[])
 
 				fflush(stdout);
 
-				printf(";0,%Lf,", menores[i] + (j + NUMEROUM) * (maiores[i] - menores[i]) / resolucao);
-
-				fflush(stdout);
+				printf(";0,"); fflush(stdout);
 
 				for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 
@@ -311,24 +402,70 @@ int main (int argc, char * argv[])
 
 				do
 					{
-					c = funcao[i][shift++];
+					c = funcaox[i][shift++];
 
-					if (c != 'Y')
+					if (c != 'U')
 						{tempstr[k++] = c;}
 					else
 						{
-						if (shift == NUMEROUM)
-							{
-							tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
-							strcat(tempstr, pontostr);
-							tc = TOKENFIMEVAL; strncat(tempstr, & tc, NUMEROUM);
-							}
-						else
-							{
-							tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
-							strcat(tempstr, pontostr);
-							tc = TOKENFIMEVAL; strncat(tempstr, & tc, NUMEROUM);
-							}
+						tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
+						strcat(tempstr, pontostr);
+						tc = TOKENFIMEVAL; strncat(tempstr, & tc, NUMEROUM);
+
+						k += strlen(pontostr) + 2;
+						}
+
+					} while (c != '\0');
+
+				tempstr[k] = '\0';
+
+				strcat(valorstr, tempstr);
+
+				if (! BUILTIN)
+					{
+					strcat(valorstr, "\"");
+					strcat(valorstr, EVALSOFTWARETAIL);
+					}
+
+				if (BUILTIN)
+					{
+					output = antoniovandre_eval (valorstr, precisao);
+					printf("%s", output);
+					free (output);
+					}
+				else
+					system(valorstr);
+
+				fflush(stdout);
+
+				printf(","); fflush(stdout);
+
+				for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
+
+				if (! BUILTIN)
+					{
+					strcpy(valorstr, EVALSOFTWARE);
+					strcat(valorstr, " \"");
+					}
+
+				for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) {tempstr[k] = '\0'; pontostr[k] = '\0';}
+
+				shift = NUMEROZERO;
+				k = NUMEROZERO;
+
+				sprintf(pontostr, "%Lf", menores[i] + (j + NUMEROUM) * (maiores[i] - menores[i]) / resolucao);
+
+				do
+					{
+					c = funcaoy[i][shift++];
+
+					if (c != 'U')
+						{tempstr[k++] = c;}
+					else
+						{
+						tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
+						strcat(tempstr, pontostr);
+						tc = TOKENFIMEVAL; strncat(tempstr, & tc, NUMEROUM);
 
 						k += strlen(pontostr) + 2;
 						}
@@ -366,5 +503,5 @@ int main (int argc, char * argv[])
 	printf("%s|_____|", titulo);
 
 	for (i = NUMEROZERO; i < argi; i++)
-		printf("x = 0, z = %s;%s|", funcao[i], rgb[i]);
+		printf("x = 0, θ = %s, ρ = %s;%s|", funcaoteta[i], funcaorho[i], rgb[i]);
 	}

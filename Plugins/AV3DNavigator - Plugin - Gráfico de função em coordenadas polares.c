@@ -16,7 +16,6 @@ Argumentos: 1: primeiramente a string título e, após barra vertical "|", strin
 
 #define MAXITENS 10
 #define MAXTAMANHOCAMPO 1024
-#define VERDADE 1
 
 #define EVALSOFTWARE "antoniovandre_eval"
 #define EVALSOFTWARETAIL " 0 2>> /dev/null \| tr -d ' ' \| tr -d '\n'"
@@ -50,10 +49,10 @@ int main (int argc, char * argv[])
 	char exclusaoarr [MAXITENS] [MAXITENS] [MAXTAMANHOCAMPO];
 	char rgb [MAXITENS] [MAXTAMANHOCAMPO];
 	char verifstr [MAXTAMANHOCAMPO];
-	long double menores [MAXITENS];
-	long double maiores [MAXITENS];
-	long double exclusoes [MAXITENS] [MAXITENS];
-	long double margemexclusao = 0.1;
+	TIPONUMEROREAL menores [MAXITENS];
+	TIPONUMEROREAL maiores [MAXITENS];
+	TIPONUMEROREAL exclusoes [MAXITENS] [MAXITENS];
+	TIPONUMEROREAL margemexclusao = 0.1;
 	char * err;
 	char tc;
 	char * output;
