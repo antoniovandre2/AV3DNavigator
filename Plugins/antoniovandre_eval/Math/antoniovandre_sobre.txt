@@ -139,6 +139,10 @@ Funções disponíveis para "antoniovandre_eval":
 
 "arccossec": função arco-cossecante.
 
+"cord": função corda.
+
+"arccord": função arco-corda.
+
 "ln": função logaritmo natural.
 
 "logdez": função logaritmo na base 10.
