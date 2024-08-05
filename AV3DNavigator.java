@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 30-07-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 05-08-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -1845,7 +1845,7 @@ public class AV3DNavigator extends JComponent
 
 			if (FlagINI == 1) {FlagAlteracaoStatus = 1; FlagINI = 0;}
 
-			if (LabelAnimado == 1) {LabelStatus.setVisible(false); LabelStatus.setVisible(true); if (FlagHelp == 1) {LabelHelp.setVisible(false); LabelHelp.setVisible(true);}}
+			if (FlagMostrarLabel == 1) if (LabelAnimado == 1) {LabelStatus.setVisible(false); LabelStatus.setVisible(true); if (FlagHelp == 1) {LabelHelp.setVisible(false); LabelHelp.setVisible(true);}}
 
 			try {Thread.sleep(SleepTime);} catch(InterruptedException e) {}
 			}
