@@ -5,9 +5,9 @@ AV3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador de um espaço do AV3DNavigator gráfico de uma curva tridimensional por coordenadas paramétricas.
 
-Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em VARIAVELDESUBSTITUICAO3 para "x", função em VARIAVELDESUBSTITUICAO3 para "y", função em VARIAVELDESUBSTITUICAO3 para "z", o menor valor atribuído a VARIAVELDESUBSTITUICAO3, o maior valor atribuído a VARIAVELDESUBSTITUICAO3, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
+Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "VARIAVELDESUBSTITUICAO3" para "x", função em "VARIAVELDESUBSTITUICAO3" para "y", função em "VARIAVELDESUBSTITUICAO3" para "z", o menor valor atribuído a "VARIAVELDESUBSTITUICAO3", o maior valor atribuído a \"VARIAVELDESUBSTITUICAO3\", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 09-07-2024. Sem considerar alterações em variáveis globais.
+Última atualização: 06-08-2024. Sem considerar alterações em variáveis globais.
 */
 
 #include "antoniovandre_eval/antoniovandre.c"
@@ -62,16 +62,41 @@ int main (int argc, char * argv[])
 	char maior [MAXITENS] [MAXTAMANHOCAMPO];
 	char rgb [MAXITENS] [MAXTAMANHOCAMPO];
 	char verifstr [MAXTAMANHOCAMPO];
+	char tempstr [MAXTAMANHOCAMPO];
 	TIPONUMEROREAL menores [MAXITENS];
 	TIPONUMEROREAL maiores [MAXITENS];
 	char * err;
-	char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em VARIAVELDESUBSTITUICAO3 para \"x\", função em VARIAVELDESUBSTITUICAO3 para \"y\", função em VARIAVELDESUBSTITUICAO3 para \"z\", o menor valor atribuído a VARIAVELDESUBSTITUICAO3, o maior valor atribuído a VARIAVELDESUBSTITUICAO3, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: a resolução.\n";
+	char mensagemerro [MAXTAMANHOCAMPO];
+	char * temp;
 
 	int precisao = antoniovandre_precisao_real ();
 
 	char variavel = (char) ((int) strtold (antoniovandre_eval("system variaveldesubstituicao3", precisao), & err));
 
-	if (argc != 3) {printf(mensagemerro); return 1;}
+	for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++) mensagemerro[i] = '\0';
+
+	strcpy(mensagemerro, "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em \"VARIAVELDESUBSTITUICAO3\" para \"x\", função em \"VARIAVELDESUBSTITUICAO3\" para \"y\", função em \"VARIAVELDESUBSTITUICAO3\" para \"z\", o menor valor atribuído a \"VARIAVELDESUBSTITUICAO3\", o maior valor atribuído a \"VARIAVELDESUBSTITUICAO3\", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: a resolução.\n");
+
+	for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++) tempstr[i] = '\0';
+
+	for (i = NUMEROZERO; i < strlen(mensagemerro); i++)
+		{
+		temp = antoniovandre_substring(mensagemerro, i, i + 22);
+
+		if (! (strcmp(temp, "VARIAVELDESUBSTITUICAO3")))
+			{
+			strncat(tempstr, & variavel, NUMEROUM);
+			i += 22;
+			}
+		else
+			strncat(tempstr, & mensagemerro[i], NUMEROUM);
+
+		free(temp);
+		}
+
+	strcpy(mensagemerro, tempstr);
+
+	if (argc != 3) {printf(mensagemerro); return NUMEROUM;}
 
 	for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++) {mainstring[i] = '\0'; resstring[i] = '\0';}
 
@@ -83,8 +108,8 @@ int main (int argc, char * argv[])
 
 	for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++)
 		{
-		if (argv[1][i] == '\0') break;
-		mainstring[j++] = argv[1][i];
+		if (argv[NUMEROUM][i] == '\0') break;
+		mainstring[j++] = argv[NUMEROUM][i];
 		}
 
 	j = NUMEROZERO;
@@ -97,7 +122,7 @@ int main (int argc, char * argv[])
 
 	int resolucao = atoi(resstring);
 
-	if (resolucao == 0) {printf(mensagemerro); return 1;}
+	if (resolucao == NUMEROZERO) {printf(mensagemerro); return NUMEROUM;}
 
 	do
 		{
@@ -121,7 +146,7 @@ int main (int argc, char * argv[])
 
 		item[argi][i] = '\0';
 
-		if (c == '\0') flag = 1;
+		if (c == '\0') flag = NUMEROUM;
 
 		j = NUMEROZERO;
 
@@ -163,9 +188,12 @@ int main (int argc, char * argv[])
 
 		menor[argi][m] = '\0';
 
-		menores[argi] = strtod(menor[argi], &err);
+		temp = antoniovandre_eval(menor[argi], precisao);
+		menores[argi] = strtod(temp, &err);
 
-		if ((! strcmp(menor[argi], "")) || (err == menor[argi])) {printf(mensagemerro); return 1;}
+		if ((! strcmp(menor[argi], "")) || (err == temp)) {printf(mensagemerro); free(temp); return NUMEROUM;}
+
+		free(temp);
 
 		n = NUMEROZERO;
 
@@ -177,11 +205,14 @@ int main (int argc, char * argv[])
 
 		maior[argi][n] = '\0';
 
-		maiores[argi] = strtod(maior[argi], &err);
+		temp = antoniovandre_eval(maior[argi], precisao);
+		maiores[argi] = strtod(temp, &err);
 
-		if ((! strcmp(maior[argi], "")) || (err == maior[argi])) {printf(mensagemerro); return 1;}
+		if ((! strcmp(maior[argi], "")) || (err == maior[argi])) {printf(mensagemerro); free(temp); return NUMEROUM;}
 
-		if (menores[argi] >= maiores[argi]) {printf(mensagemerro); return 1;}
+		free(temp);
+
+		if (menores[argi] >= maiores[argi]) {printf(mensagemerro); return NUMEROUM;}
 
 		o = NUMEROZERO;
 
@@ -205,14 +236,14 @@ int main (int argc, char * argv[])
 				{
 				c = rgb[argi][i++];
 				if ((c != '\0') && (c != ',')) {verifstr[j++] = c;} else break;
-				if ((c != '0') && (c != '1') && (c != '2') && (c != '3') && (c != '4') && (c != '5') && (c != '6') && (c != '7') && (c != '8') && (c != '9')) {printf(mensagemerro); return 1;}
+				if ((c != '0') && (c != '1') && (c != '2') && (c != '3') && (c != '4') && (c != '5') && (c != '6') && (c != '7') && (c != '8') && (c != '9')) {printf(mensagemerro); return NUMEROUM;}
 				} while (VERDADE);
 
-			if ((atoi (verifstr) < 0) || (atoi (verifstr) > 255))  {printf(mensagemerro); return 1;}
+			if ((atoi (verifstr) < NUMEROZERO) || (atoi (verifstr) > 255))  {printf(mensagemerro); return NUMEROUM;}
 			} while (c != '\0');
 
-		if (++argi > MAXITENS) {printf(mensagemerro); return 1;}
-		} while (flag == 0);
+		if (++argi > MAXITENS) {printf(mensagemerro); return NUMEROUM;}
+		} while (flag == NUMEROZERO);
 
 	for (i = NUMEROZERO; i < argi; i++)
 		for (j = NUMEROZERO; j < resolucao; j++)
@@ -362,7 +393,7 @@ int main (int argc, char * argv[])
 
 			for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostr[k] = '\0';
 
-			sprintf(pontostr, "%Lf", menores[i] + (j + 1) * (maiores[i] - menores[i]) / resolucao);
+			sprintf(pontostr, "%Lf", menores[i] + (j + NUMEROUM) * (maiores[i] - menores[i]) / resolucao);
 
 			for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) valorstr[k] = '\0';
 

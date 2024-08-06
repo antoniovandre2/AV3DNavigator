@@ -5,9 +5,9 @@ AV3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador de um espaço do AV3DNavigator superfície tridimensional por coordenadas polares.
 
-Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em VARIAVELDESUBSTITUICAO3 e VARIAVELDESUBSTITUICAO4 para "ρ", o menor valor atribuído a VARIAVELDESUBSTITUICAO3, o maior valor atribuído a VARIAVELDESUBSTITUICAO3, o menor valor atribuído a VARIAVELDESUBSTITUICAO4, o maior valor atribuído a "V", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: "grid" apenas para grid ou "fill" para polígonos preenchidos. 3: a resolução.
+Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em \"VARIAVELDESUBSTITUICAO3\" e "VARIAVELDESUBSTITUICAO4" para "ρ", o menor valor atribuído a "VARIAVELDESUBSTITUICAO3", o maior valor atribuído a "VARIAVELDESUBSTITUICAO3", o menor valor atribuído a "VARIAVELDESUBSTITUICAO4", o maior valor atribuído a "V", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: "grid" apenas para grid ou "fill" para polígonos preenchidos. 3: a resolução.
 
-Última atualização: 01-08-2024. Sem considerar alterações em variáveis globais.
+Última atualização: 06-08-2024. Sem considerar alterações em variáveis globais.
 */
 
 #include "antoniovandre_eval/antoniovandre.c"
@@ -74,18 +74,47 @@ int main (int argc, char * argv[])
 	TIPONUMEROREAL maioresv [MAXITENS];
 	char * err;
 	char tc;
-	char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em VARIAVELDESUBSTITUICAO3 e VARIAVELDESUBSTITUICAO4 para \"ρ\", o menor valor atribuído a VARIAVELDESUBSTITUICAO3, o maior valor atribuído a VARIAVELDESUBSTITUICAO3, o menor valor atribuído a VARIAVELDESUBSTITUICAO4, o maior valor atribuído a VARIAVELDESUBSTITUICAO4, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: \"grid\" apenas para grid ou \"fill\" para polígonos preenchidos. 3: a resolução.\n";
+	char mensagemerro [MAXTAMANHOCAMPO];
 	char valorstr [MAXTAMANHOCAMPO];
 	char tempstr [MAXTAMANHOCAMPO];
 	char tempstr2 [MAXTAMANHOCAMPO];
 	char pontostru [MAXTAMANHOCAMPO];
 	char pontostrv [MAXTAMANHOCAMPO];
+	char * temp;
 
 	int precisao = antoniovandre_precisao_real ();
 
 	char variavel1 = (char) ((int) strtold (antoniovandre_eval("system variaveldesubstituicao3", precisao), & err));
 
 	char variavel2 = (char) ((int) strtold (antoniovandre_eval("system variaveldesubstituicao4", precisao), & err));
+
+	for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++) mensagemerro[i] = '\0';
+
+	strcpy(mensagemerro, "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em \"VARIAVELDESUBSTITUICAO3\" e \"VARIAVELDESUBSTITUICAO4\" para \"ρ\", o menor valor atribuído a \"VARIAVELDESUBSTITUICAO3\", o maior valor atribuído a \"VARIAVELDESUBSTITUICAO3\", o menor valor atribuído a \"VARIAVELDESUBSTITUICAO4\", o maior valor atribuído a \"VARIAVELDESUBSTITUICAO4\", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: \"grid\" apenas para grid ou \"fill\" para polígonos preenchidos. 3: a resolução.\n");
+
+	for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++) tempstr[i] = '\0';
+
+	for (i = NUMEROZERO; i < strlen(mensagemerro); i++)
+		{
+		temp = antoniovandre_substring(mensagemerro, i, i + 22);
+
+		if (! (strcmp(temp, "VARIAVELDESUBSTITUICAO3")))
+			{
+			strncat(tempstr, & variavel1, NUMEROUM);
+			i += 22;
+			}
+		else if (! (strcmp(temp, "VARIAVELDESUBSTITUICAO4")))
+			{
+			strncat(tempstr, & variavel2, NUMEROUM);
+			i += 22;
+			}
+		else
+			strncat(tempstr, & mensagemerro[i], NUMEROUM);
+
+		free(temp);
+		}
+
+	strcpy(mensagemerro, tempstr);
 
 	if (argc != 4) {printf(mensagemerro); return NUMEROUM;}
 
@@ -170,9 +199,12 @@ int main (int argc, char * argv[])
 
 		menoru[argi][k] = '\0';
 
-		menoresu[argi] = strtod(menoru[argi], & err);
+		temp = antoniovandre_eval(menoru[argi], precisao);
+		menoresu[argi] = strtod(temp, & err);
 
-		if ((! strcmp(menoru[argi], "")) || (err == menoru[argi])) {printf(mensagemerro); return NUMEROUM;}
+		if ((! strcmp(menoru[argi], "")) || (err == temp)) {printf(mensagemerro); free(temp); return NUMEROUM;}
+
+		free(temp);
 
 		l = NUMEROZERO;
 
@@ -184,9 +216,12 @@ int main (int argc, char * argv[])
 
 		maioru[argi][l] = '\0';
 
-		maioresu[argi] = strtod(maioru[argi], & err);
+		temp = antoniovandre_eval(maioru[argi], precisao);
+		maioresu[argi] = strtod(temp, & err);
 
-		if ((! strcmp(maioru[argi], "")) || (err == maioru[argi])) {printf(mensagemerro); return NUMEROUM;}
+		if ((! strcmp(maioru[argi], "")) || (err == temp)) {printf(mensagemerro); free(temp); return NUMEROUM;}
+
+		free(temp);
 
 		if (menoresu[argi] >= maioresu[argi]) {printf(mensagemerro); return NUMEROUM;}
 
@@ -200,9 +235,12 @@ int main (int argc, char * argv[])
 
 		menorv[argi][m] = '\0';
 
-		menoresv[argi] = strtod(menorv[argi], & err);
+		temp = antoniovandre_eval(menorv[argi], precisao);
+		menoresv[argi] = strtod(temp, & err);
 
-		if ((! strcmp(menorv[argi], "")) || (err == menorv[argi])) {printf(mensagemerro); return NUMEROUM;}
+		if ((! strcmp(menorv[argi], "")) || (err == temp)) {printf(mensagemerro); free(temp); return NUMEROUM;}
+
+		free(temp);
 
 		n = NUMEROZERO;
 
@@ -214,9 +252,12 @@ int main (int argc, char * argv[])
 
 		maiorv[argi][n] = '\0';
 
-		maioresv[argi] = strtod(maiorv[argi], & err);
+		temp = antoniovandre_eval(maiorv[argi], precisao);
+		maioresv[argi] = strtod(temp, & err);
 
-		if ((! strcmp(maiorv[argi], "")) || (err == maiorv[argi])) {printf(mensagemerro); return NUMEROUM;}
+		if ((! strcmp(maiorv[argi], "")) || (err == temp)) {printf(mensagemerro); free(temp); return NUMEROUM;}
+
+		free(temp);
 
 		if (menoresv[argi] >= maioresv[argi]) {printf(mensagemerro); return NUMEROUM;}
 
@@ -355,12 +396,6 @@ int main (int argc, char * argv[])
 		for (i = NUMEROZERO; i < argi; i++)
 			for (l = NUMEROZERO; l < resolucao; l++)
 				{
-				char valorstr [MAXTAMANHOCAMPO];
-				char tempstr [MAXTAMANHOCAMPO];
-				char tempstr2 [MAXTAMANHOCAMPO];
-				char pontostru [MAXTAMANHOCAMPO];
-				char pontostrv [MAXTAMANHOCAMPO];
-
 				for (j = NUMEROZERO; j < resolucao; j++)
 					{
 					for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';
@@ -1304,12 +1339,6 @@ int main (int argc, char * argv[])
 		for (i = NUMEROZERO; i < argi; i++)
 			for (l = NUMEROZERO; l < resolucao; l++)
 				{
-				char valorstr [MAXTAMANHOCAMPO];
-				char tempstr [MAXTAMANHOCAMPO];
-				char tempstr2 [MAXTAMANHOCAMPO];
-				char pontostru [MAXTAMANHOCAMPO];
-				char pontostrv [MAXTAMANHOCAMPO];
-
 				for (j = NUMEROZERO; j < resolucao; j++)
 					{
 					for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostrv[k] = '\0';

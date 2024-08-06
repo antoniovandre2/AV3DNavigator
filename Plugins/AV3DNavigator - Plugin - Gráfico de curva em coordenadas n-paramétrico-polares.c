@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de curva em coordenadas 
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta dos pares de funções θ em "U" e funções ρ em "U" separadas por vírgula ",", o menor valor atribuído a "U", o maior valor atribuído a "U", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
 
-Última atualização: 01-07-2024. Sem considerar alterações em variáveis globais.
+Última atualização: 06-08-2024. Sem considerar alterações em variáveis globais.
 */
 
 #include "antoniovandre_eval/antoniovandre.c"
@@ -60,6 +60,7 @@ int main (int argc, char * argv[])
 	char tc;
 	char * output;
 	char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta dos pares de funções θ em \"U\" e funções ρ em \"U\" separadas por vírgula \",\", o menor valor atribuído a \"U\", o maior valor atribuído a \"U\", os pontos de exclusões no intervalo separados por vírgula, e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: a resolução.\n";
+	char * temp;
 
 	int precisao = antoniovandre_precisao_real ();
 
@@ -156,9 +157,12 @@ int main (int argc, char * argv[])
 
 		menor[argi][l] = '\0';
 
-		menores[argi] = strtod(menor[argi], &err);
+		temp = antoniovandre_eval(menor[argi], precisao);
+		menores[argi] = strtod(temp, &err);
 
-		if ((! strcmp(menor[argi], "")) || (err == menor[argi])) {printf(mensagemerro); return NUMEROUM;}
+		if ((! strcmp(menor[argi], "")) || (err == temp)) {printf(mensagemerro); free(temp); return NUMEROUM;}
+
+		free(temp);
 
 		m = NUMEROZERO;
 
@@ -170,9 +174,12 @@ int main (int argc, char * argv[])
 
 		maior[argi][m] = '\0';
 
-		maiores[argi] = strtod(maior[argi], &err);
+		temp = antoniovandre_eval(maior[argi], precisao);
+		maiores[argi] = strtod(temp, &err);
 
-		if ((! strcmp(maior[argi], "")) || (err == maior[argi])) {printf(mensagemerro); return NUMEROUM;}
+		if ((! strcmp(maior[argi], "")) || (err == temp)) {printf(mensagemerro); free(temp); return NUMEROUM;}
+
+		free(temp);
 
 		if (menores[argi] >= maiores[argi]) {printf(mensagemerro); return NUMEROUM;}
 
