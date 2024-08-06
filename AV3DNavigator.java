@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 05-08-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 06-08-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -304,33 +304,42 @@ public class AV3DNavigator extends JComponent
 			int width = getWidth();
 			int height = getHeight();
 
-			GradientPaint paint = new GradientPaint(0, 0, CorInicial, width, height, CorFinal, true);
+			GradientPaint paint;
 
 			switch (id)
 				{
 				case 1:
-					if ((dxGLS == 0) && (dyGLS == 0)) {fxGLS = 1; fyGLS = 0;}
-					if ((dxGLS == width) && (dyGLS == 0)) {fxGLS = 0; fyGLS = 1;}
-					if ((dxGLS == width) && (dyGLS == height)) {fxGLS = -1; fyGLS = 0;}
-					if ((dxGLS == 0) && (dyGLS == height)) {fxGLS = 0; fyGLS = -1;}
+					if (FlagMostrarLabel == 1) if (LabelAnimado == 1)
+						{
+						if ((dxGLS == 0) && (dyGLS == 0)) {fxGLS = 1; fyGLS = 0;}
+						if ((dxGLS == width) && (dyGLS == 0)) {fxGLS = 0; fyGLS = 1;}
+						if ((dxGLS == width) && (dyGLS == height)) {fxGLS = -1; fyGLS = 0;}
+						if ((dxGLS == 0) && (dyGLS == height)) {fxGLS = 0; fyGLS = -1;}
 
-					dxGLS += fxGLS; dyGLS += fyGLS;
+						dxGLS += fxGLS; dyGLS += fyGLS;
+						}
 
 					paint = new GradientPaint(dxGLS, dyGLS, CorInicial, width - dxGLS, height - dyGLS, CorFinal, true);
+
 					break;
 
 				case 2:
-					if ((dxGLH == 0) && (dyGLH == 0)) {fxGLH = 1; fyGLH = 0;}
-					if ((dxGLH == width) && (dyGLH == 0)) {fxGLH = 0; fyGLH = 1;}
-					if ((dxGLH == width) && (dyGLH == height)) {fxGLH = -1; fyGLH = 0;}
-					if ((dxGLH == 0) && (dyGLH == height)) {fxGLH = 0; fyGLH = -1;}
+					if (LabelAnimado == 1)
+						{
+						if ((dxGLH == 0) && (dyGLH == 0)) {fxGLH = 1; fyGLH = 0;}
+						if ((dxGLH == width) && (dyGLH == 0)) {fxGLH = 0; fyGLH = 1;}
+						if ((dxGLH == width) && (dyGLH == height)) {fxGLH = -1; fyGLH = 0;}
+						if ((dxGLH == 0) && (dyGLH == height)) {fxGLH = 0; fyGLH = -1;}
 
-					dxGLH += fxGLH; dyGLH += fyGLH;
+						dxGLH += fxGLH; dyGLH += fyGLH;
+						}
 
 					paint = new GradientPaint(dxGLH, dyGLH, CorInicial, width - dxGLH, height - dyGLH, CorFinal, true);
 					break;
 
 				default:
+					paint = new GradientPaint(0, 0, CorInicial, width, height, CorFinal, true);
+
 					break;
 				}
 
