@@ -75,7 +75,7 @@ int main (int argc, char * argv[])
 		rstring[j++] = argv[2][i];
 		}
 
-	double raio = strtod(rstring, &err);
+	long double raio = strtod(rstring, &err);
 
 	if ((! strcmp(rstring, "")) || (err == rstring)) {printf(mensagemerro); return 1;}
 
@@ -87,7 +87,7 @@ int main (int argc, char * argv[])
 		espstring[j++] = argv[3][i];
 		}
 
-	double espessura = strtod(espstring, &err);
+	long double espessura = strtod(espstring, &err);
 
 	if ((! strcmp(espstring, "")) || (err == espstring)) {printf(mensagemerro); return 1;}
 
@@ -194,7 +194,7 @@ int main (int argc, char * argv[])
 
 		for (j = 0; j < resolucao; j++)
 			{
-			double x = 0;
+			long double x = 0;
 
 			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", x, 0, 0, x, raio * cosl(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sinl(anguloinicial + j * 2 * M_PI * valoresnumericos[i] / soma / resolucao), x, raio * cosl(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), raio * sinl(anguloinicial + (j + 1) * 2 * M_PI * valoresnumericos[i] / soma / resolucao), rgb[i]);
 

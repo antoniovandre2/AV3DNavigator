@@ -287,8 +287,8 @@ int main (int argc, char * argv[])
 
 	if (kprocurar != -1) for (i = 0; i < argi; i++)
 		{
-		double shiftlateral = 0;
-		double max = 0;
+		long double shiftlateral = 0;
+		long double max = 0;
 		int lengthtexto = strlen(texto[i]);
 
 		for (j = 0; j < lengthtexto; j++)
@@ -340,7 +340,7 @@ int main (int argc, char * argv[])
 
 								vx1str[l] = '\0';
 
-								double vx1 = strtod(vx1str, &err);
+								long double vx1 = strtod(vx1str, &err);
 
 								if ((! strcmp(vx1str, "")) || (err == vx1str)) {printf(mensagemerroarqfon); return 1;}
 
@@ -354,7 +354,7 @@ int main (int argc, char * argv[])
 
 								vy1str[m] = '\0';
 
-								double vy1 = strtod(vy1str, &err);
+								long double vy1 = strtod(vy1str, &err);
 
 								if ((! strcmp(vy1str, "")) || (err == vy1str)) {printf(mensagemerroarqfon); return 1;}
 
@@ -368,7 +368,7 @@ int main (int argc, char * argv[])
 
 								vx2str[n] = '\0';
 
-								double vx2 = strtod(vx2str, &err);
+								long double vx2 = strtod(vx2str, &err);
 
 								if ((! strcmp(vx2str, "")) || (err == vx2str)) {printf(mensagemerroarqfon); return 1;}
 
@@ -382,7 +382,7 @@ int main (int argc, char * argv[])
 
 								vy2str[o] = '\0';
 
-								double vy2 = strtod(vy2str, &err);
+								long double vy2 = strtod(vy2str, &err);
 
 								if ((! strcmp(vy2str, "")) || (err == vy2str)) {printf(mensagemerroarqfon); return 1;}
 
@@ -396,7 +396,7 @@ int main (int argc, char * argv[])
 
 								vx3str[p] = '\0';
 
-								double vx3 = strtod(vx3str, &err);
+								long double vx3 = strtod(vx3str, &err);
 
 								if ((! strcmp(vx3str, "")) || (err == vx3str)) {printf(mensagemerroarqfon); return 1;}
 
@@ -410,7 +410,7 @@ int main (int argc, char * argv[])
 
 								vy3str[q] = '\0';
 
-								double vy3 = strtod(vy3str, &err);
+								long double vy3 = strtod(vy3str, &err);
 
 								if ((! strcmp(vy3str, "")) || (err == vy3str)) {printf(mensagemerroarqfon); return 1;}
 
@@ -424,7 +424,7 @@ int main (int argc, char * argv[])
 
 								vx4str[r] = '\0';
 
-								double vx4 = strtod(vx4str, &err);
+								long double vx4 = strtod(vx4str, &err);
 
 								if ((! strcmp(vx4str, "")) || (err == vx4str)) {printf(mensagemerroarqfon); return 1;}
 
@@ -438,7 +438,7 @@ int main (int argc, char * argv[])
 
 								vy4str[s] = '\0';
 
-								double vy4 = strtod(vy4str, &err);
+								long double vy4 = strtod(vy4str, &err);
 
 								if ((! strcmp(vy4str, "")) || (err == vy4str)) {printf(mensagemerroarqfon); return 1;}
 
@@ -536,7 +536,7 @@ int main (int argc, char * argv[])
 
 								vcxstr[l] = '\0';
 
-								double vcx = strtod(vcxstr, &err);
+								long double vcx = strtod(vcxstr, &err);
 
 								if ((! strcmp(vcxstr, "")) || (err == vcxstr)) {printf(mensagemerroarqfon); return 1;}
 
@@ -550,7 +550,7 @@ int main (int argc, char * argv[])
 
 								vcystr[m] = '\0';
 
-								double vcy = strtod(vcystr, &err);
+								long double vcy = strtod(vcystr, &err);
 
 								if ((! strcmp(vcystr, "")) || (err == vcystr)) {printf(mensagemerroarqfon); return 1;}
 
@@ -564,7 +564,7 @@ int main (int argc, char * argv[])
 
 								vr1str[n] = '\0';
 
-								double vr1 = strtod(vr1str, &err);
+								long double vr1 = strtod(vr1str, &err);
 
 								if ((! strcmp(vr1str, "")) || (err == vr1str)) {printf(mensagemerroarqfon); return 1;}
 
@@ -578,7 +578,7 @@ int main (int argc, char * argv[])
 
 								vr2str[n] = '\0';
 
-								double vr2 = strtod(vr2str, &err);
+								long double vr2 = strtod(vr2str, &err);
 
 								if ((! strcmp(vr2str, "")) || (err == vr2str)) {printf(mensagemerroarqfon); return 1;}
 
@@ -592,7 +592,7 @@ int main (int argc, char * argv[])
 
 								vaistr[p] = '\0';
 
-								double vai = strtod(vaistr, &err);
+								long double vai = strtod(vaistr, &err);
 
 								if ((! strcmp(vaistr, "")) || (err == vaistr)) {printf(mensagemerroarqfon); return 1;}
 
@@ -606,7 +606,7 @@ int main (int argc, char * argv[])
 
 								vafstr[q] = '\0';
 
-								double vaf = strtod(vafstr, &err);
+								long double vaf = strtod(vafstr, &err);
 
 								if ((! strcmp(vafstr, "")) || (err == vafstr)) {printf(mensagemerroarqfon); return 1;}
 

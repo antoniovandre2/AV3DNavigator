@@ -5,9 +5,9 @@ AV3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador de um espaço do AV3DNavigator gráfico de barras tridimensional.
 
-Argumentos: 1: primeiramente a string título e, após barra vertical "|", uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
+Argumentos: 1: primeiramente a string título e, após barra vertical "|", uma string composta dos item a exibir separados por barra vertical "|", cada item composto do valor e da cor separados por ponto e vírgula ";", a cor RGB com os valores para vermelho, verde e azul separados por vírgula ",". 2: a largura. 3: a profundidade. 4: o espaçamento. 5: a altura. 6: a resolução.
 
-Última atualização: 31-07-2024.
+Última atualização: 06-08-2024.
 */
 
 #include <stdio.h>
@@ -75,7 +75,7 @@ int main (int argc, char * argv[])
 		lstring[j++] = argv[2][i];
 		}
 
-	double largura = strtod(lstring, &err);
+	long double largura = strtod(lstring, &err);
 
 	if ((! strcmp(lstring, "")) || (err == lstring)) {printf(mensagemerro); return 1;}
 
@@ -87,7 +87,7 @@ int main (int argc, char * argv[])
 		pstring[j++] = argv[3][i];
 		}
 
-	double profundidade = strtod(pstring, &err);
+	long double profundidade = strtod(pstring, &err);
 
 	if ((! strcmp(pstring, "")) || (err == pstring)) {printf(mensagemerro); return 1;}
 
@@ -99,7 +99,7 @@ int main (int argc, char * argv[])
 		spstring[j++] = argv[4][i];
 		}
 
-	double espacamento = strtod(spstring, &err);
+	long double espacamento = strtod(spstring, &err);
 
 	if ((! strcmp(spstring, "")) || (err == spstring)) {printf(mensagemerro); return 1;}
 
@@ -111,7 +111,7 @@ int main (int argc, char * argv[])
 		altstring[j++] = argv[5][i];
 		}
 
-	double altura = strtod(altstring, &err);
+	long double altura = strtod(altstring, &err);
 
 	if ((! strcmp(altstring, "")) || (err == altstring)) {printf(mensagemerro); return 1;}
 
@@ -217,7 +217,7 @@ int main (int argc, char * argv[])
 		{
 		for (j = 0; j < resolucao; j++)
 			{
-			double x = 0;
+			long double x = 0;
 
 			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;", x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + j * largura / resolucao), 0, x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + (j + 1) * largura / resolucao), 0, x, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + (j + 1) * largura / resolucao), altura * valoresnumericos[i] / max);
 
@@ -240,7 +240,7 @@ int main (int argc, char * argv[])
 
 		for (j = 0; j < resolucao; j++)
 			{
-			double y = 0;
+			long double y = 0;
 
 			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), 0, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), 0, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + y), altura * valoresnumericos[i] / max);
 
@@ -264,7 +264,7 @@ int main (int argc, char * argv[])
 
 		for (i = 0; i < argi; i++) for (j = 0; j < resolucao; j++)
 			{
-			double z = 0;
+			long double z = 0;
 
 			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;", j * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2), z, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2), z, (j + 1) * profundidade / resolucao, -(i * (espacamento + largura) - (largura * argi + espacamento * (argi - 1)) / 2 + largura), z);
 
