@@ -301,54 +301,57 @@ public class AV3DNavigator extends JComponent
 
 		public void paint(Graphics g)
 			{
-			int width = getWidth();
-			int height = getHeight();
-
-			GradientPaint paint;
-
-			switch (id)
+			if (FlagMostrarLabel == 1)
 				{
-				case 1:
-					if (FlagMostrarLabel == 1) if (LabelAnimado == 1)
-						{
-						if ((dxGLS == 0) && (dyGLS == 0)) {fxGLS = 1; fyGLS = 0;}
-						if ((dxGLS == width) && (dyGLS == 0)) {fxGLS = 0; fyGLS = 1;}
-						if ((dxGLS == width) && (dyGLS == height)) {fxGLS = -1; fyGLS = 0;}
-						if ((dxGLS == 0) && (dyGLS == height)) {fxGLS = 0; fyGLS = -1;}
+				int width = getWidth();
+				int height = getHeight();
 
-						dxGLS += fxGLS; dyGLS += fyGLS;
-						}
+				GradientPaint paint;
 
-					paint = new GradientPaint(dxGLS, dyGLS, CorInicial, width - dxGLS, height - dyGLS, CorFinal, true);
+				switch (id)
+					{
+					case 1:
+						if (LabelAnimado == 1)
+							{
+							if ((dxGLS == 0) && (dyGLS == 0)) {fxGLS = 1; fyGLS = 0;}
+							if ((dxGLS == width) && (dyGLS == 0)) {fxGLS = 0; fyGLS = 1;}
+							if ((dxGLS == width) && (dyGLS == height)) {fxGLS = -1; fyGLS = 0;}
+							if ((dxGLS == 0) && (dyGLS == height)) {fxGLS = 0; fyGLS = -1;}
 
-					break;
+							dxGLS += fxGLS; dyGLS += fyGLS;
+							}
 
-				case 2:
-					if (LabelAnimado == 1)
-						{
-						if ((dxGLH == 0) && (dyGLH == 0)) {fxGLH = 1; fyGLH = 0;}
-						if ((dxGLH == width) && (dyGLH == 0)) {fxGLH = 0; fyGLH = 1;}
-						if ((dxGLH == width) && (dyGLH == height)) {fxGLH = -1; fyGLH = 0;}
-						if ((dxGLH == 0) && (dyGLH == height)) {fxGLH = 0; fyGLH = -1;}
+						paint = new GradientPaint(dxGLS, dyGLS, CorInicial, width - dxGLS, height - dyGLS, CorFinal, true);
 
-						dxGLH += fxGLH; dyGLH += fyGLH;
-						}
+						break;
 
-					paint = new GradientPaint(dxGLH, dyGLH, CorInicial, width - dxGLH, height - dyGLH, CorFinal, true);
-					break;
+					case 2:
+						if (LabelAnimado == 1)
+							{
+							if ((dxGLH == 0) && (dyGLH == 0)) {fxGLH = 1; fyGLH = 0;}
+							if ((dxGLH == width) && (dyGLH == 0)) {fxGLH = 0; fyGLH = 1;}
+							if ((dxGLH == width) && (dyGLH == height)) {fxGLH = -1; fyGLH = 0;}
+							if ((dxGLH == 0) && (dyGLH == height)) {fxGLH = 0; fyGLH = -1;}
 
-				default:
-					paint = new GradientPaint(0, 0, CorInicial, width, height, CorFinal, true);
+							dxGLH += fxGLH; dyGLH += fyGLH;
+							}
 
-					break;
+						paint = new GradientPaint(dxGLH, dyGLH, CorInicial, width - dxGLH, height - dyGLH, CorFinal, true);
+						break;
+
+					default:
+						paint = new GradientPaint(0, 0, CorInicial, width, height, CorFinal, true);
+
+						break;
+					}
+
+				Graphics2D g2d = (Graphics2D) g;
+				Paint oldPaint = g2d.getPaint();
+				g2d.setPaint(paint);
+				g2d.fillRect(0, 0, width, height);
+				g2d.setPaint(oldPaint);
+				super.paint(g);
 				}
-
-			Graphics2D g2d = (Graphics2D) g;
-			Paint oldPaint = g2d.getPaint();
-			g2d.setPaint(paint);
-			g2d.fillRect(0, 0, width, height);
-			g2d.setPaint(oldPaint);
-			super.paint(g);
 			}
 		}
 
