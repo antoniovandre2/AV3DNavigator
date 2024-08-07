@@ -202,11 +202,11 @@ int main (int argc, char * argv[])
 
 		for (j = 0; j < resolucao; j++)
 			{
-			printf("%Lf,%Lf,0;%Lf,%Lf,0;%Lf,%Lf,0;%Lf,%Lf,0c%s|", raio * r * cosl(j * 2 * M_PI / resolucao) / soma, raio * r * sinl(j * 2 * M_PI / resolucao) / soma, raio * r * cosl((j + 1) * 2 * M_PI / resolucao) / soma, raio * r * sinl((j + 1) * 2 * M_PI / resolucao) / soma, raio * R *cosl((j + 1) * 2 * M_PI / resolucao) / soma, raio * R *sinl((j + 1) * 2 * M_PI / resolucao) / soma, raio * R *cosl(j * 2 * M_PI / resolucao) / soma, raio * R *sinl(j * 2 * M_PI / resolucao) / soma, rgb[i]);
+			printf("%Lf,%Lf,0;%Lf,%Lf,0;%Lf,%Lf,0;%Lf,%Lf,0c%s|", raio * r * cosl(j * 2 * M_PI / resolucao) / soma, raio * r * sinl(j * 2 * M_PI / resolucao) / soma, raio * r * cosl((j + 1) * 2 * M_PI / resolucao) / soma, raio * r * sinl((j + 1) * 2 * M_PI / resolucao) / soma, raio * R * cosl((j + 1) * 2 * M_PI / resolucao) / soma, raio * R * sinl((j + 1) * 2 * M_PI / resolucao) / soma, raio * R * cosl(j * 2 * M_PI / resolucao) / soma, raio * R * sinl(j * 2 * M_PI / resolucao) / soma, rgb[i]);
 
 			fflush(stdout);
 
-			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", raio * r * cosl(j * 2 * M_PI / resolucao) / soma, raio * r * sinl(j * 2 * M_PI / resolucao) / soma, espessura, raio * r * cosl((j + 1) * 2 * M_PI / resolucao) / soma, raio * r * sinl((j + 1) * 2 * M_PI / resolucao) / soma, espessura, raio * R *cosl((j + 1) * 2 * M_PI / resolucao) / soma, raio * R *sinl((j + 1) * 2 * M_PI / resolucao) / soma, espessura, raio * R *cosl(j * 2 * M_PI / resolucao) / soma, raio * R *sinl(j * 2 * M_PI / resolucao) / soma, espessura, rgb[i]);
+			printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", raio * r * cosl(j * 2 * M_PI / resolucao) / soma, raio * r * sinl(j * 2 * M_PI / resolucao) / soma, espessura, raio * r * cosl((j + 1) * 2 * M_PI / resolucao) / soma, raio * r * sinl((j + 1) * 2 * M_PI / resolucao) / soma, espessura, raio * R * cosl((j + 1) * 2 * M_PI / resolucao) / soma, raio * R * sinl((j + 1) * 2 * M_PI / resolucao) / soma, espessura, raio * R * cosl(j * 2 * M_PI / resolucao) / soma, raio * R * sinl(j * 2 * M_PI / resolucao) / soma, espessura, rgb[i]);
 
 			fflush(stdout);
 			}
@@ -216,7 +216,7 @@ int main (int argc, char * argv[])
 
 	for (j = 0; j < resolucao; j++)
 		{
-		printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,0;%Lf,%Lf,0c%s|", raio * R *cosl(j * 2 * M_PI / resolucao) / soma, raio * R *sinl(j * 2 * M_PI / resolucao) / soma, espessura, raio * R *cosl((j + 1) * 2 * M_PI / resolucao) / soma, raio * R *sinl((j + 1) * 2 * M_PI / resolucao) / soma, espessura, raio * R *cosl((j + 1) * 2 * M_PI / resolucao) / soma, raio * R *sinl((j + 1) * 2 * M_PI / resolucao) / soma, raio * R *cosl(j * 2 * M_PI / resolucao) / soma, raio * R *sinl(j * 2 * M_PI / resolucao) / soma, rgb[argi - 1]);
+		printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;%Lf,%Lf,0;%Lf,%Lf,0c%s|", raio * R * cosl(j * 2 * M_PI / resolucao) / soma, raio * R * sinl(j * 2 * M_PI / resolucao) / soma, espessura, raio * R * cosl((j + 1) * 2 * M_PI / resolucao) / soma, raio * R * sinl((j + 1) * 2 * M_PI / resolucao) / soma, espessura, raio * R * cosl((j + 1) * 2 * M_PI / resolucao) / soma, raio * R * sinl((j + 1) * 2 * M_PI / resolucao) / soma, raio * R * cosl(j * 2 * M_PI / resolucao) / soma, raio * R * sinl(j * 2 * M_PI / resolucao) / soma, rgb[argi - 1]);
 
 		fflush(stdout);
 		}
