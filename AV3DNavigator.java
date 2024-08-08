@@ -1044,6 +1044,8 @@ public class AV3DNavigator extends JComponent
 						CorLegendaRed = 255;
 						CorLegendaGreen = 255;
 						CorLegendaBlue = 255;
+						Parametro = 0;
+						ParametroStep = 1;
 						}
 
 					if (keyCode == KeyEvent.VK_F1) if (FlagHelp == 0)
@@ -1940,7 +1942,7 @@ public class AV3DNavigator extends JComponent
 				{
 				String [] Campos;
 
-				if (EspacoLinhas[i].contains("color"))
+				if (Espaco.contains("p"))
 					Campos = EspacoLinhas[i].split("color");
 				else
 					Campos = EspacoLinhas[i].split("c");
@@ -2190,7 +2192,7 @@ public class AV3DNavigator extends JComponent
 
 				String [] Campos;
 
-				if (EspacoTriangulosShapePreenchidos[i].contains("color"))
+				if (Espaco.contains("p"))
 					Campos = EspacoTriangulosShapePreenchidos[i].split("color");
 				else
 					Campos = EspacoTriangulosShapePreenchidos[i].split("c");
@@ -2508,7 +2510,7 @@ public class AV3DNavigator extends JComponent
 						{
 						String [] Campos;
 
-						if (EspacoLinhas[i].contains("color"))
+						if (EspacoStr.contains("p"))
 							Campos = EspacoLinhas[i].split("color");
 						else
 							Campos = EspacoLinhas[i].split("c");
@@ -2568,7 +2570,7 @@ public class AV3DNavigator extends JComponent
 						{
 						String [] Campos;
 
-						if (EspacoTriangulosShapePreenchidos[i].contains("color"))
+						if (EspacoStr.contains("p"))
 							Campos = EspacoTriangulosShapePreenchidos[i].split("color");
 						else
 							Campos = EspacoTriangulosShapePreenchidos[i].split("c");
@@ -2685,5 +2687,7 @@ public class AV3DNavigator extends JComponent
 		FlagMouseY = 1;
 		FatorAnguloVisao = 1;
 		DistanciaTela = 2;
+		Parametro = 0;
+		ParametroStep = 1;
 		}
 	}
