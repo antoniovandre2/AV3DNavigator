@@ -51,11 +51,15 @@ public class AV3DNavigatorLauncher
 
     public static String URL3DNavigatorAtribuicao = "https://github.com/antoniovandre2/AV3DNavigator/raw/main/AV3DNavigatorAtribuicao.txt";
 
+    public static String URLapfloat = "https://github.com/antoniovandre2/AV3DNavigator/raw/main/apfloat.jar";
+
+    public static String URLmXparser = "https://github.com/antoniovandre2/AV3DNavigator/raw/main/MathParser.org-mXparser.jar";
+
     public static String ArquivoAV3DNavigatorAtribuicao = "AV3DNavigatorAtribuicao.txt";
 
-    public static String ArquivoAV3DNavigatorapfloat = "AV3DNavigatorAtribuicao.txt";
+    public static String Arquivoapfloat = "apfloat.jar";
 
-    public static String ArquivoAV3DNavigatormXparser = "MathParser.org-mXparser.jar";
+    public static String ArquivomXparser = "MathParser.org-mXparser.jar";
 
     public static String MensagemErroAtualizar = "Erro ao atualizar o AV3DNavigator.";
 
@@ -124,6 +128,16 @@ public class AV3DNavigatorLauncher
 
         try
             {
+            downloadUsingStream(URLapfloat, Arquivoapfloat);
+            } catch (IOException e) {}
+
+        try
+            {
+            downloadUsingStream(URLmXparser, ArquivomXparser);
+            } catch (IOException e) {}
+
+        try
+            {
             downloadUsingStream(URL3DNavigatorVersao, ArquivoAV3DNavigatorVersao + ".tmp");
             } catch (IOException e) {FlagSucessoDownloadNet = 0;}
 
@@ -156,9 +170,9 @@ public class AV3DNavigatorLauncher
                     try
                         {
                         downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigator);
-                        downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigatorapfloat);
-                        downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigatormXparser);
                         downloadUsingStream(URL3DNavigatorVersao, ArquivoAV3DNavigatorVersao);
+						downloadUsingStream(URLapfloat, Arquivoapfloat);
+						downloadUsingStream(URLmXparser, ArquivomXparser);
                         } catch (IOException e) {}
 
                     JFrame Frame = new JFrame("Nova versão.");
@@ -177,8 +191,8 @@ public class AV3DNavigatorLauncher
                     {
                     downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigator);
                     downloadUsingStream(URL3DNavigatorVersao, ArquivoAV3DNavigatorVersao);
-					downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigatorapfloat);
-					downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigatormXparser);
+					downloadUsingStream(URLapfloat, Arquivoapfloat);
+					downloadUsingStream(URLmXparser, ArquivomXparser);
                     } catch (IOException e) {}
             }
 
