@@ -40,7 +40,7 @@ ____________________
 
 Não me responsabilizo por falhas do Java, do mXparser ou do Apfloat.
 
-I am not responsible for Java or Apfloat failures.
+I am not responsible for Java, mXparser or Apfloat failures.
 ____________________
 
 Sugestões ou comunicar erros: "a.vandre.g@gmail.com".
