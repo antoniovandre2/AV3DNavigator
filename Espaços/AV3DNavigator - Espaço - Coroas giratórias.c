@@ -70,7 +70,7 @@ int main (int argc, char * argv[])
 
 		fflush(stdout);
 
-		printf("%Lf,%Lf%s%Lf),%Lf%s%Lf);%Lf,%Lf%s%Lf),%Lf%s%Lf)color255,0,0|", profundidade, raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio1 - espessura, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+		printf("%Lf,%Lf%s%Lf),%Lf%s%Lf);%Lf,%Lf%s%Lf),%Lf%s%Lf)color255,0,0|", profundidade, raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio1 - espessura, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
@@ -86,7 +86,7 @@ int main (int argc, char * argv[])
 
 		fflush(stdout);
 
-		printf("%Lf,%Lf%s%Lf),%Lf%s%Lf);%Lf,%Lf%s%Lf),%Lf%s%Lf)color0,255,0|", profundidade, raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio2 - espessura, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+		printf("%Lf,%Lf%s%Lf),%Lf%s%Lf);%Lf,%Lf%s%Lf),%Lf%s%Lf)color0,255,0|", profundidade, raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio2 - espessura, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
