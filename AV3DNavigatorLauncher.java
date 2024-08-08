@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 31-10-2023.
+ * Última atualização: 08-08-2024.
  */
 
 import java.awt.Dimension;
@@ -29,12 +29,13 @@ import javax.swing.border.EmptyBorder;
 import java.net.URL;
 
 import java.lang.ProcessBuilder;
+import java.lang.ProcessBuilder.Redirect;
 
 import java.io.*;
 
 public class AV3DNavigatorLauncher
     {
-    public static String VersaoLauncher = "31-10-2023";
+    public static String VersaoLauncher = "08-08-2024";
 
     public static String URL3DNavigatorVersao = "https://github.com/antoniovandre2/AV3DNavigator/raw/main/AV3DNavigatorVersao.txt";
 
@@ -51,6 +52,10 @@ public class AV3DNavigatorLauncher
     public static String URL3DNavigatorAtribuicao = "https://github.com/antoniovandre2/AV3DNavigator/raw/main/AV3DNavigatorAtribuicao.txt";
 
     public static String ArquivoAV3DNavigatorAtribuicao = "AV3DNavigatorAtribuicao.txt";
+
+    public static String ArquivoAV3DNavigatorapfloat = "AV3DNavigatorAtribuicao.txt";
+
+    public static String ArquivoAV3DNavigatormXparser = "MathParser.org-mXparser.jar";
 
     public static String MensagemErroAtualizar = "Erro ao atualizar o AV3DNavigator.";
 
@@ -151,6 +156,8 @@ public class AV3DNavigatorLauncher
                     try
                         {
                         downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigator);
+                        downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigatorapfloat);
+                        downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigatormXparser);
                         downloadUsingStream(URL3DNavigatorVersao, ArquivoAV3DNavigatorVersao);
                         } catch (IOException e) {}
 
@@ -170,6 +177,8 @@ public class AV3DNavigatorLauncher
                     {
                     downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigator);
                     downloadUsingStream(URL3DNavigatorVersao, ArquivoAV3DNavigatorVersao);
+					downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigatorapfloat);
+					downloadUsingStream(URLAV3DNavigator, ArquivoAV3DNavigatormXparser);
                     } catch (IOException e) {}
             }
 
@@ -180,6 +189,8 @@ public class AV3DNavigatorLauncher
             if (args.length != 0) ArquivoEspaco = args[0];
 
             ProcessBuilder pb = new ProcessBuilder("java", "-jar", ArquivoAV3DNavigator, ArquivoEspaco);
+			pb.redirectOutput(Redirect.DISCARD);
+			pb.redirectError(Redirect.DISCARD);
             Process p = pb.start();
             } catch (IOException e) {System.out.println(MensagemErroExecutar);}
         }

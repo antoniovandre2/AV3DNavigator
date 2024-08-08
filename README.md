@@ -14,7 +14,7 @@ Execute com:
 
 java -jar AV3DNavigatorLauncher.jar [ARQUIVO DE ESPAÇO]
 
-O arquivo de espaço consiste em um plain txt composto de, primeiro, linhas separadas por barra vertical "|", cada linha opcionalmente separada pelo token "c", a primeira parte composta dos dois pontos extremos separados por ponto e vírgula ";", e a segunda pelo código RGB separado por vírgulas ",", cada ponto consiste na abscissa, ordenada e cota separadas por vírgula ","; segundo, após o primeiro arroba "@", os vértices dos polígonos preenchidos, polígonos separados por barra vertical "|", "c" também aplicável; e, terceiro, após o segundo arroba "@", as legendas separadas por barra vertical "|", também opcionalmente aplicável primeiramente o código RGB, e, depois, o tamanho da legenda, separados por ponto e vírgula ";". Todo número pode ser substituído pelo caractere "p" quando nele deseja-se utilizar a variável parâmetro.
+O arquivo de espaço consiste em um plain txt composto de, primeiro, linhas separadas por barra vertical "|", cada linha opcionalmente separada pelo token "c", a primeira parte composta dos dois pontos extremos separados por ponto e vírgula ";", e a segunda pelo código RGB separado por vírgulas ",", cada ponto consiste na abscissa, ordenada e cota separadas por vírgula ","; segundo, após o primeiro arroba "@", os vértices dos polígonos preenchidos, polígonos separados por barra vertical "|", "c" também aplicável; e, terceiro, após o segundo arroba "@", as legendas separadas por barra vertical "|", também opcionalmente aplicável primeiramente o código RGB, e, depois, o tamanho da legenda, separados por ponto e vírgula ";". Todo número pode ser substituído por uma função, com caracteres maiúsculos, em "p" quando nele deseja-se utilizar um valor variável. Verifique as funções disponíveis no mXparser.
 
 Há como exemplo o arquivo de espaço "Casa.txt" anexo.
 
@@ -38,7 +38,7 @@ Ferramentas de terceiros utilizadas:
 Apfloat: "http://www.apfloat.org/apfloat_java/".
 ____________________
 
-Não me responsabilizo por falhas do Java ou do Apfloat.
+Não me responsabilizo por falhas do Java, do mXparser ou do Apfloat.
 
 I am not responsible for Java or Apfloat failures.
 ____________________
