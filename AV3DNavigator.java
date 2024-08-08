@@ -1952,9 +1952,7 @@ public class AV3DNavigator extends JComponent
 					if (CoordenadasOrig[0].contains("p"))
 						{
 						Expression expr = new Expression(CoordenadasOrig[0].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-						double result = 0;
-						try {result = expr.calculate();} catch (Exception e) {}
-						xo = result - xt;
+						try {xo = expr.calculate() - xt;} catch (Exception e) {}
 						}
 					else
 						xo = Double.parseDouble(CoordenadasOrig[0]) - xt;
@@ -1964,9 +1962,7 @@ public class AV3DNavigator extends JComponent
 					if (CoordenadasDest[0].contains("p"))
 						{
 						Expression expr = new Expression(CoordenadasDest[0].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-						double result = 0;
-						try {result = expr.calculate();} catch (Exception e) {}
-						xd = result - xt;
+						try {xd = expr.calculate() - xt;} catch (Exception e) {}
 						}
 					else
 						xd = Double.parseDouble(CoordenadasDest[0]) - xt;
@@ -1976,9 +1972,7 @@ public class AV3DNavigator extends JComponent
 					if (CoordenadasOrig[1].contains("p"))
 						{
 						Expression expr = new Expression(CoordenadasOrig[1].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-						double result = 0;
-						try {result = expr.calculate();} catch (Exception e) {}
-						yo = -result - yt;
+						try {yo = -expr.calculate() - yt;} catch (Exception e) {}
 						}
 					else
 						yo = -Double.parseDouble(CoordenadasOrig[1]) - yt;
@@ -1988,9 +1982,7 @@ public class AV3DNavigator extends JComponent
 					if (CoordenadasDest[1].contains("p"))
 						{
 						Expression expr = new Expression(CoordenadasDest[1].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-						double result = 0;
-						try {result = expr.calculate();} catch (Exception e) {}
-						yd = -result - yt;
+						try {yd = -expr.calculate() - yt;} catch (Exception e) {}
 						}
 					else
 						yd = -Double.parseDouble(CoordenadasDest[1]) - yt;
@@ -2000,9 +1992,7 @@ public class AV3DNavigator extends JComponent
 					if (CoordenadasOrig[2].contains("p"))
 						{
 						Expression expr = new Expression(CoordenadasOrig[2].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-						double result = 0;
-						try {result = expr.calculate();} catch (Exception e) {}
-						zo = -result - zt;
+						try {zo = -expr.calculate() - zt;} catch (Exception e) {}
 						}
 					else
 						zo = -Double.parseDouble(CoordenadasOrig[2]) - zt;
@@ -2012,9 +2002,7 @@ public class AV3DNavigator extends JComponent
 					if (CoordenadasDest[2].contains("p"))
 						{
 						Expression expr = new Expression(CoordenadasDest[2].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-						double result = 0;
-						try {result = expr.calculate();} catch (Exception e) {}
-						zd = -result - zt;
+						try {zd = -expr.calculate() - zt;} catch (Exception e) {}
 						}
 					else
 						zd = -Double.parseDouble(CoordenadasDest[2]) - zt;
@@ -2045,13 +2033,12 @@ public class AV3DNavigator extends JComponent
 
 							for (j = 0; j < 3; j++)
 								if (RGB[j].contains("p"))
-								{
-								Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-								double result = 0;
-								try {result = expr.calculate();} catch (Exception e) {RGB[j] = String.valueOf(255);}
-								RGB[j] = String.valueOf((int) result);
-								if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
-								}
+									{
+									Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
+									double result = 0;
+									try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
+									if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
+									}
 
 							Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TotalLinhas);
 							StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
@@ -2062,86 +2049,63 @@ public class AV3DNavigator extends JComponent
 					{
 					// Alta precisão com o Apfloat, porém com custo computacional.
 
-					Apfloat xoa;
+					Apfloat xoa = null;
 
 					if (CoordenadasOrig[0].contains("p"))
 						{
-						double xo = 0;
 						Expression expr = new Expression(CoordenadasOrig[0].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-						double result = 0;
-						try {result = expr.calculate();} catch (Exception e) {}
-						xo = result - xt;
-						xoa = new Apfloat(xo, PrecisaoApfloat);
+						try {xoa = new Apfloat(expr.calculate() - xt, PrecisaoApfloat);} catch (Exception e) {}
 						}
 					else
 						xoa = (new Apfloat(Double.parseDouble(CoordenadasOrig[0]), PrecisaoApfloat)).add(new Apfloat(-xt, PrecisaoApfloat));
 
-					Apfloat xda;
+					Apfloat xda = null;
 
 					if (CoordenadasDest[0].contains("p"))
 						{
-						double xd = 0;
 						Expression expr = new Expression(CoordenadasDest[0].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-						double result = 0;
-						try {result = expr.calculate();} catch (Exception e) {}
-						xd = result - xt;
-						xda = new Apfloat(xd, PrecisaoApfloat);
+						try {xda = new Apfloat(expr.calculate() - xt, PrecisaoApfloat);} catch (Exception e) {}
 						}
 					else
 						xda = (new Apfloat(Double.parseDouble(CoordenadasDest[0]), PrecisaoApfloat)).add(new Apfloat(-xt, PrecisaoApfloat));
 
-					Apfloat yoa;
+					Apfloat yoa = null;
 
 					if (CoordenadasOrig[1].contains("p"))
 						{
-						double yo = 0;
 						Expression expr = new Expression(CoordenadasOrig[1].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-						double result = 0;
-						try {result = expr.calculate();} catch (Exception e) {}
-						yo = -result - yt;
-						yoa = new Apfloat(yo, PrecisaoApfloat);
+						try {yoa = new Apfloat(-expr.calculate() - yt, PrecisaoApfloat);} catch (Exception e) {}
 						}
 					else
 						yoa = (new Apfloat(-Double.parseDouble(CoordenadasOrig[1]), PrecisaoApfloat)).add(new Apfloat(-yt, PrecisaoApfloat));
 
-					Apfloat yda;
+					Apfloat yda = null;
 
 					if (CoordenadasDest[1].contains("p"))
 						{
-						double yd = 0;
 						Expression expr = new Expression(CoordenadasDest[1].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-						double result = 0;
-						try {result = expr.calculate();} catch (Exception e) {}
-						yd = -result - yt;
-						yda = new Apfloat(yd, PrecisaoApfloat);
+						try {yda = new Apfloat(-expr.calculate() - yt, PrecisaoApfloat);} catch (Exception e) {}
 						}
 					else
 						yda = (new Apfloat(-Double.parseDouble(CoordenadasDest[1]), PrecisaoApfloat)).add(new Apfloat(-yt, PrecisaoApfloat));
 
-					Apfloat zoa;
+					Apfloat zoa = null;
 
 					if (CoordenadasOrig[2].contains("p"))
 						{
-						double zo = 0;
 						Expression expr = new Expression(CoordenadasOrig[2].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-						double result = 0;
-						try {result = expr.calculate();} catch (Exception e) {}
-						zo = -result - zt;
-						zoa = new Apfloat(zo, PrecisaoApfloat);
+						try {zoa = new Apfloat(-expr.calculate() - zt, PrecisaoApfloat);} catch (Exception e) {}
+						
 						}
 					else
 						zoa = (new Apfloat(-Double.parseDouble(CoordenadasOrig[2]), PrecisaoApfloat)).add(new Apfloat(-zt, PrecisaoApfloat));
 
-					Apfloat zda;
+					Apfloat zda = null;
 
 					if (CoordenadasDest[2].contains("p"))
 						{
-						double zd = 0;
 						Expression expr = new Expression(CoordenadasDest[2].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-						double result = 0;
-						try {result = expr.calculate();} catch (Exception e) {}
-						zd = -result - zt;
-						zda = new Apfloat(zd, PrecisaoApfloat);
+						try {zda = new Apfloat(-expr.calculate() - zt, PrecisaoApfloat);} catch (Exception e) {}
 						}
 					else
 						zda = (new Apfloat(-Double.parseDouble(CoordenadasDest[2]), PrecisaoApfloat)).add(new Apfloat(-zt, PrecisaoApfloat));
@@ -2181,13 +2145,12 @@ public class AV3DNavigator extends JComponent
 
 								for (j = 0; j < 3; j++)
 									if (RGB[j].contains("p"))
-									{
-									Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-									double result = 0;
-									try {result = expr.calculate();} catch (Exception e) {RGB[j] = String.valueOf(255);}
-									RGB[j] = String.valueOf((int) result);
-									if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
-									}
+										{
+										Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
+										double result = 0;
+										try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
+										if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
+										}
 
 									Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TotalLinhas);
 									StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
@@ -2234,9 +2197,7 @@ public class AV3DNavigator extends JComponent
 						if (Coordenadas[0].contains("p"))
 							{
 							Expression expr = new Expression(Coordenadas[0].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-							double result = 0;
-							try {result = expr.calculate();} catch (Exception e) {}
-							xp = result - xt;
+							try {xp = expr.calculate() - xt;} catch (Exception e) {}
 							}
 						else
 							xp = Double.parseDouble(Coordenadas[0]) - xt;
@@ -2246,9 +2207,7 @@ public class AV3DNavigator extends JComponent
 						if (Coordenadas[1].contains("p"))
 							{
 							Expression expr = new Expression(Coordenadas[1].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-							double result = 0;
-							try {result = expr.calculate();} catch (Exception e) {}
-							yp = -result - yt;
+							try {yp = -expr.calculate() - yt;} catch (Exception e) {}
 							}
 						else
 							yp = -Double.parseDouble(Coordenadas[1]) - yt;
@@ -2258,9 +2217,7 @@ public class AV3DNavigator extends JComponent
 						if (Coordenadas[2].contains("p"))
 							{
 							Expression expr = new Expression(Coordenadas[2].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-							double result = 0;
-							try {result = expr.calculate();} catch (Exception e) {}
-							zp = -result - zt;
+							try {zp = -expr.calculate() - zt;} catch (Exception e) {}
 							}
 						else
 							zp = -Double.parseDouble(Coordenadas[2]) - zt;
@@ -2282,44 +2239,32 @@ public class AV3DNavigator extends JComponent
 						{
 						// Alta precisão com o Apfloat, porém com custo computacional.
 
-						Apfloat xpa;
+						Apfloat xpa = null;
 
 						if (Coordenadas[0].contains("p"))
 							{
-							double xp = 0;
 							Expression expr = new Expression(Coordenadas[0].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-							double result = 0;
-							try {result = expr.calculate();} catch (Exception e) {}
-							xp = result - xt;
-							xpa = new Apfloat(xp, PrecisaoApfloat);
+							try {xpa = new Apfloat(expr.calculate() - xt, PrecisaoApfloat);} catch (Exception e) {}
 							}
 						else
 							xpa = (new Apfloat(Double.parseDouble(Coordenadas[0]), PrecisaoApfloat)).add(new Apfloat(-xt, PrecisaoApfloat));
 
-						Apfloat ypa;
+						Apfloat ypa = null;
 
 						if (Coordenadas[1].contains("p"))
 							{
-							double yp = 0;
 							Expression expr = new Expression(Coordenadas[1].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-							double result = 0;
-							try {result = expr.calculate();} catch (Exception e) {}
-							yp = -result - yt;
-							ypa = new Apfloat(yp, PrecisaoApfloat);
+							try {ypa = new Apfloat(-expr.calculate() - yt, PrecisaoApfloat);} catch (Exception e) {}
 							}
 						else
 							ypa = (new Apfloat(-Double.parseDouble(Coordenadas[1]), PrecisaoApfloat)).add(new Apfloat(-yt, PrecisaoApfloat));
 
-						Apfloat zpa;
+						Apfloat zpa = null;
 
 						if (Coordenadas[2].contains("p"))
 							{
-							double zp = 0;
 							Expression expr = new Expression(Coordenadas[2].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-							double result = 0;
-							try {result = expr.calculate();} catch (Exception e) {}
-							zp = -result - zt;
-							zpa = new Apfloat(zp, PrecisaoApfloat);
+							try {zpa = new Apfloat(-expr.calculate() - zt, PrecisaoApfloat);} catch (Exception e) {}
 							}
 						else
 							zpa = (new Apfloat(-Double.parseDouble(Coordenadas[2]), PrecisaoApfloat)).add(new Apfloat(-zt, PrecisaoApfloat));
@@ -2382,13 +2327,12 @@ public class AV3DNavigator extends JComponent
 
 										for (j = 0; j < 3; j++)
 											if (RGB[j].contains("p"))
-											{
-											Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-											double result = 0;
-											try {result = expr.calculate();} catch (Exception e) {RGB[j] = String.valueOf(255);}
-											RGB[j] = String.valueOf((int) result);
-											if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
-											}
+												{
+												Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
+												double result = 0;
+												try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
+												if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
+												}
 
 										Comp.addTriangulosShape(Integer.parseInt(ParametroTrianguloCoordenadas1[0]), Integer.parseInt(ParametroTrianguloCoordenadas1[1]), Integer.parseInt(ParametroTrianguloCoordenadas2[0]), Integer.parseInt(ParametroTrianguloCoordenadas2[1]), Integer.parseInt(ParametroTrianguloCoordenadas3[0]), Integer.parseInt(ParametroTrianguloCoordenadas3[1]), new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), (x - SomaXP / Pontoslength) * (x - SomaXP / Pontoslength) + (y - SomaYP / Pontoslength) * (y - SomaYP / Pontoslength) + (z - SomaZP / Pontoslength) * (z - SomaZP / Pontoslength), TotalTriangulosShapePreenchidos);
 										StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
@@ -2442,13 +2386,12 @@ public class AV3DNavigator extends JComponent
 
 						for (j = 0; j < 3; j++)
 							if (RGB[j].contains("p"))
-							{
-							Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-							double result = 0;
-							try {result = expr.calculate();} catch (Exception e) {RGB[j] = String.valueOf(255);}
-							RGB[j] = String.valueOf((int) result);
-							if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
-							}
+								{
+								Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
+								double result = 0;
+								try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
+								if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
+								}
 
 						Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, i + 1);
 
@@ -2460,13 +2403,12 @@ public class AV3DNavigator extends JComponent
 
 						for (j = 0; j < 3; j++)
 							if (RGB[j].contains("p"))
-							{
-							Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-							double result = 0;
-							try {result = expr.calculate();} catch (Exception e) {RGB[j] = String.valueOf(255);}
-							RGB[j] = String.valueOf((int) result);
-							if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
-							}
+								{
+								Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
+								double result = 0;
+								try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
+								if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
+								}
 
 						Comp.addTexto(Campos[0], 5, yl, CorLegenda, TamanhoFonteLegendas, i + 1);
 
@@ -2483,13 +2425,12 @@ public class AV3DNavigator extends JComponent
 
 						for (j = 0; j < 3; j++)
 							if (RGB[j].contains("p"))
-							{
-							Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-							double result = 0;
-							try {result = expr.calculate();} catch (Exception e) {RGB[j] = String.valueOf(255);}
-							RGB[j] = String.valueOf((int) result);
-							if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
-							}
+								{
+								Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
+								double result = 0;
+								try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
+								if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
+								}
 
 						Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), Integer.parseInt(Campos[2]), i + 1);
 
@@ -2502,13 +2443,12 @@ public class AV3DNavigator extends JComponent
 
 						for (j = 0; j < 3; j++)
 							if (RGB[j].contains("p"))
-							{
-							Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
-							double result = 0;
-							try {result = expr.calculate();} catch (Exception e) {RGB[j] = String.valueOf(255);}
-							RGB[j] = String.valueOf((int) result);
-							if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
-							}
+								{
+								Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
+								double result = 0;
+								try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
+								if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
+								}
 
 						Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, i + 1);
 
