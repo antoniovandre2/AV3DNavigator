@@ -2043,14 +2043,14 @@ public class AV3DNavigator extends JComponent
 							{
 							String [] RGB = Campos[1].split(",");
 
-							for (i = 0; i < 3; i++)
-								if (RGB[i].contains("p"))
+							for (j = 0; j < 3; j++)
+								if (RGB[j].contains("p"))
 								{
-								Expression expr = new Expression(RGB[i].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
+								Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
 								double result = 0;
-								try {result = expr.calculate();} catch (Exception e) {RGB[i] = String.valueOf(255);}
-								RGB[i] = String.valueOf((int) result);
-								if ((Integer.parseInt(RGB[i]) < 0) || (Integer.parseInt(RGB[i]) > 255)) RGB[i] = String.valueOf(255);
+								try {result = expr.calculate();} catch (Exception e) {RGB[j] = String.valueOf(255);}
+								RGB[j] = String.valueOf((int) result);
+								if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
 								}
 
 							Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TotalLinhas);
@@ -2179,14 +2179,14 @@ public class AV3DNavigator extends JComponent
 									{
 									String [] RGB = Campos[1].split(",");
 
-								for (i = 0; i < 3; i++)
-									if (RGB[i].contains("p"))
+								for (j = 0; j < 3; j++)
+									if (RGB[j].contains("p"))
 									{
-									Expression expr = new Expression(RGB[i].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
+									Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
 									double result = 0;
-									try {result = expr.calculate();} catch (Exception e) {RGB[i] = String.valueOf(255);}
-									RGB[i] = String.valueOf((int) result);
-									if ((Integer.parseInt(RGB[i]) < 0) || (Integer.parseInt(RGB[i]) > 255)) RGB[i] = String.valueOf(255);
+									try {result = expr.calculate();} catch (Exception e) {RGB[j] = String.valueOf(255);}
+									RGB[j] = String.valueOf((int) result);
+									if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
 									}
 
 									Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TotalLinhas);
@@ -2380,14 +2380,14 @@ public class AV3DNavigator extends JComponent
 										{
 										String [] RGB = Campos[1].split(",");
 
-										for (i = 0; i < 3; i++)
-											if (RGB[i].contains("p"))
+										for (j = 0; j < 3; j++)
+											if (RGB[j].contains("p"))
 											{
-											Expression expr = new Expression(RGB[i].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
+											Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
 											double result = 0;
-											try {result = expr.calculate();} catch (Exception e) {RGB[i] = String.valueOf(255);}
-											RGB[i] = String.valueOf((int) result);
-											if ((Integer.parseInt(RGB[i]) < 0) || (Integer.parseInt(RGB[i]) > 255)) RGB[i] = String.valueOf(255);
+											try {result = expr.calculate();} catch (Exception e) {RGB[j] = String.valueOf(255);}
+											RGB[j] = String.valueOf((int) result);
+											if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
 											}
 
 										Comp.addTriangulosShape(Integer.parseInt(ParametroTrianguloCoordenadas1[0]), Integer.parseInt(ParametroTrianguloCoordenadas1[1]), Integer.parseInt(ParametroTrianguloCoordenadas2[0]), Integer.parseInt(ParametroTrianguloCoordenadas2[1]), Integer.parseInt(ParametroTrianguloCoordenadas3[0]), Integer.parseInt(ParametroTrianguloCoordenadas3[1]), new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), (x - SomaXP / Pontoslength) * (x - SomaXP / Pontoslength) + (y - SomaYP / Pontoslength) * (y - SomaYP / Pontoslength) + (z - SomaZP / Pontoslength) * (z - SomaZP / Pontoslength), TotalTriangulosShapePreenchidos);
@@ -2440,14 +2440,14 @@ public class AV3DNavigator extends JComponent
 						{
 						String [] RGB = Campos[1].split(",");
 
-						for (i = 0; i < 3; i++)
-							if (RGB[i].contains("p"))
+						for (j = 0; j < 3; j++)
+							if (RGB[j].contains("p"))
 							{
-							Expression expr = new Expression(RGB[i].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
+							Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
 							double result = 0;
-							try {result = expr.calculate();} catch (Exception e) {RGB[i] = String.valueOf(255);}
-							RGB[i] = String.valueOf((int) result);
-							if ((Integer.parseInt(RGB[i]) < 0) || (Integer.parseInt(RGB[i]) > 255)) RGB[i] = String.valueOf(255);
+							try {result = expr.calculate();} catch (Exception e) {RGB[j] = String.valueOf(255);}
+							RGB[j] = String.valueOf((int) result);
+							if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
 							}
 
 						Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, i + 1);
@@ -2458,14 +2458,14 @@ public class AV3DNavigator extends JComponent
 						{
 						String [] RGB = Campos[1].split(",");
 
-						for (i = 0; i < 3; i++)
-							if (RGB[i].contains("p"))
+						for (j = 0; j < 3; j++)
+							if (RGB[j].contains("p"))
 							{
-							Expression expr = new Expression(RGB[i].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
+							Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
 							double result = 0;
-							try {result = expr.calculate();} catch (Exception e) {RGB[i] = String.valueOf(255);}
-							RGB[i] = String.valueOf((int) result);
-							if ((Integer.parseInt(RGB[i]) < 0) || (Integer.parseInt(RGB[i]) > 255)) RGB[i] = String.valueOf(255);
+							try {result = expr.calculate();} catch (Exception e) {RGB[j] = String.valueOf(255);}
+							RGB[j] = String.valueOf((int) result);
+							if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
 							}
 
 						Comp.addTexto(Campos[0], 5, yl, CorLegenda, TamanhoFonteLegendas, i + 1);
@@ -2481,14 +2481,14 @@ public class AV3DNavigator extends JComponent
 						{
 						String [] RGB = Campos[1].split(",");
 
-						for (i = 0; i < 3; i++)
-							if (RGB[i].contains("p"))
+						for (j = 0; j < 3; j++)
+							if (RGB[j].contains("p"))
 							{
-							Expression expr = new Expression(RGB[i].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
+							Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
 							double result = 0;
-							try {result = expr.calculate();} catch (Exception e) {RGB[i] = String.valueOf(255);}
-							RGB[i] = String.valueOf((int) result);
-							if ((Integer.parseInt(RGB[i]) < 0) || (Integer.parseInt(RGB[i]) > 255)) RGB[i] = String.valueOf(255);
+							try {result = expr.calculate();} catch (Exception e) {RGB[j] = String.valueOf(255);}
+							RGB[j] = String.valueOf((int) result);
+							if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
 							}
 
 						Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), Integer.parseInt(Campos[2]), i + 1);
@@ -2500,14 +2500,14 @@ public class AV3DNavigator extends JComponent
 						{
 						String [] RGB = Campos[1].split(",");
 
-						for (i = 0; i < 3; i++)
-							if (RGB[i].contains("p"))
+						for (j = 0; j < 3; j++)
+							if (RGB[j].contains("p"))
 							{
-							Expression expr = new Expression(RGB[i].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
+							Expression expr = new Expression(RGB[j].replaceAll("p", String.valueOf(Parametro)).toLowerCase());
 							double result = 0;
-							try {result = expr.calculate();} catch (Exception e) {RGB[i] = String.valueOf(255);}
-							RGB[i] = String.valueOf((int) result);
-							if ((Integer.parseInt(RGB[i]) < 0) || (Integer.parseInt(RGB[i]) > 255)) RGB[i] = String.valueOf(255);
+							try {result = expr.calculate();} catch (Exception e) {RGB[j] = String.valueOf(255);}
+							RGB[j] = String.valueOf((int) result);
+							if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
 							}
 
 						Comp.addTexto(Campos[0], 5, yl, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TamanhoFonteLegendas, i + 1);
