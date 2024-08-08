@@ -36,6 +36,8 @@ ____________________
 Ferramentas de terceiros utilizadas:
 
 Apfloat: "http://www.apfloat.org/apfloat_java/".
+
+mXparser: "https://mathparser.org/"
 ____________________
 
 Não me responsabilizo por falhas do Java, do mXparser ou do Apfloat.
