@@ -30,12 +30,14 @@ ____________________
 Há suporte para o arquivo "AV3DNavigator.ini", onde se pode já inicializar variáveis ao próprio gosto.
 ____________________
 
-![AV3D-n logo](https://antoniovandre2.github.io/AV3DNavigator/Powered%20by%20AV3D-n%20engine%20-%20200p.png)
+![AV3D-n logo](https://antoniovandre2.github.io/AV3DNavigator/Powered%20by%20AV3D-n%20engine%20-%20200p.png) ![apfloat logo](https://antoniovandre2.github.io/AV3DNavigator/Powered%20by%20apfloat%20-%20200p.png) ![mXparser logo](https://antoniovandre2.github.io/AV3DNavigator/Powered%20by%20mXparser%20-%20200p.png)
 ____________________
 
 Ferramentas de terceiros utilizadas:
 
 Apfloat: "http://www.apfloat.org/apfloat_java/".
+
+mXparser: "https://mathparser.org/"
 ____________________
 
 Não me responsabilizo por falhas do Java, do mXparser ou do Apfloat.
