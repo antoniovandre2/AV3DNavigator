@@ -118,26 +118,6 @@ public class AV3DNavigatorLauncher
 
         try
             {
-            downloadUsingStream(URL3DNavigatorURL, ArquivoAV3DNavigatorURL);
-            } catch (IOException e) {}
-
-        try
-            {
-            downloadUsingStream(URL3DNavigatorAtribuicao, ArquivoAV3DNavigatorAtribuicao);
-            } catch (IOException e) {}
-
-        try
-            {
-            downloadUsingStream(URLapfloat, Arquivoapfloat);
-            } catch (IOException e) {}
-
-        try
-            {
-            downloadUsingStream(URLmXparser, ArquivomXparser);
-            } catch (IOException e) {}
-
-        try
-            {
             downloadUsingStream(URL3DNavigatorVersao, ArquivoAV3DNavigatorVersao + ".tmp");
             } catch (IOException e) {FlagSucessoDownloadNet = 0;}
 
