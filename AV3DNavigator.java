@@ -1944,6 +1944,8 @@ public class AV3DNavigator extends JComponent
 
 				if (Espaco.contains("p"))
 					Campos = EspacoLinhas[i].split("color");
+				else if (EspacoLinhas[i].contains("color"))
+					Campos = EspacoLinhas[i].split("color");
 				else
 					Campos = EspacoLinhas[i].split("c");
 
@@ -2193,6 +2195,8 @@ public class AV3DNavigator extends JComponent
 				String [] Campos;
 
 				if (Espaco.contains("p"))
+					Campos = EspacoTriangulosShapePreenchidos[i].split("color");
+				else if (EspacoTriangulosShapePreenchidos[i].contains("color"))
 					Campos = EspacoTriangulosShapePreenchidos[i].split("color");
 				else
 					Campos = EspacoTriangulosShapePreenchidos[i].split("c");
@@ -2512,6 +2516,8 @@ public class AV3DNavigator extends JComponent
 
 						if (EspacoStr.contains("p"))
 							Campos = EspacoLinhas[i].split("color");
+						else if (EspacoLinhas[i].contains("color"))
+							Campos = EspacoLinhas[i].split("color");
 						else
 							Campos = EspacoLinhas[i].split("c");
 
@@ -2571,6 +2577,8 @@ public class AV3DNavigator extends JComponent
 						String [] Campos;
 
 						if (EspacoStr.contains("p"))
+							Campos = EspacoTriangulosShapePreenchidos[i].split("color");
+						else if (EspacoTriangulosShapePreenchidos[i].contains("color"))
 							Campos = EspacoTriangulosShapePreenchidos[i].split("color");
 						else
 							Campos = EspacoTriangulosShapePreenchidos[i].split("c");
