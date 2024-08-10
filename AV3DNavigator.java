@@ -11,7 +11,8 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 08-08-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 0
+10-08-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
@@ -62,6 +63,8 @@ import javax.imageio.ImageIO;
 
 import java.time.format.DateTimeFormatter;  
 import java.time.LocalDateTime; 
+
+import java.net.URL;
 
 import java.io.*;
 
@@ -1533,7 +1536,20 @@ public class AV3DNavigator extends JComponent
 						}
 
 					if (keyCode == KeyEvent.VK_0)
-						{if (ApfloatFlag == 0) ApfloatFlag = 1; else ApfloatFlag = 0; TriangulosString = "";}
+						{
+		if (ApfloatFlag == 0)
+			{
+			try
+				{
+				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorApfloatCount");
+				BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
+				String inputLine;
+				while ((inputLine = in.readLine()) != null);
+				in.close();
+				} catch (IOException e) {}
+
+			ApfloatFlag = 1;
+			} else ApfloatFlag = 0; TriangulosString = "";}
 
 					if (keyCode == KeyEvent.VK_1)
 						if (TrianguloPoligono == 0) TrianguloPoligono = 1; else TrianguloPoligono = 0;
@@ -2497,6 +2513,16 @@ public class AV3DNavigator extends JComponent
 			String EspacoStr = br.readLine();
 
 			if (EspacoStr == null) return "Erro";
+
+			if (EspacoStr.contains("p"))
+				try
+					{
+					URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorEspacosPCount");
+									BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
+					String inputLine;
+					while ((inputLine = in.readLine()) != null);
+					in.close();
+					} catch (IOException e) {}
 
 			String [] EspacoStr2 = EspacoStr.split("@");
 

@@ -80,7 +80,7 @@ public class AV3DNavigatorLauncher
 			BufferedImage Img;
 			try {Img = ImageIO.read(AV3DNavigatorLauncher.class.getResourceAsStream("AV3DNavigator - SplashScreen.png"));} catch (IOException e) {return;}
 			Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
-			SPLASH_SCREEN.setBounds((Screen.width - Img.getWidth()) / 2, (Screen.height - Img.getHeight()) / 2, Img.getWidth(), Img.getHeight());
+			SPLASH_SCREEN.setBounds((int) (Screen.width - Img.getWidth()) / 2, (int) (Screen.height - Img.getHeight()) / 2, Img.getWidth(), Img.getHeight());
 			SPLASH_SCREEN.setBackground(new Color(0, 0, 0, 0));
 			SPLASH_SCREEN.add(new JLabel(new ImageIcon(Img)) , BorderLayout.CENTER);
 			SPLASH_SCREEN.setVisible(true);
@@ -148,7 +148,7 @@ public class AV3DNavigatorLauncher
 
 		try
 			{
-			URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorExecCountTag/AV3DNavigatorExecCount");
+			URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorExecCount");
 			BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
 			String inputLine;
 			while ((inputLine = in.readLine()) != null);
