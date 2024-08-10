@@ -9,9 +9,11 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 08-08-2024.
+ * Última atualização: 10-08-2024.
  */
 
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -21,6 +23,9 @@ import java.awt.Paint;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JWindow;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.WindowConstants;
@@ -35,7 +40,7 @@ import java.io.*;
 
 public class AV3DNavigatorLauncher
     {
-    public static String VersaoLauncher = "08-08-2024";
+    public static String VersaoLauncher = "10-08-2024";
 
     public static String URL3DNavigatorVersao = "https://github.com/antoniovandre2/AV3DNavigator/raw/main/AV3DNavigatorVersao.txt";
 
@@ -64,6 +69,27 @@ public class AV3DNavigatorLauncher
     public static String MensagemErroAtualizar = "Erro ao atualizar o AV3DNavigator.";
 
     public static String MensagemErroExecutar = "Erro ao executar AV3DNavigator. Pode ser perda de conexão com a internet.";
+
+	public class SplashScreen {
+
+		public static final JWindow SPLASH_SCREEN;
+
+		static {SPLASH_SCREEN = new JWindow();}
+
+		public static void show() {
+			BufferedImage Img;
+			try {Img = ImageIO.read(AV3DNavigatorLauncher.class.getResourceAsStream("AV3DNavigator - SplashScreen.png"));} catch (IOException e) {return;}
+			Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
+			SPLASH_SCREEN.setBounds((Screen.width - Img.getWidth()) / 2, (Screen.height - Img.getHeight()) / 2, Img.getWidth(), Img.getHeight());
+			SPLASH_SCREEN.setBackground(new Color(0, 0, 0, 0));
+			SPLASH_SCREEN.add(new JLabel(new ImageIcon(Img)) , BorderLayout.CENTER);
+			SPLASH_SCREEN.setVisible(true);
+		}
+
+		public static void close() {
+			SPLASH_SCREEN.dispose();
+		}
+	}
 
     public class GradientLabel extends JLabel
         {
@@ -115,6 +141,8 @@ public class AV3DNavigatorLauncher
     public void mainrun(String[] args)
         {
         int FlagSucessoDownloadNet = 1;
+
+		SplashScreen.show();
 
         try
             {
@@ -185,6 +213,7 @@ public class AV3DNavigatorLauncher
             ProcessBuilder pb = new ProcessBuilder("java", "-jar", ArquivoAV3DNavigator, ArquivoEspaco);
 			pb.redirectOutput(Redirect.DISCARD);
 			pb.redirectError(Redirect.DISCARD);
+			SplashScreen.close();
             Process p = pb.start();
             } catch (IOException e) {System.out.println(MensagemErroExecutar);}
         }
