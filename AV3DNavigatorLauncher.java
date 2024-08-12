@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 11-08-2024.
+ * Última atualização: 12-08-2024.
  */
 
 import java.awt.Toolkit;
@@ -143,24 +143,6 @@ public class AV3DNavigatorLauncher
 		int FlagSucessoDownloadNet = 1;
 
 		SplashScreen.show();
-
-		// Contando o número de execuções.
-
-		Thread AV3DNavigatorExecCountThread = new Thread () {
-			public void run ()
-				{
-				try
-					{
-					URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorExecCount");
-					BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
-					String inputLine;
-					while ((inputLine = in.readLine()) != null);
-					in.close();
-					} catch (IOException e) {}
-				}
-			};
-
-		AV3DNavigatorExecCountThread.start ();
 
 		try
 			{

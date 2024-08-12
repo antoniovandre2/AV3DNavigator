@@ -270,6 +270,20 @@ public class AV3DNavigator extends JComponent
 
 	// Threads.
 
+	public Thread AV3DNavigatorExecCountThread = new Thread () {
+		public void run ()
+			{
+			try
+				{
+				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorExecCount");
+				BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
+				String inputLine;
+				while ((inputLine = in.readLine()) != null);
+				in.close();
+				} catch (IOException e) {}
+			}
+		};
+
 	public Thread AV3DNavigatorEspacosPCountThread = new Thread () {
 		public void run ()
 			{
@@ -952,6 +966,8 @@ public class AV3DNavigator extends JComponent
 								}
 						}
 			}
+
+		AV3DNavigatorExecCountThread.start ();
 
 		JFrame FrameEspaco = new JFrame("AV3DNavigator - " + Versao);
 		FrameEspaco.setIconImage(new ImageIcon(getClass().getResource(AV3DNavigatorIconFilePath)).getImage());
@@ -1989,9 +2005,23 @@ public class AV3DNavigator extends JComponent
 
 				String [] Pontos = Campos[0].split(";");
 
-				String [] CoordenadasOrig = Pontos[0].split(",");
+				String [] CoordenadasOrig;
 
-				String [] CoordenadasDest = Pontos[1].split(",");
+				if (Espaco.contains("p"))
+					CoordenadasOrig = Pontos[0].split("divisor");
+				else if (Pontos[0].contains("divisor"))
+					CoordenadasOrig = Pontos[0].split("divisor");
+				else
+					CoordenadasOrig = Pontos[0].split(",");
+
+				String [] CoordenadasDest;
+
+				if (Espaco.contains("p"))
+					CoordenadasDest = Pontos[1].split("divisor");
+				else if (Pontos[1].contains("divisor"))
+					CoordenadasDest = Pontos[1].split("divisor");
+				else
+					CoordenadasDest = Pontos[1].split(",");
 
 				Pontoslength = Pontos.length;
 
@@ -2079,7 +2109,14 @@ public class AV3DNavigator extends JComponent
 							Comp.addLine(xi, yi, xf, yf, CorLinha, TotalLinhas);
 						else
 							{
-							String [] RGB = Campos[1].split(",");
+							String [] RGB;
+
+							if (Espaco.contains("p"))
+								RGB = Campos[1].split("divisor");
+							else if (Campos[1].contains("divisor"))
+								RGB = Campos[1].split("divisor");
+							else
+								RGB = Campos[1].split(",");
 
 							for (j = 0; j < 3; j++)
 								if (RGB[j].contains("p"))
@@ -2191,18 +2228,26 @@ public class AV3DNavigator extends JComponent
 								{
 								if (! (Campos[1].equals("")))
 									{
-									String [] RGB = Campos[1].split(",");
+									String [] RGB;
 
-								for (j = 0; j < 3; j++)
-									if (RGB[j].contains("p"))
-										{
-										Expression expr = new Expression(RGB[j].replaceAll("p", "(" + String.valueOf(Parametro) + ")"));
-										double result = 0;
-										try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
-										if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
-										}
+									if (Espaco.contains("p"))
+										RGB = Campos[1].split("divisor");
+									else if (Campos[1].contains("divisor"))
+										RGB = Campos[1].split("divisor");
+									else
+										RGB = Campos[1].split(",");
+
+									for (j = 0; j < 3; j++)
+										if (RGB[j].contains("p"))
+											{
+											Expression expr = new Expression(RGB[j].replaceAll("p", "(" + String.valueOf(Parametro) + ")"));
+											double result = 0;
+											try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
+											if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
+											}
 
 									Comp.addLine(xi, yi, xf, yf, new Color(Integer.parseInt(RGB[0]), Integer.parseInt(RGB[1]), Integer.parseInt(RGB[2])), TotalLinhas);
+
 									StringCores = StringCores + RGB[0] + "," + RGB[1] + "," + RGB[2] + ";";
 									}
 								else
@@ -2247,7 +2292,14 @@ public class AV3DNavigator extends JComponent
 
 				for (j = 0; j < Pontoslength; j++)
 					{
-					String [] Coordenadas = Pontos[j].split(",");
+					String [] Coordenadas;
+
+					if (Espaco.contains("p"))
+						Coordenadas = Pontos[j].split("divisor");
+					else if (Pontos[j].contains("divisor"))
+						Coordenadas = Pontos[j].split("divisor");
+					else
+						Coordenadas = Pontos[j].split(",");
 
 					if (ApfloatFlag == 0)
 						{
@@ -2290,7 +2342,12 @@ public class AV3DNavigator extends JComponent
 						if ((Math.acos(FlagMouseY * ProdutoEscalar / Math.sqrt(xp * xp + yp * yp + zp * zp)) < AnguloVisao + MargemAnguloVisao) && ((Math.min(xpp, ypp) > 0) && (xpp + CorrecaoXF < TamanhoPlanoX) && (ypp + CorrecaoYF < TamanhoPlanoY)))
 							{
 							ContadorPontos++;
-							TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
+
+								if (Espaco.contains("p"))
+									TriangulosString = TriangulosString + Integer.toString(xpp) + "divisor" + Integer.toString(ypp) + ";";
+								else
+									TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
+
 							SomaXP += xp; SomaYP += yp; SomaZP += zp;
 							}
 						}
@@ -2339,7 +2396,12 @@ public class AV3DNavigator extends JComponent
 							if (((ApfloatMath.acos((new Apfloat(FlagMouseY, PrecisaoApfloat)).multiply(ProdutoEscalara).divide(ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(zpa))))).doubleValue() < AnguloVisao + MargemAnguloVisao)) && (ApfloatMath.min(new Apfloat(xpp, PrecisaoApfloat), new Apfloat(ypp, PrecisaoApfloat)).doubleValue() > 0) && ((new Apfloat(xpp + CorrecaoXF)).doubleValue() < (new Apfloat(TamanhoPlanoX, PrecisaoApfloat)).doubleValue()) && (new Apfloat(ypp + CorrecaoYF)).doubleValue() < (new Apfloat(TamanhoPlanoY, PrecisaoApfloat)).doubleValue())
 								{
 								ContadorPontos++;
-								TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
+
+								if (Espaco.contains("p"))
+									TriangulosString = TriangulosString + Integer.toString(xpp) + "divisor" + Integer.toString(ypp) + ";";
+								else
+									TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
+
 								SomaXP += xpa.doubleValue();
 								SomaYP += ypa.doubleValue();
 								SomaZP += zpa.doubleValue();
@@ -2370,11 +2432,32 @@ public class AV3DNavigator extends JComponent
 									ParametroTriangulo[k] = PontosTriangulos[(k + l) % Pontoslength];
 									} while (k++ < 2);
 
-								String [] ParametroTrianguloCoordenadas1 = ParametroTriangulo[0].split(",");
+								String [] ParametroTrianguloCoordenadas1;
 
-								String [] ParametroTrianguloCoordenadas2 = ParametroTriangulo[1].split(",");
+								if (Espaco.contains("p"))
+									ParametroTrianguloCoordenadas1 = ParametroTriangulo[0].split("divisor");
+								else if (ParametroTriangulo[0].contains("divisor"))
+									ParametroTrianguloCoordenadas1 = ParametroTriangulo[0].split("divisor");
+								else
+									ParametroTrianguloCoordenadas1 = ParametroTriangulo[0].split(",");
 
-								String [] ParametroTrianguloCoordenadas3 = ParametroTriangulo[2].split(",");
+								String [] ParametroTrianguloCoordenadas2;
+
+								if (Espaco.contains("p"))
+									ParametroTrianguloCoordenadas2 = ParametroTriangulo[1].split("divisor");
+								else if (ParametroTriangulo[1].contains("divisor"))
+									ParametroTrianguloCoordenadas2 = ParametroTriangulo[1].split("divisor");
+								else
+									ParametroTrianguloCoordenadas2 = ParametroTriangulo[1].split(",");
+
+								String [] ParametroTrianguloCoordenadas3;
+
+								if (Espaco.contains("p"))
+									ParametroTrianguloCoordenadas3 = ParametroTriangulo[2].split("divisor");
+								else if (ParametroTriangulo[2].contains("divisor"))
+									ParametroTrianguloCoordenadas3 = ParametroTriangulo[2].split("divisor");
+								else
+									ParametroTrianguloCoordenadas3 = ParametroTriangulo[2].split(",");
 
 								if (Campos.length == 1)
 									Comp.addTriangulosShape(Integer.parseInt(ParametroTrianguloCoordenadas1[0]), Integer.parseInt(ParametroTrianguloCoordenadas1[1]), Integer.parseInt(ParametroTrianguloCoordenadas2[0]), Integer.parseInt(ParametroTrianguloCoordenadas2[1]), Integer.parseInt(ParametroTrianguloCoordenadas3[0]), Integer.parseInt(ParametroTrianguloCoordenadas3[1]), CorTrianguloShape, (x - SomaXP / Pontoslength) * (x - SomaXP / Pontoslength) + (y - SomaYP / Pontoslength) * (y - SomaYP / Pontoslength) + (z - SomaZP / Pontoslength) * (z - SomaZP / Pontoslength), TotalTriangulosShapePreenchidos);
@@ -2382,7 +2465,14 @@ public class AV3DNavigator extends JComponent
 									{
 									if (! (Campos[1].equals("")))
 										{
-										String [] RGB = Campos[1].split(",");
+										String [] RGB;
+
+										if (Espaco.contains("p"))
+											RGB = Campos[1].split("divisor");
+										else if (Campos[1].contains("divisor"))
+											RGB = Campos[1].split("divisor");
+										else
+											RGB = Campos[1].split(",");
 
 										for (j = 0; j < 3; j++)
 											if (RGB[j].contains("p"))
@@ -2441,7 +2531,14 @@ public class AV3DNavigator extends JComponent
 					{
 					if (! (Campos[1].equals("")))
 						{
-						String [] RGB = Campos[1].split(",");
+						String [] RGB;
+
+						if (Espaco.contains("p"))
+							RGB = Campos[1].split("divisor");
+						else if (Campos[1].contains("divisor"))
+							RGB = Campos[1].split("divisor");
+						else
+							RGB = Campos[1].split(",");
 
 						for (j = 0; j < 3; j++)
 							if (RGB[j].contains("p"))
@@ -2458,7 +2555,14 @@ public class AV3DNavigator extends JComponent
 						}
 					else
 						{
-						String [] RGB = Campos[1].split(",");
+						String [] RGB;
+
+						if (Espaco.contains("p"))
+							RGB = Campos[1].split("divisor");
+						else if (Campos[1].contains("divisor"))
+							RGB = Campos[1].split("divisor");
+						else
+							RGB = Campos[1].split(",");
 
 						for (j = 0; j < 3; j++)
 							if (RGB[j].contains("p"))
@@ -2480,7 +2584,14 @@ public class AV3DNavigator extends JComponent
 					{
 					if (! (Campos[2].equals("")))
 						{
-						String [] RGB = Campos[1].split(",");
+						String [] RGB;
+
+						if (Espaco.contains("p"))
+							RGB = Campos[1].split("divisor");
+						else if (Campos[1].contains("divisor"))
+							RGB = Campos[1].split("divisor");
+						else
+							RGB = Campos[1].split(",");
 
 						for (j = 0; j < 3; j++)
 							if (RGB[j].contains("p"))
@@ -2498,7 +2609,14 @@ public class AV3DNavigator extends JComponent
 						}
 					else
 						{
-						String [] RGB = Campos[1].split(",");
+						String [] RGB;
+
+						if (Espaco.contains("p"))
+							RGB = Campos[1].split("divisor");
+						else if (Campos[1].contains("divisor"))
+							RGB = Campos[1].split("divisor");
+						else
+							RGB = Campos[1].split(",");
 
 						for (j = 0; j < 3; j++)
 							if (RGB[j].contains("p"))
@@ -2527,17 +2645,15 @@ public class AV3DNavigator extends JComponent
 	public String LerEspaco(String ArquivoEspacoArg)
 		{
 		File file = new File(ArquivoEspacoArg);
+		String EspacoStr;
 		int ContadorEspacoInvalido = 0;
 
 		try
 			{
 			BufferedReader br = new BufferedReader(new FileReader(file));
-			String EspacoStr = br.readLine();
+			EspacoStr = br.readLine();
 
 			if (EspacoStr == null) return "Erro";
-
-			if (EspacoStr.contains("p"))
-				AV3DNavigatorEspacosPCountThread.start ();
 
 			String [] EspacoStr2 = EspacoStr.split("@");
 
@@ -2572,7 +2688,14 @@ public class AV3DNavigator extends JComponent
 
 						for (j = 0; j < Pontoslength; j++)
 							{
-							String [] Coordenadas = Pontos[j].split(",");
+							String [] Coordenadas;
+
+							if (EspacoStr.contains("p"))
+								Coordenadas = Pontos[j].split("divisor");
+							else if (Pontos[j].contains("divisor"))
+								Coordenadas = Pontos[j].split("divisor");
+							else
+								Coordenadas = Pontos[j].split(",");
 
 							if (Coordenadas.length != 3) return "Erro";
 
@@ -2584,7 +2707,14 @@ public class AV3DNavigator extends JComponent
 							{
 							if (! (Campos[1].equals("")))
 								{
-								String [] RGB = Campos[1].split(",");
+								String [] RGB;
+
+								if (EspacoStr.contains("p"))
+									RGB = Campos[1].split("divisor");
+								else if (Campos[1].contains("divisor"))
+									RGB = Campos[1].split("divisor");
+								else
+									RGB = Campos[1].split(",");
 
 								if (RGB.length != 3) return "Erro";
 
@@ -2632,7 +2762,14 @@ public class AV3DNavigator extends JComponent
 
 						for (j = 0; j < Pontoslength; j++)
 							{
-							String [] Coordenadas = Pontos[j].split(",");
+							String [] Coordenadas;
+
+							if (EspacoStr.contains("p"))
+								Coordenadas = Pontos[j].split("divisor");
+							else if (Pontos[j].contains("divisor"))
+								Coordenadas = Pontos[j].split("divisor");
+							else
+								Coordenadas = Pontos[j].split(",");
 
 							if (Coordenadas.length != 3) return "Erro";
 
@@ -2644,7 +2781,14 @@ public class AV3DNavigator extends JComponent
 							{
 							if (! (Campos[1].equals("")))
 								{
-								String [] RGB = Campos[1].split(",");
+								String [] RGB;
+
+								if (EspacoStr.contains("p"))
+									RGB = Campos[1].split("divisor");
+								else if (Campos[1].contains("divisor"))
+									RGB = Campos[1].split("divisor");
+								else
+									RGB = Campos[1].split(",");
 
 								if (RGB.length != 3) return "Erro";
 
@@ -2686,7 +2830,14 @@ public class AV3DNavigator extends JComponent
 							{
 							if (! (Campos[1].equals("")))
 								{
-								String [] RGB = Campos[1].split(",");
+								String [] RGB;
+
+								if (EspacoStr.contains("p"))
+									RGB = Campos[1].split("divisor");
+								else if (Campos[1].contains("divisor"))
+									RGB = Campos[1].split("divisor");
+								else
+									RGB = Campos[1].split(",");
 
 								if (RGB.length != 3) return "Erro";
 
@@ -2708,6 +2859,9 @@ public class AV3DNavigator extends JComponent
 				}
 
 			if (ContadorEspacoInvalido == 0) return "Erro";
+
+			if (EspacoStr.contains("p"))
+				AV3DNavigatorEspacosPCountThread.start ();
 
 			return EspacoStr;
 			} catch (IOException e) {return "Erro";}
