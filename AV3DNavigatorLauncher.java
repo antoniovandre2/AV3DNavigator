@@ -146,14 +146,21 @@ public class AV3DNavigatorLauncher
 
 		// Contando o número de execuções.
 
-		try
-			{
-			URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorExecCount");
-			BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
-			String inputLine;
-			while ((inputLine = in.readLine()) != null);
-			in.close();
-			} catch (IOException e) {}
+		Thread AV3DNavigatorExecCountThread = new Thread () {
+			public void run ()
+				{
+				try
+					{
+					URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorExecCount");
+					BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
+					String inputLine;
+					while ((inputLine = in.readLine()) != null);
+					in.close();
+					} catch (IOException e) {}
+				}
+			};
+
+		AV3DNavigatorExecCountThread.start ();
 
 		try
 			{

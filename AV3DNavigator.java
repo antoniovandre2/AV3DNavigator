@@ -1539,14 +1539,21 @@ public class AV3DNavigator extends JComponent
 						{
 		if (ApfloatFlag == 0)
 			{
-			try
-				{
-				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorApfloatCount");
-				BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
-				String inputLine;
-				while ((inputLine = in.readLine()) != null);
-				in.close();
-				} catch (IOException e) {}
+			Thread AV3DNavigatorApfloatCountThread = new Thread () {
+				public void run ()
+					{
+					try
+						{
+						URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorApfloatCount");
+						BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
+						String inputLine;
+						while ((inputLine = in.readLine()) != null);
+						in.close();
+						} catch (IOException e) {}
+					}
+				};
+
+			AV3DNavigatorApfloatCountThread.start ();
 
 			ApfloatFlag = 1;
 			} else ApfloatFlag = 0; TriangulosString = "";}
@@ -2515,14 +2522,23 @@ public class AV3DNavigator extends JComponent
 			if (EspacoStr == null) return "Erro";
 
 			if (EspacoStr.contains("p"))
-				try
-					{
-					URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorEspacosPCount");
-									BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
-					String inputLine;
-					while ((inputLine = in.readLine()) != null);
-					in.close();
-					} catch (IOException e) {}
+				{
+				Thread AV3DNavigatorEspacosPCountThread = new Thread () {
+					public void run ()
+						{
+						try
+							{
+							URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorEspacosPCount");
+											BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
+							String inputLine;
+							while ((inputLine = in.readLine()) != null);
+							in.close();
+							} catch (IOException e) {}
+						}
+					};
+
+				AV3DNavigatorEspacosPCountThread.start ();
+				}
 
 			String [] EspacoStr2 = EspacoStr.split("@");
 
