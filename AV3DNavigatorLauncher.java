@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 10-08-2024.
+ * Última atualização: 11-08-2024.
  */
 
 import java.awt.Toolkit;

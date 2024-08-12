@@ -11,8 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 0
-10-08-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 11-08-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.awt.Dimension;
