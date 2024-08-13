@@ -2686,9 +2686,16 @@ public class AV3DNavigator extends JComponent
 		try
 			{
 			BufferedReader br = new BufferedReader(new FileReader(file));
-			EspacoStr = br.readLine();
+			EspacoStr = "";
+			String Linha;
 
-			if (EspacoStr == null) return "Erro";
+			do
+				{
+				Linha = br.readLine(); if (Linha == null) break;
+				if ((! Linha.replaceAll(" ", "").equals("")) && (! (Linha.replaceAll(" ", "").charAt(0) == '#'))) EspacoStr += Linha;
+				} while (true);
+
+			if (EspacoStr == "") return "Erro";
 
 			String [] EspacoStr2 = EspacoStr.split("@");
 
