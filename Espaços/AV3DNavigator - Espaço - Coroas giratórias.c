@@ -5,7 +5,7 @@ Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador do "AV3DNavigator - Espaço - Coroas giratórias.txt".
 
-Última atualização: 12-08-2024.
+Última atualização: 13-08-2024.
 */
 
 #include <stdio.h>
@@ -26,7 +26,7 @@ int main (int argc, char * argv[])
 
 	for (i = 0; i < resolucao; i++)
 		{
-		printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf);0divisor%Lf%s%Lf)divisor%Lf%s%Lf);0divisor%Lf%s%Lf)divisor%Lf%s%Lf);", raio1, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+		printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR", raio1, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
@@ -34,15 +34,15 @@ int main (int argc, char * argv[])
 
 		fflush(stdout);
 
-		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf);%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf);", profundidade, raio1, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio1, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR", profundidade, raio1, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio1, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
-		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf);%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)color255divisor0divisor0|", profundidade, raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio1 - espessura, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao));
+		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)color255divisor0divisor0|", profundidade, raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio1 - espessura, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
-		printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf);0divisor%Lf%s%Lf)divisor%Lf%s%Lf);0divisor%Lf%s%Lf)divisor%Lf%s%Lf);", raio2, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+		printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR", raio2, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
@@ -50,49 +50,49 @@ int main (int argc, char * argv[])
 
 		fflush(stdout);
 
-		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf);%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf);", profundidade, raio2, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio2, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR", profundidade, raio2, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio2, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
-		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf);%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)color0divisor255divisor0|", profundidade, raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio2 - espessura, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao));
+		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)color0divisor255divisor0|", profundidade, raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio2 - espessura, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
-		printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf);0divisor%Lf%s%Lf)divisor%Lf%s%Lf);", raio1, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+		printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR", raio1, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
-		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf);%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)color255divisor0divisor0|", profundidade, raio1, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio1, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio1, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)color255divisor0divisor0|", profundidade, raio1, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio1, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio1, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
-		printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf);0divisor%Lf%s%Lf)divisor%Lf%s%Lf);", raio1 - espessura, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+		printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR", raio1 - espessura, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
-		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf);%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)color255divisor0divisor0|", profundidade, raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio1 - espessura, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)color255divisor0divisor0|", profundidade, raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio1 - espessura, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
-		printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf);0divisor%Lf%s%Lf)divisor%Lf%s%Lf);", raio2, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+		printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR", raio2, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
-		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf);%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)color0divisor255divisor0|", profundidade, raio2, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio2, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio2, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)color0divisor255divisor0|", profundidade, raio2, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio2, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio2, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
-		printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf);0divisor%Lf%s%Lf)divisor%Lf%s%Lf);", raio2 - espessura, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+		printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR", raio2 - espessura, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
-		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf);%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)color0divisor255divisor0|", profundidade, raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio2 - espessura, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+		printf("%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)color0divisor255divisor0|", profundidade, raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio2 - espessura, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 		fflush(stdout);
 
 		if (i == 0)
 			{
-			printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf);0divisor%Lf%s%Lf)divisor%Lf%s%Lf);%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf);", raio1, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio1 - espessura, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao));
+			printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR", raio1, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio1 - espessura, " * cos(p + ", (long double) (i * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) (i * M_PI / 2 / resolucao));
 
 			fflush(stdout);
 
@@ -100,7 +100,7 @@ int main (int argc, char * argv[])
 
 			fflush(stdout);
 
-			printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf);0divisor%Lf%s%Lf)divisor%Lf%s%Lf);%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf);", raio2, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio2 - espessura, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao));
+			printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR", raio2, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao), profundidade, raio2 - espessura, " * cos(-p + ", (long double) (i * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) (i * M_PI / 2 / resolucao));
 
 			fflush(stdout);
 
@@ -111,7 +111,7 @@ int main (int argc, char * argv[])
 
 		if (i == resolucao - 1)
 			{
-			printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf);0divisor%Lf%s%Lf)divisor%Lf%s%Lf);%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf);", raio1, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+			printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR", raio1, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio1 - espessura, " * cos(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio1 - espessura, " * sin(p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 			fflush(stdout);
 
@@ -119,7 +119,7 @@ int main (int argc, char * argv[])
 
 			fflush(stdout);
 
-			printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf);0divisor%Lf%s%Lf)divisor%Lf%s%Lf);%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf);", raio2, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
+			printf("0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR0divisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR%Lfdivisor%Lf%s%Lf)divisor%Lf%s%Lf)DIVISOR", raio2, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), profundidade, raio2 - espessura, " * cos(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao), raio2 - espessura, " * sin(-p + ", (long double) ((i + 1) * M_PI / 2 / resolucao));
 
 			fflush(stdout);
 

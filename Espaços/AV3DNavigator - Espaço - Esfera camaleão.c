@@ -5,7 +5,7 @@ Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador do "AV3DNavigator - Espaço - Esfera camaleão.txt".
 
-Última atualização: 12-08-2024.
+Última atualização: 13-08-2024.
 */
 
 #include <stdio.h>
@@ -18,18 +18,18 @@ int main (int argc, char * argv[])
 	int resolucao = 20;
 	long double raio = 5;
 	int colorstep = 50;
-	long double fatorcolormove = 10;
+	long double fatorcolormove = 100;
 	int i; int j;
 
 	printf("@");
 
 	for (i = 0; i < resolucao; i++) for (j = 0; j < resolucao; j++)
 		{
-		printf("%Lfdivisor%Lfdivisor%Lf;%Lfdivisor%Lfdivisor%Lf;", raio * cosl(2 * M_PI * i / resolucao) * cosl(-M_PI_2 + M_PI * j / resolucao), raio * sinl(2 * M_PI * i / resolucao) * cosl(-M_PI_2 + M_PI * j / resolucao), raio * sinl(-M_PI_2 + M_PI * j / resolucao), raio * cosl(2 * M_PI * i / resolucao) * cosl(-M_PI_2 + M_PI * (j + 1) / resolucao), raio * sinl(2 * M_PI * i / resolucao) * cosl(-M_PI_2 + M_PI * (j + 1) / resolucao), raio * sinl(-M_PI_2 + M_PI * (j + 1) / resolucao));
+		printf("%Lfdivisor%Lfdivisor%LfDIVISOR%Lfdivisor%Lfdivisor%LfDIVISOR", raio * cosl(2 * M_PI * i / resolucao) * cosl(-M_PI_2 + M_PI * j / resolucao), raio * sinl(2 * M_PI * i / resolucao) * cosl(-M_PI_2 + M_PI * j / resolucao), raio * sinl(-M_PI_2 + M_PI * j / resolucao), raio * cosl(2 * M_PI * i / resolucao) * cosl(-M_PI_2 + M_PI * (j + 1) / resolucao), raio * sinl(2 * M_PI * i / resolucao) * cosl(-M_PI_2 + M_PI * (j + 1) / resolucao), raio * sinl(-M_PI_2 + M_PI * (j + 1) / resolucao));
 
 		fflush(stdout);
 
-		printf("%Lfdivisor%Lfdivisor%Lf;%Lfdivisor%Lfdivisor%Lf", raio * cosl(2 * M_PI * (i + 1) / resolucao) * cosl(-M_PI_2 + M_PI * (j + 1) / resolucao), raio * sinl(2 * M_PI * (i + 1) / resolucao) * cosl(-M_PI_2 + M_PI * (j + 1) / resolucao), raio * sinl(-M_PI_2 + M_PI * (j + 1) / resolucao), raio * cosl(2 * M_PI * (i + 1) / resolucao) * cosl(-M_PI_2 + M_PI * j / resolucao), raio * sinl(2 * M_PI * (i + 1) / resolucao) * cosl(-M_PI_2 + M_PI * j / resolucao), raio * sinl(-M_PI_2 + M_PI * j / resolucao));
+		printf("%Lfdivisor%Lfdivisor%LfDIVISOR%Lfdivisor%Lfdivisor%Lf", raio * cosl(2 * M_PI * (i + 1) / resolucao) * cosl(-M_PI_2 + M_PI * (j + 1) / resolucao), raio * sinl(2 * M_PI * (i + 1) / resolucao) * cosl(-M_PI_2 + M_PI * (j + 1) / resolucao), raio * sinl(-M_PI_2 + M_PI * (j + 1) / resolucao), raio * cosl(2 * M_PI * (i + 1) / resolucao) * cosl(-M_PI_2 + M_PI * j / resolucao), raio * sinl(2 * M_PI * (i + 1) / resolucao) * cosl(-M_PI_2 + M_PI * j / resolucao), raio * sinl(-M_PI_2 + M_PI * j / resolucao));
 
 		fflush(stdout);
 
