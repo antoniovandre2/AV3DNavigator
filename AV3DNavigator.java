@@ -14,6 +14,8 @@
  * Última atualização: 12-08-2024. Não considerando alterações em variáveis globais.
  */
 
+import java.lang.IllegalThreadStateException;
+
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -1584,7 +1586,11 @@ public class AV3DNavigator extends JComponent
 						{
 		if (ApfloatFlag == 0)
 			{
-			AV3DNavigatorApfloatCountThread.start ();
+			try
+				{
+				AV3DNavigatorApfloatCountThread.interrupt ();
+				AV3DNavigatorApfloatCountThread.start ();
+				} catch (IllegalThreadStateException e) {}
 
 			ApfloatFlag = 1;
 			} else ApfloatFlag = 0; TriangulosString = "";}
@@ -2861,7 +2867,11 @@ public class AV3DNavigator extends JComponent
 			if (ContadorEspacoInvalido == 0) return "Erro";
 
 			if (EspacoStr.contains("p"))
-				AV3DNavigatorEspacosPCountThread.start ();
+				try
+					{
+					AV3DNavigatorEspacosPCountThread.interrupt ();
+					AV3DNavigatorEspacosPCountThread.start ();
+					} catch (IllegalThreadStateException e) {}
 
 			return EspacoStr;
 			} catch (IOException e) {return "Erro";}
