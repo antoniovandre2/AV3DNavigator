@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 12-08-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 13-08-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -2009,7 +2009,14 @@ public class AV3DNavigator extends JComponent
 				else
 					Campos = EspacoLinhas[i].split("c");
 
-				String [] Pontos = Campos[0].split(";");
+				String [] Pontos;
+
+				if (Espaco.contains("p"))
+					Pontos = Campos[0].split("DIVISOR");
+				else if (Campos[0].contains("DIVISOR"))
+					Pontos = Campos[0].split("DIVISOR");
+				else
+					Pontos = Campos[0].split(";");
 
 				String [] CoordenadasOrig;
 
@@ -2290,7 +2297,14 @@ public class AV3DNavigator extends JComponent
 				else
 					Campos = EspacoTriangulosShapePreenchidos[i].split("c");
 
-				String [] Pontos = Campos[0].split(";");
+				String [] Pontos;
+
+				if (Espaco.contains("p"))
+					Pontos = Campos[0].split("DIVISOR");
+				else if (Campos[0].contains("DIVISOR"))
+					Pontos = Campos[0].split("DIVISOR");
+				else
+					Pontos = Campos[0].split(";");
 
 				Pontoslength = Pontos.length;
 
@@ -2350,7 +2364,7 @@ public class AV3DNavigator extends JComponent
 							ContadorPontos++;
 
 								if (Espaco.contains("p"))
-									TriangulosString = TriangulosString + Integer.toString(xpp) + "divisor" + Integer.toString(ypp) + ";";
+									TriangulosString = TriangulosString + Integer.toString(xpp) + "divisor" + Integer.toString(ypp) + "DIVISOR";
 								else
 									TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
 
@@ -2404,7 +2418,7 @@ public class AV3DNavigator extends JComponent
 								ContadorPontos++;
 
 								if (Espaco.contains("p"))
-									TriangulosString = TriangulosString + Integer.toString(xpp) + "divisor" + Integer.toString(ypp) + ";";
+									TriangulosString = TriangulosString + Integer.toString(xpp) + "divisor" + Integer.toString(ypp) + "DIVISOR";
 								else
 									TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
 
@@ -2422,7 +2436,15 @@ public class AV3DNavigator extends JComponent
 
 					if (ContadorPontos == Pontoslength)
 							{
-							String [] PontosTriangulos = TriangulosString.split(";");
+							String [] PontosTriangulos;
+
+							if (Espaco.contains("p"))
+								PontosTriangulos = TriangulosString.split("DIVISOR");
+							else if (TriangulosString.contains("DIVISOR"))
+								PontosTriangulos = TriangulosString.split("DIVISOR");
+							else
+								PontosTriangulos = TriangulosString.split(";");
+
 							String [] ParametroTriangulo = new String[3];
 
 							l = 0;
@@ -2526,7 +2548,14 @@ public class AV3DNavigator extends JComponent
 
 			if (! (EspacoLegendas[i].equals("")))
 				{
-				String [] Campos = EspacoLegendas[i].split(";");
+				String [] Campos;
+
+				if (Espaco.contains("p"))
+					Campos = EspacoLegendas[i].split("DIVISOR");
+				else if (EspacoLegendas[i].contains("DIVISOR"))
+					Campos = EspacoLegendas[i].split("DIVISOR");
+				else
+					Campos = EspacoLegendas[i].split(";");
 
 				if (Campos.length == 1)
 					{
@@ -2686,7 +2715,14 @@ public class AV3DNavigator extends JComponent
 
 						if (Campos.length > 2) return "Erro";
 
-						String [] Pontos = Campos[0].split(";");
+						String [] Pontos;
+
+						if (EspacoStr.contains("p"))
+							Pontos = Campos[0].split("DIVISOR");
+						else if (Campos[0].contains("DIVISOR"))
+							Pontos = Campos[0].split("DIVISOR");
+						else
+							Pontos = Campos[0].split(";");
 
 						Pontoslength = Pontos.length;
 
@@ -2762,7 +2798,14 @@ public class AV3DNavigator extends JComponent
 
 						if (Campos.length > 2) return "Erro";
 
-						String [] Pontos = Campos[0].split(";");
+						String [] Pontos;
+
+						if (EspacoStr.contains("p"))
+							Pontos = Campos[0].split("DIVISOR");
+						else if (Campos[0].contains("DIVISOR"))
+							Pontos = Campos[0].split("DIVISOR");
+						else
+							Pontos = Campos[0].split(";");
 
 						Pontoslength = Pontos.length;
 
@@ -2828,7 +2871,14 @@ public class AV3DNavigator extends JComponent
 					{
 					if (! (EspacoLegendas[i].equals("")))
 						{
-						String [] Campos = EspacoLegendas[i].split(";");
+						String [] Campos;
+
+						if (EspacoStr.contains("p"))
+							Campos = EspacoLegendas[i].split("DIVISOR");
+						else if (EspacoLegendas[i].contains("DIVISOR"))
+							Campos = EspacoLegendas[i].split("DIVISOR");
+						else
+							Campos = EspacoLegendas[i].split(";");
 
 						if (Campos.length > 3) return "Erro";
 
