@@ -1498,7 +1498,8 @@ public class AV3DNavigator extends JComponent
 							LabelStatusLabelURLPanel.add(LabelURL, GridBagConstraintsLabelStatusLabelURL);
 							FrameEspaco.getContentPane().add(LabelStatusLabelURLPanel);
 							LabelStatusLabelURLPanel.setVisible(true);
-							LabelStatusLabelURLPanel.revalidate(); LabelStatusLabelURLPanel.repaint();
+							LabelStatusLabelURLPanel.revalidate();
+							LabelStatusLabelURLPanel.repaint();
 
 							MinTamanhoPlanoYMaisLabels = TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL;
 
@@ -1514,7 +1515,8 @@ public class AV3DNavigator extends JComponent
 							FrameEspaco.getContentPane().add(LabelURL, BorderLayout.PAGE_END);
 							LabelURL.setVisible(true);
 							LabelStatusLabelURLPanel.setVisible(false);
-							LabelStatusLabelURLPanel.revalidate(); LabelStatusLabelURLPanel.repaint();
+							LabelStatusLabelURLPanel.revalidate();
+							LabelStatusLabelURLPanel.repaint();
 
 							MinTamanhoPlanoYMaisLabels = TamanhoPlanoY + TamanhoEspacoLabelURL;
 
