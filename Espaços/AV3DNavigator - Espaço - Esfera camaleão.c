@@ -5,7 +5,7 @@ Av3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador do "AV3DNavigator - Espaço - Esfera camaleão.txt".
 
-Última atualização: 13-08-2024.
+Última atualização: 14-08-2024. Não considerando alterações em variáveis globais.
 */
 
 #include <stdio.h>
@@ -15,10 +15,10 @@ Arquivo gerador do "AV3DNavigator - Espaço - Esfera camaleão.txt".
 
 int main (int argc, char * argv[])
 	{
-	int resolucao = 20;
+	int resolucao = 15;
 	long double raio = 5;
 	int colorstep = 50;
-	long double fatorcolormove = 100;
+	long double fatorcolormove = 80;
 	int i; int j;
 
 	printf("@");
@@ -33,7 +33,7 @@ int main (int argc, char * argv[])
 
 		fflush(stdout);
 
-		printf("color%s%Lf%s%d%s%Lf%s%d%s", "mod (p * ", fatorcolormove, " + ", (int) ((i + j) * colorstep), ", 256)divisormod (p * ", fatorcolormove, " + ", (int) ((i + j) * colorstep), ", 256)divisor255|");
+		printf("color%s%Lf%s%d%s%Lf%s%d%s", "mod (AV3DNP0 * ", fatorcolormove, " + ", (int) ((i + j) * colorstep), ", 256)divisormod (AV3DNP0 * ", fatorcolormove, " + ", (int) ((i + j) * colorstep), ", 256)divisor255|");
 
 		fflush(stdout);
 		}
