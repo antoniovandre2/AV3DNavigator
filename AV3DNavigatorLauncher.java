@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 12-08-2024.
+ * Última atualização: 14-08-2024.
  */
 
 import java.awt.Toolkit;
@@ -34,13 +34,12 @@ import javax.swing.border.EmptyBorder;
 import java.net.URL;
 
 import java.lang.ProcessBuilder;
-import java.lang.ProcessBuilder.Redirect;
 
 import java.io.*;
 
 public class AV3DNavigatorLauncher
 	{
-	public static String VersaoLauncher = "10-08-2024";
+	public static String VersaoLauncher = "14-08-2024";
 
 	public static String URL3DNavigatorVersao = "https://github.com/antoniovandre2/AV3DNavigator/raw/main/AV3DNavigatorVersao.txt";
 
@@ -211,8 +210,6 @@ public class AV3DNavigatorLauncher
 			if (args.length != 0) ArquivoEspaco = args[0];
 
 			ProcessBuilder pb = new ProcessBuilder("java", "-jar", ArquivoAV3DNavigator, ArquivoEspaco);
-			pb.redirectOutput(Redirect.DISCARD);
-			pb.redirectError(Redirect.DISCARD);
 			SplashScreen.close();
 			Process p = pb.start();
 			} catch (IOException e) {System.out.println(MensagemErroExecutar);}
