@@ -2483,7 +2483,7 @@ public class AV3DNavigator extends JComponent
 
 			if (FlagTime == 1)
 				{
-				if (ContadorTime * SleepTime >= 500)
+				if (ContadorTime * SleepTime >= 100)
 					{
 					ParametroTimeS = Integer.parseInt(new SimpleDateFormat("ss").format(Calendar.getInstance().getTime()));
 
