@@ -1940,121 +1940,321 @@ public class AV3DNavigator extends JComponent
 					if (keyCode == KeyEvent.VK_0)
 						{
 						if ((ke.isControlDown()) && (ke.isShiftDown()))
-							Parametro0Step -= 0.1;
+							{
+							if (Math.abs(Parametro0Step - 0.1) > AntonioVandre.MaximoValorReal - 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro0Step -= 0.1;
+							}
 						else if (ke.isControlDown())
-							Parametro0Step += 0.1;
+							{
+							if (Math.abs(Parametro0Step + 0.1) > AntonioVandre.MaximoValorReal + 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro0Step += 0.1;
+							}
 						else if (ke.isShiftDown())
-							Parametro0 -= Parametro0Step;
+							{
+							if (Math.abs(Parametro0 - Parametro0Step) > AntonioVandre.MaximoValorReal - Parametro0Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro0 -= Parametro0Step;
+							}
 						else
-							Parametro0 += Parametro0Step;
+							{
+							if (Math.abs(Parametro0 + Parametro0Step) > AntonioVandre.MaximoValorReal + Parametro0Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro0 += Parametro0Step;
+							}
 						}
 
 					if (keyCode == KeyEvent.VK_1)
 						{
 						if ((ke.isControlDown()) && (ke.isShiftDown()))
-							Parametro1Step -= 0.1;
+							{
+							if (Math.abs(Parametro1Step - 0.1) > AntonioVandre.MaximoValorReal - 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro1Step -= 0.1;
+							}
 						else if (ke.isControlDown())
-							Parametro1Step += 0.1;
+							{
+							if (Math.abs(Parametro1Step + 0.1) > AntonioVandre.MaximoValorReal + 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro1Step += 0.1;
+							}
 						else if (ke.isShiftDown())
-							Parametro1 -= Parametro1Step;
+							{
+							if (Math.abs(Parametro1 - Parametro1Step) > AntonioVandre.MaximoValorReal - Parametro1Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro1 -= Parametro1Step;
+							}
 						else
-							Parametro1 += Parametro1Step;
+							{
+							if (Math.abs(Parametro1 + Parametro1Step) > AntonioVandre.MaximoValorReal + Parametro1Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro1 += Parametro1Step;
+							}
 						}
 
 					if (keyCode == KeyEvent.VK_2)
 						{
 						if ((ke.isControlDown()) && (ke.isShiftDown()))
-							Parametro2Step -= 0.1;
+							{
+							if (Math.abs(Parametro2Step - 0.1) > AntonioVandre.MaximoValorReal - 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro2Step -= 0.1;
+							}
 						else if (ke.isControlDown())
-							Parametro2Step += 0.1;
+							{
+							if (Math.abs(Parametro2Step + 0.1) > AntonioVandre.MaximoValorReal + 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro2Step += 0.1;
+							}
 						else if (ke.isShiftDown())
-							Parametro2 -= Parametro2Step;
+							{
+							if (Math.abs(Parametro2 - Parametro2Step) > AntonioVandre.MaximoValorReal - Parametro2Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro2 -= Parametro2Step;
+							}
 						else
-							Parametro2 += Parametro2Step;
+							{
+							if (Math.abs(Parametro2 + Parametro2Step) > AntonioVandre.MaximoValorReal + Parametro0Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro2 += Parametro2Step;
+							}
 						}
 
 					if (keyCode == KeyEvent.VK_3)
 						{
 						if ((ke.isControlDown()) && (ke.isShiftDown()))
-							Parametro3Step -= 0.1;
+							{
+							if (Math.abs(Parametro3Step - 0.1) > AntonioVandre.MaximoValorReal - 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro3Step -= 0.1;
+							}
 						else if (ke.isControlDown())
-							Parametro3Step += 0.1;
+							{
+							if (Math.abs(Parametro3Step + 0.1) > AntonioVandre.MaximoValorReal + 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro3Step += 0.1;
+							}
 						else if (ke.isShiftDown())
-							Parametro3 -= Parametro3Step;
+							{
+							if (Math.abs(Parametro3 - Parametro3Step) > AntonioVandre.MaximoValorReal - Parametro3Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro3 -= Parametro3Step;
+							}
 						else
-							Parametro3 += Parametro3Step;
+							{
+							if (Math.abs(Parametro3 + Parametro3Step) > AntonioVandre.MaximoValorReal + Parametro3Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro3 += Parametro3Step;
+							}
 						}
 
 					if (keyCode == KeyEvent.VK_4)
 						{
 						if ((ke.isControlDown()) && (ke.isShiftDown()))
-							Parametro4Step -= 0.1;
+							{
+							if (Math.abs(Parametro4Step - 0.1) > AntonioVandre.MaximoValorReal - 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro4Step -= 0.1;
+							}
 						else if (ke.isControlDown())
-							Parametro4Step += 0.1;
+							{
+							if (Math.abs(Parametro4Step + 0.1) > AntonioVandre.MaximoValorReal + 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro4Step += 0.1;
+							}
 						else if (ke.isShiftDown())
-							Parametro4 -= Parametro4Step;
+							{
+							if (Math.abs(Parametro4 - Parametro4Step) > AntonioVandre.MaximoValorReal - Parametro4Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro4 -= Parametro4Step;
+							}
 						else
-							Parametro4 += Parametro4Step;
+							{
+							if (Math.abs(Parametro4 + Parametro4Step) > AntonioVandre.MaximoValorReal + Parametro4Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro4 += Parametro4Step;
+							}
 						}
 
 					if (keyCode == KeyEvent.VK_5)
 						{
 						if ((ke.isControlDown()) && (ke.isShiftDown()))
-							Parametro5Step -= 0.1;
+							{
+							if (Math.abs(Parametro5Step - 0.1) > AntonioVandre.MaximoValorReal - 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro5Step -= 0.1;
+							}
 						else if (ke.isControlDown())
-							Parametro5Step += 0.1;
+							{
+							if (Math.abs(Parametro5Step + 0.1) > AntonioVandre.MaximoValorReal + 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro5Step += 0.1;
+							}
 						else if (ke.isShiftDown())
-							Parametro5 -= Parametro5Step;
+							{
+							if (Math.abs(Parametro5 - Parametro5Step) > AntonioVandre.MaximoValorReal - Parametro5Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro5 -= Parametro5Step;
+							}
 						else
-							Parametro5 += Parametro5Step;
+							{
+							if (Math.abs(Parametro5 + Parametro5Step) > AntonioVandre.MaximoValorReal + Parametro5Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro5 += Parametro5Step;
+							}
 						}
 
 					if (keyCode == KeyEvent.VK_6)
 						{
 						if ((ke.isControlDown()) && (ke.isShiftDown()))
-							Parametro6Step -= 0.1;
+							{
+							if (Math.abs(Parametro6Step - 0.1) > AntonioVandre.MaximoValorReal - 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro6Step -= 0.1;
+							}
 						else if (ke.isControlDown())
-							Parametro6Step += 0.1;
+							{
+							if (Math.abs(Parametro6Step + 0.1) > AntonioVandre.MaximoValorReal + 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro6Step += 0.1;
+							}
 						else if (ke.isShiftDown())
-							Parametro6 -= Parametro6Step;
+							{
+							if (Math.abs(Parametro6 - Parametro6Step) > AntonioVandre.MaximoValorReal - Parametro6Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro6 -= Parametro6Step;
+							}
 						else
-							Parametro6 += Parametro6Step;
+							{
+							if (Math.abs(Parametro6 + Parametro6Step) > AntonioVandre.MaximoValorReal + Parametro6Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro6 += Parametro6Step;
+							}
 						}
 
 					if (keyCode == KeyEvent.VK_7)
 						{
 						if ((ke.isControlDown()) && (ke.isShiftDown()))
-							Parametro7Step -= 0.1;
+							{
+							if (Math.abs(Parametro7Step - 0.1) > AntonioVandre.MaximoValorReal - 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro7Step -= 0.1;
+							}
 						else if (ke.isControlDown())
-							Parametro7Step += 0.1;
+							{
+							if (Math.abs(Parametro7Step + 0.1) > AntonioVandre.MaximoValorReal + 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro7Step += 0.1;
+							}
 						else if (ke.isShiftDown())
-							Parametro7 -= Parametro7Step;
+							{
+							if (Math.abs(Parametro7 - Parametro7Step) > AntonioVandre.MaximoValorReal - Parametro7Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro0 -= Parametro7Step;
+							}
 						else
-							Parametro7 += Parametro7Step;
+							{
+							if (Math.abs(Parametro7 + Parametro7Step) > AntonioVandre.MaximoValorReal + Parametro7Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro7 += Parametro7Step;
+							}
 						}
 
 					if (keyCode == KeyEvent.VK_8)
 						{
 						if ((ke.isControlDown()) && (ke.isShiftDown()))
-							Parametro8Step -= 0.1;
+							{
+							if (Math.abs(Parametro8Step - 0.1) > AntonioVandre.MaximoValorReal - 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro8Step -= 0.1;
+							}
 						else if (ke.isControlDown())
-							Parametro8Step += 0.1;
+							{
+							if (Math.abs(Parametro8Step + 0.1) > AntonioVandre.MaximoValorReal + 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro8Step += 0.1;
+							}
 						else if (ke.isShiftDown())
-							Parametro8 -= Parametro8Step;
+							{
+							if (Math.abs(Parametro8 - Parametro8Step) > AntonioVandre.MaximoValorReal - Parametro8Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro8 -= Parametro8Step;
+							}
 						else
-							Parametro8 += Parametro8Step;
+							{
+							if (Math.abs(Parametro8 + Parametro8Step) > AntonioVandre.MaximoValorReal + Parametro8Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro8 += Parametro8Step;
+							}
 						}
 
 					if (keyCode == KeyEvent.VK_9)
 						{
 						if ((ke.isControlDown()) && (ke.isShiftDown()))
-							Parametro9Step -= 0.1;
+							{
+							if (Math.abs(Parametro9Step - 0.1) > AntonioVandre.MaximoValorReal - 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro9Step -= 0.1;
+							}
 						else if (ke.isControlDown())
-							Parametro9Step += 0.1;
+							{
+							if (Math.abs(Parametro9Step + 0.1) > AntonioVandre.MaximoValorReal + 0.1)
+								VariavelLimiteAtingido();
+							else
+								Parametro9Step += 0.1;
+							}
 						else if (ke.isShiftDown())
-							Parametro9 -= Parametro9Step;
+							{
+							if (Math.abs(Parametro9 - Parametro9Step) > AntonioVandre.MaximoValorReal - Parametro9Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro9 -= Parametro9Step;
+							}
 						else
-							Parametro9 += Parametro9Step;
+							{
+							if (Math.abs(Parametro9 + Parametro9Step) > AntonioVandre.MaximoValorReal + Parametro9Step)
+								VariavelLimiteAtingido();
+							else
+								Parametro9 += Parametro9Step;
+							}
 						}
 
 					if (keyCode == KeyEvent.VK_BACK_SPACE)
