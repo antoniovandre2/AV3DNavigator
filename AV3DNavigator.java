@@ -107,8 +107,8 @@ public class AV3DNavigator extends JComponent
 	public int TamanhoPlanoY = 460; // Default: 460.
 	public static int TamanhoEspacoLabelStatus = 270; // Default: 270.
 	public static int TamanhoEspacoLabelURL = 65; // Default: 65.
-	public static int TamanhoEspacoHelpX = 800; // Default: 800.
-	public static int TamanhoEspacoHelpY = 770; // Default: 770.
+	public static int TamanhoEspacoHelpX = 780; // Default: 780.
+	public static int TamanhoEspacoHelpY = 790; // Default: 790.
 	public static int TamanhoEspacoInvalidoX = 300; // Default: 300.
 	public static int TamanhoEspacoInvalidoY = 80; // Default: 80.
 	public static int MinTamanhoPlanoX = 400; // Default: 400.
@@ -2483,7 +2483,7 @@ public class AV3DNavigator extends JComponent
 
 			if (FlagTime == 1)
 				{
-				if (ContadorTime * SleepTime >= 900)
+				if (ContadorTime * SleepTime >= 500)
 					{
 					ParametroTimeS = Integer.parseInt(new SimpleDateFormat("ss").format(Calendar.getInstance().getTime()));
 
