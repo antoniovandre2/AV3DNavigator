@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 14-08-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 15-08-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -67,6 +67,10 @@ import java.time.LocalDateTime;
 
 import java.net.URL;
 
+import java.text.SimpleDateFormat;
+
+import java.util.Calendar;
+
 import java.io.*;
 
 // Alta precisão com o Apfloat, porém com custo computacional.
@@ -103,8 +107,8 @@ public class AV3DNavigator extends JComponent
 	public int TamanhoPlanoY = 460; // Default: 460.
 	public static int TamanhoEspacoLabelStatus = 270; // Default: 270.
 	public static int TamanhoEspacoLabelURL = 65; // Default: 65.
-	public static int TamanhoEspacoHelpX = 910; // Default: 910.
-	public static int TamanhoEspacoHelpY = 820; // Default: 820.
+	public static int TamanhoEspacoHelpX = 800; // Default: 800.
+	public static int TamanhoEspacoHelpY = 770; // Default: 770.
 	public static int TamanhoEspacoInvalidoX = 300; // Default: 300.
 	public static int TamanhoEspacoInvalidoY = 80; // Default: 80.
 	public static int MinTamanhoPlanoX = 400; // Default: 400.
@@ -115,7 +119,7 @@ public class AV3DNavigator extends JComponent
 	public static double MargemAnguloVisao = 1; // Default: 1.
 	public static int TamanhoFonteLabelStatus = 7; // Default: 7.
 	public static int TamanhoFonteLabelURL = 11; // Default: 11.
-	public static int TamanhoFonteLabelHelp = 11; // Default: 11.
+	public static int TamanhoFonteLabelHelp = 10; // Default: 10.
 	public static int TamanhoFonteLabelPrint = 12; // Default: 12.
 	public static int TamanhoFonteLabelErroEspacoInvalido = 11; // Default: 11.
 	public double DistanciaTela = 2; // Default: valor inicial: 2.
@@ -204,6 +208,23 @@ public class AV3DNavigator extends JComponent
 	public int FlagAlteracaoStatus = 1;
 	public int MaxTentativasCores = Integer.MAX_VALUE;
 	public int SleepTime = 7; // Default: valor inicial: 7.
+
+	public double ParametroFile0 = 0; // Default: valor inicial: 0.
+	public double ParametroFile1 = 0; // Default: valor inicial: 0.
+	public double ParametroFile2 = 0; // Default: valor inicial: 0.
+	public double ParametroFile3 = 0; // Default: valor inicial: 0.
+	public double ParametroFile4 = 0; // Default: valor inicial: 0.
+	public double ParametroFile5 = 0; // Default: valor inicial: 0.
+	public double ParametroFile6 = 0; // Default: valor inicial: 0.
+	public double ParametroFile7 = 0; // Default: valor inicial: 0.
+	public double ParametroFile8 = 0; // Default: valor inicial: 0.
+	public double ParametroFile9 = 0; // Default: valor inicial: 0.
+
+	public int ParametroTimeS = Integer.parseInt(new SimpleDateFormat("ss").format(Calendar.getInstance().getTime()));
+	public int ParametroTimeM = Integer.parseInt(new SimpleDateFormat("mm").format(Calendar.getInstance().getTime()));
+	public int ParametroTimeH = Integer.parseInt(new SimpleDateFormat("HH").format(Calendar.getInstance().getTime()));
+	public int FlagTime = 0;
+	public long ContadorTime = 0;
 
 	public long ValorInteiroLong;
 	public int i;
@@ -310,6 +331,34 @@ public class AV3DNavigator extends JComponent
 			try
 				{
 				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorEspacosPCount");
+				BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
+				String inputLine;
+				while ((inputLine = in.readLine()) != null);
+				in.close();
+				} catch (IOException e) {}
+			}
+		};
+
+	public Thread AV3DNavigatorEspacosPFileCountThread = new Thread () {
+		public void run ()
+			{
+			try
+				{
+				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorEspacosPFileCount");
+				BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
+				String inputLine;
+				while ((inputLine = in.readLine()) != null);
+				in.close();
+				} catch (IOException e) {}
+			}
+		};
+
+	public Thread AV3DNavigatorEspacosPTimeCountThread = new Thread () {
+		public void run ()
+			{
+			try
+				{
+				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorEspacosPTimeCount");
 				BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
 				String inputLine;
 				while ((inputLine = in.readLine()) != null);
@@ -1322,7 +1371,7 @@ public class AV3DNavigator extends JComponent
 						JFrame FrameHelp = new JFrame("AV3DNavigator - Ajuda");
 						FrameHelp.setPreferredSize(new Dimension(TamanhoEspacoHelpX, TamanhoEspacoHelpY));
 						FrameHelp.setSize(new Dimension(TamanhoEspacoHelpX, TamanhoEspacoHelpY));
-						LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>Shift + \"J\" para rotação vertical positiva. Shift + \"M\" para negativa.<br>\"K\" para rotação total positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>Shift + \"L\" para incrementar o raio de rotação vertical. Shift + \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação total. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor vermelha padrão da linha. \"Y\" para shift positivo.<br>Shift + \"T\" para shift negativo na cor verde padrão da linha. Shift + \"Y\" para shift positivo.<br>Ctrl + \"T\" para shift negativo na cor azul padrão da linha. Ctrl + \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor vermelha padrão de fundo. \"I\" para shift positivo.<br>Shift + \"U\" para shift negativo na cor verde padrão de fundo. Shift + \"I\" para shift positivo.<br>Ctrl + \"U\" para shift negativo na cor azul padrão de fundo. Ctrl + \"I\" para shift positivo.<br>\"O\" para shift negativo na cor vermelha padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>Shift + \"O\" para shift negativo na cor verde padrão dos polígonos preenchidos. Shift + \"P\" para shift positivo.<br>Ctrl + \"O\" para shift negativo na cor azul padrão dos polígonos preenchidos. Ctrl + \"P\" para shift positivo.<br>INSERT para shift negativo na cor vermelha padrão das legendas. HOME para shift positivo.<br>Shift + INSERT para shift negativo na cor verde padrão das legendas. Shift + HOME para shift positivo.<br>Ctrl + INSERT para shift negativo na cor azul padrão das legendas. Ctrl + HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>Numpad \"0\" para toggle alta precisão Apfloat (com custo computacional).<br>F4 para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Teclas de \"0\" a \"9\" para incrementar o parâmetro correspondente. Shift + tecla para decrementar.<br>Ctrl + tecla para incrementar o step do parâmetro. Ctrl + Shift + tecla para decrementar.<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br>F3 para ocultar e mostrar os labels.<br>BACKSPACE para ativar / desativar labels animados.<br><br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB), 2);
+						LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar.<br>\"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>Shift + \"J\" para rotação vertical positiva. Shift + \"M\" para negativa.<br>\"K\" para rotação total positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>Shift + \"L\" para incrementar o raio de rotação vertical. Shift + \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação total. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor vermelha padrão da linha. \"Y\" para shift positivo.<br>Shift + \"T\" para shift negativo na cor verde padrão da linha. Shift + \"Y\" para shift positivo.<br>Ctrl + \"T\" para shift negativo na cor azul padrão da linha. Ctrl + \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor vermelha padrão de fundo. \"I\" para shift positivo.<br>Shift + \"U\" para shift negativo na cor verde padrão de fundo. Shift + \"I\" para shift positivo.<br>Ctrl + \"U\" para shift negativo na cor azul padrão de fundo. Ctrl + \"I\" para shift positivo.<br>\"O\" para shift negativo na cor vermelha padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>Shift + \"O\" para shift negativo na cor verde padrão dos polígonos preenchidos. Shift + \"P\" para shift positivo.<br>Ctrl + \"O\" para shift negativo na cor azul padrão dos polígonos preenchidos. Ctrl + \"P\" para shift positivo.<br>INSERT para shift negativo na cor vermelha padrão das legendas. HOME para shift positivo.<br>Shift + INSERT para shift negativo na cor verde padrão das legendas. Shift + HOME para shift positivo.<br>Ctrl + INSERT para shift negativo na cor azul padrão das legendas. Ctrl + HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>Numpad \"0\" para toggle alta precisão Apfloat (com custo computacional).<br>F4 para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Teclas de \"0\" a \"9\" para incrementar o parâmetro correspondente. Shift + tecla para decrementar.<br>Ctrl + tecla para incrementar o step do parâmetro. Ctrl + Shift + tecla para decrementar.<br><br>Enter para ler os arquivos de parâmetros.<br><br>Shift + Enter para ativar os parâmetros de tempo.<br><br>Setas para strafe. Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br>F3 para ocultar e mostrar os labels.<br>BACKSPACE para ativar / desativar labels animados.<br><br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB), 2);
 						LabelHelp.setBorder(new EmptyBorder(5, 5, 5, 5));
 						LabelHelp.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelHelp));
 						FrameHelp.add(LabelHelp);
@@ -2009,6 +2058,145 @@ public class AV3DNavigator extends JComponent
 					if (keyCode == KeyEvent.VK_BACK_SPACE)
 						{if (LabelAnimado == 0) LabelAnimado = 1; else LabelAnimado = 0;}
 
+					if (keyCode == KeyEvent.VK_ENTER)
+						{
+						if (ke.isShiftDown())
+							{if (FlagTime == 0) FlagTime = 1; else FlagTime = 0;}
+						else
+							{
+							File file = new File("AV3DNParFile0.txt");
+
+							try
+								{
+								BufferedReader br = new BufferedReader(new FileReader(file));
+								String Content = br.readLine();
+
+								if (AntonioVandre.NumeroReal(Content))
+									ParametroFile0 = Double.parseDouble(Content);
+								else
+									ParametroFile0 = 0;
+								} catch (IOException e) {ParametroFile0 = 0;}
+
+
+							file = new File("AV3DNParFile1.txt");
+
+							try
+								{
+								BufferedReader br = new BufferedReader(new FileReader(file));
+								String Content = br.readLine();
+
+								if (AntonioVandre.NumeroReal(Content))
+									ParametroFile1 = Double.parseDouble(Content);
+								else
+									ParametroFile1 = 0;
+								} catch (IOException e) {ParametroFile1 = 0;}
+
+							file = new File("AV3DNParFile2.txt");
+
+							try
+								{
+								BufferedReader br = new BufferedReader(new FileReader(file));
+								String Content = br.readLine();
+
+								if (AntonioVandre.NumeroReal(Content))
+									ParametroFile2 = Double.parseDouble(Content);
+								else
+									ParametroFile2 = 0;
+								} catch (IOException e) {ParametroFile1 = 2;}
+
+							file = new File("AV3DNParFile3.txt");
+
+							try
+								{
+								BufferedReader br = new BufferedReader(new FileReader(file));
+								String Content = br.readLine();
+
+								if (AntonioVandre.NumeroReal(Content))
+									ParametroFile3 = Double.parseDouble(Content);
+								else
+									ParametroFile3 = 0;
+								} catch (IOException e) {ParametroFile3 = 0;}
+
+							file = new File("AV3DNParFile4.txt");
+
+							try
+								{
+								BufferedReader br = new BufferedReader(new FileReader(file));
+								String Content = br.readLine();
+
+								if (AntonioVandre.NumeroReal(Content))
+									ParametroFile4 = Double.parseDouble(Content);
+								else
+									ParametroFile4 = 0;
+								} catch (IOException e) {ParametroFile4 = 0;}
+
+							file = new File("AV3DNParFile5.txt");
+
+							try
+								{
+								BufferedReader br = new BufferedReader(new FileReader(file));
+								String Content = br.readLine();
+
+								if (AntonioVandre.NumeroReal(Content))
+									ParametroFile5 = Double.parseDouble(Content);
+								else
+									ParametroFile5 = 0;
+								} catch (IOException e) {ParametroFile5 = 0;}
+
+							file = new File("AV3DNParFile6.txt");
+
+							try
+								{
+								BufferedReader br = new BufferedReader(new FileReader(file));
+								String Content = br.readLine();
+
+								if (AntonioVandre.NumeroReal(Content))
+									ParametroFile6 = Double.parseDouble(Content);
+								else
+									ParametroFile6 = 0;
+								} catch (IOException e) {ParametroFile6 = 0;}
+
+							file = new File("AV3DNParFile7.txt");
+
+							try
+								{
+								BufferedReader br = new BufferedReader(new FileReader(file));
+								String Content = br.readLine();
+
+								if (AntonioVandre.NumeroReal(Content))
+									ParametroFile7 = Double.parseDouble(Content);
+								else
+									ParametroFile7 = 0;
+								} catch (IOException e) {ParametroFile7 = 0;}
+
+							file = new File("AV3DNParFile8.txt");
+
+							try
+								{
+								BufferedReader br = new BufferedReader(new FileReader(file));
+								String Content = br.readLine();
+
+								if (AntonioVandre.NumeroReal(Content))
+									ParametroFile8 = Double.parseDouble(Content);
+								else
+									ParametroFile8 = 0;
+								} catch (IOException e) {ParametroFile8 = 0;}
+
+							file = new File("AV3DNParFile9.txt");
+
+							try
+								{
+								BufferedReader br = new BufferedReader(new FileReader(file));
+								String Content = br.readLine();
+
+								if (AntonioVandre.NumeroReal(Content))
+									ParametroFile9 = Double.parseDouble(Content);
+								else
+									ParametroFile9 = 0;
+								} catch (IOException e) {ParametroFile9 = 0;}
+							}
+						}
+
 					FlagAlteracaoStatus = 1;
 					}
 				}
@@ -2293,6 +2481,22 @@ public class AV3DNavigator extends JComponent
 
 			if (FlagMostrarLabel == 1) if (LabelAnimado == 1) {LabelStatus.setVisible(false); LabelStatus.setVisible(true); if (FlagHelp == 1) {LabelHelp.setVisible(false); LabelHelp.setVisible(true);}}
 
+			if (FlagTime == 1)
+				{
+				if (ContadorTime * SleepTime >= 900)
+					{
+					ParametroTimeS = Integer.parseInt(new SimpleDateFormat("ss").format(Calendar.getInstance().getTime()));
+
+					ParametroTimeM = Integer.parseInt(new SimpleDateFormat("mm").format(Calendar.getInstance().getTime()));
+
+					ParametroTimeH = Integer.parseInt(new SimpleDateFormat("HH").format(Calendar.getInstance().getTime()));
+
+					ContadorTime = 0;
+					FlagAlteracaoStatus = 1;
+					}
+				else ContadorTime++;
+				}
+
 			try {Thread.sleep(SleepTime);} catch(InterruptedException e) {}
 			}
 
@@ -2340,7 +2544,7 @@ public class AV3DNavigator extends JComponent
 				{
 				String [] Campos;
 
-				if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+				if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 					Campos = EspacoLinhas[i].split("color");
 				else if (EspacoLinhas[i].contains("color"))
 					Campos = EspacoLinhas[i].split("color");
@@ -2349,7 +2553,7 @@ public class AV3DNavigator extends JComponent
 
 				String [] Pontos;
 
-				if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+				if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 					Pontos = Campos[0].split("DIVISOR");
 				else if (Campos[0].contains("DIVISOR"))
 					Pontos = Campos[0].split("DIVISOR");
@@ -2358,7 +2562,7 @@ public class AV3DNavigator extends JComponent
 
 				String [] CoordenadasOrig;
 
-				if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+				if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 					CoordenadasOrig = Pontos[0].split("divisor");
 				else if (Pontos[0].contains("divisor"))
 					CoordenadasOrig = Pontos[0].split("divisor");
@@ -2367,7 +2571,7 @@ public class AV3DNavigator extends JComponent
 
 				String [] CoordenadasDest;
 
-				if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+				if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 					CoordenadasDest = Pontos[1].split("divisor");
 				else if (Pontos[1].contains("divisor"))
 					CoordenadasDest = Pontos[1].split("divisor");
@@ -2380,9 +2584,9 @@ public class AV3DNavigator extends JComponent
 					{
 					double xo = 0;
 
-					if ((CoordenadasOrig[0].contains("AV3DNP0")) || (CoordenadasOrig[0].contains("AV3DNP1")) || (CoordenadasOrig[0].contains("AV3DNP2")) || (CoordenadasOrig[0].contains("AV3DNP3")) || (CoordenadasOrig[0].contains("AV3DNP4")) || (CoordenadasOrig[0].contains("AV3DNP5")) || (CoordenadasOrig[0].contains("AV3DNP6")) || (CoordenadasOrig[0].contains("AV3DNP7")) || (CoordenadasOrig[0].contains("AV3DNP8")) || (CoordenadasOrig[0].contains("AV3DNP9")))
+					if ((CoordenadasOrig[0].contains("AV3DNP0")) || (CoordenadasOrig[0].contains("AV3DNP1")) || (CoordenadasOrig[0].contains("AV3DNP2")) || (CoordenadasOrig[0].contains("AV3DNP3")) || (CoordenadasOrig[0].contains("AV3DNP4")) || (CoordenadasOrig[0].contains("AV3DNP5")) || (CoordenadasOrig[0].contains("AV3DNP6")) || (CoordenadasOrig[0].contains("AV3DNP7")) || (CoordenadasOrig[0].contains("AV3DNP8")) || (CoordenadasOrig[0].contains("AV3DNP9")) || (CoordenadasOrig[0].contains("AV3DNPF0")) || (CoordenadasOrig[0].contains("AV3DNPF1")) || (CoordenadasOrig[0].contains("AV3DNPF2")) || (CoordenadasOrig[0].contains("AV3DNPF3")) || (CoordenadasOrig[0].contains("AV3DNPF4")) || (CoordenadasOrig[0].contains("AV3DNF5")) || (CoordenadasOrig[0].contains("AV3DNPF6")) || (CoordenadasOrig[0].contains("AV3DNPF7")) || (CoordenadasOrig[0].contains("AV3DNPF8")) || (CoordenadasOrig[0].contains("AV3DNPF9")) || (CoordenadasOrig[0].contains("AV3DNPTS")) || (CoordenadasOrig[0].contains("AV3DNPTM")) || (CoordenadasOrig[0].contains("AV3DNPTH")))
 						{
-						Expression expr = new Expression(CoordenadasOrig[0].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+						Expression expr = new Expression(CoordenadasOrig[0].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 						try {xo = expr.calculate() - xt;} catch (Exception e) {}
 						}
 					else
@@ -2390,9 +2594,9 @@ public class AV3DNavigator extends JComponent
 
 					double xd = 0;
 
-					if ((CoordenadasDest[0].contains("AV3DNP0")) || (CoordenadasDest[0].contains("AV3DNP1")) || (CoordenadasDest[0].contains("AV3DNP2")) || (CoordenadasDest[0].contains("AV3DNP3")) || (CoordenadasDest[0].contains("AV3DNP4")) || (CoordenadasDest[0].contains("AV3DNP5")) || (CoordenadasDest[0].contains("AV3DNP6")) || (CoordenadasDest[0].contains("AV3DNP7")) || (CoordenadasDest[0].contains("AV3DNP8")) || (CoordenadasDest[0].contains("AV3DNP9")))
+					if ((CoordenadasDest[0].contains("AV3DNP0")) || (CoordenadasDest[0].contains("AV3DNP1")) || (CoordenadasDest[0].contains("AV3DNP2")) || (CoordenadasDest[0].contains("AV3DNP3")) || (CoordenadasDest[0].contains("AV3DNP4")) || (CoordenadasDest[0].contains("AV3DNP5")) || (CoordenadasDest[0].contains("AV3DNP6")) || (CoordenadasDest[0].contains("AV3DNP7")) || (CoordenadasDest[0].contains("AV3DNP8")) || (CoordenadasDest[0].contains("AV3DNP9")) || (CoordenadasDest[0].contains("AV3DNPF0")) || (CoordenadasDest[0].contains("AV3DNPF1")) || (CoordenadasDest[0].contains("AV3DNPF2")) || (CoordenadasDest[0].contains("AV3DNPF3")) || (CoordenadasDest[0].contains("AV3DNPF4")) || (CoordenadasDest[0].contains("AV3DNF5")) || (CoordenadasDest[0].contains("AV3DNPF6")) || (CoordenadasDest[0].contains("AV3DNPF7")) || (CoordenadasDest[0].contains("AV3DNPF8")) || (CoordenadasDest[0].contains("AV3DNPF9")) || (CoordenadasDest[0].contains("AV3DNPTS")) || (CoordenadasDest[0].contains("AV3DNPTM")) || (CoordenadasDest[0].contains("AV3DNPTH")))
 						{
-						Expression expr = new Expression(CoordenadasDest[0].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+						Expression expr = new Expression(CoordenadasDest[0].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 						try {xd = expr.calculate() - xt;} catch (Exception e) {}
 						}
 					else
@@ -2400,9 +2604,9 @@ public class AV3DNavigator extends JComponent
 
 					double yo = 0;
 
-					if ((CoordenadasOrig[1].contains("AV3DNP0")) || (CoordenadasOrig[1].contains("AV3DNP1")) || (CoordenadasOrig[1].contains("AV3DNP2")) || (CoordenadasOrig[1].contains("AV3DNP3")) || (CoordenadasOrig[1].contains("AV3DNP4")) || (CoordenadasOrig[1].contains("AV3DNP5")) || (CoordenadasOrig[1].contains("AV3DNP6")) || (CoordenadasOrig[1].contains("AV3DNP7")) || (CoordenadasOrig[1].contains("AV3DNP8")) || (CoordenadasOrig[1].contains("AV3DNP9")))
+					if ((CoordenadasOrig[1].contains("AV3DNP0")) || (CoordenadasOrig[1].contains("AV3DNP1")) || (CoordenadasOrig[1].contains("AV3DNP2")) || (CoordenadasOrig[1].contains("AV3DNP3")) || (CoordenadasOrig[1].contains("AV3DNP4")) || (CoordenadasOrig[1].contains("AV3DNP5")) || (CoordenadasOrig[1].contains("AV3DNP6")) || (CoordenadasOrig[1].contains("AV3DNP7")) || (CoordenadasOrig[1].contains("AV3DNP8")) || (CoordenadasOrig[1].contains("AV3DNP9")) || (CoordenadasOrig[1].contains("AV3DNPF0")) || (CoordenadasOrig[1].contains("AV3DNPF1")) || (CoordenadasOrig[1].contains("AV3DNPF2")) || (CoordenadasOrig[1].contains("AV3DNPF3")) || (CoordenadasOrig[1].contains("AV3DNPF4")) || (CoordenadasOrig[1].contains("AV3DNF5")) || (CoordenadasOrig[1].contains("AV3DNPF6")) || (CoordenadasOrig[1].contains("AV3DNPF7")) || (CoordenadasOrig[1].contains("AV3DNPF8")) || (CoordenadasOrig[1].contains("AV3DNPF9")) || (CoordenadasOrig[1].contains("AV3DNPTS")) || (CoordenadasOrig[1].contains("AV3DNPTM")) || (CoordenadasOrig[1].contains("AV3DNPTH")))
 						{
-						Expression expr = new Expression(CoordenadasOrig[1].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+						Expression expr = new Expression(CoordenadasOrig[1].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 						try {yo = -expr.calculate() - yt;} catch (Exception e) {}
 						}
 					else
@@ -2410,9 +2614,9 @@ public class AV3DNavigator extends JComponent
 
 					double yd = 0;
 
-					if ((CoordenadasDest[1].contains("AV3DNP0")) || (CoordenadasDest[1].contains("AV3DNP1")) || (CoordenadasDest[1].contains("AV3DNP2")) || (CoordenadasDest[1].contains("AV3DNP3")) || (CoordenadasDest[1].contains("AV3DNP4")) || (CoordenadasDest[1].contains("AV3DNP5")) || (CoordenadasDest[1].contains("AV3DNP6")) || (CoordenadasDest[1].contains("AV3DNP7")) || (CoordenadasDest[1].contains("AV3DNP8")) || (CoordenadasDest[1].contains("AV3DNP9")))
+					if ((CoordenadasDest[1].contains("AV3DNP0")) || (CoordenadasDest[1].contains("AV3DNP1")) || (CoordenadasDest[1].contains("AV3DNP2")) || (CoordenadasDest[1].contains("AV3DNP3")) || (CoordenadasDest[1].contains("AV3DNP4")) || (CoordenadasDest[1].contains("AV3DNP5")) || (CoordenadasDest[1].contains("AV3DNP6")) || (CoordenadasDest[1].contains("AV3DNP7")) || (CoordenadasDest[1].contains("AV3DNP8")) || (CoordenadasDest[1].contains("AV3DNP9")) || (CoordenadasDest[1].contains("AV3DNPF0")) || (CoordenadasDest[1].contains("AV3DNPF1")) || (CoordenadasDest[1].contains("AV3DNPF2")) || (CoordenadasDest[1].contains("AV3DNPF3")) || (CoordenadasDest[1].contains("AV3DNPF4")) || (CoordenadasDest[1].contains("AV3DNF5")) || (CoordenadasDest[1].contains("AV3DNPF6")) || (CoordenadasDest[1].contains("AV3DNPF7")) || (CoordenadasDest[1].contains("AV3DNPF8")) || (CoordenadasDest[1].contains("AV3DNPF9")) || (CoordenadasDest[1].contains("AV3DNPTS")) || (CoordenadasDest[1].contains("AV3DNPTM")) || (CoordenadasDest[1].contains("AV3DNPTH")))
 						{
-						Expression expr = new Expression(CoordenadasDest[1].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+						Expression expr = new Expression(CoordenadasDest[1].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 						try {yd = -expr.calculate() - yt;} catch (Exception e) {}
 						}
 					else
@@ -2420,9 +2624,9 @@ public class AV3DNavigator extends JComponent
 
 					double zo = 0;
 
-					if ((CoordenadasOrig[2].contains("AV3DNP0")) || (CoordenadasOrig[2].contains("AV3DNP1")) || (CoordenadasOrig[2].contains("AV3DNP2")) || (CoordenadasOrig[2].contains("AV3DNP3")) || (CoordenadasOrig[2].contains("AV3DNP4")) || (CoordenadasOrig[2].contains("AV3DNP5")) || (CoordenadasOrig[2].contains("AV3DNP6")) || (CoordenadasOrig[2].contains("AV3DNP7")) || (CoordenadasOrig[2].contains("AV3DNP8")) || (CoordenadasOrig[2].contains("AV3DNP9")))
+					if ((CoordenadasOrig[2].contains("AV3DNP0")) || (CoordenadasOrig[2].contains("AV3DNP1")) || (CoordenadasOrig[2].contains("AV3DNP2")) || (CoordenadasOrig[2].contains("AV3DNP3")) || (CoordenadasOrig[2].contains("AV3DNP4")) || (CoordenadasOrig[2].contains("AV3DNP5")) || (CoordenadasOrig[2].contains("AV3DNP6")) || (CoordenadasOrig[2].contains("AV3DNP7")) || (CoordenadasOrig[2].contains("AV3DNP8")) || (CoordenadasOrig[2].contains("AV3DNP9")) || (CoordenadasOrig[2].contains("AV3DNPF0")) || (CoordenadasOrig[2].contains("AV3DNPF1")) || (CoordenadasOrig[2].contains("AV3DNPF2")) || (CoordenadasOrig[2].contains("AV3DNPF3")) || (CoordenadasOrig[2].contains("AV3DNPF4")) || (CoordenadasOrig[2].contains("AV3DNF5")) || (CoordenadasOrig[2].contains("AV3DNPF6")) || (CoordenadasOrig[2].contains("AV3DNPF7")) || (CoordenadasOrig[2].contains("AV3DNPF8")) || (CoordenadasOrig[2].contains("AV3DNPF9")) || (CoordenadasOrig[2].contains("AV3DNPTS")) || (CoordenadasOrig[2].contains("AV3DNPTM")) || (CoordenadasOrig[2].contains("AV3DNPTH")))
 						{
-						Expression expr = new Expression(CoordenadasOrig[2].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+						Expression expr = new Expression(CoordenadasOrig[2].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 						try {zo = -expr.calculate() - zt;} catch (Exception e) {}
 						}
 					else
@@ -2430,9 +2634,9 @@ public class AV3DNavigator extends JComponent
 
 					double zd = 0;
 
-					if ((CoordenadasDest[2].contains("AV3DNP0")) || (CoordenadasDest[2].contains("AV3DNP1")) || (CoordenadasDest[2].contains("AV3DNP2")) || (CoordenadasDest[2].contains("AV3DNP3")) || (CoordenadasDest[2].contains("AV3DNP4")) || (CoordenadasDest[2].contains("AV3DNP5")) || (CoordenadasDest[2].contains("AV3DNP6")) || (CoordenadasDest[2].contains("AV3DNP7")) || (CoordenadasDest[2].contains("AV3DNP8")) || (CoordenadasDest[2].contains("AV3DNP9")))
+					if ((CoordenadasDest[2].contains("AV3DNP0")) || (CoordenadasDest[2].contains("AV3DNP1")) || (CoordenadasDest[2].contains("AV3DNP2")) || (CoordenadasDest[2].contains("AV3DNP3")) || (CoordenadasDest[2].contains("AV3DNP4")) || (CoordenadasDest[2].contains("AV3DNP5")) || (CoordenadasDest[2].contains("AV3DNP6")) || (CoordenadasDest[2].contains("AV3DNP7")) || (CoordenadasDest[2].contains("AV3DNP8")) || (CoordenadasDest[2].contains("AV3DNP9")) || (CoordenadasDest[2].contains("AV3DNPF0")) || (CoordenadasDest[2].contains("AV3DNPF1")) || (CoordenadasDest[2].contains("AV3DNPF2")) || (CoordenadasDest[2].contains("AV3DNPF3")) || (CoordenadasDest[2].contains("AV3DNPF4")) || (CoordenadasDest[2].contains("AV3DNF5")) || (CoordenadasDest[2].contains("AV3DNPF6")) || (CoordenadasDest[2].contains("AV3DNPF7")) || (CoordenadasDest[2].contains("AV3DNPF8")) || (CoordenadasDest[2].contains("AV3DNPF9")) || (CoordenadasDest[2].contains("AV3DNPTS")) || (CoordenadasDest[2].contains("AV3DNPTM")) || (CoordenadasDest[2].contains("AV3DNPTH")))
 						{
-						Expression expr = new Expression(CoordenadasDest[2].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+						Expression expr = new Expression(CoordenadasDest[2].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 						try {zd = -expr.calculate() - zt;} catch (Exception e) {}
 						}
 					else
@@ -2462,7 +2666,7 @@ public class AV3DNavigator extends JComponent
 							{
 							String [] RGB;
 
-							if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+							if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 								RGB = Campos[1].split("divisor");
 							else if (Campos[1].contains("divisor"))
 								RGB = Campos[1].split("divisor");
@@ -2470,9 +2674,9 @@ public class AV3DNavigator extends JComponent
 								RGB = Campos[1].split(",");
 
 							for (j = 0; j < 3; j++)
-								if ((RGB[j].contains("AV3DNP0")) || (RGB[j].contains("AV3DNP1")) || (RGB[j].contains("AV3DNP2")) || (RGB[j].contains("AV3DNP3")) || (RGB[j].contains("AV3DNP4")) || (RGB[j].contains("AV3DNP5")) || (RGB[j].contains("AV3DNP6")) || (RGB[j].contains("AV3DNP7")) || (RGB[j].contains("AV3DNP8")) || (RGB[j].contains("AV3DNP9")))
+								if ((RGB[j].contains("AV3DNP0")) || (RGB[j].contains("AV3DNP1")) || (RGB[j].contains("AV3DNP2")) || (RGB[j].contains("AV3DNP3")) || (RGB[j].contains("AV3DNP4")) || (RGB[j].contains("AV3DNP5")) || (RGB[j].contains("AV3DNP6")) || (RGB[j].contains("AV3DNP7")) || (RGB[j].contains("AV3DNP8")) || (RGB[j].contains("AV3DNP9")) || (RGB[j].contains("AV3DNPF0")) || (RGB[j].contains("AV3DNPF1")) || (RGB[j].contains("AV3DNPF2")) || (RGB[j].contains("AV3DNPF3")) || (RGB[j].contains("AV3DNPF4")) || (RGB[j].contains("AV3DNF5")) || (RGB[j].contains("AV3DNPF6")) || (RGB[j].contains("AV3DNPF7")) || (RGB[j].contains("AV3DNPF8")) || (RGB[j].contains("AV3DNPF9")) || (RGB[j].contains("AV3DNPTS")) || (RGB[j].contains("AV3DNPTM")) || (RGB[j].contains("AV3DNPTH")))
 									{
-									Expression expr = new Expression(RGB[j].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+									Expression expr = new Expression(RGB[j].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 									try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
 									if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
 									}
@@ -2488,9 +2692,9 @@ public class AV3DNavigator extends JComponent
 
 					Apfloat xoa = null;
 
-					if ((CoordenadasOrig[0].contains("AV3DNP0")) || (CoordenadasOrig[0].contains("AV3DNP1")) || (CoordenadasOrig[0].contains("AV3DNP2")) || (CoordenadasOrig[0].contains("AV3DNP3")) || (CoordenadasOrig[0].contains("AV3DNP4")) || (CoordenadasOrig[0].contains("AV3DNP5")) || (CoordenadasOrig[0].contains("AV3DNP6")) || (CoordenadasOrig[0].contains("AV3DNP7")) || (CoordenadasOrig[0].contains("AV3DNP8")) || (CoordenadasOrig[0].contains("AV3DNP9")))
+					if ((CoordenadasOrig[0].contains("AV3DNP0")) || (CoordenadasOrig[0].contains("AV3DNP1")) || (CoordenadasOrig[0].contains("AV3DNP2")) || (CoordenadasOrig[0].contains("AV3DNP3")) || (CoordenadasOrig[0].contains("AV3DNP4")) || (CoordenadasOrig[0].contains("AV3DNP5")) || (CoordenadasOrig[0].contains("AV3DNP6")) || (CoordenadasOrig[0].contains("AV3DNP7")) || (CoordenadasOrig[0].contains("AV3DNP8")) || (CoordenadasOrig[0].contains("AV3DNP9")) || (CoordenadasOrig[0].contains("AV3DNPF0")) || (CoordenadasOrig[0].contains("AV3DNPF1")) || (CoordenadasOrig[0].contains("AV3DNPF2")) || (CoordenadasOrig[0].contains("AV3DNPF3")) || (CoordenadasOrig[0].contains("AV3DNPF4")) || (CoordenadasOrig[0].contains("AV3DNF5")) || (CoordenadasOrig[0].contains("AV3DNPF6")) || (CoordenadasOrig[0].contains("AV3DNPF7")) || (CoordenadasOrig[0].contains("AV3DNPF8")) || (CoordenadasOrig[0].contains("AV3DNPF9")) || (CoordenadasOrig[0].contains("AV3DNPTS")) || (CoordenadasOrig[0].contains("AV3DNPTM")) || (CoordenadasOrig[0].contains("AV3DNPTH")))
 						{
-						Expression expr = new Expression(CoordenadasOrig[0].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+						Expression expr = new Expression(CoordenadasOrig[0].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 						try {xoa = new Apfloat(expr.calculate() - xt, PrecisaoApfloat);} catch (Exception e) {}
 						}
 					else
@@ -2498,9 +2702,9 @@ public class AV3DNavigator extends JComponent
 
 					Apfloat xda = null;
 
-					if ((CoordenadasDest[0].contains("AV3DNP0")) || (CoordenadasDest[0].contains("AV3DNP1")) || (CoordenadasDest[0].contains("AV3DNP2")) || (CoordenadasDest[0].contains("AV3DNP3")) || (CoordenadasDest[0].contains("AV3DNP4")) || (CoordenadasDest[0].contains("AV3DNP5")) || (CoordenadasDest[0].contains("AV3DNP6")) || (CoordenadasDest[0].contains("AV3DNP7")) || (CoordenadasDest[0].contains("AV3DNP8")) || (CoordenadasDest[0].contains("AV3DNP9")))
+					if ((CoordenadasDest[0].contains("AV3DNP0")) || (CoordenadasDest[0].contains("AV3DNP1")) || (CoordenadasDest[0].contains("AV3DNP2")) || (CoordenadasDest[0].contains("AV3DNP3")) || (CoordenadasDest[0].contains("AV3DNP4")) || (CoordenadasDest[0].contains("AV3DNP5")) || (CoordenadasDest[0].contains("AV3DNP6")) || (CoordenadasDest[0].contains("AV3DNP7")) || (CoordenadasDest[0].contains("AV3DNP8")) || (CoordenadasDest[0].contains("AV3DNP9")) || (CoordenadasDest[0].contains("AV3DNPF0")) || (CoordenadasDest[0].contains("AV3DNPF1")) || (CoordenadasDest[0].contains("AV3DNPF2")) || (CoordenadasDest[0].contains("AV3DNPF3")) || (CoordenadasDest[0].contains("AV3DNPF4")) || (CoordenadasDest[0].contains("AV3DNF5")) || (CoordenadasDest[0].contains("AV3DNPF6")) || (CoordenadasDest[0].contains("AV3DNPF7")) || (CoordenadasDest[0].contains("AV3DNPF8")) || (CoordenadasDest[0].contains("AV3DNPF9")) || (CoordenadasDest[0].contains("AV3DNPTS")) || (CoordenadasDest[0].contains("AV3DNPTM")) || (CoordenadasDest[0].contains("AV3DNPTH")))
 						{
-						Expression expr = new Expression(CoordenadasDest[0].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+						Expression expr = new Expression(CoordenadasDest[0].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 						try {xda = new Apfloat(expr.calculate() - xt, PrecisaoApfloat);} catch (Exception e) {}
 						}
 					else
@@ -2508,9 +2712,9 @@ public class AV3DNavigator extends JComponent
 
 					Apfloat yoa = null;
 
-					if ((CoordenadasOrig[1].contains("AV3DNP0")) || (CoordenadasOrig[1].contains("AV3DNP1")) || (CoordenadasOrig[1].contains("AV3DNP2")) || (CoordenadasOrig[1].contains("AV3DNP3")) || (CoordenadasOrig[1].contains("AV3DNP4")) || (CoordenadasOrig[1].contains("AV3DNP5")) || (CoordenadasOrig[1].contains("AV3DNP6")) || (CoordenadasOrig[1].contains("AV3DNP7")) || (CoordenadasOrig[1].contains("AV3DNP8")) || (CoordenadasOrig[1].contains("AV3DNP9")))
+					if ((CoordenadasOrig[1].contains("AV3DNP0")) || (CoordenadasOrig[1].contains("AV3DNP1")) || (CoordenadasOrig[1].contains("AV3DNP2")) || (CoordenadasOrig[1].contains("AV3DNP3")) || (CoordenadasOrig[1].contains("AV3DNP4")) || (CoordenadasOrig[1].contains("AV3DNP5")) || (CoordenadasOrig[1].contains("AV3DNP6")) || (CoordenadasOrig[1].contains("AV3DNP7")) || (CoordenadasOrig[1].contains("AV3DNP8")) || (CoordenadasOrig[1].contains("AV3DNP9")) || (CoordenadasOrig[1].contains("AV3DNPF0")) || (CoordenadasOrig[1].contains("AV3DNPF1")) || (CoordenadasOrig[1].contains("AV3DNPF2")) || (CoordenadasOrig[1].contains("AV3DNPF3")) || (CoordenadasOrig[1].contains("AV3DNPF4")) || (CoordenadasOrig[1].contains("AV3DNF5")) || (CoordenadasOrig[1].contains("AV3DNPF6")) || (CoordenadasOrig[1].contains("AV3DNPF7")) || (CoordenadasOrig[1].contains("AV3DNPF8")) || (CoordenadasOrig[1].contains("AV3DNPF9")) || (CoordenadasOrig[1].contains("AV3DNPTS")) || (CoordenadasOrig[1].contains("AV3DNPTM")) || (CoordenadasOrig[1].contains("AV3DNPTH")))
 						{
-						Expression expr = new Expression(CoordenadasOrig[1].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+						Expression expr = new Expression(CoordenadasOrig[1].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 						try {yoa = new Apfloat(-expr.calculate() - yt, PrecisaoApfloat);} catch (Exception e) {}
 						}
 					else
@@ -2518,9 +2722,9 @@ public class AV3DNavigator extends JComponent
 
 					Apfloat yda = null;
 
-					if ((CoordenadasDest[1].contains("AV3DNP0")) || (CoordenadasDest[1].contains("AV3DNP1")) || (CoordenadasDest[1].contains("AV3DNP2")) || (CoordenadasDest[1].contains("AV3DNP3")) || (CoordenadasDest[1].contains("AV3DNP4")) || (CoordenadasDest[1].contains("AV3DNP5")) || (CoordenadasDest[1].contains("AV3DNP6")) || (CoordenadasDest[1].contains("AV3DNP7")) || (CoordenadasDest[1].contains("AV3DNP8")) || (CoordenadasDest[1].contains("AV3DNP9")))
+					if ((CoordenadasDest[1].contains("AV3DNP0")) || (CoordenadasDest[1].contains("AV3DNP1")) || (CoordenadasDest[1].contains("AV3DNP2")) || (CoordenadasDest[1].contains("AV3DNP3")) || (CoordenadasDest[1].contains("AV3DNP4")) || (CoordenadasDest[1].contains("AV3DNP5")) || (CoordenadasDest[1].contains("AV3DNP6")) || (CoordenadasDest[1].contains("AV3DNP7")) || (CoordenadasDest[1].contains("AV3DNP8")) || (CoordenadasDest[1].contains("AV3DNP9")) || (CoordenadasDest[1].contains("AV3DNPF0")) || (CoordenadasDest[1].contains("AV3DNPF1")) || (CoordenadasDest[1].contains("AV3DNPF2")) || (CoordenadasDest[1].contains("AV3DNPF3")) || (CoordenadasDest[1].contains("AV3DNPF4")) || (CoordenadasDest[1].contains("AV3DNF5")) || (CoordenadasDest[1].contains("AV3DNPF6")) || (CoordenadasDest[1].contains("AV3DNPF7")) || (CoordenadasDest[1].contains("AV3DNPF8")) || (CoordenadasDest[1].contains("AV3DNPF9")) || (CoordenadasDest[1].contains("AV3DNPTS")) || (CoordenadasDest[1].contains("AV3DNPTM")) || (CoordenadasDest[1].contains("AV3DNPTH")))
 						{
-						Expression expr = new Expression(CoordenadasDest[1].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+						Expression expr = new Expression(CoordenadasDest[1].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 						try {yda = new Apfloat(-expr.calculate() - yt, PrecisaoApfloat);} catch (Exception e) {}
 						}
 					else
@@ -2528,9 +2732,9 @@ public class AV3DNavigator extends JComponent
 
 					Apfloat zoa = null;
 
-					if ((CoordenadasOrig[2].contains("AV3DNP0")) || (CoordenadasOrig[2].contains("AV3DNP1")) || (CoordenadasOrig[2].contains("AV3DNP2")) || (CoordenadasOrig[2].contains("AV3DNP3")) || (CoordenadasOrig[2].contains("AV3DNP4")) || (CoordenadasOrig[2].contains("AV3DNP5")) || (CoordenadasOrig[2].contains("AV3DNP6")) || (CoordenadasOrig[2].contains("AV3DNP7")) || (CoordenadasOrig[2].contains("AV3DNP8")) || (CoordenadasOrig[2].contains("AV3DNP9")))
+					if ((CoordenadasOrig[2].contains("AV3DNP0")) || (CoordenadasOrig[2].contains("AV3DNP1")) || (CoordenadasOrig[2].contains("AV3DNP2")) || (CoordenadasOrig[2].contains("AV3DNP3")) || (CoordenadasOrig[2].contains("AV3DNP4")) || (CoordenadasOrig[2].contains("AV3DNP5")) || (CoordenadasOrig[2].contains("AV3DNP6")) || (CoordenadasOrig[2].contains("AV3DNP7")) || (CoordenadasOrig[2].contains("AV3DNP8")) || (CoordenadasOrig[2].contains("AV3DNP9")) || (CoordenadasOrig[2].contains("AV3DNPF0")) || (CoordenadasOrig[2].contains("AV3DNPF1")) || (CoordenadasOrig[2].contains("AV3DNPF2")) || (CoordenadasOrig[2].contains("AV3DNPF3")) || (CoordenadasOrig[2].contains("AV3DNPF4")) || (CoordenadasOrig[2].contains("AV3DNF5")) || (CoordenadasOrig[2].contains("AV3DNPF6")) || (CoordenadasOrig[2].contains("AV3DNPF7")) || (CoordenadasOrig[2].contains("AV3DNPF8")) || (CoordenadasOrig[2].contains("AV3DNPF9")) || (CoordenadasOrig[2].contains("AV3DNPTS")) || (CoordenadasOrig[2].contains("AV3DNPTM")) || (CoordenadasOrig[2].contains("AV3DNPTH")))
 						{
-						Expression expr = new Expression(CoordenadasOrig[2].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+						Expression expr = new Expression(CoordenadasOrig[2].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 						try {zoa = new Apfloat(-expr.calculate() - zt, PrecisaoApfloat);} catch (Exception e) {}
 						
 						}
@@ -2539,9 +2743,9 @@ public class AV3DNavigator extends JComponent
 
 					Apfloat zda = null;
 
-					if ((CoordenadasDest[2].contains("AV3DNP0")) || (CoordenadasDest[2].contains("AV3DNP1")) || (CoordenadasDest[2].contains("AV3DNP2")) || (CoordenadasDest[2].contains("AV3DNP3")) || (CoordenadasDest[2].contains("AV3DNP4")) || (CoordenadasDest[2].contains("AV3DNP5")) || (CoordenadasDest[2].contains("AV3DNP6")) || (CoordenadasDest[2].contains("AV3DNP7")) || (CoordenadasDest[2].contains("AV3DNP8")) || (CoordenadasDest[2].contains("AV3DNP9")))
+					if ((CoordenadasDest[2].contains("AV3DNP0")) || (CoordenadasDest[2].contains("AV3DNP1")) || (CoordenadasDest[2].contains("AV3DNP2")) || (CoordenadasDest[2].contains("AV3DNP3")) || (CoordenadasDest[2].contains("AV3DNP4")) || (CoordenadasDest[2].contains("AV3DNP5")) || (CoordenadasDest[2].contains("AV3DNP6")) || (CoordenadasDest[2].contains("AV3DNP7")) || (CoordenadasDest[2].contains("AV3DNP8")) || (CoordenadasDest[2].contains("AV3DNP9")) || (CoordenadasDest[2].contains("AV3DNPF0")) || (CoordenadasDest[2].contains("AV3DNPF1")) || (CoordenadasDest[2].contains("AV3DNPF2")) || (CoordenadasDest[2].contains("AV3DNPF3")) || (CoordenadasDest[2].contains("AV3DNPF4")) || (CoordenadasDest[2].contains("AV3DNF5")) || (CoordenadasDest[2].contains("AV3DNPF6")) || (CoordenadasDest[2].contains("AV3DNPF7")) || (CoordenadasDest[2].contains("AV3DNPF8")) || (CoordenadasDest[2].contains("AV3DNPF9")) || (CoordenadasDest[2].contains("AV3DNPTS")) || (CoordenadasDest[2].contains("AV3DNPTM")) || (CoordenadasDest[2].contains("AV3DNPTH")))
 						{
-						Expression expr = new Expression(CoordenadasDest[2].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+						Expression expr = new Expression(CoordenadasDest[2].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 						try {zda = new Apfloat(-expr.calculate() - zt, PrecisaoApfloat);} catch (Exception e) {}
 						}
 					else
@@ -2580,7 +2784,7 @@ public class AV3DNavigator extends JComponent
 									{
 									String [] RGB;
 
-									if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+									if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 										RGB = Campos[1].split("divisor");
 									else if (Campos[1].contains("divisor"))
 										RGB = Campos[1].split("divisor");
@@ -2588,9 +2792,9 @@ public class AV3DNavigator extends JComponent
 										RGB = Campos[1].split(",");
 
 									for (j = 0; j < 3; j++)
-										if ((RGB[j].contains("AV3DNP0")) || (RGB[j].contains("AV3DNP1")) || (RGB[j].contains("AV3DNP2")) || (RGB[j].contains("AV3DNP3")) || (RGB[j].contains("AV3DNP4")) || (RGB[j].contains("AV3DNP5")) || (RGB[j].contains("AV3DNP6")) || (RGB[j].contains("AV3DNP7")) || (RGB[j].contains("AV3DNP8")) || (RGB[j].contains("AV3DNP9")))
+										if ((RGB[j].contains("AV3DNP0")) || (RGB[j].contains("AV3DNP1")) || (RGB[j].contains("AV3DNP2")) || (RGB[j].contains("AV3DNP3")) || (RGB[j].contains("AV3DNP4")) || (RGB[j].contains("AV3DNP5")) || (RGB[j].contains("AV3DNP6")) || (RGB[j].contains("AV3DNP7")) || (RGB[j].contains("AV3DNP8")) || (RGB[j].contains("AV3DNP9")) || (RGB[j].contains("AV3DNPF0")) || (RGB[j].contains("AV3DNPF1")) || (RGB[j].contains("AV3DNPF2")) || (RGB[j].contains("AV3DNPF3")) || (RGB[j].contains("AV3DNPF4")) || (RGB[j].contains("AV3DNF5")) || (RGB[j].contains("AV3DNPF6")) || (RGB[j].contains("AV3DNPF7")) || (RGB[j].contains("AV3DNPF8")) || (RGB[j].contains("AV3DNPF9")) || (RGB[j].contains("AV3DNPTS")) || (RGB[j].contains("AV3DNPTM")) || (RGB[j].contains("AV3DNPTH")))
 											{
-											Expression expr = new Expression(RGB[j].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+											Expression expr = new Expression(RGB[j].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 											try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
 											if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
 											}
@@ -2626,7 +2830,7 @@ public class AV3DNavigator extends JComponent
 
 				String [] Campos;
 
-				if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+				if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 					Campos = EspacoTriangulosShapePreenchidos[i].split("color");
 				else if (EspacoTriangulosShapePreenchidos[i].contains("color"))
 					Campos = EspacoTriangulosShapePreenchidos[i].split("color");
@@ -2635,7 +2839,7 @@ public class AV3DNavigator extends JComponent
 
 				String [] Pontos;
 
-				if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+				if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 					Pontos = Campos[0].split("DIVISOR");
 				else if (Campos[0].contains("DIVISOR"))
 					Pontos = Campos[0].split("DIVISOR");
@@ -2650,7 +2854,7 @@ public class AV3DNavigator extends JComponent
 					{
 					String [] Coordenadas;
 
-					if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+					if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 						Coordenadas = Pontos[j].split("divisor");
 					else if (Pontos[j].contains("divisor"))
 						Coordenadas = Pontos[j].split("divisor");
@@ -2661,9 +2865,9 @@ public class AV3DNavigator extends JComponent
 						{
 						double xp = 0;
 
-						if ((Coordenadas[0].contains("AV3DNP0")) || (Coordenadas[0].contains("AV3DNP1")) || (Coordenadas[0].contains("AV3DNP2")) || (Coordenadas[0].contains("AV3DNP3")) || (Coordenadas[0].contains("AV3DNP4")) || (Coordenadas[0].contains("AV3DNP5")) || (Coordenadas[0].contains("AV3DNP6")) || (Coordenadas[0].contains("AV3DNP7")) || (Coordenadas[0].contains("AV3DNP8")) || (Coordenadas[0].contains("AV3DNP9")))
+						if ((Coordenadas[0].contains("AV3DNP0")) || (Coordenadas[0].contains("AV3DNP1")) || (Coordenadas[0].contains("AV3DNP2")) || (Coordenadas[0].contains("AV3DNP3")) || (Coordenadas[0].contains("AV3DNP4")) || (Coordenadas[0].contains("AV3DNP5")) || (Coordenadas[0].contains("AV3DNP6")) || (Coordenadas[0].contains("AV3DNP7")) || (Coordenadas[0].contains("AV3DNP8")) || (Coordenadas[0].contains("AV3DNP9")) || (Coordenadas[0].contains("AV3DNPF0")) || (Coordenadas[0].contains("AV3DNPF1")) || (Coordenadas[0].contains("AV3DNPF2")) || (Coordenadas[0].contains("AV3DNPF3")) || (Coordenadas[0].contains("AV3DNPF4")) || (Coordenadas[0].contains("AV3DNF5")) || (Coordenadas[0].contains("AV3DNPF6")) || (Coordenadas[0].contains("AV3DNPF7")) || (Coordenadas[0].contains("AV3DNPF8")) || (Coordenadas[0].contains("AV3DNPF9")) || (Coordenadas[0].contains("AV3DNPTS")) || (Coordenadas[0].contains("AV3DNPTM")) || (Coordenadas[0].contains("AV3DNPTH")))
 							{
-							Expression expr = new Expression(Coordenadas[0].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+							Expression expr = new Expression(Coordenadas[0].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 							try {xp = expr.calculate() - xt;} catch (Exception e) {}
 							}
 						else
@@ -2671,9 +2875,9 @@ public class AV3DNavigator extends JComponent
 
 						double yp = 0;
 
-						if ((Coordenadas[1].contains("AV3DNP0")) || (Coordenadas[1].contains("AV3DNP1")) || (Coordenadas[1].contains("AV3DNP2")) || (Coordenadas[1].contains("AV3DNP3")) || (Coordenadas[1].contains("AV3DNP4")) || (Coordenadas[1].contains("AV3DNP5")) || (Coordenadas[1].contains("AV3DNP6")) || (Coordenadas[1].contains("AV3DNP7")) || (Coordenadas[1].contains("AV3DNP8")) || (Coordenadas[1].contains("AV3DNP9")))
+						if ((Coordenadas[1].contains("AV3DNP0")) || (Coordenadas[1].contains("AV3DNP1")) || (Coordenadas[1].contains("AV3DNP2")) || (Coordenadas[1].contains("AV3DNP3")) || (Coordenadas[1].contains("AV3DNP4")) || (Coordenadas[1].contains("AV3DNP5")) || (Coordenadas[1].contains("AV3DNP6")) || (Coordenadas[1].contains("AV3DNP7")) || (Coordenadas[1].contains("AV3DNP8")) || (Coordenadas[1].contains("AV3DNP9")) || (Coordenadas[1].contains("AV3DNPF0")) || (Coordenadas[1].contains("AV3DNPF1")) || (Coordenadas[1].contains("AV3DNPF2")) || (Coordenadas[1].contains("AV3DNPF3")) || (Coordenadas[1].contains("AV3DNPF4")) || (Coordenadas[1].contains("AV3DNF5")) || (Coordenadas[1].contains("AV3DNPF6")) || (Coordenadas[1].contains("AV3DNPF7")) || (Coordenadas[1].contains("AV3DNPF8")) || (Coordenadas[1].contains("AV3DNPF9")) || (Coordenadas[1].contains("AV3DNPTS")) || (Coordenadas[1].contains("AV3DNPTM")) || (Coordenadas[1].contains("AV3DNPTH")))
 							{
-							Expression expr = new Expression(Coordenadas[1].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+							Expression expr = new Expression(Coordenadas[1].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 							try {yp = -expr.calculate() - yt;} catch (Exception e) {}
 							}
 						else
@@ -2681,9 +2885,9 @@ public class AV3DNavigator extends JComponent
 
 						double zp = 0;
 
-						if ((Coordenadas[2].contains("AV3DNP0")) || (Coordenadas[2].contains("AV3DNP1")) || (Coordenadas[2].contains("AV3DNP2")) || (Coordenadas[2].contains("AV3DNP3")) || (Coordenadas[2].contains("AV3DNP4")) || (Coordenadas[2].contains("AV3DNP5")) || (Coordenadas[2].contains("AV3DNP6")) || (Coordenadas[2].contains("AV3DNP7")) || (Coordenadas[2].contains("AV3DNP8")) || (Coordenadas[2].contains("AV3DNP9")))
+						if ((Coordenadas[2].contains("AV3DNP0")) || (Coordenadas[2].contains("AV3DNP1")) || (Coordenadas[2].contains("AV3DNP2")) || (Coordenadas[2].contains("AV3DNP3")) || (Coordenadas[2].contains("AV3DNP4")) || (Coordenadas[2].contains("AV3DNP5")) || (Coordenadas[2].contains("AV3DNP6")) || (Coordenadas[2].contains("AV3DNP7")) || (Coordenadas[2].contains("AV3DNP8")) || (Coordenadas[2].contains("AV3DNP9")) || (Coordenadas[2].contains("AV3DNPF0")) || (Coordenadas[2].contains("AV3DNPF1")) || (Coordenadas[2].contains("AV3DNPF2")) || (Coordenadas[2].contains("AV3DNPF3")) || (Coordenadas[2].contains("AV3DNPF4")) || (Coordenadas[2].contains("AV3DNF5")) || (Coordenadas[2].contains("AV3DNPF6")) || (Coordenadas[2].contains("AV3DNPF7")) || (Coordenadas[2].contains("AV3DNPF8")) || (Coordenadas[2].contains("AV3DNPF9")) || (Coordenadas[2].contains("AV3DNPTS")) || (Coordenadas[2].contains("AV3DNPTM")) || (Coordenadas[2].contains("AV3DNPTH")))
 							{
-							Expression expr = new Expression(Coordenadas[2].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+							Expression expr = new Expression(Coordenadas[2].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 							try {zp = -expr.calculate() - zt;} catch (Exception e) {}
 							}
 						else
@@ -2699,7 +2903,7 @@ public class AV3DNavigator extends JComponent
 							{
 							ContadorPontos++;
 
-								if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+								if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 									TriangulosString = TriangulosString + Integer.toString(xpp) + "divisor" + Integer.toString(ypp) + "DIVISOR";
 								else
 									TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
@@ -2713,9 +2917,9 @@ public class AV3DNavigator extends JComponent
 
 						Apfloat xpa = null;
 
-						if ((Coordenadas[0].contains("AV3DNP0")) || (Coordenadas[0].contains("AV3DNP1")) || (Coordenadas[0].contains("AV3DNP2")) || (Coordenadas[0].contains("AV3DNP3")) || (Coordenadas[0].contains("AV3DNP4")) || (Coordenadas[0].contains("AV3DNP5")) || (Coordenadas[0].contains("AV3DNP6")) || (Coordenadas[0].contains("AV3DNP7")) || (Coordenadas[0].contains("AV3DNP8")) || (Coordenadas[0].contains("AV3DNP9")))
+						if ((Coordenadas[0].contains("AV3DNP0")) || (Coordenadas[0].contains("AV3DNP1")) || (Coordenadas[0].contains("AV3DNP2")) || (Coordenadas[0].contains("AV3DNP3")) || (Coordenadas[0].contains("AV3DNP4")) || (Coordenadas[0].contains("AV3DNP5")) || (Coordenadas[0].contains("AV3DNP6")) || (Coordenadas[0].contains("AV3DNP7")) || (Coordenadas[0].contains("AV3DNP8")) || (Coordenadas[0].contains("AV3DNP9")) || (Coordenadas[0].contains("AV3DNPF0")) || (Coordenadas[0].contains("AV3DNPF1")) || (Coordenadas[0].contains("AV3DNPF2")) || (Coordenadas[0].contains("AV3DNPF3")) || (Coordenadas[0].contains("AV3DNPF4")) || (Coordenadas[0].contains("AV3DNF5")) || (Coordenadas[0].contains("AV3DNPF6")) || (Coordenadas[0].contains("AV3DNPF7")) || (Coordenadas[0].contains("AV3DNPF8")) || (Coordenadas[0].contains("AV3DNPF9")) || (Coordenadas[0].contains("AV3DNPTS")) || (Coordenadas[0].contains("AV3DNPTM")) || (Coordenadas[0].contains("AV3DNPTH")))
 							{
-							Expression expr = new Expression(Coordenadas[0].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+							Expression expr = new Expression(Coordenadas[0].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 							try {xpa = new Apfloat(expr.calculate() - xt, PrecisaoApfloat);} catch (Exception e) {}
 							}
 						else
@@ -2723,9 +2927,9 @@ public class AV3DNavigator extends JComponent
 
 						Apfloat ypa = null;
 
-						if ((Coordenadas[1].contains("AV3DNP0")) || (Coordenadas[1].contains("AV3DNP1")) || (Coordenadas[1].contains("AV3DNP2")) || (Coordenadas[1].contains("AV3DNP3")) || (Coordenadas[1].contains("AV3DNP4")) || (Coordenadas[1].contains("AV3DNP5")) || (Coordenadas[1].contains("AV3DNP6")) || (Coordenadas[1].contains("AV3DNP7")) || (Coordenadas[1].contains("AV3DNP8")) || (Coordenadas[1].contains("AV3DNP9")))
+						if ((Coordenadas[1].contains("AV3DNP0")) || (Coordenadas[1].contains("AV3DNP1")) || (Coordenadas[1].contains("AV3DNP2")) || (Coordenadas[1].contains("AV3DNP3")) || (Coordenadas[1].contains("AV3DNP4")) || (Coordenadas[1].contains("AV3DNP5")) || (Coordenadas[1].contains("AV3DNP6")) || (Coordenadas[1].contains("AV3DNP7")) || (Coordenadas[1].contains("AV3DNP8")) || (Coordenadas[1].contains("AV3DNP9")) || (Coordenadas[1].contains("AV3DNPF0")) || (Coordenadas[1].contains("AV3DNPF1")) || (Coordenadas[1].contains("AV3DNPF2")) || (Coordenadas[1].contains("AV3DNPF3")) || (Coordenadas[1].contains("AV3DNPF4")) || (Coordenadas[1].contains("AV3DNF5")) || (Coordenadas[1].contains("AV3DNPF6")) || (Coordenadas[1].contains("AV3DNPF7")) || (Coordenadas[1].contains("AV3DNPF8")) || (Coordenadas[1].contains("AV3DNPF9")) || (Coordenadas[1].contains("AV3DNPTS")) || (Coordenadas[1].contains("AV3DNPTM")) || (Coordenadas[1].contains("AV3DNPTH")))
 							{
-							Expression expr = new Expression(Coordenadas[1].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+							Expression expr = new Expression(Coordenadas[1].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 							try {ypa = new Apfloat(-expr.calculate() - yt, PrecisaoApfloat);} catch (Exception e) {}
 							}
 						else
@@ -2733,9 +2937,9 @@ public class AV3DNavigator extends JComponent
 
 						Apfloat zpa = null;
 
-						if ((Coordenadas[2].contains("AV3DNP0")) || (Coordenadas[2].contains("AV3DNP1")) || (Coordenadas[2].contains("AV3DNP2")) || (Coordenadas[2].contains("AV3DNP3")) || (Coordenadas[2].contains("AV3DNP4")) || (Coordenadas[2].contains("AV3DNP5")) || (Coordenadas[2].contains("AV3DNP6")) || (Coordenadas[2].contains("AV3DNP7")) || (Coordenadas[2].contains("AV3DNP8")) || (Coordenadas[2].contains("AV3DNP9")))
+						if ((Coordenadas[2].contains("AV3DNP0")) || (Coordenadas[2].contains("AV3DNP1")) || (Coordenadas[2].contains("AV3DNP2")) || (Coordenadas[2].contains("AV3DNP3")) || (Coordenadas[2].contains("AV3DNP4")) || (Coordenadas[2].contains("AV3DNP5")) || (Coordenadas[2].contains("AV3DNP6")) || (Coordenadas[2].contains("AV3DNP7")) || (Coordenadas[2].contains("AV3DNP8")) || (Coordenadas[2].contains("AV3DNP9")) || (Coordenadas[2].contains("AV3DNPF0")) || (Coordenadas[2].contains("AV3DNPF1")) || (Coordenadas[2].contains("AV3DNPF2")) || (Coordenadas[2].contains("AV3DNPF3")) || (Coordenadas[2].contains("AV3DNPF4")) || (Coordenadas[2].contains("AV3DNF5")) || (Coordenadas[2].contains("AV3DNPF6")) || (Coordenadas[2].contains("AV3DNPF7")) || (Coordenadas[2].contains("AV3DNPF8")) || (Coordenadas[2].contains("AV3DNPF9")) || (Coordenadas[2].contains("AV3DNPTS")) || (Coordenadas[2].contains("AV3DNPTM")) || (Coordenadas[2].contains("AV3DNPTH")))
 							{
-							Expression expr = new Expression(Coordenadas[2].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+							Expression expr = new Expression(Coordenadas[2].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 							try {zpa = new Apfloat(-expr.calculate() - zt, PrecisaoApfloat);} catch (Exception e) {}
 							}
 						else
@@ -2753,7 +2957,7 @@ public class AV3DNavigator extends JComponent
 								{
 								ContadorPontos++;
 
-								if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+								if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 									TriangulosString = TriangulosString + Integer.toString(xpp) + "divisor" + Integer.toString(ypp) + "DIVISOR";
 								else
 									TriangulosString = TriangulosString + Integer.toString(xpp) + "," + Integer.toString(ypp) + ";";
@@ -2774,7 +2978,7 @@ public class AV3DNavigator extends JComponent
 							{
 							String [] PontosTriangulos;
 
-							if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+							if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 								PontosTriangulos = TriangulosString.split("DIVISOR");
 							else if (TriangulosString.contains("DIVISOR"))
 								PontosTriangulos = TriangulosString.split("DIVISOR");
@@ -2798,7 +3002,7 @@ public class AV3DNavigator extends JComponent
 
 								String [] ParametroTrianguloCoordenadas1;
 
-								if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+								if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 									ParametroTrianguloCoordenadas1 = ParametroTriangulo[0].split("divisor");
 								else if (ParametroTriangulo[0].contains("divisor"))
 									ParametroTrianguloCoordenadas1 = ParametroTriangulo[0].split("divisor");
@@ -2807,7 +3011,7 @@ public class AV3DNavigator extends JComponent
 
 								String [] ParametroTrianguloCoordenadas2;
 
-								if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+								if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 									ParametroTrianguloCoordenadas2 = ParametroTriangulo[1].split("divisor");
 								else if (ParametroTriangulo[1].contains("divisor"))
 									ParametroTrianguloCoordenadas2 = ParametroTriangulo[1].split("divisor");
@@ -2816,7 +3020,7 @@ public class AV3DNavigator extends JComponent
 
 								String [] ParametroTrianguloCoordenadas3;
 
-								if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+								if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 									ParametroTrianguloCoordenadas3 = ParametroTriangulo[2].split("divisor");
 								else if (ParametroTriangulo[2].contains("divisor"))
 									ParametroTrianguloCoordenadas3 = ParametroTriangulo[2].split("divisor");
@@ -2831,7 +3035,7 @@ public class AV3DNavigator extends JComponent
 										{
 										String [] RGB;
 
-										if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+										if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 											RGB = Campos[1].split("divisor");
 										else if (Campos[1].contains("divisor"))
 											RGB = Campos[1].split("divisor");
@@ -2839,9 +3043,9 @@ public class AV3DNavigator extends JComponent
 											RGB = Campos[1].split(",");
 
 										for (j = 0; j < 3; j++)
-											if ((RGB[j].contains("AV3DNP0")) || (RGB[j].contains("AV3DNP1")) || (RGB[j].contains("AV3DNP2")) || (RGB[j].contains("AV3DNP3")) || (RGB[j].contains("AV3DNP4")) || (RGB[j].contains("AV3DNP5")) || (RGB[j].contains("AV3DNP6")) || (RGB[j].contains("AV3DNP7")) || (RGB[j].contains("AV3DNP8")) || (RGB[j].contains("AV3DNP9")))
+											if ((RGB[j].contains("AV3DNP0")) || (RGB[j].contains("AV3DNP1")) || (RGB[j].contains("AV3DNP2")) || (RGB[j].contains("AV3DNP3")) || (RGB[j].contains("AV3DNP4")) || (RGB[j].contains("AV3DNP5")) || (RGB[j].contains("AV3DNP6")) || (RGB[j].contains("AV3DNP7")) || (RGB[j].contains("AV3DNP8")) || (RGB[j].contains("AV3DNP9")) || (RGB[j].contains("AV3DNPF0")) || (RGB[j].contains("AV3DNPF1")) || (RGB[j].contains("AV3DNPF2")) || (RGB[j].contains("AV3DNPF3")) || (RGB[j].contains("AV3DNPF4")) || (RGB[j].contains("AV3DNF5")) || (RGB[j].contains("AV3DNPF6")) || (RGB[j].contains("AV3DNPF7")) || (RGB[j].contains("AV3DNPF8")) || (RGB[j].contains("AV3DNPF9")) || (RGB[j].contains("AV3DNPTS")) || (RGB[j].contains("AV3DNPTM")) || (RGB[j].contains("AV3DNPTH")))
 												{
-												Expression expr = new Expression(RGB[j].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+												Expression expr = new Expression(RGB[j].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 												try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
 												if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
 												}
@@ -2885,7 +3089,7 @@ public class AV3DNavigator extends JComponent
 				{
 				String [] Campos;
 
-				if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+				if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 					Campos = EspacoLegendas[i].split("DIVISOR");
 				else if (EspacoLegendas[i].contains("DIVISOR"))
 					Campos = EspacoLegendas[i].split("DIVISOR");
@@ -2903,7 +3107,7 @@ public class AV3DNavigator extends JComponent
 						{
 						String [] RGB;
 
-						if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+						if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 							RGB = Campos[1].split("divisor");
 						else if (Campos[1].contains("divisor"))
 							RGB = Campos[1].split("divisor");
@@ -2911,9 +3115,9 @@ public class AV3DNavigator extends JComponent
 							RGB = Campos[1].split(",");
 
 						for (j = 0; j < 3; j++)
-							if ((RGB[j].contains("AV3DNP0")) || (RGB[j].contains("AV3DNP1")) || (RGB[j].contains("AV3DNP2")) || (RGB[j].contains("AV3DNP3")) || (RGB[j].contains("AV3DNP4")) || (RGB[j].contains("AV3DNP5")) || (RGB[j].contains("AV3DNP6")) || (RGB[j].contains("AV3DNP7")) || (RGB[j].contains("AV3DNP8")) || (RGB[j].contains("AV3DNP9")))
+							if ((RGB[j].contains("AV3DNP0")) || (RGB[j].contains("AV3DNP1")) || (RGB[j].contains("AV3DNP2")) || (RGB[j].contains("AV3DNP3")) || (RGB[j].contains("AV3DNP4")) || (RGB[j].contains("AV3DNP5")) || (RGB[j].contains("AV3DNP6")) || (RGB[j].contains("AV3DNP7")) || (RGB[j].contains("AV3DNP8")) || (RGB[j].contains("AV3DNP9")) || (RGB[j].contains("AV3DNPF0")) || (RGB[j].contains("AV3DNPF1")) || (RGB[j].contains("AV3DNPF2")) || (RGB[j].contains("AV3DNPF3")) || (RGB[j].contains("AV3DNPF4")) || (RGB[j].contains("AV3DNF5")) || (RGB[j].contains("AV3DNPF6")) || (RGB[j].contains("AV3DNPF7")) || (RGB[j].contains("AV3DNPF8")) || (RGB[j].contains("AV3DNPF9")) || (RGB[j].contains("AV3DNPTS")) || (RGB[j].contains("AV3DNPTM")) || (RGB[j].contains("AV3DNPTH")))
 								{
-								Expression expr = new Expression(RGB[j].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+								Expression expr = new Expression(RGB[j].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 								try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
 								if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
 								}
@@ -2926,7 +3130,7 @@ public class AV3DNavigator extends JComponent
 						{
 						String [] RGB;
 
-						if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+						if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 							RGB = Campos[1].split("divisor");
 						else if (Campos[1].contains("divisor"))
 							RGB = Campos[1].split("divisor");
@@ -2934,9 +3138,9 @@ public class AV3DNavigator extends JComponent
 							RGB = Campos[1].split(",");
 
 						for (j = 0; j < 3; j++)
-							if ((RGB[j].contains("AV3DNP0")) || (RGB[j].contains("AV3DNP1")) || (RGB[j].contains("AV3DNP2")) || (RGB[j].contains("AV3DNP3")) || (RGB[j].contains("AV3DNP4")) || (RGB[j].contains("AV3DNP5")) || (RGB[j].contains("AV3DNP6")) || (RGB[j].contains("AV3DNP7")) || (RGB[j].contains("AV3DNP8")) || (RGB[j].contains("AV3DNP9")))
+							if ((RGB[j].contains("AV3DNP0")) || (RGB[j].contains("AV3DNP1")) || (RGB[j].contains("AV3DNP2")) || (RGB[j].contains("AV3DNP3")) || (RGB[j].contains("AV3DNP4")) || (RGB[j].contains("AV3DNP5")) || (RGB[j].contains("AV3DNP6")) || (RGB[j].contains("AV3DNP7")) || (RGB[j].contains("AV3DNP8")) || (RGB[j].contains("AV3DNP9")) || (RGB[j].contains("AV3DNPF0")) || (RGB[j].contains("AV3DNPF1")) || (RGB[j].contains("AV3DNPF2")) || (RGB[j].contains("AV3DNPF3")) || (RGB[j].contains("AV3DNPF4")) || (RGB[j].contains("AV3DNF5")) || (RGB[j].contains("AV3DNPF6")) || (RGB[j].contains("AV3DNPF7")) || (RGB[j].contains("AV3DNPF8")) || (RGB[j].contains("AV3DNPF9")) || (RGB[j].contains("AV3DNPTS")) || (RGB[j].contains("AV3DNPTM")) || (RGB[j].contains("AV3DNPTH")))
 								{
-								Expression expr = new Expression(RGB[j].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+								Expression expr = new Expression(RGB[j].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 								try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
 								if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
 								}
@@ -2954,7 +3158,7 @@ public class AV3DNavigator extends JComponent
 						{
 						String [] RGB;
 
-						if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+						if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 							RGB = Campos[1].split("divisor");
 						else if (Campos[1].contains("divisor"))
 							RGB = Campos[1].split("divisor");
@@ -2962,9 +3166,9 @@ public class AV3DNavigator extends JComponent
 							RGB = Campos[1].split(",");
 
 						for (j = 0; j < 3; j++)
-							if ((RGB[j].contains("AV3DNP0")) || (RGB[j].contains("AV3DNP1")) || (RGB[j].contains("AV3DNP2")) || (RGB[j].contains("AV3DNP3")) || (RGB[j].contains("AV3DNP4")) || (RGB[j].contains("AV3DNP5")) || (RGB[j].contains("AV3DNP6")) || (RGB[j].contains("AV3DNP7")) || (RGB[j].contains("AV3DNP8")) || (RGB[j].contains("AV3DNP9")))
+							if ((RGB[j].contains("AV3DNP0")) || (RGB[j].contains("AV3DNP1")) || (RGB[j].contains("AV3DNP2")) || (RGB[j].contains("AV3DNP3")) || (RGB[j].contains("AV3DNP4")) || (RGB[j].contains("AV3DNP5")) || (RGB[j].contains("AV3DNP6")) || (RGB[j].contains("AV3DNP7")) || (RGB[j].contains("AV3DNP8")) || (RGB[j].contains("AV3DNP9")) || (RGB[j].contains("AV3DNPF0")) || (RGB[j].contains("AV3DNPF1")) || (RGB[j].contains("AV3DNPF2")) || (RGB[j].contains("AV3DNPF3")) || (RGB[j].contains("AV3DNPF4")) || (RGB[j].contains("AV3DNF5")) || (RGB[j].contains("AV3DNPF6")) || (RGB[j].contains("AV3DNPF7")) || (RGB[j].contains("AV3DNPF8")) || (RGB[j].contains("AV3DNPF9")) || (RGB[j].contains("AV3DNPTS")) || (RGB[j].contains("AV3DNPTM")) || (RGB[j].contains("AV3DNPTH")))
 								{
-								Expression expr = new Expression(RGB[j].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+								Expression expr = new Expression(RGB[j].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 								try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
 								if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
 								}
@@ -2978,7 +3182,7 @@ public class AV3DNavigator extends JComponent
 						{
 						String [] RGB;
 
-						if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")))
+						if ((EspacoP.contains("AV3DNP0")) || (EspacoP.contains("AV3DNP1")) || (EspacoP.contains("AV3DNP2")) || (EspacoP.contains("AV3DNP3")) || (EspacoP.contains("AV3DNP4")) || (EspacoP.contains("AV3DNP5")) || (EspacoP.contains("AV3DNP6")) || (EspacoP.contains("AV3DNP7")) || (EspacoP.contains("AV3DNP8")) || (EspacoP.contains("AV3DNP9")) || (EspacoP.contains("AV3DNPF0")) || (EspacoP.contains("AV3DNPF1")) || (EspacoP.contains("AV3DNPF2")) || (EspacoP.contains("AV3DNPF3")) || (EspacoP.contains("AV3DNPF4")) || (EspacoP.contains("AV3DNF5")) || (EspacoP.contains("AV3DNPF6")) || (EspacoP.contains("AV3DNPF7")) || (EspacoP.contains("AV3DNPF8")) || (EspacoP.contains("AV3DNPF9")) || (EspacoP.contains("AV3DNPTS")) || (EspacoP.contains("AV3DNPTM")) || (EspacoP.contains("AV3DNPTH")))
 							RGB = Campos[1].split("divisor");
 						else if (Campos[1].contains("divisor"))
 							RGB = Campos[1].split("divisor");
@@ -2986,9 +3190,9 @@ public class AV3DNavigator extends JComponent
 							RGB = Campos[1].split(",");
 
 						for (j = 0; j < 3; j++)
-							if ((RGB[j].contains("AV3DNP0")) || (RGB[j].contains("AV3DNP1")) || (RGB[j].contains("AV3DNP2")) || (RGB[j].contains("AV3DNP3")) || (RGB[j].contains("AV3DNP4")) || (RGB[j].contains("AV3DNP5")) || (RGB[j].contains("AV3DNP6")) || (RGB[j].contains("AV3DNP7")) || (RGB[j].contains("AV3DNP8")) || (RGB[j].contains("AV3DNP9")))
+							if ((RGB[j].contains("AV3DNP0")) || (RGB[j].contains("AV3DNP1")) || (RGB[j].contains("AV3DNP2")) || (RGB[j].contains("AV3DNP3")) || (RGB[j].contains("AV3DNP4")) || (RGB[j].contains("AV3DNP5")) || (RGB[j].contains("AV3DNP6")) || (RGB[j].contains("AV3DNP7")) || (RGB[j].contains("AV3DNP8")) || (RGB[j].contains("AV3DNP9")) || (RGB[j].contains("AV3DNPF0")) || (RGB[j].contains("AV3DNPF1")) || (RGB[j].contains("AV3DNPF2")) || (RGB[j].contains("AV3DNPF3")) || (RGB[j].contains("AV3DNPF4")) || (RGB[j].contains("AV3DNF5")) || (RGB[j].contains("AV3DNPF6")) || (RGB[j].contains("AV3DNPF7")) || (RGB[j].contains("AV3DNPF8")) || (RGB[j].contains("AV3DNPF9")) || (RGB[j].contains("AV3DNPTS")) || (RGB[j].contains("AV3DNPTM")) || (RGB[j].contains("AV3DNPTH")))
 								{
-								Expression expr = new Expression(RGB[j].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+								Expression expr = new Expression(RGB[j].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 								try {RGB[j] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[j] = String.valueOf(255);}
 								if ((Integer.parseInt(RGB[j]) < 0) || (Integer.parseInt(RGB[j]) > 255)) RGB[j] = String.valueOf(255);
 								}
@@ -3048,7 +3252,7 @@ public class AV3DNavigator extends JComponent
 						{
 						String [] Campos;
 
-						if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")))
+						if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")) || (EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")) || (EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
 							Campos = EspacoLinhas[i].split("color");
 						else if (EspacoLinhas[i].contains("color"))
 							Campos = EspacoLinhas[i].split("color");
@@ -3059,7 +3263,7 @@ public class AV3DNavigator extends JComponent
 
 						String [] Pontos;
 
-						if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")))
+						if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")) || (EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")) || (EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
 							Pontos = Campos[0].split("DIVISOR");
 						else if (Campos[0].contains("DIVISOR"))
 							Pontos = Campos[0].split("DIVISOR");
@@ -3074,7 +3278,7 @@ public class AV3DNavigator extends JComponent
 							{
 							String [] Coordenadas;
 
-							if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")))
+							if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")) || (EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")) || (EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
 								Coordenadas = Pontos[j].split("divisor");
 							else if (Pontos[j].contains("divisor"))
 								Coordenadas = Pontos[j].split("divisor");
@@ -3084,7 +3288,7 @@ public class AV3DNavigator extends JComponent
 							if (Coordenadas.length != 3) return "Erro";
 
 							for (k = 0; k < Coordenadas.length; k++)
-								if ((! AntonioVandre.NumeroReal(Coordenadas[k])) && (! Coordenadas[k].contains("AV3DNP0")) && (! Coordenadas[k].contains("AV3DNP1")) && (! Coordenadas[k].contains("AV3DNP2")) && (! Coordenadas[k].contains("AV3DNP3")) && (! Coordenadas[k].contains("AV3DNP4")) && (! Coordenadas[k].contains("AV3DNP5")) && (! Coordenadas[k].contains("AV3DNP6")) && (! Coordenadas[k].contains("AV3DNP7")) && (! Coordenadas[k].contains("AV3DNP8")) && (! Coordenadas[k].contains("AV3DNP9"))) return "Erro";
+								if ((! AntonioVandre.NumeroReal(Coordenadas[k])) && (! Coordenadas[k].contains("AV3DNP0")) && (! Coordenadas[k].contains("AV3DNP1")) && (! Coordenadas[k].contains("AV3DNP2")) && (! Coordenadas[k].contains("AV3DNP3")) && (! Coordenadas[k].contains("AV3DNP4")) && (! Coordenadas[k].contains("AV3DNP5")) && (! Coordenadas[k].contains("AV3DNP6")) && (! Coordenadas[k].contains("AV3DNP7")) && (! Coordenadas[k].contains("AV3DNP8")) && (! Coordenadas[k].contains("AV3DNP9")) && (! Coordenadas[k].contains("AV3DNPF0")) && (! Coordenadas[k].contains("AV3DNPF1")) && (! Coordenadas[k].contains("AV3DNPF2")) && (! Coordenadas[k].contains("AV3DNPF3")) && (! Coordenadas[k].contains("AV3DNPF4")) && (! Coordenadas[k].contains("AV3DNPF5")) && (! Coordenadas[k].contains("AV3DNPF6")) && (! Coordenadas[k].contains("AV3DNPF7")) && (! Coordenadas[k].contains("AV3DNPF8")) && (! Coordenadas[k].contains("AV3DNPF9")) && (! Coordenadas[k].contains("AV3DNPTS")) && (! Coordenadas[k].contains("AV3DNPTM")) && (! Coordenadas[k].contains("AV3DNPTH"))) return "Erro";
 							}
 
 						if (Campos.length == 2)
@@ -3093,7 +3297,7 @@ public class AV3DNavigator extends JComponent
 								{
 								String [] RGB;
 
-								if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")))
+								if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")) || (EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")) || (EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
 									RGB = Campos[1].split("divisor");
 								else if (Campos[1].contains("divisor"))
 									RGB = Campos[1].split("divisor");
@@ -3104,9 +3308,9 @@ public class AV3DNavigator extends JComponent
 
 								for (k = 0; k < RGB.length; k++)
 									{
-									if ((RGB[k].contains("AV3DNP0")) || (RGB[k].contains("AV3DNP1")) || (RGB[k].contains("AV3DNP2")) || (RGB[k].contains("AV3DNP3")) || (RGB[k].contains("AV3DNP4")) || (RGB[k].contains("AV3DNP5")) || (RGB[k].contains("AV3DNP6")) || (RGB[k].contains("AV3DNP7")) || (RGB[k].contains("AV3DNP8")) || (RGB[k].contains("AV3DNP9")))
+									if ((RGB[k].contains("AV3DNP0")) || (RGB[k].contains("AV3DNP1")) || (RGB[k].contains("AV3DNP2")) || (RGB[k].contains("AV3DNP3")) || (RGB[k].contains("AV3DNP4")) || (RGB[k].contains("AV3DNP5")) || (RGB[k].contains("AV3DNP6")) || (RGB[k].contains("AV3DNP7")) || (RGB[k].contains("AV3DNP8")) || (RGB[k].contains("AV3DNP9")) || (RGB[k].contains("AV3DNPF0")) || (RGB[k].contains("AV3DNPF1")) || (RGB[k].contains("AV3DNPF2")) || (RGB[k].contains("AV3DNPF3")) || (RGB[k].contains("AV3DNPF4")) || (RGB[k].contains("AV3DNF5")) || (RGB[k].contains("AV3DNPF6")) || (RGB[k].contains("AV3DNPF7")) || (RGB[k].contains("AV3DNPF8")) || (RGB[k].contains("AV3DNPF9")) || (RGB[k].contains("AV3DNPTS")) || (RGB[k].contains("AV3DNPTM")) || (RGB[k].contains("AV3DNPTH")))
 										{
-										Expression expr = new Expression(RGB[k].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")"));
+										Expression expr = new Expression(RGB[k].replaceAll("AV3DNP0", "(" + String.valueOf(Parametro0) + ")").replaceAll("AV3DNP1", "(" + String.valueOf(Parametro1) + ")").replaceAll("AV3DNP2", "(" + String.valueOf(Parametro2) + ")").replaceAll("AV3DNP3", "(" + String.valueOf(Parametro3) + ")").replaceAll("AV3DNP4", "(" + String.valueOf(Parametro4) + ")").replaceAll("AV3DNP5", "(" + String.valueOf(Parametro5) + ")").replaceAll("AV3DNP6", "(" + String.valueOf(Parametro6) + ")").replaceAll("AV3DNP7", "(" + String.valueOf(Parametro7) + ")").replaceAll("AV3DNP8", "(" + String.valueOf(Parametro8) + ")").replaceAll("AV3DNP9", "(" + String.valueOf(Parametro9) + ")").replaceAll("AV3DNPF0", "(" + String.valueOf(ParametroFile0) + ")").replaceAll("AV3DNPF1", "(" + String.valueOf(ParametroFile1) + ")").replaceAll("AV3DNPF2", "(" + String.valueOf(ParametroFile2) + ")").replaceAll("AV3DNPF3", "(" + String.valueOf(ParametroFile3) + ")").replaceAll("AV3DNPF4", "(" + String.valueOf(ParametroFile4) + ")").replaceAll("AV3DNPF5", "(" + String.valueOf(ParametroFile5) + ")").replaceAll("AV3DNPF6", "(" + String.valueOf(ParametroFile6) + ")").replaceAll("AV3DNPF7", "(" + String.valueOf(ParametroFile7) + ")").replaceAll("AV3DNPF8", "(" + String.valueOf(ParametroFile8) + ")").replaceAll("AV3DNPF9", "(" + String.valueOf(ParametroFile9) + ")").replaceAll("AV3DNPTS", "(" + String.valueOf(ParametroTimeS) + ")").replaceAll("AV3DNPTM", "(" + String.valueOf(ParametroTimeM) + ")").replaceAll("AV3DNPTH", "(" + String.valueOf(ParametroTimeH) + ")"));
 										try {RGB[k] = String.valueOf((int) expr.calculate());} catch (Exception e) {RGB[k] = String.valueOf(255);}
 										if ((Integer.parseInt(RGB[k]) < 0) || (Integer.parseInt(RGB[k]) > 255)) RGB[k] = String.valueOf(255);
 										return "Erro";
@@ -3132,7 +3336,7 @@ public class AV3DNavigator extends JComponent
 						{
 						String [] Campos;
 
-						if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")))
+						if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")) || (EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")) || (EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
 							Campos = EspacoTriangulosShapePreenchidos[i].split("color");
 						else if (EspacoTriangulosShapePreenchidos[i].contains("color"))
 							Campos = EspacoTriangulosShapePreenchidos[i].split("color");
@@ -3143,7 +3347,7 @@ public class AV3DNavigator extends JComponent
 
 						String [] Pontos;
 
-						if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")))
+						if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")) || (EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")) || (EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
 							Pontos = Campos[0].split("DIVISOR");
 						else if (Campos[0].contains("DIVISOR"))
 							Pontos = Campos[0].split("DIVISOR");
@@ -3156,7 +3360,7 @@ public class AV3DNavigator extends JComponent
 							{
 							String [] Coordenadas;
 
-							if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")))
+							if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")) || (EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")) || (EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
 								Coordenadas = Pontos[j].split("divisor");
 							else if (Pontos[j].contains("divisor"))
 								Coordenadas = Pontos[j].split("divisor");
@@ -3166,7 +3370,7 @@ public class AV3DNavigator extends JComponent
 							if (Coordenadas.length != 3) return "Erro";
 
 							for (k = 0; k < Coordenadas.length; k++)
-								if ((! AntonioVandre.NumeroReal(Coordenadas[k])) && (! Coordenadas[k].contains("AV3DNP0")) && (! Coordenadas[k].contains("AV3DNP1")) && (! Coordenadas[k].contains("AV3DNP2")) && (! Coordenadas[k].contains("AV3DNP3")) && (! Coordenadas[k].contains("AV3DNP4")) && (! Coordenadas[k].contains("AV3DNP5")) && (! Coordenadas[k].contains("AV3DNP6")) && (! Coordenadas[k].contains("AV3DNP7")) && (! Coordenadas[k].contains("AV3DNP8")) && (! Coordenadas[k].contains("AV3DNP9"))) return "Erro";
+								if ((! AntonioVandre.NumeroReal(Coordenadas[k])) && (! Coordenadas[k].contains("AV3DNP0")) && (! Coordenadas[k].contains("AV3DNP1")) && (! Coordenadas[k].contains("AV3DNP2")) && (! Coordenadas[k].contains("AV3DNP3")) && (! Coordenadas[k].contains("AV3DNP4")) && (! Coordenadas[k].contains("AV3DNP5")) && (! Coordenadas[k].contains("AV3DNP6")) && (! Coordenadas[k].contains("AV3DNP7")) && (! Coordenadas[k].contains("AV3DNP8")) && (! Coordenadas[k].contains("AV3DNP9")) && (! Coordenadas[k].contains("AV3DNPF0")) && (! Coordenadas[k].contains("AV3DNPF1")) && (! Coordenadas[k].contains("AV3DNPF2")) && (! Coordenadas[k].contains("AV3DNPF3")) && (! Coordenadas[k].contains("AV3DNPF4")) && (! Coordenadas[k].contains("AV3DNPF5")) && (! Coordenadas[k].contains("AV3DNPF6")) && (! Coordenadas[k].contains("AV3DNPF7")) && (! Coordenadas[k].contains("AV3DNPF8")) && (! Coordenadas[k].contains("AV3DNPF9")) && (! Coordenadas[k].contains("AV3DNPTS")) && (! Coordenadas[k].contains("AV3DNPTM")) && (! Coordenadas[k].contains("AV3DNPTH"))) return "Erro";
 							}
 
 						if (Campos.length == 2)
@@ -3175,7 +3379,7 @@ public class AV3DNavigator extends JComponent
 								{
 								String [] RGB;
 
-								if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")))
+								if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")) || (EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")) || (EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
 									RGB = Campos[1].split("divisor");
 								else if (Campos[1].contains("divisor"))
 									RGB = Campos[1].split("divisor");
@@ -3216,7 +3420,7 @@ public class AV3DNavigator extends JComponent
 						{
 						String [] Campos;
 
-						if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")))
+						if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")) || (EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")) || (EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
 							Campos = EspacoLegendas[i].split("DIVISOR");
 						else if (EspacoLegendas[i].contains("DIVISOR"))
 							Campos = EspacoLegendas[i].split("DIVISOR");
@@ -3231,7 +3435,7 @@ public class AV3DNavigator extends JComponent
 								{
 								String [] RGB;
 
-								if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")))
+								if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")) || (EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")) || (EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
 									RGB = Campos[1].split("divisor");
 								else if (Campos[1].contains("divisor"))
 									RGB = Campos[1].split("divisor");
@@ -3259,11 +3463,25 @@ public class AV3DNavigator extends JComponent
 
 			if (ContadorEspacoInvalido == 0) return "Erro";
 
-			if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")))
+			if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")) || (EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")) || (EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
 				try
 					{
 					AV3DNavigatorEspacosPCountThread.interrupt ();
 					AV3DNavigatorEspacosPCountThread.start();
+					} catch (IllegalThreadStateException e) {}
+
+			if ((EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")))
+				try
+					{
+					AV3DNavigatorEspacosPFileCountThread.interrupt ();
+					AV3DNavigatorEspacosPFileCountThread.start();
+					} catch (IllegalThreadStateException e) {}
+
+			if ((EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
+				try
+					{
+					AV3DNavigatorEspacosPTimeCountThread.interrupt ();
+					AV3DNavigatorEspacosPTimeCountThread.start();
 					} catch (IllegalThreadStateException e) {}
 
 			return EspacoStr;
