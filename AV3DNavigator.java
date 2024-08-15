@@ -156,6 +156,7 @@ public class AV3DNavigator extends JComponent
 	public int PrintR;
 	public int PrintG;
 	public int PrintB;
+	public long CiclesTimeIgn = 100; // Default: 100.
 	public boolean isCallSuccessful = License.iConfirmNonCommercialUse("Antonio Vandré Pedrosa Furtunato Gomes (bit.ly/antoniovandre_legadoontologico)");
 
 
@@ -1358,6 +1359,7 @@ public class AV3DNavigator extends JComponent
 						Parametro9 = 0;
 						Parametro9Step = 1;
 						SleepTime = 7;
+						FlagTime = 0;
 						}
 
 					if (keyCode == KeyEvent.VK_F1) if (FlagHelp == 0)
@@ -2483,7 +2485,7 @@ public class AV3DNavigator extends JComponent
 
 			if (FlagTime == 1)
 				{
-				if (ContadorTime * SleepTime >= 100)
+				if (ContadorTime * SleepTime >= CiclesTimeIgn)
 					{
 					ParametroTimeS = Integer.parseInt(new SimpleDateFormat("ss").format(Calendar.getInstance().getTime()));
 
@@ -3532,5 +3534,6 @@ public class AV3DNavigator extends JComponent
 		Parametro9 = 0;
 		Parametro9Step = 1;
 		SleepTime = 7;
+		FlagTime = 0;
 		}
 	}
