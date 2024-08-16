@@ -77,6 +77,7 @@ import java.io.*;
 
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
+import org.apfloat.FixedPrecisionApfloatHelper;
 import org.apfloat.InfiniteExpansionException;
 
 // mXparser para cálculo de funções envolvendo parâmetros.
@@ -728,6 +729,8 @@ public class AV3DNavigator extends JComponent
 		else
 			Espaco = "";
 
+		AV3DNavigatorExecCountThread.start();
+
 		if (! INI.equals(""))
 			{
 			String[] INIarr = INI.split("\\r?\\n");
@@ -1213,7 +1216,7 @@ public class AV3DNavigator extends JComponent
 						}
 			}
 
-		AV3DNavigatorExecCountThread.start();
+		FixedPrecisionApfloatHelper ApfloatHelper = new FixedPrecisionApfloatHelper(PrecisaoApfloat);
 
 		JFrame FrameEspaco = new JFrame("AV3DNavigator - " + Versao);
 		FrameEspaco.setIconImage(new ImageIcon(getClass().getResource(AV3DNavigatorIconFilePath)).getImage());
