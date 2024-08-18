@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 14-08-2024.
+ * Última atualização: 18-08-2024.
  */
 
 import java.awt.Toolkit;
@@ -206,10 +206,11 @@ public class AV3DNavigatorLauncher
 		try
 			{
 			String ArquivoEspaco = "";
+			String Debug = "";
+			ProcessBuilder pb = null;
 
-			if (args.length != 0) ArquivoEspaco = args[0];
+			if (args.length == 2) {ArquivoEspaco = args[0]; Debug = args[1]; pb = new ProcessBuilder("java", "-jar", ArquivoAV3DNavigator, ArquivoEspaco, Debug);} else if (args.length == 1) {if (args[0].equals("Debug")) pb = new ProcessBuilder("java", "-jar", ArquivoAV3DNavigator, "Debug"); else {ArquivoEspaco = args[0]; pb = new ProcessBuilder("java", "-jar", ArquivoAV3DNavigator, ArquivoEspaco, "");}} else pb = new ProcessBuilder("java", "-jar", ArquivoAV3DNavigator, "", "");
 
-			ProcessBuilder pb = new ProcessBuilder("java", "-jar", ArquivoAV3DNavigator, ArquivoEspaco);
 			SplashScreen.close();
 			Process p = pb.start();
 			} catch (IOException e) {System.out.println(MensagemErroExecutar);}

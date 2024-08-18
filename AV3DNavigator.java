@@ -117,7 +117,7 @@ public class AV3DNavigator extends JComponent
 	public double FatorAnguloVisao = 1; // Default: 1.
 	public static double TetaMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
 	public static double PhiMax = Double.MAX_VALUE; // Opção: Math.PI / 3.
-	public static double MargemAnguloVisao = 1; // Default: 1.
+	public static double MargemAnguloVisao = 0; // Default: 0.
 	public static int TamanhoFonteLabelStatus = 7; // Default: 7.
 	public static int TamanhoFonteLabelURL = 11; // Default: 11.
 	public static int TamanhoFonteLabelHelp = 10; // Default: 10.
@@ -658,9 +658,9 @@ public class AV3DNavigator extends JComponent
 			} catch (NoSuchElementException | ConcurrentModificationException | NullPointerException | IndexOutOfBoundsException e) {}
 		}
 
-	public static void main (String[] args) {AV3DNavigator mainc = new AV3DNavigator(); if (args.length != 0) mainc.mainrun(args[0]); else mainc.mainrun("");}
+	public static void main (String[] args) {AV3DNavigator mainc = new AV3DNavigator(); if (args.length == 1) mainc.mainrun(args[0], ""); else if (args.length == 2) mainc.mainrun(args[0], args[1]); else mainc.mainrun("", "");}
 
-	public void mainrun (String ArquivoEspaco)
+	public void mainrun (String ArquivoEspaco, String Debug)
 		{
 		Versao = "Versão desconhecida.";
 		URL = "URL desconhecida.";
@@ -718,7 +718,7 @@ public class AV3DNavigator extends JComponent
 
 		if (! ArquivoEspaco.equals(""))
 			{
-			Espaco = LerEspaco(ArquivoEspaco);
+			Espaco = LerEspaco(ArquivoEspaco, Debug);
 
 			if (Espaco.equals("Erro"))
 				{
@@ -729,7 +729,7 @@ public class AV3DNavigator extends JComponent
 		else
 			Espaco = "";
 
-		AV3DNavigatorExecCountThread.start();
+		if (! (Debug.equals("Debug"))) AV3DNavigatorExecCountThread.start();
 
 		if (! INI.equals(""))
 			{
@@ -1367,7 +1367,7 @@ public class AV3DNavigator extends JComponent
 
 					if (keyCode == KeyEvent.VK_F1) if (FlagHelp == 0)
 						{
-						try
+						if (! (Debug.equals("Debug"))) try
 							{
 							AV3DNavigatorHelpCountThread.interrupt ();
 							AV3DNavigatorHelpCountThread.start();
@@ -1478,7 +1478,7 @@ public class AV3DNavigator extends JComponent
 						if (result == JFileChooser.APPROVE_OPTION)
 							{
 							File selectedFile = fileChooser.getSelectedFile();
-							Espaco = LerEspaco (selectedFile.getAbsolutePath());
+							Espaco = LerEspaco (selectedFile.getAbsolutePath(), Debug);
 
 							if (Espaco.equals("Erro"))
 								{
@@ -1625,11 +1625,11 @@ public class AV3DNavigator extends JComponent
 
 					if (keyCode == KeyEvent.VK_F)
 						{
-						FlagMouseY = 1; FlagCoordRot = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
+						FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
 
 						if (ke.isShiftDown())
 							{
-							if (Math.abs(Teta) < TetaMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Teta + DeslocamentoAngular * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Phi - DeslocamentoAngular * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta += DeslocamentoAngular * Math.cos(Rot); Phi -= DeslocamentoAngular * Math.sin(Rot); Rot += DeslocamentoAngular * Math.sin(Phi0Rotacao); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
+							if (Math.abs(Teta) < TetaMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Teta + DeslocamentoAngular * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Phi - DeslocamentoAngular * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta += DeslocamentoAngular * Math.cos(Rot); Phi -= DeslocamentoAngular * Math.sin(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
 							}
 						else
 							{
@@ -1639,11 +1639,11 @@ public class AV3DNavigator extends JComponent
 
 					if (keyCode == KeyEvent.VK_V)
 						{
-						FlagMouseY = 1; FlagCoordRot = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
+						FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
 
 						if (ke.isShiftDown())
 							{
-							if (Math.abs(Teta) < TetaMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Teta - DeslocamentoAngular * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Phi + DeslocamentoAngular * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta -= DeslocamentoAngular * Math.cos(Rot); Phi += DeslocamentoAngular * Math.sin(Rot); Rot -= DeslocamentoAngular * Math.sin(Phi0Rotacao); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
+							if (Math.abs(Teta) < TetaMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Teta - DeslocamentoAngular * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Phi + DeslocamentoAngular * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta -= DeslocamentoAngular * Math.cos(Rot); Phi += DeslocamentoAngular * Math.sin(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
 							}
 						else
 							{
@@ -1653,32 +1653,28 @@ public class AV3DNavigator extends JComponent
 
 					if (keyCode == KeyEvent.VK_B)
 						{
+						FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
+
 						if (ke.isShiftDown())
 							{
-							FlagMouseY = 1; FlagCoordRot = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
-
-							if (Math.abs(Phi) < PhiMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Phi - DeslocamentoAngular * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Teta - DeslocamentoAngular * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))) {Phi -= DeslocamentoAngular * Math.cos(Rot); Teta -= DeslocamentoAngular * Math.cos(Phi0Rotacao) * Math.sin(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}
+							if (Math.abs(Phi) < PhiMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Phi - DeslocamentoAngular * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Teta - DeslocamentoAngular * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))) {Phi -= DeslocamentoAngular * Math.cos(Rot); Teta -= DeslocamentoAngular * Math.sin(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Phi -= Math.sin(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}
 							}
 						else
 							{
-							FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
-
-							if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {if (! (Math.abs(Phi - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) {Phi -= DeslocamentoAngular; ContadorFrames = 0;}  else VariavelLimiteAtingido();} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}
+							if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {if (! (Math.abs(Phi - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) {Phi -= DeslocamentoAngular; ContadorFrames = 0;}  else VariavelLimiteAtingido();} else {Phi -= Math.sin(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}
 							}
 						}
 
 					if (keyCode == KeyEvent.VK_G)
 						{
+						FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
+
 						if (ke.isShiftDown())
 							{
-							FlagMouseY = 1; FlagCoordRot = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
-
-							if (Math.abs(Phi) < PhiMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Phi + DeslocamentoAngular * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Teta + DeslocamentoAngular * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))) {Phi += DeslocamentoAngular * Math.cos(Rot); Teta += DeslocamentoAngular * Math.cos(Phi0Rotacao) * Math.sin(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}
+							if (Math.abs(Phi) < PhiMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Phi + DeslocamentoAngular * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Teta + DeslocamentoAngular * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))) {Phi += DeslocamentoAngular * Math.cos(Rot); Teta += DeslocamentoAngular * Math.sin(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}
 							}
 						else
 							{
-							FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0;
-
 							if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {if (! (Math.abs(Phi - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) {Phi += DeslocamentoAngular; ContadorFrames = 0;}  else VariavelLimiteAtingido();} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}
 							}
 						}
@@ -1913,7 +1909,7 @@ public class AV3DNavigator extends JComponent
 						{
 						if (ApfloatFlag == 0)
 							{
-							try
+							if (! (Debug.equals("Debug"))) try
 								{
 								AV3DNavigatorApfloatCountThread.interrupt ();
 								AV3DNavigatorApfloatCountThread.start();
@@ -3497,7 +3493,7 @@ public class AV3DNavigator extends JComponent
 			{Comp.addTexto("", 0, 0, Color.WHITE, 0, Integer.MAX_VALUE); FlagRepaint = 0;}
 		}
 		
-	public String LerEspaco(String ArquivoEspacoArg)
+	public String LerEspaco(String ArquivoEspacoArg, String Debug)
 		{
 		File file = new File(ArquivoEspacoArg);
 		String EspacoStr;
@@ -3748,21 +3744,21 @@ public class AV3DNavigator extends JComponent
 
 			if (ContadorEspacoInvalido == 0) return "Erro";
 
-			if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")) || (EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")) || (EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
+			if (! (Debug.equals("Debug"))) if ((EspacoStrP.contains("AV3DNP0")) || (EspacoStrP.contains("AV3DNP1")) || (EspacoStrP.contains("AV3DNP2")) || (EspacoStrP.contains("AV3DNP3")) || (EspacoStrP.contains("AV3DNP4")) || (EspacoStrP.contains("AV3DNP5")) || (EspacoStrP.contains("AV3DNP6")) || (EspacoStrP.contains("AV3DNP7")) || (EspacoStrP.contains("AV3DNP8")) || (EspacoStrP.contains("AV3DNP9")) || (EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")) || (EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
 				try
 					{
 					AV3DNavigatorEspacosPCountThread.interrupt ();
 					AV3DNavigatorEspacosPCountThread.start();
 					} catch (IllegalThreadStateException e) {}
 
-			if ((EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")))
+			if (! (Debug.equals("Debug"))) if ((EspacoStrP.contains("AV3DNPF0")) || (EspacoStrP.contains("AV3DNPF1")) || (EspacoStrP.contains("AV3DNPF2")) || (EspacoStrP.contains("AV3DNPF3")) || (EspacoStrP.contains("AV3DNPF4")) || (EspacoStrP.contains("AV3DNF5")) || (EspacoStrP.contains("AV3DNPF6")) || (EspacoStrP.contains("AV3DNPF7")) || (EspacoStrP.contains("AV3DNPF8")) || (EspacoStrP.contains("AV3DNPF9")))
 				try
 					{
 					AV3DNavigatorEspacosPFileCountThread.interrupt ();
 					AV3DNavigatorEspacosPFileCountThread.start();
 					} catch (IllegalThreadStateException e) {}
 
-			if ((EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
+			if (! (Debug.equals("Debug"))) if ((EspacoStrP.contains("AV3DNPTS")) || (EspacoStrP.contains("AV3DNPTM")) || (EspacoStrP.contains("AV3DNPTH")))
 				try
 					{
 					AV3DNavigatorEspacosPTimeCountThread.interrupt ();
