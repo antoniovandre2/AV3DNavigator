@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 18-08-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 19-08-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -658,7 +658,7 @@ public class AV3DNavigator extends JComponent
 			} catch (NoSuchElementException | ConcurrentModificationException | NullPointerException | IndexOutOfBoundsException e) {}
 		}
 
-	public static void main (String[] args) {AV3DNavigator mainc = new AV3DNavigator(); if (args.length == 1) mainc.mainrun(args[0], ""); else if (args.length == 2) mainc.mainrun(args[0], args[1]); else mainc.mainrun("", "");}
+	public static void main (String[] args) {AV3DNavigator mainc = new AV3DNavigator(); if (args.length == 1) {if (args[0].equals("Debug")) mainc.mainrun("", "Debug"); else mainc.mainrun(args[0], "");} else if (args.length == 2) mainc.mainrun(args[0], args[1]); else mainc.mainrun("", "");}
 
 	public void mainrun (String ArquivoEspaco, String Debug)
 		{
@@ -1218,7 +1218,10 @@ public class AV3DNavigator extends JComponent
 
 		FixedPrecisionApfloatHelper ApfloatHelper = new FixedPrecisionApfloatHelper(PrecisaoApfloat);
 
-		JFrame FrameEspaco = new JFrame("AV3DNavigator - " + Versao);
+		JFrame FrameEspaco;
+
+		if (Debug.equals("Debug")) FrameEspaco = new JFrame("AV3DNavigator - " + Versao + " - Debug"); else FrameEspaco = new JFrame("AV3DNavigator - " + Versao);
+
 		FrameEspaco.setIconImage(new ImageIcon(getClass().getResource(AV3DNavigatorIconFilePath)).getImage());
 		FrameEspaco.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		FrameEspaco.setPreferredSize(new Dimension(TamanhoPlanoX, TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
