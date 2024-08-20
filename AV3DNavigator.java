@@ -1643,7 +1643,7 @@ public class AV3DNavigator extends JComponent
 
 							ContadorRot--;
 
-							if ((ContadorRot == 0) || ((Math.abs(Teta + Phi - Teta0Rotacao - Phi0Rotacao) >= 4 * DeslocamentoAngular) && (Math.abs((Teta + Phi) % (2 * Math.PI) - (Teta0Rotacao + Phi0Rotacao) % (2 * Math.PI)) <= 2 * DeslocamentoAngular)))
+							if ((ContadorRot == 0) || ((Math.abs(Teta + Phi - Teta0Rotacao - Phi0Rotacao) >= 4 * DeslocamentoAngular) && (Math.abs((Teta + Phi) % (2 * Math.PI) - (Teta0Rotacao + Phi0Rotacao) % (2 * Math.PI)) < 4 * DeslocamentoAngular)))
 								{
 								Teta = Teta0Rotacao;
 								Phi = Phi0Rotacao;
@@ -1671,7 +1671,7 @@ public class AV3DNavigator extends JComponent
 
 							ContadorRot++;
 
-							if ((ContadorRot == 0) || ((Math.abs(Teta + Phi - Teta0Rotacao - Phi0Rotacao) >= 4 * DeslocamentoAngular) && (Math.abs((Teta + Phi) % (2 * Math.PI) - (Teta0Rotacao + Phi0Rotacao) % (2 * Math.PI)) <= 2 * DeslocamentoAngular)))
+							if ((ContadorRot == 0) || ((Math.abs(Teta + Phi - Teta0Rotacao - Phi0Rotacao) >= 4 * DeslocamentoAngular) && (Math.abs((Teta + Phi) % (2 * Math.PI) - (Teta0Rotacao + Phi0Rotacao) % (2 * Math.PI)) < 4 * DeslocamentoAngular)))
 								{
 								Teta = Teta0Rotacao;
 								Phi = Phi0Rotacao;
@@ -2700,7 +2700,6 @@ public class AV3DNavigator extends JComponent
 				xRotacaoTeta = x + RaioTeta * Math.cos(Teta) * Math.cos(Phi);
 				yRotacaoTeta = y - RaioTeta * Math.sin(Teta) * Math.cos(Phi);
 				RotacaoTeta = Teta + Math.PI;
-				SleepTime = SleepTime0Rot;
 				FlagCoordRotHor = 1;
 				}
 
@@ -2710,7 +2709,6 @@ public class AV3DNavigator extends JComponent
 				yRotacaoPhi = y - RaioPhi * Math.sin(Teta) * Math.cos(Phi);
 				zRotacaoPhi = z - RaioPhi * Math.sin(Phi);
 				RotacaoPhi = Phi + Math.PI;
-				SleepTime = SleepTime0Rot;
 				FlagCoordRotVert = 1;
 				}
 
@@ -2723,6 +2721,8 @@ public class AV3DNavigator extends JComponent
 				ContadorRot = 0;
 				FlagCoordRotRotHor = 1;
 				}
+			else
+				SleepTime = SleepTime0Rot;
 
 			if (FlagMouseDownArea == 1)
 				{
