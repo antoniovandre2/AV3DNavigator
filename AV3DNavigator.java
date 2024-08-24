@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 22-08-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 24-08-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -242,7 +242,8 @@ public class AV3DNavigator extends JComponent
 	public double Rot = 0;
 	public double Rotacao = Math.PI;
 	public double Phi0Rotacao;
-	public int SleepTime0Rotacao = SleepTime;
+	public int SleepTime0 = SleepTime;
+	public double ContadorFloatSleep = 0;
 	public double P;
 	public double RotacaoTeta = Math.PI + Teta;
 	public double RotacaoPhi = Math.PI + Phi;
@@ -488,10 +489,8 @@ public class AV3DNavigator extends JComponent
 					}
 
 				Graphics2D g2d = (Graphics2D) g;
-				Paint oldPaint = g2d.getPaint();
 				g2d.setPaint(paint);
 				g2d.fillRect(0, 0, width, height);
-				g2d.setPaint(oldPaint);
 				super.paint(g);
 				}
 			}
@@ -912,7 +911,7 @@ public class AV3DNavigator extends JComponent
 									if (AntonioVandre.NumeroNaturalPositivo(INIelements[1].replaceAll(" ", "")))
 										{
 										SleepTime = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
-										SleepTime0Rotacao = SleepTime;
+										SleepTime0 = SleepTime;
 										FlagINI = 1;
 										}
 
@@ -1375,7 +1374,7 @@ public class AV3DNavigator extends JComponent
 						Parametro9 = 0;
 						Parametro9Step = 1;
 						SleepTime = 7;
-						SleepTime0Rotacao = SleepTime;
+						SleepTime0 = SleepTime;
 						FlagTime = 0;
 						}
 
@@ -1614,10 +1613,10 @@ public class AV3DNavigator extends JComponent
 					if (keyCode == KeyEvent.VK_NUMPAD1)
 						{if (ResolucaoTriangulos > 2) ResolucaoTriangulos--;}
 
-					if (keyCode == KeyEvent.VK_PAGE_UP) {SleepTime++; SleepTime0Rotacao = SleepTime;}
+					if (keyCode == KeyEvent.VK_PAGE_UP) {SleepTime++; SleepTime0 = SleepTime;}
 
 					if (keyCode == KeyEvent.VK_PAGE_DOWN)
-						{if (SleepTime > 1) SleepTime--; SleepTime0Rotacao = SleepTime;}
+						{if (SleepTime > 1) SleepTime--; SleepTime0 = SleepTime;}
 
 					if (keyCode == KeyEvent.VK_A)
 						{FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; FlagCoordRotRot = 0; if (! (Math.abs(x + DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {x += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
@@ -1649,7 +1648,7 @@ public class AV3DNavigator extends JComponent
 
 							if (Math.abs(Math.cos(Phi)) < MinCosPhiToAdd) Phi -= Math.signum(Math.cos(Phi)) * MinCosPhiAdd;
 
-							SleepTime = (int) (SleepTime0Rotacao * Math.abs(Math.cos(Phi)));
+							SleepTime = (int) (SleepTime0 * Math.abs(Math.cos(Phi)));
 
 							if (Math.abs(Teta) < TetaMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Teta + DeslocamentoAngular * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Phi - DeslocamentoAngular * Math.cos(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Rot + DeslocamentoAngular * Math.sin(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta += DeslocamentoAngular * Math.cos(Rot); Phi -= DeslocamentoAngular * Math.cos(Phi) * Math.sin(Rot); Rot += DeslocamentoAngular * Math.sin(P) * Math.cos(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
 							}
@@ -1671,7 +1670,7 @@ public class AV3DNavigator extends JComponent
 
 							if (Math.abs(Math.cos(Phi)) < MinCosPhiToAdd) Phi -= Math.signum(Math.cos(Phi)) * MinCosPhiAdd;
 
-							SleepTime = (int) (SleepTime0Rotacao * Math.abs(Math.cos(Phi)));
+							SleepTime = (int) (SleepTime0 * Math.abs(Math.cos(Phi)));
 
 							if (Math.abs(Teta) < TetaMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Teta - DeslocamentoAngular * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Phi + DeslocamentoAngular * Math.cos(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Rot - DeslocamentoAngular * Math.sin(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta -= DeslocamentoAngular * Math.cos(Rot); Phi += DeslocamentoAngular * Math.cos(Phi) * Math.sin(Rot); Rot -= DeslocamentoAngular * Math.sin(P) * Math.cos(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
 							}
@@ -1693,7 +1692,7 @@ public class AV3DNavigator extends JComponent
 
 							if (Math.abs(Math.cos(Phi)) < MinCosPhiToAdd) Phi -= Math.signum(Math.cos(Phi)) * MinCosPhiAdd;
 
-							SleepTime = (int) (SleepTime0Rotacao * Math.abs(Math.cos(Phi)));
+							SleepTime = (int) (SleepTime0 * Math.abs(Math.cos(Phi)));
 
 							if (Math.abs(Phi) < PhiMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Phi - DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Teta - DeslocamentoAngular * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Rot - DeslocamentoAngular * Math.sin(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta -= DeslocamentoAngular * Math.sin(Rot); Phi -= DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot); Rot -= DeslocamentoAngular * Math.sin(P) * Math.sin(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Phi -= Math.sin(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}
 							}
@@ -1715,7 +1714,7 @@ public class AV3DNavigator extends JComponent
 
 							if (Math.abs(Math.cos(Phi)) < MinCosPhiToAdd) Phi -= Math.signum(Math.cos(Phi)) * MinCosPhiAdd;
 
-							SleepTime = (int) (SleepTime0Rotacao * Math.abs(Math.cos(Phi)));
+							SleepTime = (int) (SleepTime0 * Math.abs(Math.cos(Phi)));
 
 							if (Math.abs(Phi) < PhiMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Phi + DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Teta + DeslocamentoAngular * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Rot + DeslocamentoAngular * Math.sin(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta += DeslocamentoAngular * Math.sin(Rot); Phi += DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot); Rot += DeslocamentoAngular * Math.sin(P) * Math.sin(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}
 							}
@@ -2722,7 +2721,7 @@ public class AV3DNavigator extends JComponent
 
 			if (FlagCoordRotRot == 0)
 				{
-				SleepTime = SleepTime0Rotacao;
+				SleepTime = SleepTime0;
 				FlagCoordRotRot = 1;
 				}
 
@@ -2814,7 +2813,7 @@ public class AV3DNavigator extends JComponent
 
 			if (FlagINI == 1) {FlagAlteracaoStatus = 1; FlagINI = 0;}
 
-			if (FlagMostrarLabel == 1) if (LabelAnimado == 1) {LabelStatus.setVisible(false); LabelStatus.setVisible(true); if (FlagHelp == 1) {LabelHelp.setVisible(false); LabelHelp.setVisible(true);}}
+			if (FlagMostrarLabel == 1) if ((LabelAnimado == 1) && (ContadorFloatSleep >= SleepTime0)) {LabelStatus.setVisible(false); LabelStatus.setVisible(true); if (FlagHelp == 1) {LabelHelp.setVisible(false); LabelHelp.setVisible(true);}; ContadorFloatSleep = 0;}
 
 			if (FlagTime == 1)
 				{
@@ -2831,6 +2830,8 @@ public class AV3DNavigator extends JComponent
 					}
 				else ContadorTime++;
 				}
+
+			ContadorFloatSleep += SleepTime;
 
 			try {Thread.sleep(SleepTime);} catch(InterruptedException e) {}
 			}
@@ -3867,7 +3868,7 @@ public class AV3DNavigator extends JComponent
 		Parametro9 = 0;
 		Parametro9Step = 1;
 		SleepTime = 7;
-		SleepTime0Rotacao = SleepTime;
+		SleepTime0 = SleepTime;
 		FlagTime = 0;
 		}
 	}
