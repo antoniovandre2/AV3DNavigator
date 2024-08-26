@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 24-08-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 26-08-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -1287,15 +1287,15 @@ public class AV3DNavigator extends JComponent
 		FrameEspaco.addMouseWheelListener(e -> {
 			if ((MouseX > 0) && (MouseX <= TamanhoPlanoX) && (MouseY > FrameEspaco.getInsets().top) && (MouseY <= TamanhoPlanoY + FrameEspaco.getInsets().top))
 				{
-				if ((Math.abs(x - FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phit) * Math.cos(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phit) * Math.sin(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.sin(Phit)) >= AntonioVandre.MaximoValorReal))
+				if ((Math.abs(x - FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.cos(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.sin(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.sin(Phi)) >= AntonioVandre.MaximoValorReal))
 					VariavelLimiteAtingido();
 				else
 					{
-					x -= FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phit) * Math.cos(Teta);
+					x -= FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.cos(Teta);
 
-					y += FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phit) * Math.sin(Teta);
+					y += FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.sin(Teta);
 
-					z += FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.sin(Phit);
+					z += FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.sin(Phi);
 
 					xt = x; yt = y; zt = z;
 
@@ -1978,13 +1978,27 @@ public class AV3DNavigator extends JComponent
 						{
 						FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; FlagCoordRotRot = 0;
 
-						if ((Math.abs(x + Math.cos(Phit) * Math.cos(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y - Math.cos(Phit) * Math.sin(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z - Math.sin(Phit)) >= AntonioVandre.MaximoValorReal))
-							VariavelLimiteAtingido();
+						if (ke.isShiftDown())
+							{
+							if ((Math.abs(x + Math.sin(-Teta + Phi + Rot) * Math.cos(Phi - Rot + Math.PI / 2)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y - Math.cos(-Teta + Phi + Rot) * Math.cos(Phi - Rot + Math.PI / 2)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z - Math.sin(Phi - Rot + Math.PI / 2)) >= AntonioVandre.MaximoValorReal))
+								VariavelLimiteAtingido();
+							else
+								{
+								x += Math.sin(-Teta + Phi + Rot) * Math.cos(Phi - Rot + Math.PI / 2);
+								y -= Math.cos(-Teta + Phi + Rot) * Math.cos(Phi - Rot + Math.PI / 2);
+								z -= Math.sin(Phi - Rot + Math.PI / 2);
+								}
+							}
 						else
 							{
-							x += Math.cos(Phit) * Math.cos(Teta);
-							y -= Math.cos(Phit) * Math.sin(Teta);
-							z -= Math.sin(Phit);
+							if ((Math.abs(x + Math.cos(Phi) * Math.cos(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y - Math.cos(Phi) * Math.sin(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z - Math.sin(Phit)) >= AntonioVandre.MaximoValorReal))
+								VariavelLimiteAtingido();
+							else
+								{
+								x += Math.cos(Phi) * Math.cos(Teta);
+								y -= Math.cos(Phi) * Math.sin(Teta);
+								z -= Math.sin(Phi);
+								}
 							}
 
 						ContadorFrames = 0;
@@ -1994,13 +2008,27 @@ public class AV3DNavigator extends JComponent
 						{
 						FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; FlagCoordRotRot = 0;
 
-						if ((Math.abs(x - Math.cos(Phit) * Math.cos(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + Math.cos(Phit) * Math.sin(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + Math.sin(Phit)) >= AntonioVandre.MaximoValorReal))
-							VariavelLimiteAtingido();
+						if (ke.isShiftDown())
+							{
+							if ((Math.abs(x - Math.sin(-Teta + Phi + Rot) * Math.cos(Phi - Rot + Math.PI / 2)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + Math.cos(-Teta + Phi + Rot) * Math.cos(Phi - Rot + Math.PI / 2)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + Math.sin(Phi - Rot + Math.PI / 2)) >= AntonioVandre.MaximoValorReal))
+								VariavelLimiteAtingido();
+							else
+								{
+								x -= Math.sin(-Teta + Phi + Rot) * Math.cos(Phi - Rot + Math.PI / 2);
+								y += Math.cos(-Teta + Phi + Rot) * Math.cos(Phi - Rot + Math.PI / 2);
+								z += Math.sin(Phi - Rot + Math.PI / 2);
+								}
+							}
 						else
 							{
-							x -= Math.cos(Phit) * Math.cos(Teta);
-							y += Math.cos(Phit) * Math.sin(Teta);
-							z += Math.sin(Phit);
+							if ((Math.abs(x - Math.cos(Phi) * Math.cos(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + Math.cos(Phi) * Math.sin(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + Math.sin(Phit)) >= AntonioVandre.MaximoValorReal))
+								VariavelLimiteAtingido();
+							else
+								{
+								x -= Math.cos(Phi) * Math.cos(Teta);
+								y += Math.cos(Phi) * Math.sin(Teta);
+								z += Math.sin(Phi);
+								}
 							}
 
 						ContadorFrames = 0;
@@ -2012,13 +2040,13 @@ public class AV3DNavigator extends JComponent
 
 						if (ke.isShiftDown())
 							{
-							if ((Math.abs(x - Math.cos(Teta - Math.PI / 2) * Math.cos(Rot) * Math.sin(Phi)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + Math.sin(Teta - Math.PI / 2) * Math.cos(Rot) * Math.cos(Phi)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + Math.sin(Rot) * Math.cos(Phi)) >= AntonioVandre.MaximoValorReal))
+							if ((Math.abs(x - Math.cos(Teta - Rot - Math.PI / 2) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + Math.sin(Teta - Rot - Math.PI / 2) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))
 								VariavelLimiteAtingido();
 							else
 								{
-								x -= Math.cos(Teta - Math.PI / 2) * Math.cos(Rot) * Math.sin(Phi);
-								y += Math.sin(Teta - Math.PI / 2) * Math.cos(Rot) * Math.cos(Phi);
-								z += Math.sin(Rot) * Math.cos(Phi);
+								x -= Math.cos(Teta - Rot - Math.PI / 2) * Math.cos(Rot);
+								y += Math.sin(Teta - Rot - Math.PI / 2) * Math.cos(Rot);
+								z += Math.sin(Rot);
 								}
 							}
 						else
@@ -2041,13 +2069,13 @@ public class AV3DNavigator extends JComponent
 
 						if (ke.isShiftDown())
 							{
-							if ((Math.abs(x + Math.cos(Teta - Math.PI / 2) * Math.cos(Rot) * Math.sin(Phi)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y - Math.sin(Teta - Math.PI / 2) * Math.cos(Rot) * Math.cos(Phi)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z - Math.sin(Rot) * Math.cos(Phi) * Math.cos(Phi)) >= AntonioVandre.MaximoValorReal))
+							if ((Math.abs(x + Math.cos(Teta - Rot - Math.PI / 2) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y - Math.sin(Teta - Rot - Math.PI / 2) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z - Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))
 								VariavelLimiteAtingido();
 							else
 								{
-								x += Math.cos(Teta - Math.PI / 2) * Math.cos(Rot) * Math.sin(Phi);
-								y -= Math.sin(Teta - Math.PI / 2) * Math.cos(Rot) * Math.cos(Phi);
-								z -= Math.sin(Rot) * Math.cos(Phi);
+								x += Math.cos(Teta - Rot - Math.PI / 2) * Math.cos(Rot);
+								y -= Math.sin(Teta - Rot - Math.PI / 2) * Math.cos(Rot);
+								z -= Math.sin(Rot);
 								}
 							}
 						else
