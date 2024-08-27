@@ -35,6 +35,15 @@ ____________________
 ![AV3D-n logo](https://antoniovandre2.github.io/AV3DNavigator/Powered%20by%20AV3D-n%20engine%20-%20200p.png) ![apfloat logo](https://antoniovandre2.github.io/AV3DNavigator/Powered%20by%20apfloat%20-%20200p.png) ![mXparser logo](https://antoniovandre2.github.io/AV3DNavigator/Powered%20by%20mXparser%20-%20200p.png)
 ____________________
 
+<!-- Begin SF Tag -->
+<div class="sf-root" data-id="3603899" data-badge="oss-users-love-us-white" style="width:125px">
+    <a href="https://sourceforge.net/projects/av3dnavigator/" target="_blank">AV3DNavigator</a>
+</div>
+<script>(function () {var sc=document.createElement('script');sc.async=true;sc.src='https://b.sf-syn.com/badge_js?sf_id=3603899';var p=document.getElementsByTagName('script')[0];p.parentNode.insertBefore(sc, p);})();
+</script>
+<!-- End SF Tag -->
+____________________
+
 Ferramentas de terceiros utilizadas:
 
 Apfloat: "http://www.apfloat.org/apfloat_java/".
