@@ -158,9 +158,7 @@ public class AV3DNavigator extends JComponent
 	public int PrintG;
 	public int PrintB;
 	public long CiclesTimeIgn = 100; // Default: 100.
-	public double MinCosPhiToAdd = 0.01; // Default: 0.01.
-	public double MinCosPhiAdd = 0.01; // Default: 0.01.
-	public double ContadorFloatSleepTimeMinAdd = 0.05; // Default: 0.05.
+	public double DivisorCosPhiAdd = 20; // Quanto mais veloz a máquina, recomenda-se aumentar o valor para maior precisão em rotações. Default valor inicial: 20.
 
 	// Variáveis de funcionamento interno.
 
@@ -315,6 +313,10 @@ public class AV3DNavigator extends JComponent
 	public int fxGLH;
 	public int fyGLH;
 	public int FlagHelp = 0;
+	public double MinCosPhiToAdd;
+	public double MinCosPhiAdd;
+	public double ContadorFloatSleepTimeMinAdd = 0.05;
+	public long Tempo;
 
 	// Threads.
 
@@ -1209,6 +1211,15 @@ public class AV3DNavigator extends JComponent
 									if (AntonioVandre.NumeroNaturalPositivo(INIelements[1].replaceAll(" ", "")))
 										{
 										PrecisaoApfloat = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+										FlagINI = 1;
+										}
+
+									break;
+
+								case "DivisorCosPhiAdd":
+									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+										{
+										DivisorCosPhiAdd = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
 										FlagINI = 1;
 										}
 
@@ -2569,6 +2580,8 @@ public class AV3DNavigator extends JComponent
 
 		while(Sair == 0)
 			{
+			Tempo = System.currentTimeMillis();
+
 			int FlagRedimensionarOver = 0;
 
 			int widthFrameEspaco = FrameEspaco.getWidth();
@@ -2861,6 +2874,14 @@ public class AV3DNavigator extends JComponent
 				}
 
 			ContadorFloatSleep += Math.max(SleepTime, ContadorFloatSleepTimeMinAdd);
+
+			Tempo = System.currentTimeMillis() - Tempo;
+
+				MinCosPhiToAdd = DeslocamentoAngular / DivisorCosPhiAdd * (Tempo + 1);
+
+				MinCosPhiAdd = DeslocamentoAngular / DivisorCosPhiAdd * (Tempo + 1);
+
+				ContadorFloatSleepTimeMinAdd = 0.05 * (Tempo + 1);
 
 			try {Thread.sleep(SleepTime);} catch(InterruptedException e) {}
 			}
