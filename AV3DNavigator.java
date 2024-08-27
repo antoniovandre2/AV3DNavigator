@@ -158,7 +158,7 @@ public class AV3DNavigator extends JComponent
 	public int PrintG;
 	public int PrintB;
 	public long CiclesTimeIgn = 100; // Default: 100.
-	public double DivisorCosPhiAdd = 20; // Quanto mais veloz a máquina, recomenda-se aumentar o valor para maior precisão em rotações. Default valor inicial: 20.
+	public double DivisorCosPhiAdd = 20; // Quanto mais veloz a máquina, recomenda-se aumentar o valor para maior precisão em algumas rotações quando o cosseno de φ troca de sinal. Default valor inicial: 20.
 
 	// Variáveis de funcionamento interno.
 
