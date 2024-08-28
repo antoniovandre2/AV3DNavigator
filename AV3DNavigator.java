@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 27-08-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 28-08-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -1662,7 +1662,7 @@ public class AV3DNavigator extends JComponent
 
 							SleepTime = (int) (SleepTime0 * Math.abs(Math.cos(Phi)));
 
-							if (Math.abs(Teta) < TetaMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Teta + DeslocamentoAngular * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Phi - DeslocamentoAngular * Math.cos(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Rot + DeslocamentoAngular * Math.sin(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta += DeslocamentoAngular * Math.cos(Rot); Phi -= DeslocamentoAngular * Math.cos(Phi) * Math.sin(Rot); Rot += DeslocamentoAngular * Math.sin(P) * Math.cos(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
+							if (Math.abs(Teta) < TetaMax - Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(Rot)) {if (Math.abs(Phi) < PhiMax - Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot)) {if ((! (Math.abs(Teta + Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Phi - Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Rot + Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta += Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Rot); Phi -= Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Phi) * Math.sin(Rot); Rot += Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(P) * Math.cos(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
 							}
 						else
 							{
@@ -1684,7 +1684,7 @@ public class AV3DNavigator extends JComponent
 
 							SleepTime = (int) (SleepTime0 * Math.abs(Math.cos(Phi)));
 
-							if (Math.abs(Teta) < TetaMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Teta - DeslocamentoAngular * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Phi + DeslocamentoAngular * Math.cos(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Rot - DeslocamentoAngular * Math.sin(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta -= DeslocamentoAngular * Math.cos(Rot); Phi += DeslocamentoAngular * Math.cos(Phi) * Math.sin(Rot); Rot -= DeslocamentoAngular * Math.sin(P) * Math.cos(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
+							if (Math.abs(Teta) < TetaMax - Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(Rot)) {if (Math.abs(Phi) < PhiMax - Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot)) {if ((! (Math.abs(Teta - Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Phi + Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Rot - Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta -= Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Rot); Phi += Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Phi) * Math.sin(Rot); Rot -= Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(P) * Math.cos(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
 							}
 						else
 							{
@@ -1706,13 +1706,13 @@ public class AV3DNavigator extends JComponent
 
 							P = Phi;
 
-							if (Math.abs(Phi) < PhiMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Phi - DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Teta - DeslocamentoAngular * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Rot - DeslocamentoAngular * Math.sin(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta -= DeslocamentoAngular * Math.sin(Rot); Phi -= DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot); Rot -= DeslocamentoAngular * Math.sin(P) * Math.sin(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Phi -= Math.sin(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}
+							if (Math.abs(Teta) < TetaMax - Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(Rot)) {if (Math.abs(Phi) < PhiMax - Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot)) {if ((! (Math.abs(Teta - Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Phi - Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Rot - Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta -= Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(Rot); Phi -= Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot); Rot -= Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(P) * Math.sin(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
 							}
 						else
 							{
 							FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; FlagCoordRotRot = 0;
 
-							if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {if (! (Math.abs(Phi - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) {Phi -= DeslocamentoAngular; ContadorFrames = 0;}  else VariavelLimiteAtingido();} else {Phi -= Math.sin(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}
+							if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {if (! (Math.abs(Phi - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) {Phi -= DeslocamentoAngular; ContadorFrames = 0;} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
 							}
 						}
 
@@ -1728,7 +1728,7 @@ public class AV3DNavigator extends JComponent
 
 							P = Phi;
 
-							if (Math.abs(Phi) < PhiMax - DeslocamentoAngular * Math.cos(Rot)) {if ((! (Math.abs(Phi + DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Teta + DeslocamentoAngular * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Rot + DeslocamentoAngular * Math.sin(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta += DeslocamentoAngular * Math.sin(Rot); Phi += DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot); Rot += DeslocamentoAngular * Math.sin(P) * Math.sin(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}
+							if (Math.abs(Teta) < TetaMax - Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(Rot)) {if (Math.abs(Phi) < PhiMax - Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot)) {if ((! (Math.abs(Teta + Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Phi + Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal)) && (! (Math.abs(Rot + Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))) {Teta += Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(Rot); Phi += Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.cos(Phi) * Math.cos(Rot); Rot += Math.signum(Math.cos(Phi)) * DeslocamentoAngular * Math.sin(P) * Math.sin(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
 							}
 						else
 							{
@@ -1991,13 +1991,13 @@ public class AV3DNavigator extends JComponent
 
 						if (ke.isShiftDown())
 							{
-							if ((Math.abs(x + Math.sin(-Teta + Phi + Rot * Math.abs(Math.sin(Phi))) * Math.cos(Phi - Rot + Math.PI / 2)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y - Math.cos(-Teta + Phi + Rot * Math.abs(Math.sin(Phi))) * Math.cos(Phi * Math.abs(Math.sin(Teta))- Rot + Math.PI / 2)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z - Math.sin(Phi - Rot + Math.PI / 2)) >= AntonioVandre.MaximoValorReal))
+							if ((Math.abs(x + Math.sin(-Teta) * Math.cos(Teta - Phi - Rot * Math.cos(Phi) + Math.PI / 2 * Math.cos(Teta)) - Math.sin(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y - Math.cos(-Teta - Phi) * Math.cos(Teta - Phi * Math.sin(Teta) - Rot * Math.cos(Phi) + Math.PI / 2 * Math.cos(Teta)) + Math.sin(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z - Math.sin(Teta - Phi - Rot * Math.cos(Phi) + Math.PI / 2 * Math.cos(Teta)) + Math.cos(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal))
 								VariavelLimiteAtingido();
 							else
 								{
-								x += Math.sin(-Teta + Phi + Rot * Math.abs(Math.sin(Phi))) * Math.cos(Phi - Rot + Math.PI / 2);
-								y -= Math.cos(-Teta + Phi + Rot * Math.abs(Math.sin(Phi))) * Math.cos(Phi * Math.abs(Math.sin(Teta)) - Rot + Math.PI / 2);
-								z -= Math.sin(Phi - Rot + Math.PI / 2);
+								x += Math.sin(-Teta) * Math.cos(Teta - Phi - Rot * Math.cos(Phi) + Math.PI / 2 * Math.cos(Teta)) - Math.sin(Phi) * Math.cos(Rot);
+								y -= Math.cos(-Teta - Phi) * Math.cos(Teta - Phi * Math.sin(Teta) - Rot * Math.cos(Phi) + Math.PI / 2 * Math.cos(Teta)) + Math.sin(Phi) * Math.sin(Rot);
+								z -= Math.sin(Teta - Phi - Rot * Math.cos(Phi) + Math.PI / 2 * Math.cos(Teta)) + Math.cos(Phi) * Math.cos(Rot);
 								}
 							}
 						else
@@ -2021,13 +2021,13 @@ public class AV3DNavigator extends JComponent
 
 						if (ke.isShiftDown())
 							{
-							if ((Math.abs(x - Math.sin(-Teta + Phi + Rot * Math.abs(Math.sin(Phi))) * Math.cos(Phi - Rot + Math.PI / 2)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + Math.cos(-Teta + Phi + Rot * Math.abs(Math.sin(Phi))) * Math.cos(Phi * Math.abs(Math.sin(Teta))- Rot + Math.PI / 2)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + Math.sin(Phi - Rot + Math.PI / 2)) >= AntonioVandre.MaximoValorReal))
+							if ((Math.abs(x - Math.sin(-Teta) * Math.cos(Teta - Phi - Rot * Math.cos(Phi) + Math.PI / 2 * Math.cos(Teta)) - Math.sin(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + Math.cos(-Teta - Phi) * Math.cos(Teta - Phi * Math.sin(Teta) - Rot * Math.cos(Phi) + Math.PI / 2 * Math.cos(Teta)) + Math.sin(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + Math.sin(Teta - Phi - Rot * Math.cos(Phi) + Math.PI / 2 * Math.cos(Teta)) + Math.cos(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal))
 								VariavelLimiteAtingido();
 							else
 								{
-								x -= Math.sin(-Teta + Phi + Rot * Math.abs(Math.sin(Phi))) * Math.cos(Phi - Rot + Math.PI / 2);
-								y += Math.cos(-Teta + Phi + Rot * Math.abs(Math.sin(Phi))) * Math.cos(Phi * Math.abs(Math.sin(Teta))- Rot + Math.PI / 2);
-								z += Math.sin(Phi - Rot + Math.PI / 2);
+								x -= Math.sin(-Teta) * Math.cos(Teta - Phi - Rot * Math.cos(Phi) + Math.PI / 2 * Math.cos(Teta)) - Math.sin(Phi) * Math.cos(Rot);
+								y += Math.cos(-Teta - Phi) * Math.cos(Teta - Phi * Math.sin(Teta) - Rot * Math.cos(Phi) + Math.PI / 2 * Math.cos(Teta)) + Math.sin(Phi) * Math.sin(Rot);
+								z += Math.sin(Teta - Phi - Rot * Math.cos(Phi) + Math.PI / 2 * Math.cos(Teta)) + Math.cos(Phi) * Math.cos(Rot);
 								}
 							}
 						else
@@ -2051,13 +2051,13 @@ public class AV3DNavigator extends JComponent
 
 						if (ke.isShiftDown())
 							{
-							if ((Math.abs(x - Math.cos(Teta - Rot * Math.abs(Math.sin(Phi)) - Math.PI / 2) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + Math.sin(Teta - Rot * Math.abs(Math.sin(Phi)) - Math.PI / 2) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))
+							if ((Math.abs(x - Math.cos(Teta - Rot * Math.sin(Phi) - Math.PI / 2) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + Math.sin(Teta - Rot * Math.sin(Phi) - Math.PI / 2) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + Math.sin(-Phi * Math.sin(Teta) + Rot)) >= AntonioVandre.MaximoValorReal))
 								VariavelLimiteAtingido();
 							else
 								{
-								x -= Math.cos(Teta - Rot * Math.abs(Math.sin(Phi)) - Math.PI / 2) * Math.cos(Rot);
-								y += Math.sin(Teta - Rot * Math.abs(Math.sin(Phi)) - Math.PI / 2) * Math.cos(Rot);
-								z += Math.sin(Rot);
+								x -= Math.cos(Teta - Rot * Math.sin(Phi) - Math.PI / 2) * Math.cos(Rot);
+								y += Math.sin(Teta - Rot * Math.sin(Phi) - Math.PI / 2) * Math.cos(Rot);
+								z += Math.sin(-Phi * Math.sin(Teta) + Rot);
 								}
 							}
 						else
@@ -2080,13 +2080,13 @@ public class AV3DNavigator extends JComponent
 
 						if (ke.isShiftDown())
 							{
-							if ((Math.abs(x + Math.cos(Teta - Rot * Math.abs(Math.sin(Phi)) - Math.PI / 2) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y - Math.sin(Teta - Rot * Math.abs(Math.sin(Phi)) - Math.PI / 2) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z - Math.sin(Rot)) >= AntonioVandre.MaximoValorReal))
+							if ((Math.abs(x + Math.cos(Teta - Rot * Math.sin(Phi) - Math.PI / 2) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y - Math.sin(Teta - Rot * Math.sin(Phi) - Math.PI / 2) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z - Math.sin(-Phi * Math.sin(Teta) + Rot)) >= AntonioVandre.MaximoValorReal))
 								VariavelLimiteAtingido();
 							else
 								{
-								x += Math.cos(Teta - Rot * Math.abs(Math.sin(Phi)) - Math.PI / 2) * Math.cos(Rot);
-								y -= Math.sin(Teta - Rot * Math.abs(Math.sin(Phi)) - Math.PI / 2) * Math.cos(Rot);
-								z -= Math.sin(Rot);
+								x += Math.cos(Teta - Rot * Math.sin(Phi) - Math.PI / 2) * Math.cos(Rot);
+								y -= Math.sin(Teta - Rot * Math.sin(Phi) - Math.PI / 2) * Math.cos(Rot);
+								z -= Math.sin(-Phi * Math.sin(Teta) + Rot);
 								}
 							}
 						else
