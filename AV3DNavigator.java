@@ -1991,12 +1991,12 @@ public class AV3DNavigator extends JComponent
 
 						if (ke.isShiftDown())
 							{
-							if ((Math.abs(x + Math.sin(-Teta - Phi) * Math.cos(-Phi - Rot + Math.PI / 2) - Math.sin(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y - Math.cos(-Teta - Phi) * Math.cos(-Phi - Rot + Math.PI / 2) + Math.sin(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z - Math.sin(-Phi - Rot + Math.PI / 2) + Math.cos(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal))
+							if ((Math.abs(x + Math.sin(-Teta) * Math.cos(-Rot + Math.PI / 2) - Math.sin(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y - Math.cos(-Teta) * Math.cos(-Rot + Math.PI / 2) + Math.sin(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z - Math.sin(-Phi - Rot + Math.PI / 2) + Math.cos(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal))
 								VariavelLimiteAtingido();
 							else
 								{
-								x += Math.sin(-Teta - Phi) * Math.cos(-Phi - Rot + Math.PI / 2) - Math.sin(Phi) * Math.cos(Rot);
-								y -= Math.cos(-Teta - Phi) * Math.cos(-Phi - Rot + Math.PI / 2) + Math.sin(Phi) * Math.sin(Rot);
+								x += Math.sin(-Teta) * Math.cos(-Rot + Math.PI / 2) - Math.sin(Phi) * Math.cos(Rot);
+								y -= Math.cos(-Teta) * Math.cos(-Rot + Math.PI / 2) + Math.sin(Phi) * Math.sin(Rot);
 								z -= Math.sin(-Phi - Rot + Math.PI / 2) + Math.cos(Phi) * Math.cos(Rot);
 								}
 							}
@@ -2021,12 +2021,12 @@ public class AV3DNavigator extends JComponent
 
 						if (ke.isShiftDown())
 							{
-							if ((Math.abs(x - Math.sin(-Teta - Phi) * Math.cos(-Phi - Rot + Math.PI / 2) - Math.sin(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + Math.cos(-Teta - Phi) * Math.cos(-Phi - Rot + Math.PI / 2) + Math.sin(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + Math.sin(-Phi - Rot + Math.PI / 2) + Math.cos(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal))
+							if ((Math.abs(x - Math.sin(-Teta) * Math.cos(-Rot + Math.PI / 2) - Math.sin(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + Math.cos(-Teta) * Math.cos(-Rot + Math.PI / 2) + Math.sin(Phi) * Math.sin(Rot)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + Math.sin(-Phi - Rot + Math.PI / 2) + Math.cos(Phi) * Math.cos(Rot)) >= AntonioVandre.MaximoValorReal))
 								VariavelLimiteAtingido();
 							else
 								{
-								x -= Math.sin(-Teta - Phi) * Math.cos(-Phi - Rot + Math.PI / 2) - Math.sin(Phi) * Math.cos(Rot);
-								y += Math.cos(-Teta - Phi) * Math.cos(-Phi - Rot + Math.PI / 2) + Math.sin(Phi) * Math.sin(Rot);
+								x -= Math.sin(-Teta) * Math.cos(-Rot + Math.PI / 2) - Math.sin(Phi) * Math.cos(Rot);
+								y += Math.cos(-Teta) * Math.cos(-Rot + Math.PI / 2) + Math.sin(Phi) * Math.sin(Rot);
 								z += Math.sin(-Phi - Rot + Math.PI / 2) + Math.cos(Phi) * Math.cos(Rot);
 								}
 							}
