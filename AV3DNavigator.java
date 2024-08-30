@@ -2452,17 +2452,16 @@ public class AV3DNavigator extends JComponent
 										{CameraId = i - 1; break;}
 									else if ((! (Linha.equals(""))) && (Linha.replaceAll(" ", "").charAt(0) != '#'))
 										{
-										if (CameraId == i++)
-											{
-											String LinhaArr [] = Linha.split(",");
+										String LinhaArr [] = Linha.split(",");
 
-											if (LinhaArr.length == 6) if ((AntonioVandre.NumeroReal(LinhaArr[0].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[1].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[2].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[3].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[4].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[5].replaceAll(" ", ""))))
+										if (LinhaArr.length == 6) if ((AntonioVandre.NumeroReal(LinhaArr[0].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[1].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[2].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[3].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[4].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[5].replaceAll(" ", ""))))
+											if (CameraId == i++)
 												{
 												x = Double.parseDouble(LinhaArr[0].replaceAll(" ", ""));
 
-												y = Double.parseDouble(LinhaArr[1].replaceAll(" ", ""));
+												y = -Double.parseDouble(LinhaArr[1].replaceAll(" ", ""));
 
-												z = Double.parseDouble(LinhaArr[2].replaceAll(" ", ""));
+												z = -Double.parseDouble(LinhaArr[2].replaceAll(" ", ""));
 
 												Teta = Double.parseDouble(LinhaArr[3].replaceAll(" ", ""));
 
@@ -2471,10 +2470,9 @@ public class AV3DNavigator extends JComponent
 												Rot = Double.parseDouble(LinhaArr[5].replaceAll(" ", ""));
 
 												xt = x; yt = y; zt = z; Tetat = Teta; Phit = Phi; Rott = Rot; ContadorFrames = FramesDeslocamento;
-												}
 
-											break;
-											}
+												break;
+												}
 										}
 									} while (true);
 								} catch (IOException e) {}
