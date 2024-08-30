@@ -1291,7 +1291,7 @@ public class AV3DNavigator extends JComponent
 			public void mouseClicked(MouseEvent MouseEvento) {}
 			public void mouseEntered(MouseEvent MouseEvento) {}
 			public void mouseExited(MouseEvent MouseEvento) {}
-			public void mouseReleased(MouseEvent MouseEvento) {ContadorFrames = FramesDeslocamento; MouseDown = 0; FlagMouseDownArea = 0; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; FlagCoordRotRot = 0; CameraId = -1;}
+			public void mouseReleased(MouseEvent MouseEvento) {ContadorFrames = FramesDeslocamento; MouseDown = 0; FlagMouseDownArea = 0; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; FlagCoordRotRot = 0;}
 			public void mouseDragged(MouseEvent MouseEvento) {}
 			public void mouseMoved(MouseEvent MouseEvento) {}
 			});
@@ -2440,6 +2440,7 @@ public class AV3DNavigator extends JComponent
 							try
 								{
 								BufferedReader br = new BufferedReader(new FileReader(file));
+
 								String Linha;
 
 								i = 0;
@@ -2449,7 +2450,14 @@ public class AV3DNavigator extends JComponent
 									Linha = br.readLine();
 
 									if (Linha == null)
-										{CameraId--; break;}
+										{
+										CameraId = i - 1;
+
+										if (CameraId > -1)
+											{br = new BufferedReader(new FileReader(file)); i = 0; continue;}
+										else
+											break;
+										}
 									else if ((! (Linha.equals(""))) && (Linha.replaceAll(" ", "").charAt(0) != '#'))
 										{
 										String LinhaArr [] = Linha.split(",");
