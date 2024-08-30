@@ -1,0 +1,6 @@
+# Arquivo de predefinição de câmeras. Em sequência, os valores para "x", "y", "z", "θ", "φ" e "Rot".
+
+# Ponha quantas linhas desejar. Este arquivo pode ser alterado com o AV3DNavigator em funcionamento.
+
+-20, 1, 1, 0, 0, 0
+-30, 5, 5, 0, 0, 0
