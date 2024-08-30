@@ -2458,7 +2458,7 @@ public class AV3DNavigator extends JComponent
 										else
 											break;
 										}
-									else if ((! (Linha.equals(""))) && (Linha.replaceAll(" ", "").charAt(0) != '#'))
+									else if ((! (Linha.replaceAll(" ", "").equals(""))) && (Linha.replaceAll(" ", "").charAt(0) != '#'))
 										{
 										String LinhaArr [] = Linha.split(",");
 
