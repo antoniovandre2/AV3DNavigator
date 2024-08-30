@@ -2,5 +2,6 @@
 
 # Ponha quantas linhas desejar. Este arquivo pode ser alterado com o AV3DNavigator em funcionamento.
 
--20, 1, 1, 0, 0, 0
--30, 5, 5, 0, 0, 0
+-129, 0, 34, 0, 0, 0
+-74.18, -76.37, -31, 0.8, 0.6, 0
+-54, 0, 0, 0, 0, 0.6
