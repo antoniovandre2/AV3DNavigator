@@ -6,7 +6,7 @@
 
 // Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
 
-// Última atualização: 02-08-2024. Não considerando alterações em variáveis globais.
+// Última atualização: 03-09-2024. Não considerando alterações em variáveis globais.
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -17,7 +17,7 @@
 
 #include "antoniovandre_constantes.c"
 
-#define VERSION 20240802
+#define VERSION 20240903
 #define MENSAGEMNAOCOMPILADOR "Software não compilado em razão do compilador não ser compatível."
 #define NUMEROZERO 0
 #define NUMEROUM 1
@@ -53,7 +53,7 @@
 #define TOKENFIMEVAL ')'
 #define TOKENINICIOIGN '['
 #define TOKENFIMIGN ']'
-#define EPSILON 0.0001 // Para funções de Cálculo Diferencial.
+#define EPSILON 0.0001 // Para funções de Cálculo Diferencial e obtenção de raízes de funções.
 #define VARIAVELDESUBSTITUICAO VARIAVELPADRAO // Deve ser uma letra não presente nos nomes das funções ou constantes.
 #define VARIAVELDESUBSTITUICAO2 'Y' // Deve ser uma letra não presente nos nomes das funções ou constantes.
 #define VARIAVELDESUBSTITUICAO3 'U' // Deve ser uma letra não presente nos nomes das funções ou constantes.
@@ -1213,6 +1213,7 @@ char * antoniovandre_evalcelulafuncao (char * str, int precisao)
 	int k;
 	int l;
 	int flag;
+	int flag2;
 	char tc;
 	char * err;
 	char * err2;
@@ -5221,9 +5222,10 @@ char * antoniovandre_evalcelulafuncao (char * str, int precisao)
 			TIPONUMEROREAL valorp;
 
 			flag = NUMEROZERO;
+			flag2 = NUMEROZERO;
 			contador = NUMEROZERO;
 
-			for (k = NUMEROZERO; k < (unsigned long long int) argumento4; k ++)
+			for (k = NUMEROZERO; k <= (unsigned long long int) argumento4; k ++)
 				{
 				ponto = argumento1 + k * (argumento2 - argumento1) / argumento4;
 
@@ -5235,7 +5237,13 @@ char * antoniovandre_evalcelulafuncao (char * str, int precisao)
 					if (argumentos0 [j] != ESPACOBRANCO)
 						{
 						if (argumentos0 [j] == VARIAVELPADRAO)
+							{
+							tc = TOKENINICIOEVAL;
+							strncat (argumentos, & tc, NUMEROUM);
 							antoniovandre_concatenarstring (argumentos, argumentoss);
+							tc = TOKENFIMEVAL;
+							strncat (argumentos, & tc, NUMEROUM);
+							}
 						else
 							strncat (argumentos, & argumentos0 [j], NUMEROUM);
 						}
@@ -5248,10 +5256,14 @@ char * antoniovandre_evalcelulafuncao (char * str, int precisao)
 
 				free (argumentor);
 
-				if (valor == NUMEROZERO)
-					contador++;
+				if ((fabsl (valor) <= EPSILON) && (flag2 == NUMEROZERO))
+					{contador++; flag2 = NUMEROUM;}
 				else
-					{if ((k > NUMEROZERO) && (valor * valorp < NUMEROZERO))contador++;}
+					{
+					if ((k > NUMEROZERO) && (valor * valorp < NUMEROZERO))contador++;
+
+					if (fabsl (valor) > EPSILON) flag2 = NUMEROZERO;
+					}
 
 				if ((contador > NUMEROZERO) && (contador == (long long int) argumento3 + NUMEROUM))
 					{
