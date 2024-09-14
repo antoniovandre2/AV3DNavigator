@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 31-08-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 14-09-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -109,7 +109,7 @@ public class AV3DNavigator extends JComponent
 	public static int TamanhoEspacoLabelStatus = 270; // Default: 270.
 	public static int TamanhoEspacoLabelURL = 65; // Default: 65.
 	public static int TamanhoEspacoHelpX = 780; // Default: 780.
-	public static int TamanhoEspacoHelpY = 820; // Default: 820.
+	public static int TamanhoEspacoHelpY = 840; // Default: 840.
 	public static int TamanhoEspacoInvalidoX = 300; // Default: 300.
 	public static int TamanhoEspacoInvalidoY = 80; // Default: 80.
 	public static int MinTamanhoPlanoX = 400; // Default: 400.
@@ -177,6 +177,7 @@ public class AV3DNavigator extends JComponent
 	public int CorrecaoXF = 15;
 	public int CorrecaoYF = 0;
 	public int MinTamanhoPlanoYMaisLabels = TamanhoPlanoY + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL;
+	public double RaioRot = 0;
 	public double RaioTeta = 0;
 	public double RaioPhi = 0;
 	double ProdutoEscalar;
@@ -193,6 +194,7 @@ public class AV3DNavigator extends JComponent
 	public int ShiftVerticalLegendas = 25; // Default: valor inicial: 25;
 	public int TamanhoFonteLegendas = 12; // Default: valor inicial: 12.
 	public int ResolucaoTriangulos = 10; // Default: valor inicial: 10. Considerável custo computacional para valores elevados.
+	public int FlagCoordRot = 0;
 	public int FlagCoordRotHor = 0;
 	public int FlagCoordRotVert = 0;
 	public int FlagTetaSuperior = 0;
@@ -236,6 +238,8 @@ public class AV3DNavigator extends JComponent
 	public double Teta = 0;
 	public double Phi = 0;
 	public double Rot = 0;
+	public double Rotacao = Math.PI;
+	public double Phi0Rotacao;
 	public double RotacaoTeta = Math.PI + Teta;
 	public double RotacaoPhi = Math.PI + Phi;
 	public double xRotacaoTeta = x + RaioTeta * Math.cos(Teta) * Math.cos(Phi);
@@ -243,6 +247,9 @@ public class AV3DNavigator extends JComponent
 	public double xRotacaoPhi = x + RaioPhi * Math.cos(Teta) * Math.cos(Phi);
 	public double yRotacaoPhi = y + RaioPhi * Math.sin(Teta) * Math.cos(Phi);
 	public double zRotacaoPhi = z + RaioPhi * Math.sin(Phi);
+	public double xRotacao = x + RaioRot * Math.cos(Teta) * Math.cos(Phi);
+	public double yRotacao = y + RaioRot * Math.sin(Teta) * Math.cos(Phi);
+	public double zRotacao = z + RaioRot * Math.sin(Phi);
 	public double xt = x;
 	public double yt = y;
 	public double zt = z;
@@ -1265,7 +1272,7 @@ public class AV3DNavigator extends JComponent
 			public void mouseClicked(MouseEvent MouseEvento) {}
 			public void mouseEntered(MouseEvent MouseEvento) {}
 			public void mouseExited(MouseEvent MouseEvento) {}
-			public void mouseReleased(MouseEvent MouseEvento) {ContadorFrames = FramesDeslocamento; MouseDown = 0; FlagMouseDownArea = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0;}
+			public void mouseReleased(MouseEvent MouseEvento) {ContadorFrames = FramesDeslocamento; MouseDown = 0; FlagMouseDownArea = 0; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0;}
 			public void mouseDragged(MouseEvent MouseEvento) {}
 			public void mouseMoved(MouseEvent MouseEvento) {}
 			});
@@ -1286,7 +1293,7 @@ public class AV3DNavigator extends JComponent
 					xt = x; yt = y; zt = z;
 
 					FlagAlteracaoStatus = 1;
-					FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
+					FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
 					}
 				}
 			});
@@ -1304,7 +1311,7 @@ public class AV3DNavigator extends JComponent
 
 					if (keyCode == KeyEvent.VK_SPACE)
 						{
-						FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
+						FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
 
 						x = 0;
 						y = 0;
@@ -1316,6 +1323,7 @@ public class AV3DNavigator extends JComponent
 						ShiftVerticalLegendas = 25;
 						RotacaoTeta = Teta + Math.PI;
 						RotacaoPhi = Phi + Math.PI;
+						RaioRot = 0;
 						RaioTeta = 0;
 						RaioPhi = 0;
 						xt = x;
@@ -1374,7 +1382,7 @@ public class AV3DNavigator extends JComponent
 						JFrame FrameHelp = new JFrame("AV3DNavigator - Ajuda");
 						FrameHelp.setPreferredSize(new Dimension(TamanhoEspacoHelpX, TamanhoEspacoHelpY));
 						FrameHelp.setSize(new Dimension(TamanhoEspacoHelpX, TamanhoEspacoHelpY));
-						LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar. \"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>Shift + \"J\" para rotação vertical positiva. Shift + \"M\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>Shift + \"L\" para incrementar o raio de rotação vertical. Shift + \".\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor vermelha padrão da linha. \"Y\" para shift positivo.<br>Shift + \"T\" para shift negativo na cor verde padrão da linha. Shift + \"Y\" para shift positivo.<br>Ctrl + \"T\" para shift negativo na cor azul padrão da linha. Ctrl + \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor vermelha padrão de fundo. \"I\" para shift positivo.<br>Shift + \"U\" para shift negativo na cor verde padrão de fundo. Shift + \"I\" para shift positivo.<br>Ctrl + \"U\" para shift negativo na cor azul padrão de fundo. Ctrl + \"I\" para shift positivo.<br>\"O\" para shift negativo na cor vermelha padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>Shift + \"O\" para shift negativo na cor verde padrão dos polígonos preenchidos. Shift + \"P\" para shift positivo.<br>Ctrl + \"O\" para shift negativo na cor azul padrão dos polígonos preenchidos. Ctrl + \"P\" para shift positivo.<br>INSERT para shift negativo na cor vermelha padrão das legendas. HOME para shift positivo.<br>Shift + INSERT para shift negativo na cor verde padrão das legendas. Shift + HOME para shift positivo.<br>Ctrl + INSERT para shift negativo na cor azul padrão das legendas. Ctrl + HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>Numpad \"0\" para toggle alta precisão Apfloat (com custo computacional).<br>F4 para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Ctrl + ENTER para shift positivo em câmeras predefinidas, Ctrl + Shift + ENTER para negativo.<br><br>Teclas de \"0\" a \"9\" para incrementar o parâmetro correspondente. Shift + tecla para decrementar.<br>Ctrl + tecla para incrementar o step do parâmetro. Ctrl + Shift + tecla para decrementar.<br><br>ENTER para ler os arquivos de parâmetros.<br><br>Shift + ENTER para ativar / desativar os parâmetros de tempo.<br><br>Setas para strafe. Shift + setas para strafe com rotação de tela.<br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br>F3 para ocultar e mostrar os labels.<br>BACKSPACE para ativar / desativar labels animados.<br><br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB), 2);
+						LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar. \"G\" para incrementar Phi. \"B\" para decrementar.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>Shift + \"J\" para rotação vertical positiva. Shift + \"M\" para negativa.<br>\"K\" para rotação total positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>Shift + \"L\" para incrementar o raio de rotação vertical. Shift + \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação total. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor vermelha padrão da linha. \"Y\" para shift positivo.<br>Shift + \"T\" para shift negativo na cor verde padrão da linha. Shift + \"Y\" para shift positivo.<br>Ctrl + \"T\" para shift negativo na cor azul padrão da linha. Ctrl + \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor vermelha padrão de fundo. \"I\" para shift positivo.<br>Shift + \"U\" para shift negativo na cor verde padrão de fundo. Shift + \"I\" para shift positivo.<br>Ctrl + \"U\" para shift negativo na cor azul padrão de fundo. Ctrl + \"I\" para shift positivo.<br>\"O\" para shift negativo na cor vermelha padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>Shift + \"O\" para shift negativo na cor verde padrão dos polígonos preenchidos. Shift + \"P\" para shift positivo.<br>Ctrl + \"O\" para shift negativo na cor azul padrão dos polígonos preenchidos. Ctrl + \"P\" para shift positivo.<br>INSERT para shift negativo na cor vermelha padrão das legendas. HOME para shift positivo.<br>Shift + INSERT para shift negativo na cor verde padrão das legendas. Shift + HOME para shift positivo.<br>Ctrl + INSERT para shift negativo na cor azul padrão das legendas. Ctrl + HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>Numpad \"0\" para toggle alta precisão Apfloat (com custo computacional).<br>F4 para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Ctrl + ENTER para shift positivo em câmeras predefinidas, Ctrl + Shift + ENTER para negativo.<br><br>Teclas de \"0\" a \"9\" para incrementar o parâmetro correspondente. Shift + tecla para decrementar.<br>Ctrl + tecla para incrementar o step do parâmetro. Ctrl + Shift + tecla para decrementar.<br><br>ENTER para ler os arquivos de parâmetros.<br><br>Shift + ENTER para ativar / desativar os parâmetros de tempo.<br><br>Setas para strafe. Shift + setas para strafe com rotação de tela.<br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br>F3 para ocultar e mostrar os labels.<br>BACKSPACE para ativar / desativar labels animados.<br><br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB), 2);
 						LabelHelp.setBorder(new EmptyBorder(5, 5, 5, 5));
 						LabelHelp.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelHelp));
 						FrameHelp.add(LabelHelp);
@@ -1604,62 +1612,62 @@ public class AV3DNavigator extends JComponent
 						{if (SleepTime > 1) SleepTime--;}
 
 					if (keyCode == KeyEvent.VK_A)
-						{FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(x + DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {x += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+						{FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(x + DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {x += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
 					if (keyCode == KeyEvent.VK_Z)
-						{FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(x - DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {x -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+						{FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(x - DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {x -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
 					if (keyCode == KeyEvent.VK_S)
-						{FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(y - DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {y -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+						{FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(y - DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {y -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
 					if (keyCode == KeyEvent.VK_X)
-						{FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(y + DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {y += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+						{FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(y + DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {y += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
 					if (keyCode == KeyEvent.VK_D)
-						{FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(z - DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {z -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+						{FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(z - DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {z -= DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
 					if (keyCode == KeyEvent.VK_C)
-						{FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(z + DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {z += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+						{FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(z + DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {z += DeslocamentoLinear; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
 					if (keyCode == KeyEvent.VK_F)
 						{
-						FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
+						FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
 
 						if (Math.abs(Teta) < TetaMax - DeslocamentoAngular) {if (! (Math.abs(Teta + DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) {Teta += DeslocamentoAngular * Math.cos(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
 						}
 
 					if (keyCode == KeyEvent.VK_V)
 						{
-						FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
+						FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
 
 						if (Math.abs(Teta) < TetaMax - DeslocamentoAngular) {if (! (Math.abs(Teta - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) {Teta -= DeslocamentoAngular * Math.cos(Rot); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
 						}
 
 					if (keyCode == KeyEvent.VK_B)
 						{
-						FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
+						FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
 
 						if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {if (! (Math.abs(Phi - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) {Phi -= DeslocamentoAngular; ContadorFrames = 0;} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
 						}
 
 					if (keyCode == KeyEvent.VK_G)
 						{
-						FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
+						FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
 
 						if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {if (! (Math.abs(Phi - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) {Phi += DeslocamentoAngular; ContadorFrames = 0;}  else VariavelLimiteAtingido();} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiSuperior = 1;}
 						}
 
 					if (keyCode == KeyEvent.VK_H)
-						{FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(Rot + DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) {Rot += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+						{FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(Rot + DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) {Rot += DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
 					if (keyCode == KeyEvent.VK_N)
-						{FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(Rot - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) {Rot -= DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
+						{FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(Rot - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) {Rot -= DeslocamentoAngular; ContadorFrames = 0;} else VariavelLimiteAtingido();}
 
 					if (keyCode == KeyEvent.VK_J)
 						{
 						if (ke.isShiftDown())
 							{
-							FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 1; CameraId = -1;
+							FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 1; CameraId = -1;
 
 							if (! (Math.abs(RotacaoPhi - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) RotacaoPhi -= DeslocamentoAngular; else VariavelLimiteAtingido();
 
@@ -1667,7 +1675,7 @@ public class AV3DNavigator extends JComponent
 							}
 						else
 							{
-							FlagMouseY = 1; FlagCoordRotHor = 1; FlagCoordRotVert = 0; CameraId = -1;
+							FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 1; FlagCoordRotVert = 0; CameraId = -1;
 
 							if (! (Math.abs(RotacaoTeta + DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) RotacaoTeta += DeslocamentoAngular; else VariavelLimiteAtingido();
 
@@ -1679,7 +1687,7 @@ public class AV3DNavigator extends JComponent
 						{
 						if (ke.isShiftDown())
 							{
-							FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 1; CameraId = -1;
+							FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 1; CameraId = -1;
 
 							if (! (Math.abs(RotacaoPhi + DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) RotacaoPhi += DeslocamentoAngular; else VariavelLimiteAtingido();
 
@@ -1687,7 +1695,7 @@ public class AV3DNavigator extends JComponent
 							}
 						else
 							{
-							FlagMouseY = 1; FlagCoordRotHor = 1; FlagCoordRotVert = 0; CameraId = -1;
+							FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 1; FlagCoordRotVert = 0; CameraId = -1;
 
 							if (! (Math.abs(RotacaoTeta - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) RotacaoTeta -= DeslocamentoAngular; else VariavelLimiteAtingido();
 
@@ -1695,33 +1703,57 @@ public class AV3DNavigator extends JComponent
 							}
 						}
 
+					if (keyCode == KeyEvent.VK_K)
+						{
+						FlagMouseY = 1; FlagCoordRot = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
+
+						if (! (Math.abs(Rotacao - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) Rotacao -= DeslocamentoAngular; else VariavelLimiteAtingido();
+
+						if (Math.abs(Teta) < TetaMax - DeslocamentoAngular) {if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {if ((! (Math.abs(Teta - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) || (! ((Math.signum(Math.cos(Phi0Rotacao)) >= 0) && (Math.floor(Phi0Rotacao / (Math.PI / 2)) * Math.PI / 2 + Phi0Rotacao % (Math.PI / 2) * Math.cos(Rotacao) - Rot * Math.sin(Rotacao)) >= AntonioVandre.MaximoValorReal)) || (! ((Math.signum(Math.cos(Phi0Rotacao)) < 0) && (Math.ceil(Phi0Rotacao / (Math.PI / 2)) * Math.PI / 2 - (Math.PI / 2 - (Phi0Rotacao % (Math.PI / 2))) * Math.cos(Rotacao) - Rot * Math.sin(Rotacao)) >= AntonioVandre.MaximoValorReal))) {Teta -= DeslocamentoAngular; if (Math.signum(Math.cos(Phi0Rotacao)) >= 0) Phi = Math.floor(Phi0Rotacao / (Math.PI / 2)) * Math.PI / 2 + Phi0Rotacao % (Math.PI / 2) * Math.cos(Rotacao) - Rot * Math.sin(Rotacao); else Phi = Math.ceil(Phi0Rotacao / (Math.PI / 2)) * Math.PI / 2 - (Math.PI / 2 - (Phi0Rotacao % (Math.PI / 2))) * Math.cos(Rotacao) - Rot * Math.sin(Rotacao); x = xRotacao + RaioRot * Math.cos(Phi + Math.PI) * Math.cos(Teta); y = yRotacao - RaioRot * Math.cos(Phi + Math.PI) * Math.sin(Teta); z = zRotacao - RaioRot * Math.sin(Phi + Math.PI); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiInferior = 1;}} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
+						}
+
+					if (keyCode == KeyEvent.VK_COMMA)
+						{
+						FlagMouseY = 1; FlagCoordRot = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
+
+						if (! (Math.abs(Rotacao + DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) Rotacao += DeslocamentoAngular; else VariavelLimiteAtingido();
+
+						if (Math.abs(Teta) < TetaMax - DeslocamentoAngular) {if (Math.abs(Phi) < PhiMax - DeslocamentoAngular) {if ((! (Math.abs(Teta + DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) || (! ((Math.signum(Math.cos(Phi0Rotacao)) >= 0) && (Math.floor(Phi0Rotacao / (Math.PI / 2)) * Math.PI / 2 + Phi0Rotacao % (Math.PI / 2) * Math.cos(Rotacao) - Rot * Math.sin(Rotacao)) >= AntonioVandre.MaximoValorReal)) || (! ((Math.signum(Math.cos(Phi0Rotacao)) < 0) && (Math.ceil(Phi0Rotacao / (Math.PI / 2)) * Math.PI / 2 - (Math.PI / 2 - (Phi0Rotacao % (Math.PI / 2))) * Math.cos(Rotacao) - Rot * Math.sin(Rotacao)) >= AntonioVandre.MaximoValorReal))) {Teta += DeslocamentoAngular; if (Math.signum(Math.cos(Phi0Rotacao)) >= 0) Phi = Math.floor(Phi0Rotacao / (Math.PI / 2)) * Math.PI / 2 + (Math.PI / 2 - (Phi0Rotacao % (Math.PI / 2))) * Math.cos(Rotacao) - Rot * Math.sin(Rotacao); else Phi = Math.ceil(Phi0Rotacao / (Math.PI / 2)) * Math.PI / 2 - (Math.PI / 2 - (Phi0Rotacao % (Math.PI / 2))) * Math.cos(Rotacao) - Rot * Math.sin(Rotacao); x = xRotacao + RaioRot * Math.cos(Phi + Math.PI) * Math.cos(Teta); y = yRotacao - RaioRot * Math.cos(Phi + Math.PI) * Math.sin(Teta); z = zRotacao - RaioRot * Math.sin(Phi + Math.PI); ContadorFrames = 0;} else VariavelLimiteAtingido();} else {Phi -= Math.signum(Phi) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Phit = Phi; FlagPhiInferior = 1;}} else {Teta -= Math.signum(Teta) * DeslocamentoAngular; ContadorFrames = FramesDeslocamento; Tetat = Teta; FlagTetaInferior = 1;}
+						}
+
 					if (keyCode == KeyEvent.VK_L)
 						{
 						if (ke.isShiftDown())
-							{FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(RaioPhi + DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {RaioPhi += DeslocamentoLinear;} else VariavelLimiteAtingido();}
+							{FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(RaioPhi + DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {RaioPhi += DeslocamentoLinear;} else VariavelLimiteAtingido();}
 						else
-							{FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(RaioTeta + DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {RaioTeta += DeslocamentoLinear;} else VariavelLimiteAtingido();}
+							{FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(RaioTeta + DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {RaioTeta += DeslocamentoLinear;} else VariavelLimiteAtingido();}
 						}
 
 					if (keyCode == KeyEvent.VK_PERIOD)
 						{
 						if (ke.isShiftDown())
-							{FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(RaioPhi - DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {RaioPhi -= DeslocamentoLinear;} else VariavelLimiteAtingido();}
+							{FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(RaioPhi - DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {RaioPhi -= DeslocamentoLinear;} else VariavelLimiteAtingido();}
 						else
-							{FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(RaioTeta - DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {RaioTeta -= DeslocamentoLinear;} else VariavelLimiteAtingido();}
+							{FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(RaioTeta - DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {RaioTeta -= DeslocamentoLinear;} else VariavelLimiteAtingido();}
 						}
 
+					if (keyCode == KeyEvent.VK_OPEN_BRACKET)
+						{FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(RaioRot + DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {RaioRot += DeslocamentoLinear;} else VariavelLimiteAtingido();}
+
+					if (keyCode == KeyEvent.VK_CLOSE_BRACKET)
+						{FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (Math.abs(RaioRot - DeslocamentoLinear) >= AntonioVandre.MaximoValorReal)) {RaioRot -= DeslocamentoLinear;} else VariavelLimiteAtingido();}
+
 					if (keyCode == KeyEvent.VK_Q)
-						{FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (DistanciaTela >= 1) DistanciaTela -= 1;}
+						{FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (DistanciaTela >= 1) DistanciaTela -= 1;}
 
 					if (keyCode == KeyEvent.VK_W)
-						{FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (DistanciaTela + 1 >= AntonioVandre.MaximoValorReal)) DistanciaTela += 1; else VariavelLimiteAtingido();}
+						{FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (DistanciaTela + 1 >= AntonioVandre.MaximoValorReal)) DistanciaTela += 1; else VariavelLimiteAtingido();}
 
 					if (keyCode == KeyEvent.VK_E)
-						{FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (FatorAnguloVisao > 1) FatorAnguloVisao -= 1;}
+						{FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (FatorAnguloVisao > 1) FatorAnguloVisao -= 1;}
 
 					if (keyCode == KeyEvent.VK_R)
-						{FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (FatorAnguloVisao + 1 >= AntonioVandre.MaximoValorReal)) FatorAnguloVisao += 1; else VariavelLimiteAtingido();}
+						{FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; if (! (FatorAnguloVisao + 1 >= AntonioVandre.MaximoValorReal)) FatorAnguloVisao += 1; else VariavelLimiteAtingido();}
 
 					if (keyCode == KeyEvent.VK_T)
 						{
@@ -1874,7 +1906,7 @@ public class AV3DNavigator extends JComponent
 
 					if (keyCode == KeyEvent.VK_UP)
 						{
-						FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
+						FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
 
 						if (ke.isShiftDown())
 							{
@@ -1904,7 +1936,7 @@ public class AV3DNavigator extends JComponent
 
 					if (keyCode == KeyEvent.VK_DOWN)
 						{
-						FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
+						FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
 
 						if (ke.isShiftDown())
 							{
@@ -1934,7 +1966,7 @@ public class AV3DNavigator extends JComponent
 
 					if (keyCode == KeyEvent.VK_LEFT)
 						{
-						FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
+						FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
 
 						if (ke.isShiftDown())
 							{
@@ -1963,7 +1995,7 @@ public class AV3DNavigator extends JComponent
 
 					if (keyCode == KeyEvent.VK_RIGHT)
 						{
-						FlagMouseY = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
+						FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
 
 						if (ke.isShiftDown())
 							{
@@ -2579,6 +2611,7 @@ public class AV3DNavigator extends JComponent
 					TamanhoFonteLegendas = 12;
 					RotacaoTeta = Teta + Math.PI;
 					RotacaoPhi = Phi + Math.PI;
+					RaioRot = 0;
 					RaioTeta = 0;
 					RaioPhi = 0;
 					xt = x;
@@ -2672,6 +2705,16 @@ public class AV3DNavigator extends JComponent
 						IntervaloRot = 0;
 						}
 					}
+				}
+
+			if (FlagCoordRot == 0)
+				{
+				xRotacao = x + RaioRot * Math.cos(Teta) * Math.cos(Phi);
+				yRotacao = y - RaioRot * Math.sin(Teta) * Math.cos(Phi);
+				zRotacao = z - RaioRot * Math.sin(Phi);
+				Rotacao = 0;
+				Phi0Rotacao = Phi;
+				FlagCoordRot = 1;
 				}
 
 			if (FlagCoordRotHor == 0)
@@ -2768,7 +2811,7 @@ public class AV3DNavigator extends JComponent
 
 				try {Thread.sleep(SleepTime);} catch(InterruptedException e) {}
 
-				LabelStatus.setText("<html><p style=\"line-height: 50%;\">x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ". z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ". Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ". Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao + MargemAnguloVisao) + ".<br>Aspect ratio = " + String.valueOf((double) (TamanhoPlanoX) / ((double) (TamanhoPlanoY))) + "<br><br>P0 = " + String.valueOf(Parametro1) + ". P0S = " + String.valueOf(Parametro0Step) + ". P1 = " + String.valueOf(Parametro1) + ". P1S = " + String.valueOf(Parametro1Step) + ".<br>P2 = " + String.valueOf(Parametro2) + ". P2S = " + String.valueOf(Parametro2Step) + ". P3 = " + String.valueOf(Parametro3) + ". P3S = " + String.valueOf(Parametro3Step) + ".<br>P4 = " + String.valueOf(Parametro4) + ". P4S = " + String.valueOf(Parametro4Step) + ". P5 = " + String.valueOf(Parametro5) + ". P5S = " + String.valueOf(Parametro5Step) + ".<br>P6 = " + String.valueOf(Parametro6) + ". P6S = " + String.valueOf(Parametro6Step) + ". P7 = " + String.valueOf(Parametro7) + ". P7S = " + String.valueOf(Parametro7Step) + ".<br>P8 = " + String.valueOf(Parametro8) + ". P8S = " + String.valueOf(Parametro8Step) + ". P9 = " + String.valueOf(Parametro9) + ". P9S = " + String.valueOf(Parametro9Step) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ". fillPolygon = " + String.valueOf(TrianguloPoligono) + ". ResolucaoTriangulos = " + String.valueOf(ResolucaoTriangulos) + ". SleepTime = " + String.valueOf(SleepTime) + ". FlagTime = " + String.valueOf(FlagTime) + ". CamId = " + String.valueOf(CameraId) + ".<br><br>Aperte F1 para ajuda.</p></html>");
+				LabelStatus.setText("<html><p style=\"line-height: 50%;\">x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ". z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ". Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ". Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br>Raio de rotação = " + String.valueOf(RaioRot) + ". Rotacao = " + String.valueOf(Rotacao) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao + MargemAnguloVisao) + ".<br>Aspect ratio = " + String.valueOf((double) (TamanhoPlanoX) / ((double) (TamanhoPlanoY))) + "<br><br>P0 = " + String.valueOf(Parametro1) + ". P0S = " + String.valueOf(Parametro0Step) + ". P1 = " + String.valueOf(Parametro1) + ". P1S = " + String.valueOf(Parametro1Step) + ".<br>P2 = " + String.valueOf(Parametro2) + ". P2S = " + String.valueOf(Parametro2Step) + ". P3 = " + String.valueOf(Parametro3) + ". P3S = " + String.valueOf(Parametro3Step) + ".<br>P4 = " + String.valueOf(Parametro4) + ". P4S = " + String.valueOf(Parametro4Step) + ". P5 = " + String.valueOf(Parametro5) + ". P5S = " + String.valueOf(Parametro5Step) + ".<br>P6 = " + String.valueOf(Parametro6) + ". P6S = " + String.valueOf(Parametro6Step) + ". P7 = " + String.valueOf(Parametro7) + ". P7S = " + String.valueOf(Parametro7Step) + ".<br>P8 = " + String.valueOf(Parametro8) + ". P8S = " + String.valueOf(Parametro8Step) + ". P9 = " + String.valueOf(Parametro9) + ". P9S = " + String.valueOf(Parametro9Step) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ". fillPolygon = " + String.valueOf(TrianguloPoligono) + ". ResolucaoTriangulos = " + String.valueOf(ResolucaoTriangulos) + ". SleepTime = " + String.valueOf(SleepTime) + ". FlagTime = " + String.valueOf(FlagTime) + ". CamId = " + String.valueOf(CameraId) + ".<br><br>Aperte F1 para ajuda.</p></html>");
 
 				FrameEspaco.getContentPane().setBackground(CorBackground);
 
@@ -3799,6 +3842,7 @@ public class AV3DNavigator extends JComponent
 		TamanhoFonteLegendas = 12;
 		RotacaoTeta = Teta + Math.PI;
 		RotacaoPhi = Phi + Math.PI;
+		RaioRot = 0;
 		RaioTeta = 0;
 		RaioPhi = 0;
 		xt = x;
