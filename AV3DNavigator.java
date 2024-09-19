@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 14-09-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 19-09-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -441,16 +441,16 @@ public class AV3DNavigator extends JComponent
 
 		public void paint(Graphics g)
 			{
-			if (FlagMostrarLabel == 1)
+			int width = getWidth();
+			int height = getHeight();
+
+			GradientPaint paint = null;
+
+			switch (id)
 				{
-				int width = getWidth();
-				int height = getHeight();
-
-				GradientPaint paint;
-
-				switch (id)
-					{
-					case 1:
+				case 1:
+					if (FlagMostrarLabel == 1)
+						{
 						if (LabelAnimado == 1)
 							{
 							if ((dxGLS == 0) && (dyGLS == 0)) {fxGLS = 1; fyGLS = 0;}
@@ -462,34 +462,34 @@ public class AV3DNavigator extends JComponent
 							}
 
 						paint = new GradientPaint(dxGLS, dyGLS, CorInicial, width - dxGLS, height - dyGLS, CorFinal, true);
+						}
 
-						break;
+					break;
 
-					case 2:
-						if (LabelAnimado == 1)
-							{
-							if ((dxGLH == 0) && (dyGLH == 0)) {fxGLH = 1; fyGLH = 0;}
-							if ((dxGLH == width) && (dyGLH == 0)) {fxGLH = 0; fyGLH = 1;}
-							if ((dxGLH == width) && (dyGLH == height)) {fxGLH = -1; fyGLH = 0;}
-							if ((dxGLH == 0) && (dyGLH == height)) {fxGLH = 0; fyGLH = -1;}
+				case 2:
+					if (LabelAnimado == 1)
+						{
+						if ((dxGLH == 0) && (dyGLH == 0)) {fxGLH = 1; fyGLH = 0;}
+						if ((dxGLH == width) && (dyGLH == 0)) {fxGLH = 0; fyGLH = 1;}
+						if ((dxGLH == width) && (dyGLH == height)) {fxGLH = -1; fyGLH = 0;}
+						if ((dxGLH == 0) && (dyGLH == height)) {fxGLH = 0; fyGLH = -1;}
 
-							dxGLH += fxGLH; dyGLH += fyGLH;
-							}
+						dxGLH += fxGLH; dyGLH += fyGLH;
+						}
 
-						paint = new GradientPaint(dxGLH, dyGLH, CorInicial, width - dxGLH, height - dyGLH, CorFinal, true);
-						break;
+					paint = new GradientPaint(dxGLH, dyGLH, CorInicial, width - dxGLH, height - dyGLH, CorFinal, true);
+					break;
 
-					default:
-						paint = new GradientPaint(0, 0, CorInicial, width, height, CorFinal, true);
+				default:
+					paint = new GradientPaint(0, 0, CorInicial, width, height, CorFinal, true);
 
-						break;
-					}
-
-				Graphics2D g2d = (Graphics2D) g;
-				g2d.setPaint(paint);
-				g2d.fillRect(0, 0, width, height);
-				super.paint(g);
+					break;
 				}
+
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.setPaint(paint);
+			g2d.fillRect(0, 0, width, height);
+			super.paint(g);
 			}
 		}
 
@@ -1412,7 +1412,7 @@ public class AV3DNavigator extends JComponent
 						LocalDateTime now = LocalDateTime.now();
 						BufferedImage ImagemFrame = new BufferedImage(TamanhoPlanoX, TamanhoPlanoY + FrameEspaco.getInsets().top, BufferedImage.TYPE_INT_RGB);
 						Graphics2D g2d = ImagemFrame.createGraphics();
-						FrameEspaco.printAll(g2d);
+						FrameEspaco.print(g2d);
 
 						g2d.setFont(new Font("SansSerif", Font.ITALIC, TamanhoFonteLabelPrint));
 
