@@ -2,11 +2,9 @@
 
 // Biblioteca Java pertencente a Antonio Vandré Pedrosa Furtunato Gomes (bit.ly/antoniovandre_legadoontologico).
 
-// Dependências: JDK19.
+// Licença de uso: Creative Commons Attribution ShareAlike License V3.0.
 
-// Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
-
-// Última atualização: 01-11-2023.
+// Última atualização: 21-09-2024.
 
 // Início escopo desenvolvido por Antonio Vandré Pedrosa Furtunato Gomes.
 
@@ -14,7 +12,7 @@ package AntonioVandre;
 
 public class AntonioVandre
     {
-    public static long Versao = 20231101;
+    public static long Versao = 20240921;
 
     public static String MensagemErro = "Erro do Java (não meu) ou entrada inválida.";
 
@@ -69,6 +67,8 @@ public class AntonioVandre
     public static boolean NumeroReal(String strNum)
         {
         if (strNum == null) {return false;}
+
+		if (strNum.equals("NaN")) {return false;}
 
         try
             {
