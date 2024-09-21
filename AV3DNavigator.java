@@ -9,7 +9,7 @@
  * 
  * Sugestões ou comunicar erros: "a.vandre.g@gmail.com".
  * 
- * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
+ * Licença de uso: Creative Commons Attribution ShareAlike License V3.0.
  * 
  * Última atualização: 19-09-2024. Não considerando alterações em variáveis globais.
  */
@@ -2408,27 +2408,56 @@ public class AV3DNavigator extends JComponent
 										}
 									else if ((! (Linha.replaceAll(" ", "").equals(""))) && (Linha.replaceAll(" ", "").charAt(0) != '#'))
 										{
-										String LinhaArr [] = Linha.split(",");
+										String LinhaArr [] = null;
 
-										if (LinhaArr.length == 6) if ((AntonioVandre.NumeroReal(LinhaArr[0].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[1].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[2].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[3].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[4].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[5].replaceAll(" ", ""))))
-											if (CameraId == i++)
-												{
-												x = Double.parseDouble(LinhaArr[0].replaceAll(" ", ""));
+										if (Linha.contains("DIVISOR"))
+											{
+											LinhaArr = Linha.split("DIVISOR");
 
-												y = -Double.parseDouble(LinhaArr[1].replaceAll(" ", ""));
+											if (LinhaArr.length == 6) if ((AntonioVandre.NumeroReal(String.valueOf((new Expression(LinhaArr[0].replaceAll(" ", ""))).calculate()))) && (AntonioVandre.NumeroReal(String.valueOf((new Expression(LinhaArr[1].replaceAll(" ", ""))).calculate()))) && (AntonioVandre.NumeroReal(String.valueOf((new Expression(LinhaArr[2].replaceAll(" ", ""))).calculate()))) && (AntonioVandre.NumeroReal(String.valueOf((new Expression(LinhaArr[3].replaceAll(" ", ""))).calculate()))) && (AntonioVandre.NumeroReal(String.valueOf((new Expression(LinhaArr[4].replaceAll(" ", ""))).calculate()))) && (AntonioVandre.NumeroReal(String.valueOf((new Expression(LinhaArr[5].replaceAll(" ", ""))).calculate()))))
+												if (CameraId == i++)
+													{
+													x = (new Expression(LinhaArr[0].replaceAll(" ", ""))).calculate();
 
-												z = -Double.parseDouble(LinhaArr[2].replaceAll(" ", ""));
+													y = (new Expression("(" + LinhaArr[1].replaceAll(" ", "") + ") * (-1)")).calculate();
 
-												Teta = Double.parseDouble(LinhaArr[3].replaceAll(" ", ""));
+													z = (new Expression("(" + LinhaArr[2].replaceAll(" ", "") + ") * (-1)")).calculate();
 
-												Phi = Double.parseDouble(LinhaArr[4].replaceAll(" ", ""));
+													Teta = (new Expression(LinhaArr[3].replaceAll(" ", ""))).calculate();
 
-												Rot = Double.parseDouble(LinhaArr[5].replaceAll(" ", ""));
+													Phi = (new Expression(LinhaArr[4].replaceAll(" ", ""))).calculate();
 
-												xt = x; yt = y; zt = z; Tetat = Teta; Phit = Phi; Rott = Rot; ContadorFrames = FramesDeslocamento;
+													Rot = (new Expression(LinhaArr[5].replaceAll(" ", ""))).calculate();
+									
+													xt = x; yt = y; zt = z; Tetat = Teta; Phit = Phi; Rott = Rot; ContadorFrames = FramesDeslocamento;
 
-												break;
-												}
+													break;
+													}
+											}
+										else
+											{
+											LinhaArr = Linha.split(",");
+
+											if (LinhaArr.length == 6) if ((AntonioVandre.NumeroReal(LinhaArr[0].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[1].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[2].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[3].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[4].replaceAll(" ", ""))) && (AntonioVandre.NumeroReal(LinhaArr[5].replaceAll(" ", ""))))
+												if (CameraId == i++)
+													{
+													x = Double.parseDouble(LinhaArr[0].replaceAll(" ", ""));
+
+													y = -Double.parseDouble(LinhaArr[1].replaceAll(" ", ""));
+
+													z = -Double.parseDouble(LinhaArr[2].replaceAll(" ", ""));
+
+													Teta = Double.parseDouble(LinhaArr[3].replaceAll(" ", ""));
+
+													Phi = Double.parseDouble(LinhaArr[4].replaceAll(" ", ""));
+
+													Rot = Double.parseDouble(LinhaArr[5].replaceAll(" ", ""));
+
+													xt = x; yt = y; zt = z; Tetat = Teta; Phit = Phi; Rott = Rot; ContadorFrames = FramesDeslocamento;
+
+													break;
+													}
+											}
 										}
 									} while (true);
 								} catch (IOException e) {}
