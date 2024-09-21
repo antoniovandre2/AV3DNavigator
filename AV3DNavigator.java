@@ -106,10 +106,10 @@ public class AV3DNavigator extends JComponent
 	public int CorFonteJanelaB = 255; // Default: 255.
 	public int TamanhoPlanoX = 460; // Default: 460.
 	public int TamanhoPlanoY = 460; // Default: 460.
-	public static int TamanhoEspacoLabelStatus = 270; // Default: 270.
+	public static int TamanhoEspacoLabelStatus = 300; // Default: 300.
 	public static int TamanhoEspacoLabelURL = 65; // Default: 65.
-	public static int TamanhoEspacoHelpX = 780; // Default: 780.
-	public static int TamanhoEspacoHelpY = 860; // Default: 860.
+	public static int TamanhoEspacoHelpX = 800; // Default: 800.
+	public static int TamanhoEspacoHelpY = 900; // Default: 900.
 	public static int TamanhoEspacoInvalidoX = 300; // Default: 300.
 	public static int TamanhoEspacoInvalidoY = 80; // Default: 80.
 	public static int MinTamanhoPlanoX = 400; // Default: 400.
@@ -154,6 +154,8 @@ public class AV3DNavigator extends JComponent
 	public double Parametro8Step = 1; // Default: valor inicial: 1.
 	public double Parametro9 = 0; // Default: valor inicial: 0.
 	public double Parametro9Step = 1; // Default: valor inicial: 1.
+	public double CameraMovePar = 0; // Default: valor inicial: 0.
+	public double CameraMoveParStep = 1; // Default: valor inicial: 1.
 	public int PrecisaoApfloat = 20; // Default: 20.
 	public int LabelAnimado = 1;
 	public int PrintR;
@@ -1186,6 +1188,24 @@ public class AV3DNavigator extends JComponent
 
 									break;
 
+								case "CameraMovePar":
+									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+										{
+										CameraMovePar = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+										FlagINI = 1;
+										}
+
+									break;
+
+								case "CameraMoveParStep":
+									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
+										{
+										CameraMoveParStep = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+										FlagINI = 1;
+										}
+
+									break;
+
 								case "LabelAnimado":
 									if (AntonioVandre.NumeroInteiro(INIelements[1].replaceAll(" ", "")))
 										{
@@ -1384,7 +1404,7 @@ public class AV3DNavigator extends JComponent
 						JFrame FrameHelp = new JFrame("AV3DNavigator - Ajuda");
 						FrameHelp.setPreferredSize(new Dimension(TamanhoEspacoHelpX, TamanhoEspacoHelpY));
 						FrameHelp.setSize(new Dimension(TamanhoEspacoHelpX, TamanhoEspacoHelpY));
-						LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar. \"G\" para incrementar Phi. \"B\" para decrementar.<br>Shift + \"F\" para rotação lateral esquerda. Shift + \"V\" para direita.<br>Shift + \"B\" para rotação vertical para baixo. Shift + \"G\" para cima.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>Shift + \"J\" para rotação vertical positiva. Shift + \"M\" para negativa.<br>\"K\" para rotação total positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>Shift + \"L\" para incrementar o raio de rotação vertical. Shift + \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação total. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor vermelha padrão da linha. \"Y\" para shift positivo.<br>Shift + \"T\" para shift negativo na cor verde padrão da linha. Shift + \"Y\" para shift positivo.<br>Ctrl + \"T\" para shift negativo na cor azul padrão da linha. Ctrl + \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor vermelha padrão de fundo. \"I\" para shift positivo.<br>Shift + \"U\" para shift negativo na cor verde padrão de fundo. Shift + \"I\" para shift positivo.<br>Ctrl + \"U\" para shift negativo na cor azul padrão de fundo. Ctrl + \"I\" para shift positivo.<br>\"O\" para shift negativo na cor vermelha padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>Shift + \"O\" para shift negativo na cor verde padrão dos polígonos preenchidos. Shift + \"P\" para shift positivo.<br>Ctrl + \"O\" para shift negativo na cor azul padrão dos polígonos preenchidos. Ctrl + \"P\" para shift positivo.<br>INSERT para shift negativo na cor vermelha padrão das legendas. HOME para shift positivo.<br>Shift + INSERT para shift negativo na cor verde padrão das legendas. Shift + HOME para shift positivo.<br>Ctrl + INSERT para shift negativo na cor azul padrão das legendas. Ctrl + HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>Numpad \"0\" para toggle alta precisão Apfloat (com custo computacional).<br>F4 para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Ctrl + ENTER para shift positivo em câmeras predefinidas, Ctrl + Shift + ENTER para negativo.<br><br>Teclas de \"0\" a \"9\" para incrementar o parâmetro correspondente. Shift + tecla para decrementar.<br>Ctrl + tecla para incrementar o step do parâmetro. Ctrl + Shift + tecla para decrementar.<br><br>ENTER para ler os arquivos de parâmetros.<br><br>Shift + ENTER para ativar / desativar os parâmetros de tempo.<br><br>Setas para strafe. Shift + setas para strafe com rotação de tela.<br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br>F3 para ocultar e mostrar os labels.<br>BACKSPACE para ativar / desativar labels animados.<br><br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB), 2);
+						LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar. \"G\" para incrementar Phi. \"B\" para decrementar.<br>Shift + \"F\" para rotação lateral esquerda. Shift + \"V\" para direita.<br>Shift + \"B\" para rotação vertical para baixo. Shift + \"G\" para cima.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>Shift + \"J\" para rotação vertical positiva. Shift + \"M\" para negativa.<br>\"K\" para rotação total positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>Shift + \"L\" para incrementar o raio de rotação vertical. Shift + \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação total. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor vermelha padrão da linha. \"Y\" para shift positivo.<br>Shift + \"T\" para shift negativo na cor verde padrão da linha. Shift + \"Y\" para shift positivo.<br>Ctrl + \"T\" para shift negativo na cor azul padrão da linha. Ctrl + \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor vermelha padrão de fundo. \"I\" para shift positivo.<br>Shift + \"U\" para shift negativo na cor verde padrão de fundo. Shift + \"I\" para shift positivo.<br>Ctrl + \"U\" para shift negativo na cor azul padrão de fundo. Ctrl + \"I\" para shift positivo.<br>\"O\" para shift negativo na cor vermelha padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>Shift + \"O\" para shift negativo na cor verde padrão dos polígonos preenchidos. Shift + \"P\" para shift positivo.<br>Ctrl + \"O\" para shift negativo na cor azul padrão dos polígonos preenchidos. Ctrl + \"P\" para shift positivo.<br>INSERT para shift negativo na cor vermelha padrão das legendas. HOME para shift positivo.<br>Shift + INSERT para shift negativo na cor verde padrão das legendas. Shift + HOME para shift positivo.<br>Ctrl + INSERT para shift negativo na cor azul padrão das legendas. Ctrl + HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>Numpad \"0\" para toggle alta precisão Apfloat (com custo computacional).<br>F4 para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Ctrl + ENTER para shift positivo em câmeras predefinidas, Ctrl + Shift + ENTER para negativo.<br><br>Numpad \"3\" para incremento no parâmetro de movimentação da câmera. Shift + Numpad \"3\" para decremento.<br>Ctrl + Numpad \"3\" para incremento no step de variação do parâmetro de movimentação da câmera. Ctrl + Shift = Numpad \"3\" para decremento.<br><br>Teclas de \"0\" a \"9\" para incrementar o parâmetro correspondente. Shift + tecla para decrementar.<br>Ctrl + tecla para incrementar o step do parâmetro. Ctrl + Shift + tecla para decrementar.<br><br>ENTER para ler os arquivos de parâmetros.<br><br>Shift + ENTER para ativar / desativar os parâmetros de tempo.<br><br>Setas para strafe. Shift + setas para strafe com rotação de tela.<br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br>F3 para ocultar e mostrar os labels.<br>BACKSPACE para ativar / desativar labels animados.<br><br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB), 2);
 						LabelHelp.setBorder(new EmptyBorder(5, 5, 5, 5));
 						LabelHelp.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelHelp));
 						FrameHelp.add(LabelHelp);
@@ -1607,6 +1627,64 @@ public class AV3DNavigator extends JComponent
 
 					if (keyCode == KeyEvent.VK_NUMPAD1)
 						{if (ResolucaoTriangulos > 2) ResolucaoTriangulos--;}
+
+					if (keyCode == KeyEvent.VK_NUMPAD3)
+						{
+						if (ke.isControlDown())
+							{
+							if (ke.isShiftDown())
+								{if (Math.abs(CameraMoveParStep - 0.1) < AntonioVandre.MaximoValorReal) CameraMoveParStep -= 0.1;}
+							else
+								{if (Math.abs(CameraMoveParStep + 0.1) < AntonioVandre.MaximoValorReal) CameraMoveParStep += 0.1;}
+							}
+						else
+							{
+							File file = new File("AV3DNCamMove.txt");
+
+							if (ke.isShiftDown())
+								{if (Math.abs(CameraMovePar - CameraMoveParStep) < AntonioVandre.MaximoValorReal) CameraMovePar -= CameraMoveParStep;}
+							else
+								{if (Math.abs(CameraMovePar + CameraMoveParStep) < AntonioVandre.MaximoValorReal) CameraMovePar += CameraMoveParStep;}
+
+							try
+								{
+								BufferedReader br = new BufferedReader(new FileReader(file));
+
+								String Linha;
+
+								do {Linha = br.readLine();} while (((Linha.replaceAll(" ", "").equals(""))) || (Linha.replaceAll(" ", "").charAt(0) == '#'));
+								
+								String [] LinhaArr = Linha.split("DIVISOR");
+
+								if (LinhaArr.length == 6)
+									{
+									double xcam = (new Expression(LinhaArr[0].replaceAll("AV3DCamPar", "(" + String.valueOf(CameraMovePar) + ")").replaceAll(" ", ""))).calculate();
+
+									double ycam = (new Expression("(" + LinhaArr[1].replaceAll("AV3DCamPar", "(" + String.valueOf(CameraMovePar) + ")").replaceAll(" ", "") + ") * (-1)")).calculate();
+
+									double zcam = (new Expression("(" + LinhaArr[2].replaceAll("AV3DCamPar", "(" + String.valueOf(CameraMovePar) + ")").replaceAll(" ", "") + ") * (-1)")).calculate();
+
+									double Tetacam = (new Expression(LinhaArr[3].replaceAll("AV3DCamPar", "(" + String.valueOf(CameraMovePar) + ")").replaceAll(" ", ""))).calculate();
+
+									double Phicam = (new Expression(LinhaArr[4].replaceAll("AV3DCamPar", "(" + String.valueOf(CameraMovePar) + ")").replaceAll(" ", ""))).calculate();
+
+									double Rotcam = (new Expression(LinhaArr[5].replaceAll("AV3DCamPar", "(" + String.valueOf(CameraMovePar) + ")").replaceAll(" ", ""))).calculate();
+
+									if ((AntonioVandre.NumeroReal(String.valueOf(xcam))) && (AntonioVandre.NumeroReal(String.valueOf(ycam))) && (AntonioVandre.NumeroReal(String.valueOf(zcam))) && (AntonioVandre.NumeroReal(String.valueOf(Tetacam))) && (AntonioVandre.NumeroReal(String.valueOf(Phicam))) && (AntonioVandre.NumeroReal(String.valueOf(Rotcam))))
+											{
+											x = xcam;
+											y = ycam;
+											z = zcam;
+											Teta = Tetacam;
+											Phi = Phicam;
+											Rot = Rotcam;
+
+											xt = x; yt = y; zt = z; Tetat = Teta; Phit = Phi; Rott = Rot; ContadorFrames = FramesDeslocamento;
+											}
+									}
+								} catch (IOException e) {}
+							}
+						}
 
 					if (keyCode == KeyEvent.VK_PAGE_UP) {SleepTime++;}
 
@@ -2880,7 +2958,7 @@ public class AV3DNavigator extends JComponent
 
 				try {Thread.sleep(SleepTime);} catch(InterruptedException e) {}
 
-				LabelStatus.setText("<html><p style=\"line-height: 50%;\">x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ". z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ". Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ". Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br>Raio de rotação = " + String.valueOf(RaioRot) + ". Rotacao = " + String.valueOf(Rotacao) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao + MargemAnguloVisao) + ".<br>Aspect ratio = " + String.valueOf((double) (TamanhoPlanoX) / ((double) (TamanhoPlanoY))) + "<br><br>P0 = " + String.valueOf(Parametro1) + ". P0S = " + String.valueOf(Parametro0Step) + ". P1 = " + String.valueOf(Parametro1) + ". P1S = " + String.valueOf(Parametro1Step) + ".<br>P2 = " + String.valueOf(Parametro2) + ". P2S = " + String.valueOf(Parametro2Step) + ". P3 = " + String.valueOf(Parametro3) + ". P3S = " + String.valueOf(Parametro3Step) + ".<br>P4 = " + String.valueOf(Parametro4) + ". P4S = " + String.valueOf(Parametro4Step) + ". P5 = " + String.valueOf(Parametro5) + ". P5S = " + String.valueOf(Parametro5Step) + ".<br>P6 = " + String.valueOf(Parametro6) + ". P6S = " + String.valueOf(Parametro6Step) + ". P7 = " + String.valueOf(Parametro7) + ". P7S = " + String.valueOf(Parametro7Step) + ".<br>P8 = " + String.valueOf(Parametro8) + ". P8S = " + String.valueOf(Parametro8Step) + ". P9 = " + String.valueOf(Parametro9) + ". P9S = " + String.valueOf(Parametro9Step) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ". fillPolygon = " + String.valueOf(TrianguloPoligono) + ". ResolucaoTriangulos = " + String.valueOf(ResolucaoTriangulos) + ". SleepTime = " + String.valueOf(SleepTime) + ". FlagTime = " + String.valueOf(FlagTime) + ". CamId = " + String.valueOf(CameraId) + ".<br><br>Aperte F1 para ajuda.</p></html>");
+				LabelStatus.setText("<html><p style=\"line-height: 50%;\">x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ". z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ". Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ". Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br>Raio de rotação = " + String.valueOf(RaioRot) + ". Rotacao = " + String.valueOf(Rotacao) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao + MargemAnguloVisao) + ".<br>Aspect ratio = " + String.valueOf((double) (TamanhoPlanoX) / ((double) (TamanhoPlanoY))) + "<br><br>P0 = " + String.valueOf(Parametro1) + ". P0S = " + String.valueOf(Parametro0Step) + ". P1 = " + String.valueOf(Parametro1) + ". P1S = " + String.valueOf(Parametro1Step) + ".<br>P2 = " + String.valueOf(Parametro2) + ". P2S = " + String.valueOf(Parametro2Step) + ". P3 = " + String.valueOf(Parametro3) + ". P3S = " + String.valueOf(Parametro3Step) + ".<br>P4 = " + String.valueOf(Parametro4) + ". P4S = " + String.valueOf(Parametro4Step) + ". P5 = " + String.valueOf(Parametro5) + ". P5S = " + String.valueOf(Parametro5Step) + ".<br>P6 = " + String.valueOf(Parametro6) + ". P6S = " + String.valueOf(Parametro6Step) + ". P7 = " + String.valueOf(Parametro7) + ". P7S = " + String.valueOf(Parametro7Step) + ".<br>P8 = " + String.valueOf(Parametro8) + ". P8S = " + String.valueOf(Parametro8Step) + ". P9 = " + String.valueOf(Parametro9) + ". P9S = " + String.valueOf(Parametro9Step) + ".<br><br>CameraMovePar = " + String.valueOf(CameraMovePar) + ". CameraMoveParStep = " + String.valueOf(CameraMoveParStep) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ". fillPolygon = " + String.valueOf(TrianguloPoligono) + ". ResolucaoTriangulos = " + String.valueOf(ResolucaoTriangulos) + ". SleepTime = " + String.valueOf(SleepTime) + ". FlagTime = " + String.valueOf(FlagTime) + ". CamId = " + String.valueOf(CameraId) + ".<br><br>Aperte F1 para ajuda.</p></html>");
 
 				FrameEspaco.getContentPane().setBackground(CorBackground);
 

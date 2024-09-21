@@ -1,0 +1,5 @@
+# Arquivo de movimentação paramétrica da câmera. Em sequência, divididas pelo token "DIVISOR", as expressões para "x", "y", "z", "θ", "φ" e "Rot". Consulte o manual do mXparser.
+
+# Este arquivo pode ser alterado com o AV3DNavigator em funcionamento.
+
+-51 DIVISOR 6 * cos(AV3DCamPar) / (1 + (sin(AV3DCamPar))^2) DIVISOR 6 * sin(AV3DCamPar) * cos(AV3DCamPar) / (1 + (sin(AV3DCamPar))^2) DIVISOR 0 DIVISOR 0 DIVISOR 0
