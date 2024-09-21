@@ -3,7 +3,7 @@
  * 
  * Software AV3DNavigator.
  * 
- * Dependências: AntonioVandre >= 20231101, Apfloat 1.14.0 (http://www.apfloat.org), mXparser v6.0.0 Picon (https://mathparser.org/).
+ * Dependências: AntonioVandre >= 20240921, Apfloat 1.14.0 (http://www.apfloat.org), mXparser v6.0.0 Picon (https://mathparser.org/).
  * 
  * Motor Gráfico: AV3D.
  * 
@@ -675,7 +675,7 @@ public class AV3DNavigator extends JComponent
 			return;
 			}
 
-		if (AntonioVandre.Versao < 20231101)
+		if (AntonioVandre.Versao < 20240921)
 			{
 			System.out.println(MensagemErroAntonioVandreLib);
 			return;
@@ -2414,25 +2414,35 @@ public class AV3DNavigator extends JComponent
 											{
 											LinhaArr = Linha.split("DIVISOR");
 
-											if (LinhaArr.length == 6) if ((AntonioVandre.NumeroReal(String.valueOf((new Expression(LinhaArr[0].replaceAll(" ", ""))).calculate()))) && (AntonioVandre.NumeroReal(String.valueOf((new Expression(LinhaArr[1].replaceAll(" ", ""))).calculate()))) && (AntonioVandre.NumeroReal(String.valueOf((new Expression(LinhaArr[2].replaceAll(" ", ""))).calculate()))) && (AntonioVandre.NumeroReal(String.valueOf((new Expression(LinhaArr[3].replaceAll(" ", ""))).calculate()))) && (AntonioVandre.NumeroReal(String.valueOf((new Expression(LinhaArr[4].replaceAll(" ", ""))).calculate()))) && (AntonioVandre.NumeroReal(String.valueOf((new Expression(LinhaArr[5].replaceAll(" ", ""))).calculate()))))
-												if (CameraId == i++)
-													{
-													x = (new Expression(LinhaArr[0].replaceAll(" ", ""))).calculate();
+											if (LinhaArr.length == 6)
+												{
+												double xcam = (new Expression(LinhaArr[0].replaceAll(" ", ""))).calculate();
 
-													y = (new Expression("(" + LinhaArr[1].replaceAll(" ", "") + ") * (-1)")).calculate();
+												double ycam = (new Expression("(" + LinhaArr[1].replaceAll(" ", "") + ") * (-1)")).calculate();
 
-													z = (new Expression("(" + LinhaArr[2].replaceAll(" ", "") + ") * (-1)")).calculate();
+												double zcam = (new Expression("(" + LinhaArr[2].replaceAll(" ", "") + ") * (-1)")).calculate();
 
-													Teta = (new Expression(LinhaArr[3].replaceAll(" ", ""))).calculate();
+												double Tetacam = (new Expression(LinhaArr[3].replaceAll(" ", ""))).calculate();
 
-													Phi = (new Expression(LinhaArr[4].replaceAll(" ", ""))).calculate();
+												double Phicam = (new Expression(LinhaArr[4].replaceAll(" ", ""))).calculate();
 
-													Rot = (new Expression(LinhaArr[5].replaceAll(" ", ""))).calculate();
-									
-													xt = x; yt = y; zt = z; Tetat = Teta; Phit = Phi; Rott = Rot; ContadorFrames = FramesDeslocamento;
+												double Rotcam = (new Expression(LinhaArr[5].replaceAll(" ", ""))).calculate();
 
-													break;
-													}
+												if ((AntonioVandre.NumeroReal(String.valueOf(xcam))) && (AntonioVandre.NumeroReal(String.valueOf(ycam))) && (AntonioVandre.NumeroReal(String.valueOf(zcam))) && (AntonioVandre.NumeroReal(String.valueOf(Tetacam))) && (AntonioVandre.NumeroReal(String.valueOf(Phicam))) && (AntonioVandre.NumeroReal(String.valueOf(Rotcam))))
+													if (CameraId == i++)
+														{
+														x = xcam;
+														y = ycam;
+														z = zcam;
+														Teta = Tetacam;
+														Phi = Phicam;
+														Rot = Rotcam;
+										
+														xt = x; yt = y; zt = z; Tetat = Teta; Phit = Phi; Rott = Rot; ContadorFrames = FramesDeslocamento;
+
+														break;
+														}
+												}
 											}
 										else
 											{
