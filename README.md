@@ -29,6 +29,11 @@ O repositório de plugins geradores de espaços considerados de maior utilidade 
 "https://github.com/antoniovandre2/AV3DNavigator/tree/main/Plugins".
 ____________________
 
+Se deseja usar ou distribuir em outros idiomas que não o Português, pode personalizar a gosto o arquivo "AV3DNHelp.txt", acessado in-software através da tecla F1.
+
+If you wish to use or distribute in languages ​​other than Portuguese, you can customize the "AV3DNHelp.txt" file, accessed in-software via the F1 key.
+____________________
+
 Há suporte para o arquivo "AV3DNavigator.ini", onde se pode já inicializar variáveis ao próprio gosto.
 ____________________
 
