@@ -692,7 +692,8 @@ public class AV3DNavigator extends JComponent
 		try
 			{
 			BufferedReader brVersao = new BufferedReader(new FileReader(fileVersao));
-			Versao = brVersao.readLine();
+
+			do {Versao = brVersao.readLine();} while (((Versao.replaceAll(" ", "").equals(""))) || (Versao.replaceAll(" ", "").charAt(0) == '#'));
 			} catch (IOException e) {}
 
 		File fileURL = new File(ArquivoAV3DNavigatorURL);
