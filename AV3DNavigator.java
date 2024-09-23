@@ -1406,6 +1406,9 @@ public class AV3DNavigator extends JComponent
 						Parametro8Step = 1;
 						Parametro9 = 0;
 						Parametro9Step = 1;
+						CameraMovePar = 0;
+						CameraMoveParStep = 1;
+						StretchFlag = 1;
 						SleepTime = 7;
 						FlagTime = 0;
 						}
@@ -2793,6 +2796,31 @@ public class AV3DNavigator extends JComponent
 					FlagMouseY = 1;
 					FatorAnguloVisao = 1;
 					DistanciaTela = 2;
+					Parametro0 = 0;
+					Parametro0Step = 1;
+					Parametro1 = 0;
+					Parametro1Step = 1;
+					Parametro2 = 0;
+					Parametro2Step = 1;
+					Parametro3 = 0;
+					Parametro3Step = 1;
+					Parametro4 = 0;
+					Parametro4Step = 1;
+					Parametro5 = 0;
+					Parametro5Step = 1;
+					Parametro6 = 0;
+					Parametro6Step = 1;
+					Parametro7 = 0;
+					Parametro7Step = 1;
+					Parametro8 = 0;
+					Parametro8Step = 1;
+					Parametro9 = 0;
+					Parametro9Step = 1;
+					CameraMovePar = 0;
+					CameraMoveParStep = 1;
+					StretchFlag = 1;
+					SleepTime = 7;
+					FlagTime = 0;
 
 					ContadorFrames = FramesDeslocamento;
 */
@@ -4060,6 +4088,9 @@ public class AV3DNavigator extends JComponent
 		Parametro8Step = 1;
 		Parametro9 = 0;
 		Parametro9Step = 1;
+		CameraMovePar = 0;
+		CameraMoveParStep = 1;
+		StretchFlag = 1;
 		SleepTime = 7;
 		FlagTime = 0;
 		}
