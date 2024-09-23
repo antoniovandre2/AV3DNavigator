@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Creative Commons Attribution ShareAlike License V3.0.
  * 
- * Última atualização: 19-09-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 23-09-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -109,7 +109,7 @@ public class AV3DNavigator extends JComponent
 	public static int TamanhoEspacoLabelStatus = 300; // Default: 300.
 	public static int TamanhoEspacoLabelURL = 65; // Default: 65.
 	public static int TamanhoEspacoHelpX = 800; // Default: 800.
-	public static int TamanhoEspacoHelpY = 900; // Default: 900.
+	public static int TamanhoEspacoHelpY = 890; // Default: 890.
 	public static int TamanhoEspacoInvalidoX = 300; // Default: 300.
 	public static int TamanhoEspacoInvalidoY = 80; // Default: 80.
 	public static int MinTamanhoPlanoX = 400; // Default: 400.
@@ -195,6 +195,7 @@ public class AV3DNavigator extends JComponent
 	public int yf;
 	public int xpp;
 	public int ypp;
+	public double AspectRatio;
 	public int ShiftVerticalLegendas = 25; // Default: valor inicial: 25;
 	public int TamanhoFonteLegendas = 12; // Default: valor inicial: 12.
 	public int ResolucaoTriangulos = 10; // Default: valor inicial: 10. Considerável custo computacional para valores elevados.
@@ -206,6 +207,7 @@ public class AV3DNavigator extends JComponent
 	public int FlagPhiSuperior = 0;
 	public int FlagPhiInferior = 0;
 	public int Sair = 0;
+	public int StretchFlag = 1;
 	public int ApfloatFlag = 0;
 	public int TrianguloPoligono = 1;
 	public String Espaco;
@@ -274,6 +276,8 @@ public class AV3DNavigator extends JComponent
 	public int MouseYR;
 	public double TetaR;
 	public double PhiR;
+	public int TamanhoPlanoXAd;
+	public int TamanhoPlanoYAd;
 	public int ContadorFrames = FramesDeslocamento;
 	public Color CorBackground;
 	public Color CorLinha;
@@ -869,6 +873,18 @@ public class AV3DNavigator extends JComponent
 
 									break;
 
+								case "Stretch":
+									if (AntonioVandre.NumeroInteiro(INIelements[1].replaceAll(" ", "")))
+										{
+										ValorInteiro = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+
+										if ((ValorInteiro == 0) || (ValorInteiro == 1))
+											{
+											StretchFlag = ValorInteiro;
+											FlagINI = 1;
+											}
+										}
+
 								case "Apfloat":
 									if (AntonioVandre.NumeroInteiro(INIelements[1].replaceAll(" ", "")))
 										{
@@ -1404,7 +1420,7 @@ public class AV3DNavigator extends JComponent
 						JFrame FrameHelp = new JFrame("AV3DNavigator - Ajuda");
 						FrameHelp.setPreferredSize(new Dimension(TamanhoEspacoHelpX, TamanhoEspacoHelpY));
 						FrameHelp.setSize(new Dimension(TamanhoEspacoHelpX, TamanhoEspacoHelpY));
-						LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar. \"G\" para incrementar Phi. \"B\" para decrementar.<br>Shift + \"F\" para rotação lateral esquerda. Shift + \"V\" para direita.<br>Shift + \"B\" para rotação vertical para baixo. Shift + \"G\" para cima.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>Shift + \"J\" para rotação vertical positiva. Shift + \"M\" para negativa.<br>\"K\" para rotação total positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>Shift + \"L\" para incrementar o raio de rotação vertical. Shift + \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação total. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor vermelha padrão da linha. \"Y\" para shift positivo.<br>Shift + \"T\" para shift negativo na cor verde padrão da linha. Shift + \"Y\" para shift positivo.<br>Ctrl + \"T\" para shift negativo na cor azul padrão da linha. Ctrl + \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor vermelha padrão de fundo. \"I\" para shift positivo.<br>Shift + \"U\" para shift negativo na cor verde padrão de fundo. Shift + \"I\" para shift positivo.<br>Ctrl + \"U\" para shift negativo na cor azul padrão de fundo. Ctrl + \"I\" para shift positivo.<br>\"O\" para shift negativo na cor vermelha padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>Shift + \"O\" para shift negativo na cor verde padrão dos polígonos preenchidos. Shift + \"P\" para shift positivo.<br>Ctrl + \"O\" para shift negativo na cor azul padrão dos polígonos preenchidos. Ctrl + \"P\" para shift positivo.<br>INSERT para shift negativo na cor vermelha padrão das legendas. HOME para shift positivo.<br>Shift + INSERT para shift negativo na cor verde padrão das legendas. Shift + HOME para shift positivo.<br>Ctrl + INSERT para shift negativo na cor azul padrão das legendas. Ctrl + HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>Numpad \"0\" para toggle alta precisão Apfloat (com custo computacional).<br>F4 para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Ctrl + ENTER para shift positivo em câmeras predefinidas, Ctrl + Shift + ENTER para negativo.<br><br>Numpad \"3\" para incremento no parâmetro de movimentação da câmera. Shift + Numpad \"3\" para decremento.<br>Ctrl + Numpad \"3\" para incremento no step de variação do parâmetro de movimentação da câmera. Ctrl + Shift = Numpad \"3\" para decremento.<br><br>Teclas de \"0\" a \"9\" para incrementar o parâmetro correspondente. Shift + tecla para decrementar.<br>Ctrl + tecla para incrementar o step do parâmetro. Ctrl + Shift + tecla para decrementar.<br><br>ENTER para ler os arquivos de parâmetros.<br><br>Shift + ENTER para ativar / desativar os parâmetros de tempo.<br><br>Setas para strafe. Shift + setas para strafe com rotação de tela.<br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F11 para setar aspect ratio 1.<br>F12 para screenshot.<br>F3 para ocultar e mostrar os labels.<br>BACKSPACE para ativar / desativar labels animados.<br><br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB), 2);
+						LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar. \"G\" para incrementar Phi. \"B\" para decrementar.<br>Shift + \"F\" para rotação lateral esquerda. Shift + \"V\" para direita.<br>Shift + \"B\" para rotação vertical para baixo. Shift + \"G\" para cima.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>Shift + \"J\" para rotação vertical positiva. Shift + \"M\" para negativa.<br>\"K\" para rotação total positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>Shift + \"L\" para incrementar o raio de rotação vertical. Shift + \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação total. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor vermelha padrão da linha. \"Y\" para shift positivo.<br>Shift + \"T\" para shift negativo na cor verde padrão da linha. Shift + \"Y\" para shift positivo.<br>Ctrl + \"T\" para shift negativo na cor azul padrão da linha. Ctrl + \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor vermelha padrão de fundo. \"I\" para shift positivo.<br>Shift + \"U\" para shift negativo na cor verde padrão de fundo. Shift + \"I\" para shift positivo.<br>Ctrl + \"U\" para shift negativo na cor azul padrão de fundo. Ctrl + \"I\" para shift positivo.<br>\"O\" para shift negativo na cor vermelha padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>Shift + \"O\" para shift negativo na cor verde padrão dos polígonos preenchidos. Shift + \"P\" para shift positivo.<br>Ctrl + \"O\" para shift negativo na cor azul padrão dos polígonos preenchidos. Ctrl + \"P\" para shift positivo.<br>INSERT para shift negativo na cor vermelha padrão das legendas. HOME para shift positivo.<br>Shift + INSERT para shift negativo na cor verde padrão das legendas. Shift + HOME para shift positivo.<br>Ctrl + INSERT para shift negativo na cor azul padrão das legendas. Ctrl + HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>Numpad \"0\" para toggle alta precisão Apfloat (com custo computacional).<br>F4 para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Ctrl + ENTER para shift positivo em câmeras predefinidas, Ctrl + Shift + ENTER para negativo.<br><br>Numpad \"3\" para incremento no parâmetro de movimentação da câmera. Shift + Numpad \"3\" para decremento.<br>Ctrl + Numpad \"3\" para incremento no step de variação do parâmetro de movimentação da câmera. Ctrl + Shift = Numpad \"3\" para decremento.<br><br>Teclas de \"0\" a \"9\" para incrementar o parâmetro correspondente. Shift + tecla para decrementar.<br>Ctrl + tecla para incrementar o step do parâmetro. Ctrl + Shift + tecla para decrementar.<br><br>ENTER para ler os arquivos de parâmetros.<br><br>Shift + ENTER para ativar / desativar os parâmetros de tempo.<br><br>Setas para strafe. Shift + setas para strafe com rotação de tela.<br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F10 para togle stretch. F11 para setar aspect ratio 1. F12 para screenshot.<br>F3 para ocultar e mostrar os labels.<br>BACKSPACE para ativar / desativar labels animados.<br><br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB), 2);
 						LabelHelp.setBorder(new EmptyBorder(5, 5, 5, 5));
 						LabelHelp.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelHelp));
 						FrameHelp.add(LabelHelp);
@@ -1541,22 +1557,28 @@ public class AV3DNavigator extends JComponent
 							}
 						}
 
+					if (keyCode == KeyEvent.VK_F10)
+						{if (StretchFlag == 0) StretchFlag = 1; else StretchFlag = 0;}
+
 					if (keyCode == KeyEvent.VK_F11)
 						{
-						int Tamanho = Math.min(TamanhoPlanoX, TamanhoPlanoY);
-
-						if (FlagMostrarLabel == 1)
+						if (StretchFlag == 1)
 							{
-							FrameEspaco.setPreferredSize(new Dimension(Tamanho, Tamanho + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
-							FrameEspaco.setSize(new Dimension(Tamanho, Tamanho + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
-							}
-						else
-							{
-							FrameEspaco.setPreferredSize(new Dimension(Tamanho, Tamanho + TamanhoEspacoLabelURL));
-							FrameEspaco.setSize(new Dimension(Tamanho, Tamanho + TamanhoEspacoLabelURL));
-							}
+							int Tamanho = Math.min(TamanhoPlanoX, TamanhoPlanoY);
 
-						FrameEspaco.revalidate(); FrameEspaco.repaint(); FrameEspaco.pack();
+							if (FlagMostrarLabel == 1)
+								{
+								FrameEspaco.setPreferredSize(new Dimension(Tamanho, Tamanho + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
+								FrameEspaco.setSize(new Dimension(Tamanho, Tamanho + TamanhoEspacoLabelStatus + TamanhoEspacoLabelURL));
+								}
+							else
+								{
+								FrameEspaco.setPreferredSize(new Dimension(Tamanho, Tamanho + TamanhoEspacoLabelURL));
+								FrameEspaco.setSize(new Dimension(Tamanho, Tamanho + TamanhoEspacoLabelURL));
+								}
+
+							FrameEspaco.revalidate(); FrameEspaco.repaint(); FrameEspaco.pack();
+							}
 						}
 
 					if (keyCode == KeyEvent.VK_F3)
@@ -2958,7 +2980,12 @@ public class AV3DNavigator extends JComponent
 
 				try {Thread.sleep(SleepTime);} catch(InterruptedException e) {}
 
-				LabelStatus.setText("<html><p style=\"line-height: 50%;\">x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ". z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ". Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ". Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br>Raio de rotação = " + String.valueOf(RaioRot) + ". Rotacao = " + String.valueOf(Rotacao) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao + MargemAnguloVisao) + ".<br>Aspect ratio = " + String.valueOf((double) (TamanhoPlanoX) / ((double) (TamanhoPlanoY))) + "<br><br>P0 = " + String.valueOf(Parametro1) + ". P0S = " + String.valueOf(Parametro0Step) + ". P1 = " + String.valueOf(Parametro1) + ". P1S = " + String.valueOf(Parametro1Step) + ".<br>P2 = " + String.valueOf(Parametro2) + ". P2S = " + String.valueOf(Parametro2Step) + ". P3 = " + String.valueOf(Parametro3) + ". P3S = " + String.valueOf(Parametro3Step) + ".<br>P4 = " + String.valueOf(Parametro4) + ". P4S = " + String.valueOf(Parametro4Step) + ". P5 = " + String.valueOf(Parametro5) + ". P5S = " + String.valueOf(Parametro5Step) + ".<br>P6 = " + String.valueOf(Parametro6) + ". P6S = " + String.valueOf(Parametro6Step) + ". P7 = " + String.valueOf(Parametro7) + ". P7S = " + String.valueOf(Parametro7Step) + ".<br>P8 = " + String.valueOf(Parametro8) + ". P8S = " + String.valueOf(Parametro8Step) + ". P9 = " + String.valueOf(Parametro9) + ". P9S = " + String.valueOf(Parametro9Step) + ".<br><br>CameraMovePar = " + String.valueOf(CameraMovePar) + ". CameraMoveParStep = " + String.valueOf(CameraMoveParStep) + ".<br><br>Apfloat = " + String.valueOf(ApfloatFlag) + ". fillPolygon = " + String.valueOf(TrianguloPoligono) + ". ResolucaoTriangulos = " + String.valueOf(ResolucaoTriangulos) + ". SleepTime = " + String.valueOf(SleepTime) + ". FlagTime = " + String.valueOf(FlagTime) + ". CamId = " + String.valueOf(CameraId) + ".<br><br>Aperte F1 para ajuda.</p></html>");
+				if (StretchFlag == 1)
+					AspectRatio = (double) TamanhoPlanoX / (double) TamanhoPlanoY;
+				else
+					AspectRatio = 1;
+
+				LabelStatus.setText("<html><p style=\"line-height: 50%;\">x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ". z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ". Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ". Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br>Raio de rotação = " + String.valueOf(RaioRot) + ". Rotacao = " + String.valueOf(Rotacao) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao + MargemAnguloVisao) + ".<br>Aspect ratio = " + String.valueOf(AspectRatio) + "<br><br>P0 = " + String.valueOf(Parametro1) + ". P0S = " + String.valueOf(Parametro0Step) + ". P1 = " + String.valueOf(Parametro1) + ". P1S = " + String.valueOf(Parametro1Step) + ".<br>P2 = " + String.valueOf(Parametro2) + ". P2S = " + String.valueOf(Parametro2Step) + ". P3 = " + String.valueOf(Parametro3) + ". P3S = " + String.valueOf(Parametro3Step) + ".<br>P4 = " + String.valueOf(Parametro4) + ". P4S = " + String.valueOf(Parametro4Step) + ". P5 = " + String.valueOf(Parametro5) + ". P5S = " + String.valueOf(Parametro5Step) + ".<br>P6 = " + String.valueOf(Parametro6) + ". P6S = " + String.valueOf(Parametro6Step) + ". P7 = " + String.valueOf(Parametro7) + ". P7S = " + String.valueOf(Parametro7Step) + ".<br>P8 = " + String.valueOf(Parametro8) + ". P8S = " + String.valueOf(Parametro8Step) + ". P9 = " + String.valueOf(Parametro9) + ". P9S = " + String.valueOf(Parametro9Step) + ".<br><br>CameraMovePar = " + String.valueOf(CameraMovePar) + ". CameraMoveParStep = " + String.valueOf(CameraMoveParStep) + ".<br><br>Stretch = " + String.valueOf(StretchFlag) + ". Apfloat = " + String.valueOf(ApfloatFlag) + ". fillPolygon = " + String.valueOf(TrianguloPoligono) + ". ResolucaoTriangulos = " + String.valueOf(ResolucaoTriangulos) + ". SleepTime = " + String.valueOf(SleepTime) + ". FlagTime = " + String.valueOf(FlagTime) + ". CamId = " + String.valueOf(CameraId) + ".<br><br>Aperte F1 para ajuda.</p></html>");
 
 				FrameEspaco.getContentPane().setBackground(CorBackground);
 
@@ -2996,6 +3023,17 @@ public class AV3DNavigator extends JComponent
 
 	public void DesenharEspaco(AV3DNavigator Comp)
 		{
+		if (StretchFlag == 1)
+			{
+			TamanhoPlanoXAd = TamanhoPlanoX;
+			TamanhoPlanoYAd = TamanhoPlanoY;
+			}
+		else
+			{
+			TamanhoPlanoXAd = Math.min(TamanhoPlanoX, TamanhoPlanoY);
+			TamanhoPlanoYAd = TamanhoPlanoXAd;
+			}
+
 		String [] EspacoStr2 = Espaco.split("@");
 
 		String EspacoP;
@@ -3132,13 +3170,13 @@ public class AV3DNavigator extends JComponent
 					else
 						zd = -Double.parseDouble(CoordenadasDest[2]) - zt;
 
-					xi = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * DistanciaTela * (Math.cos(Rott) * (xo * Math.sin(Tetat) + yo * Math.cos(Tetat)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)) - Math.sin(Rott) * (xo * Math.cos(Tetat) * Math.sin(Phit) - yo * Math.sin(Tetat) * Math.sin(Phit) + zo * Math.cos(Phit)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)))) - CorrecaoX;
+					xi = (int) (TamanhoPlanoXAd / 2 + TamanhoPlanoXAd / 2 * DistanciaTela * (Math.cos(Rott) * (xo * Math.sin(Tetat) + yo * Math.cos(Tetat)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)) - Math.sin(Rott) * (xo * Math.cos(Tetat) * Math.sin(Phit) - yo * Math.sin(Tetat) * Math.sin(Phit) + zo * Math.cos(Phit)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)))) - CorrecaoX;
 
-					yi = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * DistanciaTela * (Math.sin(Rott) * (xo * Math.sin(Tetat) + yo * Math.cos(Tetat)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)) + Math.cos(Rott) * (xo * Math.cos(Tetat) * Math.sin(Phit) - yo * Math.sin(Tetat) * Math.sin(Phit) + zo * Math.cos(Phit)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)))) - CorrecaoY;
+					yi = (int) (TamanhoPlanoYAd / 2 + FlagMouseY * TamanhoPlanoYAd / 2 * DistanciaTela * (Math.sin(Rott) * (xo * Math.sin(Tetat) + yo * Math.cos(Tetat)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)) + Math.cos(Rott) * (xo * Math.cos(Tetat) * Math.sin(Phit) - yo * Math.sin(Tetat) * Math.sin(Phit) + zo * Math.cos(Phit)) / (Math.sqrt(xo * xo + yo * yo + zo * zo)))) - CorrecaoY;
 
-					xf = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * DistanciaTela * (Math.cos(Rott) * (xd * Math.sin(Tetat) + yd * Math.cos(Tetat)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)) - Math.sin(Rott) * (xd * Math.cos(Tetat) * Math.sin(Phit) - yd * Math.sin(Tetat) * Math.sin(Phit) + zd * Math.cos(Phit)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)))) - CorrecaoX;
+					xf = (int) (TamanhoPlanoXAd / 2 + TamanhoPlanoXAd / 2 * DistanciaTela * (Math.cos(Rott) * (xd * Math.sin(Tetat) + yd * Math.cos(Tetat)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)) - Math.sin(Rott) * (xd * Math.cos(Tetat) * Math.sin(Phit) - yd * Math.sin(Tetat) * Math.sin(Phit) + zd * Math.cos(Phit)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)))) - CorrecaoX;
 
-					yf = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * DistanciaTela * (Math.sin(Rott) * (xd * Math.sin(Tetat) + yd * Math.cos(Tetat)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)) + Math.cos(Rott) * (xd * Math.cos(Tetat) * Math.sin(Phit) - yd * Math.sin(Tetat) * Math.sin(Phit) + zd * Math.cos(Phit)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)))) - CorrecaoY;
+					yf = (int) (TamanhoPlanoYAd / 2 + FlagMouseY * TamanhoPlanoYAd / 2 * DistanciaTela * (Math.sin(Rott) * (xd * Math.sin(Tetat) + yd * Math.cos(Tetat)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)) + Math.cos(Rott) * (xd * Math.cos(Tetat) * Math.sin(Phit) - yd * Math.sin(Tetat) * Math.sin(Phit) + zd * Math.cos(Phit)) / (Math.sqrt(xd * xd + yd * yd + zd * zd)))) - CorrecaoY;
 
 					ProdutoEscalaro = xo * Math.cos(Tetat) * Math.cos(Phit) - yo * Math.sin(Tetat) * Math.cos(Phit) - zo * Math.sin(Phit);
 
@@ -3246,13 +3284,13 @@ public class AV3DNavigator extends JComponent
 					int xf;
 					int yf;
 
-					xi = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * ((new Apfloat(DistanciaTela, PrecisaoApfloat)).multiply(ApfloatMath.cos(new Apfloat(Rott, PrecisaoApfloat)).multiply(xoa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).add(yoa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).add(ApfloatMath.sin(new Apfloat(Rott, PrecisaoApfloat)).multiply(xoa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).add(yoa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zoa.multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).multiply(new Apfloat(-1, PrecisaoApfloat))))).doubleValue()) - CorrecaoX;
+					xi = (int) (TamanhoPlanoXAd / 2 + TamanhoPlanoXAd / 2 * ((new Apfloat(DistanciaTela, PrecisaoApfloat)).multiply(ApfloatMath.cos(new Apfloat(Rott, PrecisaoApfloat)).multiply(xoa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).add(yoa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).add(ApfloatMath.sin(new Apfloat(Rott, PrecisaoApfloat)).multiply(xoa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).add(yoa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zoa.multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).multiply(new Apfloat(-1, PrecisaoApfloat))))).doubleValue()) - CorrecaoX;
 
-					yi = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * ((new Apfloat(DistanciaTela, PrecisaoApfloat)).multiply(ApfloatMath.sin(new Apfloat(Rott, PrecisaoApfloat)).multiply(xoa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).add(yoa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).add(ApfloatMath.cos(new Apfloat(Rott, PrecisaoApfloat)).multiply(xoa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).add(yoa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zoa.multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa)))))))).doubleValue()) - CorrecaoY;
+					yi = (int) (TamanhoPlanoYAd / 2 + FlagMouseY * TamanhoPlanoYAd / 2 * ((new Apfloat(DistanciaTela, PrecisaoApfloat)).multiply(ApfloatMath.sin(new Apfloat(Rott, PrecisaoApfloat)).multiply(xoa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).add(yoa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa))))).add(ApfloatMath.cos(new Apfloat(Rott, PrecisaoApfloat)).multiply(xoa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).add(yoa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zoa.multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xoa.multiply(xoa).add(yoa.multiply(yoa)).add(zoa.multiply(zoa)))))))).doubleValue()) - CorrecaoY;
 
-					xf = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * ((new Apfloat(DistanciaTela, PrecisaoApfloat)).multiply(ApfloatMath.cos(new Apfloat(Rott, PrecisaoApfloat)).multiply(xda.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).add(yda.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).add(ApfloatMath.sin(new Apfloat(Rott, PrecisaoApfloat)).multiply(xda.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).add(yda.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zda.multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).multiply(new Apfloat(-1, PrecisaoApfloat))))).doubleValue()) - CorrecaoX;
+					xf = (int) (TamanhoPlanoXAd / 2 + TamanhoPlanoXAd / 2 * ((new Apfloat(DistanciaTela, PrecisaoApfloat)).multiply(ApfloatMath.cos(new Apfloat(Rott, PrecisaoApfloat)).multiply(xda.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).add(yda.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).add(ApfloatMath.sin(new Apfloat(Rott, PrecisaoApfloat)).multiply(xda.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).add(yda.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zda.multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).multiply(new Apfloat(-1, PrecisaoApfloat))))).doubleValue()) - CorrecaoX;
 
-					yf = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * ((new Apfloat(DistanciaTela, PrecisaoApfloat)).multiply(ApfloatMath.sin(new Apfloat(Rott, PrecisaoApfloat)).multiply(xda.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).add(yda.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).add(ApfloatMath.cos(new Apfloat(Rott, PrecisaoApfloat)).multiply(xda.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).add(yda.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zda.multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda)))))))).doubleValue()) - CorrecaoY;
+					yf = (int) (TamanhoPlanoYAd / 2 + FlagMouseY * TamanhoPlanoYAd / 2 * ((new Apfloat(DistanciaTela, PrecisaoApfloat)).multiply(ApfloatMath.sin(new Apfloat(Rott, PrecisaoApfloat)).multiply(xda.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).add(yda.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda))))).add(ApfloatMath.cos(new Apfloat(Rott, PrecisaoApfloat)).multiply(xda.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).add(yda.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zda.multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xda.multiply(xda).add(yda.multiply(yda)).add(zda.multiply(zda)))))))).doubleValue()) - CorrecaoY;
 
 					Apfloat ProdutoEscalaroa = xoa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))).add(yoa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zoa.multiply(new Apfloat(Phit, PrecisaoApfloat)).multiply(new Apfloat(-1, PrecisaoApfloat)));
 
@@ -3383,9 +3421,9 @@ public class AV3DNavigator extends JComponent
 						else
 							zp = -Double.parseDouble(Coordenadas[2]) - zt;
 
-						xpp = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * DistanciaTela * (Math.cos(Rott) * (xp * Math.sin(Tetat) + yp * Math.cos(Tetat)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)) - Math.sin(Rott) * (xp * Math.cos(Tetat) * Math.sin(Phit) - yp * Math.sin(Tetat) * Math.sin(Phit) + zp * Math.cos(Phit)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)))) - CorrecaoX;
+						xpp = (int) (TamanhoPlanoXAd / 2 + TamanhoPlanoXAd / 2 * DistanciaTela * (Math.cos(Rott) * (xp * Math.sin(Tetat) + yp * Math.cos(Tetat)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)) - Math.sin(Rott) * (xp * Math.cos(Tetat) * Math.sin(Phit) - yp * Math.sin(Tetat) * Math.sin(Phit) + zp * Math.cos(Phit)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)))) - CorrecaoX;
 
-						ypp = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * DistanciaTela * (Math.sin(Rott) * (xp * Math.sin(Tetat) + yp * Math.cos(Tetat)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)) + Math.cos(Rott) * (xp * Math.cos(Tetat) * Math.sin(Phit) - yp * Math.sin(Tetat) * Math.sin(Phit) + zp * Math.cos(Phit)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)))) - CorrecaoY;
+						ypp = (int) (TamanhoPlanoYAd / 2 + FlagMouseY * TamanhoPlanoYAd / 2 * DistanciaTela * (Math.sin(Rott) * (xp * Math.sin(Tetat) + yp * Math.cos(Tetat)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)) + Math.cos(Rott) * (xp * Math.cos(Tetat) * Math.sin(Phit) - yp * Math.sin(Tetat) * Math.sin(Phit) + zp * Math.cos(Phit)) / (Math.sqrt(xp * xp + yp * yp + zp * zp)))) - CorrecaoY;
 
 						ProdutoEscalar = xp * Math.cos(Tetat) * Math.cos(Phit) - yp * Math.sin(Tetat) * Math.cos(Phit) - zp * Math.sin(Phit);
 
@@ -3435,9 +3473,9 @@ public class AV3DNavigator extends JComponent
 						else
 							zpa = (new Apfloat(-Double.parseDouble(Coordenadas[2]), PrecisaoApfloat)).add(new Apfloat(-zt, PrecisaoApfloat));
 
-						xpp = (int) (TamanhoPlanoX / 2 + TamanhoPlanoX / 2 * ((new Apfloat(DistanciaTela, PrecisaoApfloat)).multiply(ApfloatMath.cos(new Apfloat(Rott, PrecisaoApfloat)).multiply(xpa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).add(ypa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa))))).add(ApfloatMath.sin(new Apfloat(Rott, PrecisaoApfloat)).multiply(xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zpa.multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa))))).multiply(new Apfloat(-1, PrecisaoApfloat))))).doubleValue()) - CorrecaoX;
+						xpp = (int) (TamanhoPlanoXAd / 2 + TamanhoPlanoXAd / 2 * ((new Apfloat(DistanciaTela, PrecisaoApfloat)).multiply(ApfloatMath.cos(new Apfloat(Rott, PrecisaoApfloat)).multiply(xpa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).add(ypa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa))))).add(ApfloatMath.sin(new Apfloat(Rott, PrecisaoApfloat)).multiply(xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zpa.multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa))))).multiply(new Apfloat(-1, PrecisaoApfloat))))).doubleValue()) - CorrecaoX;
 
-						ypp = (int) (TamanhoPlanoY / 2 + FlagMouseY * TamanhoPlanoY / 2 * ((new Apfloat(DistanciaTela, PrecisaoApfloat)).multiply(ApfloatMath.sin(new Apfloat(Rott, PrecisaoApfloat)).multiply(xpa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).add(ypa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa))))).add(ApfloatMath.cos(new Apfloat(Rott, PrecisaoApfloat)).multiply(xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zpa.multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa)))))))).doubleValue()) - CorrecaoY;
+						ypp = (int) (TamanhoPlanoYAd / 2 + FlagMouseY * TamanhoPlanoYAd / 2 * ((new Apfloat(DistanciaTela, PrecisaoApfloat)).multiply(ApfloatMath.sin(new Apfloat(Rott, PrecisaoApfloat)).multiply(xpa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).add(ypa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa))))).add(ApfloatMath.cos(new Apfloat(Rott, PrecisaoApfloat)).multiply(xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.sin(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zpa.multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))))).divide((ApfloatMath.sqrt(xpa.multiply(xpa).add(ypa.multiply(ypa)).add(zpa.multiply(zpa)))))))).doubleValue()) - CorrecaoY;
 
 						Apfloat ProdutoEscalara = xpa.multiply(ApfloatMath.cos(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))).add(ypa.multiply(ApfloatMath.sin(new Apfloat(Tetat, PrecisaoApfloat))).multiply(ApfloatMath.cos(new Apfloat(Phit, PrecisaoApfloat))).multiply(new Apfloat(-1, PrecisaoApfloat))).add(zpa.multiply(new Apfloat(Phit, PrecisaoApfloat)).multiply(new Apfloat(-1, PrecisaoApfloat)));
 

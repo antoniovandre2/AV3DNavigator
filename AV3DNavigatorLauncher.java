@@ -9,7 +9,7 @@
  * 
  * Licença de uso: Atribuição-NãoComercial-CompartilhaIgual (CC BY-NC-SA).
  * 
- * Última atualização: 18-08-2024.
+ * Última atualização: 23-09-2024.
  */
 
 import java.awt.Toolkit;
@@ -157,7 +157,9 @@ public class AV3DNavigatorLauncher
 			try
 				{
 				BufferedReader br = new BufferedReader(new FileReader(file));
-				VersaoLocal = br.readLine();
+
+				do {VersaoLocal = br.readLine();} while (((VersaoLocal.replaceAll(" ", "").equals(""))) || (VersaoLocal.replaceAll(" ", "").charAt(0) == '#'));
+
 				} catch (IOException e) {FlagSucessoVersaoLocal = 0;}
 
 			File fileNet = new File(ArquivoAV3DNavigatorVersao + ".tmp");
@@ -167,7 +169,8 @@ public class AV3DNavigatorLauncher
 			try
 				{
 				BufferedReader brNet = new BufferedReader(new FileReader(fileNet));
-				VersaoNet = brNet.readLine();
+
+				do {VersaoNet = brNet.readLine();} while (((VersaoNet.replaceAll(" ", "").equals(""))) || (VersaoNet.replaceAll(" ", "").charAt(0) == '#'));
 				} catch (IOException e) {FlagSucessoVersaoNet = 0;}
 
 			if ((FlagSucessoVersaoLocal == 1) && (FlagSucessoVersaoNet == 1))
