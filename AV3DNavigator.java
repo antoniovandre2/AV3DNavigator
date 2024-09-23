@@ -1413,7 +1413,15 @@ public class AV3DNavigator extends JComponent
 
 					if (keyCode == KeyEvent.VK_F1) if (FlagHelp == 0)
 						{
+						if (! (Debug.equals("Debug"))) try
+							{
+							AV3DNavigatorHelpCountThread.interrupt ();
+							AV3DNavigatorHelpCountThread.start();
+							} catch (IllegalThreadStateException e) {}
+
 						File file = new File("AV3DNHelp.txt");
+
+						JFrame FrameHelp = new JFrame("AV3DNavigator - Ajuda");
 
 						try
 							{
@@ -1427,37 +1435,36 @@ public class AV3DNavigator extends JComponent
 
 							if (LinhaArr.length == 3) if ((AntonioVandre.NumeroNaturalPositivo(LinhaArr[0])) && (AntonioVandre.NumeroNaturalPositivo(LinhaArr[0])))
 								{
-								if (! (Debug.equals("Debug"))) try
-									{
-									AV3DNavigatorHelpCountThread.interrupt ();
-									AV3DNavigatorHelpCountThread.start();
-									} catch (IllegalThreadStateException e) {}
-
-								JFrame FrameHelp = new JFrame("AV3DNavigator - Ajuda");
 								FrameHelp.setPreferredSize(new Dimension(Integer.parseInt(LinhaArr[0]), Integer.parseInt(LinhaArr[1])));
 								FrameHelp.setSize(new Dimension(Integer.parseInt(LinhaArr[0]), Integer.parseInt(LinhaArr[1])));
 								LabelHelp = new GradientLabel(LinhaArr[2], new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB), 2);
-								LabelHelp.setBorder(new EmptyBorder(5, 5, 5, 5));
-								LabelHelp.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelHelp));
-								FrameHelp.add(LabelHelp);
-								FrameHelp.pack();
-								FrameHelp.setVisible(true);
-
-								FlagHelp = 1;
-
-								FrameHelp.addKeyListener(new KeyListener()
-									{
-									public void keyPressed(KeyEvent keHelp)
-										{
-										int keyCodeHelp = keHelp.getKeyCode();
-										if (keyCodeHelp == KeyEvent.VK_ESCAPE) {FrameHelp.dispose(); FlagHelp = 0;}
-										}
-
-									public void keyReleased(KeyEvent keHelp){}
-									public void keyTyped(KeyEvent keHelp){}
-									});
 								}
-							} catch (IOException e) {}
+							} catch (IOException e)
+								{
+								FrameHelp.setPreferredSize(new Dimension(800, 890));
+								FrameHelp.setSize(new Dimension(800, 890));
+								LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x. \"Z\" para decrementar.<br>\"S\" para incrementar y. \"X\" para decrementar.<br>\"D\" para incrementar z. \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar. \"G\" para incrementar Phi. \"B\" para decrementar.<br>Shift + \"F\" para rotação lateral esquerda. Shift + \"V\" para direita.<br>Shift + \"B\" para rotação vertical para baixo. Shift + \"G\" para cima.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>Shift + \"J\" para rotação vertical positiva. Shift + \"M\" para negativa.<br>\"K\" para rotação total positiva. \",\" para negativa.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>Shift + \"L\" para incrementar o raio de rotação vertical. Shift + \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação total. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor vermelha padrão da linha. \"Y\" para shift positivo.<br>Shift + \"T\" para shift negativo na cor verde padrão da linha. Shift + \"Y\" para shift positivo.<br>Ctrl + \"T\" para shift negativo na cor azul padrão da linha. Ctrl + \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor vermelha padrão de fundo. \"I\" para shift positivo.<br>Shift + \"U\" para shift negativo na cor verde padrão de fundo. Shift + \"I\" para shift positivo.<br>Ctrl + \"U\" para shift negativo na cor azul padrão de fundo. Ctrl + \"I\" para shift positivo.<br>\"O\" para shift negativo na cor vermelha padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>Shift + \"O\" para shift negativo na cor verde padrão dos polígonos preenchidos. Shift + \"P\" para shift positivo.<br>Ctrl + \"O\" para shift negativo na cor azul padrão dos polígonos preenchidos. Ctrl + \"P\" para shift positivo.<br>INSERT para shift negativo na cor vermelha padrão das legendas. HOME para shift positivo.<br>Shift + INSERT para shift negativo na cor verde padrão das legendas. Shift + HOME para shift positivo.<br>Ctrl + INSERT para shift negativo na cor azul padrão das legendas. Ctrl + HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>Numpad \"0\" para toggle alta precisão Apfloat (com custo computacional).<br>F4 para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Ctrl + ENTER para shift positivo em câmeras predefinidas, Ctrl + Shift + ENTER para negativo.<br><br>Numpad \"3\" para incremento no parâmetro de movimentação da câmera. Shift + Numpad \"3\" para decremento.<br>Ctrl + Numpad \"3\" para incremento no step de variação do parâmetro de movimentação da câmera. Ctrl + Shift = Numpad \"3\" para decremento.<br><br>Teclas de \"0\" a \"9\" para incrementar o parâmetro correspondente. Shift + tecla para decrementar.<br>Ctrl + tecla para incrementar o step do parâmetro. Ctrl + Shift + tecla para decrementar.<br><br>ENTER para ler os arquivos de parâmetros.<br><br>Shift + ENTER para ativar / desativar os parâmetros de tempo.<br><br>Setas para strafe. Shift + setas para strafe com rotação de tela.<br>Mouse pode ser utilizado para movimentar.<br><br>Barra de espaços para resetar as variáveis.<br><br>F10 para toggle stretch. F11 para setar aspect ratio 1. F12 para screenshot.<br>F3 para ocultar e mostrar os labels.<br>BACKSPACE para ativar / desativar labels animados.<br><br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB), 2);
+								}
+
+							LabelHelp.setBorder(new EmptyBorder(5, 5, 5, 5));
+							LabelHelp.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, TamanhoFonteLabelHelp));
+							FrameHelp.add(LabelHelp);
+							FrameHelp.pack();
+							FrameHelp.setVisible(true);
+
+							FlagHelp = 1;
+
+							FrameHelp.addKeyListener(new KeyListener()
+								{
+								public void keyPressed(KeyEvent keHelp)
+									{
+									int keyCodeHelp = keHelp.getKeyCode();
+									if (keyCodeHelp == KeyEvent.VK_ESCAPE) {FrameHelp.dispose(); FlagHelp = 0;}
+									}
+
+								public void keyReleased(KeyEvent keHelp){}
+								public void keyTyped(KeyEvent keHelp){}
+								});
 						}
 
 					if (keyCode == KeyEvent.VK_F12)
