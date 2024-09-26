@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Creative Commons Attribution ShareAlike License V3.0.
  * 
- * Última atualização: 23-09-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 26-09-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -242,8 +242,9 @@ public class AV3DNavigator extends JComponent
 	public double Teta = 0;
 	public double Phi = 0;
 	public double Rot = 0;
-	public double Rotacao = Math.PI;
+	public double Rotacao;
 	public double Phi0Rotacao;
+	public int FlagCoordRotOnce = 0;
 	public double RotacaoTeta = Math.PI + Teta;
 	public double RotacaoPhi = Math.PI + Phi;
 	public double xRotacaoTeta = x + RaioTeta * Math.cos(Teta) * Math.cos(Phi);
@@ -1860,7 +1861,7 @@ public class AV3DNavigator extends JComponent
 
 					if (keyCode == KeyEvent.VK_K)
 						{
-						FlagMouseY = 1; FlagCoordRot = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
+						FlagMouseY = 1; FlagCoordRot = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; FlagCoordRotOnce = 1;
 
 						if (! (Math.abs(Rotacao - DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) Rotacao -= DeslocamentoAngular; else VariavelLimiteAtingido();
 
@@ -1869,7 +1870,7 @@ public class AV3DNavigator extends JComponent
 
 					if (keyCode == KeyEvent.VK_COMMA)
 						{
-						FlagMouseY = 1; FlagCoordRot = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
+						FlagMouseY = 1; FlagCoordRot = 1; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1; FlagCoordRotOnce = 1;
 
 						if (! (Math.abs(Rotacao + DeslocamentoAngular) >= AntonioVandre.MaximoValorReal)) Rotacao += DeslocamentoAngular; else VariavelLimiteAtingido();
 
@@ -2931,8 +2932,13 @@ public class AV3DNavigator extends JComponent
 				xRotacao = x + RaioRot * Math.cos(Teta) * Math.cos(Phi);
 				yRotacao = y - RaioRot * Math.sin(Teta) * Math.cos(Phi);
 				zRotacao = z - RaioRot * Math.sin(Phi);
-				Rotacao = 0;
-				Phi0Rotacao = Phi;
+
+				if (FlagCoordRotOnce == 0)
+					{
+					Rotacao = 0;
+					Phi0Rotacao = Phi;
+					}
+
 				FlagCoordRot = 1;
 				}
 
