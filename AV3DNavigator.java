@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Creative Commons Attribution ShareAlike License V3.0.
  * 
- * Última atualização: 26-09-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 27-09-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -1410,6 +1410,7 @@ public class AV3DNavigator extends JComponent
 						StretchFlag = 1;
 						SleepTime = 7;
 						FlagTime = 0;
+						FlagCoordRotOnce = 0;
 						}
 
 					if (keyCode == KeyEvent.VK_F1) if (FlagHelp == 0)
@@ -2843,6 +2844,7 @@ public class AV3DNavigator extends JComponent
 					StretchFlag = 1;
 					SleepTime = 7;
 					FlagTime = 0;
+					FlagCoordRotOnce = 0;
 
 					ContadorFrames = FramesDeslocamento;
 */
@@ -4120,5 +4122,6 @@ public class AV3DNavigator extends JComponent
 		StretchFlag = 1;
 		SleepTime = 7;
 		FlagTime = 0;
+		FlagCoordRotOnce = 0;
 		}
 	}
