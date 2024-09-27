@@ -2548,6 +2548,8 @@ public class AV3DNavigator extends JComponent
 						{
 						if (ke.isControlDown())
 							{
+							FlagMouseY = 1; FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; FlagCoordRotOnce = 0;
+
 							File file = new File("AV3DNCamIds.txt");
 
 							if (ke.isShiftDown())
