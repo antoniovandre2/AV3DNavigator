@@ -3,7 +3,7 @@
  * 
  * Software AV3DNavigator.
  * 
- * Dependências: AntonioVandre >= 20240921, Apfloat 1.14.0 (http://www.apfloat.org), mXparser v6.0.0 Picon (https://mathparser.org/).
+ * Dependências: AntonioVandre >= 20240921, Apfloat 1.14.0 (http://www.apfloat.org), mXparser v.6.1 (Sagitara) (https://mathparser.org/).
  * 
  * Motor Gráfico: AV3D.
  * 
@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Creative Commons Attribution ShareAlike License V3.0.
  * 
- * Última atualização: 08-10-2024. Não considerando alterações em variáveis globais.
+ * Última atualização: 20-10-2024. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
