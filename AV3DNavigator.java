@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Creative Commons Attribution ShareAlike License V3.0.
  * 
- * Última atualização: 06-01-2025. Não considerando alterações em variáveis globais.
+ * Última atualização: 16-01-2025. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -1322,15 +1322,15 @@ public class AV3DNavigator extends JComponent
 		FrameEspaco.addMouseWheelListener(e -> {
 			if ((MouseX > 0) && (MouseX <= TamanhoPlanoX) && (MouseY > FrameEspaco.getInsets().top) && (MouseY <= TamanhoPlanoY + FrameEspaco.getInsets().top))
 				{
-				if ((Math.abs(x - FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.cos(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.sin(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.sin(Phi)) >= AntonioVandre.MaximoValorReal))
+				if ((Math.abs(x - Math.signum(Math.cos(Phi)) * FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.cos(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + Math.signum(Math.cos(Phi)) * FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.sin(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + Math.signum(Math.cos(Phi)) * FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.sin(Phi)) >= AntonioVandre.MaximoValorReal))
 					VariavelLimiteAtingido();
 				else
 					{
-					x -= FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.cos(Teta);
+					x -= Math.signum(Math.cos(Phi)) * FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.cos(Teta);
 
-					y += FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.sin(Teta);
+					y += Math.signum(Math.cos(Phi)) * FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.sin(Teta);
 
-					z += FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.sin(Phi);
+					z += Math.signum(Math.cos(Phi)) * FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.sin(Phi);
 
 					xt = x; yt = y; zt = z;
 
