@@ -1322,15 +1322,15 @@ public class AV3DNavigator extends JComponent
 		FrameEspaco.addMouseWheelListener(e -> {
 			if ((MouseX > 0) && (MouseX <= TamanhoPlanoX) && (MouseY > FrameEspaco.getInsets().top) && (MouseY <= TamanhoPlanoY + FrameEspaco.getInsets().top))
 				{
-				if ((Math.abs(x - Math.signum(Math.cos(Phi)) * FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.cos(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + Math.signum(Math.cos(Phi)) * FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.sin(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + Math.signum(Math.cos(Phi)) * FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.sin(Phi)) >= AntonioVandre.MaximoValorReal))
+				if ((Math.abs(x - FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.cos(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(y + FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.sin(Teta)) >= AntonioVandre.MaximoValorReal) || (Math.abs(z + FatorMouseWheel * e.getWheelRotation() * Math.sin(Phi)) >= AntonioVandre.MaximoValorReal))
 					VariavelLimiteAtingido();
 				else
 					{
-					x -= Math.signum(Math.cos(Phi)) * FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.cos(Teta);
+					x -= FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.cos(Teta);
 
-					y += Math.signum(Math.cos(Phi)) * FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.sin(Teta);
+					y += FatorMouseWheel * e.getWheelRotation() * Math.cos(Phi) * Math.sin(Teta);
 
-					z += Math.signum(Math.cos(Phi)) * FlagMouseY * FatorMouseWheel * e.getWheelRotation() * Math.sin(Phi);
+					z += FatorMouseWheel * e.getWheelRotation() * Math.sin(Phi);
 
 					xt = x; yt = y; zt = z;
 
