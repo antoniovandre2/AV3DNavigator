@@ -160,9 +160,9 @@ public class AV3DNavigator extends JComponent
 	public int PrintG;
 	public int PrintB;
 	public long CiclesTimeIgn = 100; // Default: 100.
-	public double xCamera = 10; // Default: 10.
-	public double yCamera = 10; // Default: 10.
-	public double zCamera = 10; // Default: 10.
+	public double xCamera = 10; // Valor arbitrário: 10.
+	public double yCamera = -10; // Valor arbitrário: -10.
+	public double zCamera = -10; // Valor arbitrário: -10.
 	public double TetaCamera = Math.PI / 4; // Default: Math.PI / 4.
 	public double PhiCamera = Math.PI / 4; // Default: Math.PI / 4.
 	public double RotCamera = 0; // Default: 0.
@@ -3222,7 +3222,7 @@ public class AV3DNavigator extends JComponent
 
 			xBak = x; yBak = y; zBak = z; TetaBak = Teta; PhiBak = Phi; RotBak = Rot;
 
-			x = xCamera; y = yCamera; z = zCamera; Teta = TetaCamera; Phi = PhiCamera; Rot = RotCamera; xt = x; yt = y; zt = z; Tetat = Teta; Phit = Phi; Rott = Rot;
+			x = xCamera; y = -yCamera; z = -zCamera; Teta = TetaCamera; Phi = PhiCamera; Rot = RotCamera; xt = x; yt = y; zt = z; Tetat = Teta; Phit = Phi; Rott = Rot;
 
 			FlagCameraView = 1;
 			}
