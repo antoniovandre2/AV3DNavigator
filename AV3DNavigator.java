@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Creative Commons Attribution ShareAlike License V3.0.
  * 
- * Última atualização: 27-01-2025. Não considerando alterações em variáveis globais.
+ * Última atualização: 28-01-2025. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -213,7 +213,7 @@ public class AV3DNavigator extends JComponent
 	public int ApfloatFlag = 0;
 	public int TrianguloPoligono = 1;
 	public String Espaco;
-	public String EspacoBak;
+	public String EspacoLinhasBak;
 	public int FlagAlteracaoStatus = 1;
 	public int MaxTentativasCores = Integer.MAX_VALUE;
 	public long CameraId = -1;
@@ -326,12 +326,15 @@ public class AV3DNavigator extends JComponent
 	public int CamPersOnce = 0;
 	public String CamPersCont;
 	public int CameraView = 0;
+	public int CameraViewFollow = 1;
 	public double xBak;
 	public double yBak;
 	public double zBak;
 	public double TetaBak;
 	public double PhiBak;
 	public double RotBak;
+	public double TetaViewBak = 0;
+	public double PhiViewBak = 0;
 	public int FlagCameraView = 0;
 
 	// Threads.
@@ -741,7 +744,6 @@ public class AV3DNavigator extends JComponent
 		if (! ArquivoEspaco.equals(""))
 			{
 			Espaco = LerEspaco(ArquivoEspaco, Debug);
-			EspacoBak = Espaco;
 
 			if (Espaco.equals("Erro"))
 				{
@@ -1404,7 +1406,12 @@ public class AV3DNavigator extends JComponent
 					if (keyCode == KeyEvent.VK_SPACE)
 						{
 						if (ke.isShiftDown())
-							{if (CameraView == 0) CameraView = 1; else CameraView = 0;}
+							{
+							if (ke.isControlDown())
+								{if (CameraViewFollow == 0) CameraViewFollow = 1; else CameraViewFollow = 0;}
+							else
+								{if (CameraView == 0) CameraView = 1; else CameraView = 0;}
+							}
 						else
 							{
 							FlagCoordRot = 0; FlagCoordRotHor = 0; FlagCoordRotVert = 0; CameraId = -1;
@@ -1505,7 +1512,7 @@ public class AV3DNavigator extends JComponent
 								{
 								FrameHelp.setPreferredSize(new Dimension(800, 910));
 								FrameHelp.setSize(new Dimension(800, 910));
-								LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x, \"Z\" para decrementar. Shift + \"A\" para incrementar xCamera, Shift + \"Z\" para decrementar.<br>\"S\" para incrementar y, \"X\" para decrementar. Shift + \"S\" para incrementar yCamera, Shift + \"X\" para decrementar.<br>\"D\" para incrementar z, \"C\" para decrementar. Shift + \"D\" para incrementar zCamera, Shift + \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar. \"G\" para incrementar Phi. \"B\" para decrementar.<br>Shift + \"F\" para rotação lateral esquerda. Shift + \"V\" para direita.<br>Shift + \"B\" para rotação vertical para baixo. Shift + \"G\" para cima.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar. Shift + \"H\" para zerar rotação.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>Shift + \"J\" para rotação vertical positiva. Shift + \"M\" para negativa.<br>\"K\" para rotação total positiva. \",\" para negativa. Shift + \"K\" para resetar rotação total.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>Shift + \"L\" para incrementar o raio de rotação vertical. Shift + \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação total. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor vermelha padrão da linha. \"Y\" para shift positivo.<br>Shift + \"T\" para shift negativo na cor verde padrão da linha. Shift + \"Y\" para shift positivo.<br>Ctrl + \"T\" para shift negativo na cor azul padrão da linha. Ctrl + \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor vermelha padrão de fundo. \"I\" para shift positivo.<br>Shift + \"U\" para shift negativo na cor verde padrão de fundo. Shift + \"I\" para shift positivo.<br>Ctrl + \"U\" para shift negativo na cor azul padrão de fundo. Ctrl + \"I\" para shift positivo.<br>\"O\" para shift negativo na cor vermelha padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>Shift + \"O\" para shift negativo na cor verde padrão dos polígonos preenchidos. Shift + \"P\" para shift positivo.<br>Ctrl + \"O\" para shift negativo na cor azul padrão dos polígonos preenchidos. Ctrl + \"P\" para shift positivo.<br>INSERT para shift negativo na cor vermelha padrão das legendas. HOME para shift positivo.<br>Shift + INSERT para shift negativo na cor verde padrão das legendas. Shift + HOME para shift positivo.<br>Ctrl + INSERT para shift negativo na cor azul padrão das legendas. Ctrl + HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>Numpad \"0\" para toggle alta precisão Apfloat (com custo computacional).<br>F4 para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Ctrl + ENTER para shift positivo em câmeras predefinidas, Ctrl + Shift + ENTER para negativo.<br>Numpad \"4\" para salvar uma câmera predefinida. Shift + Numpad \"4\" para restaurar as câmeras predefinidas originais.<br><br>Numpad \"3\" para incremento no parâmetro de movimentação da câmera. Shift + Numpad \"3\" para decremento.<br>Ctrl + Numpad \"3\" para incremento no step de variação do parâmetro de movimentação da câmera. Ctrl + Shift + Numpad \"3\" para decremento.<br><br>Teclas de \"0\" a \"9\" para incrementar o parâmetro correspondente. Shift + tecla para decrementar.<br>Ctrl + tecla para incrementar o step do parâmetro. Ctrl + Shift + tecla para decrementar.<br><br>ENTER para ler os arquivos de parâmetros.<br><br>Shift + ENTER para ativar / desativar os parâmetros de tempo.<br><br>Setas para strafe. Shift + setas para strafe com rotação de tela.<br>Mouse pode ser utilizado para movimentar desde que \"Rot\" seja zero.<br><br>Barra de espaços para resetar as variáveis.<br>Shift + barra de espaços para toggle visualizar a câmera.<br><br>F10 para toggle stretch. F11 para setar aspect ratio 1. F12 para screenshot.<br>F3 para ocultar e mostrar os labels.<br>BACKSPACE para ativar / desativar labels animados.<br><br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB), 2);
+								LabelHelp = new GradientLabel("<html>F2 para selecionar e abrir arquivo de espaço.<br><br>\"A\" para incrementar x, \"Z\" para decrementar. Shift + \"A\" para incrementar xCamera, Shift + \"Z\" para decrementar.<br>\"S\" para incrementar y, \"X\" para decrementar. Shift + \"S\" para incrementar yCamera, Shift + \"X\" para decrementar.<br>\"D\" para incrementar z, \"C\" para decrementar. Shift + \"D\" para incrementar zCamera, Shift + \"C\" para decrementar.<br>\"F\" para incrementar Teta. \"V\" para decrementar. \"G\" para incrementar Phi. \"B\" para decrementar.<br>Shift + \"F\" para rotação lateral esquerda. Shift + \"V\" para direita.<br>Shift + \"B\" para rotação vertical para baixo. Shift + \"G\" para cima.<br>\"H\" para incrementar a rotação da tela. \"N\" para decrementar. Shift + \"H\" para zerar rotação.<br>\"J\" para rotação horizontal positiva. \"M\" para negativa.<br>Shift + \"J\" para rotação vertical positiva. Shift + \"M\" para negativa.<br>\"K\" para rotação total positiva. \",\" para negativa. Shift + \"K\" para resetar rotação total.<br>\"L\" para incrementar o raio de rotação horizontal. \".\" para decrementar.<br>Shift + \"L\" para incrementar o raio de rotação vertical. Shift + \".\" para decrementar.<br>\"[\" para incrementar o raio de rotação total. \"]\" para decrementar.<br>\"W\" para aumentar a distância da tela. \"Q\" para reduzir.<br>\"E\" para reduzir o fator redutor do ângulo de visão. \"R\" para aumentar.<br>\"T\" para shift negativo na cor vermelha padrão da linha. \"Y\" para shift positivo.<br>Shift + \"T\" para shift negativo na cor verde padrão da linha. Shift + \"Y\" para shift positivo.<br>Ctrl + \"T\" para shift negativo na cor azul padrão da linha. Ctrl + \"Y\" para shift positivo.<br>\"U\" para shift negativo na cor vermelha padrão de fundo. \"I\" para shift positivo.<br>Shift + \"U\" para shift negativo na cor verde padrão de fundo. Shift + \"I\" para shift positivo.<br>Ctrl + \"U\" para shift negativo na cor azul padrão de fundo. Ctrl + \"I\" para shift positivo.<br>\"O\" para shift negativo na cor vermelha padrão dos polígonos preenchidos. \"P\" para shift positivo.<br>Shift + \"O\" para shift negativo na cor verde padrão dos polígonos preenchidos. Shift + \"P\" para shift positivo.<br>Ctrl + \"O\" para shift negativo na cor azul padrão dos polígonos preenchidos. Ctrl + \"P\" para shift positivo.<br>INSERT para shift negativo na cor vermelha padrão das legendas. HOME para shift positivo.<br>Shift + INSERT para shift negativo na cor verde padrão das legendas. Shift + HOME para shift positivo.<br>Ctrl + INSERT para shift negativo na cor azul padrão das legendas. Ctrl + HOME para shift positivo.<br>DELETE para shift negativo no tamanho padrão das legendas. END para shift positivo.<br>\"-\" para shift negativo no offset das legendas. \"=\" para shift positivo.<br>Numpad \"1\" para shift negativo na resolução dos triângulos. Numpad \"2\" para shift positivo.<br>PAGE DOWN para shift negativo no sleep time. PAGE UP para shift positivo.<br><br>Numpad \"0\" para toggle alta precisão Apfloat (com custo computacional).<br>F4 para toggle preenchimento dos polígonos com linhas ou fillPolygon.<br><br>Ctrl + ENTER para shift positivo em câmeras predefinidas, Ctrl + Shift + ENTER para negativo.<br>Numpad \"4\" para salvar uma câmera predefinida. Shift + Numpad \"4\" para restaurar as câmeras predefinidas originais.<br><br>Numpad \"3\" para incremento no parâmetro de movimentação da câmera. Shift + Numpad \"3\" para decremento.<br>Ctrl + Numpad \"3\" para incremento no step de variação do parâmetro de movimentação da câmera. Ctrl + Shift + Numpad \"3\" para decremento.<br><br>Teclas de \"0\" a \"9\" para incrementar o parâmetro correspondente. Shift + tecla para decrementar.<br>Ctrl + tecla para incrementar o step do parâmetro. Ctrl + Shift + tecla para decrementar.<br><br>ENTER para ler os arquivos de parâmetros.<br><br>Shift + ENTER para ativar / desativar os parâmetros de tempo.<br><br>Setas para strafe. Shift + setas para strafe com rotação de tela.<br>Mouse pode ser utilizado para movimentar desde que \"Rot\" seja zero.<br><br>Barra de espaços para resetar as variáveis.<br>Shift + barra de espaços para toggle visualizar a câmera. Ctrl + Shift + barra de espaços para toggle CameraViewFollow.<br><br>F10 para toggle stretch. F11 para setar aspect ratio 1. F12 para screenshot.<br>F3 para ocultar e mostrar os labels.<br>BACKSPACE para ativar / desativar labels animados.<br><br>ESC para sair.</html>", new Color(CorJanelaR, CorJanelaG, CorJanelaB), new Color(CorJanelaGradienteR, CorJanelaGradienteG, CorJanelaGradienteB), new Color(CorFonteJanelaR, CorFonteJanelaG, CorFonteJanelaB), 2);
 								}
 
 							LabelHelp.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -1610,7 +1617,6 @@ public class AV3DNavigator extends JComponent
 							{
 							File selectedFile = fileChooser.getSelectedFile();
 							Espaco = LerEspaco (selectedFile.getAbsolutePath(), Debug);
-							EspacoBak = Espaco;
 
 							if (Espaco.equals("Erro"))
 								{
@@ -3195,7 +3201,7 @@ public class AV3DNavigator extends JComponent
 				else
 					AspectRatio = 1;
 
-				LabelStatus.setText("<html><p style=\"line-height: 50%;\">x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ". z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ". Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ". Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br>Raio de rotação = " + String.valueOf(RaioRot) + ". Rotacao = " + String.valueOf(Rotacao) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao + MargemAnguloVisao) + ".<br>Aspect ratio = " + String.valueOf(AspectRatio) + "<br><br>P0 = " + String.valueOf(Parametro0) + ". P0S = " + String.valueOf(Parametro0Step) + ". P1 = " + String.valueOf(Parametro1) + ". P1S = " + String.valueOf(Parametro1Step) + ".<br>P2 = " + String.valueOf(Parametro2) + ". P2S = " + String.valueOf(Parametro2Step) + ". P3 = " + String.valueOf(Parametro3) + ". P3S = " + String.valueOf(Parametro3Step) + ".<br>P4 = " + String.valueOf(Parametro4) + ". P4S = " + String.valueOf(Parametro4Step) + ". P5 = " + String.valueOf(Parametro5) + ". P5S = " + String.valueOf(Parametro5Step) + ".<br>P6 = " + String.valueOf(Parametro6) + ". P6S = " + String.valueOf(Parametro6Step) + ". P7 = " + String.valueOf(Parametro7) + ". P7S = " + String.valueOf(Parametro7Step) + ".<br>P8 = " + String.valueOf(Parametro8) + ". P8S = " + String.valueOf(Parametro8Step) + ". P9 = " + String.valueOf(Parametro9) + ". P9S = " + String.valueOf(Parametro9Step) + ".<br><br>CameraMovePar = " + String.valueOf(CameraMovePar) + ". CameraMoveParStep = " + String.valueOf(CameraMoveParStep) + ".<br><br>Stretch = " + String.valueOf(StretchFlag) + ". Apfloat = " + String.valueOf(ApfloatFlag) + ". fillPolygon = " + String.valueOf(TrianguloPoligono) + ". ResolucaoTriangulos = " + String.valueOf(ResolucaoTriangulos) + ".<br>SleepTime = " + String.valueOf(SleepTime) + ". FlagTime = " + String.valueOf(FlagTime) + ". CamId = " + String.valueOf(CameraId) + ". FlagCoordRotOnce = " + String.valueOf(FlagCoordRotOnce) + ".<br><br>Aperte F1 para ajuda.</p></html>");
+				LabelStatus.setText("<html><p style=\"line-height: 50%;\">x = " + String.valueOf(x) + ". y = " + String.valueOf(-y) + ". z = " + String.valueOf(-z) + ".<br><br>θ = " + String.valueOf(Teta) + ". Max θ = " + String.valueOf(TetaMax) + ".<br>φ = " + String.valueOf(Phi) + ". Max φ = " + String.valueOf(PhiMax) + ".<br><br>Rot = " + String.valueOf(Rot) + ".<br><br>Raio θ = " + String.valueOf(RaioTeta) + ". Rotacao θ = " + String.valueOf(RotacaoTeta) + ".<br>Raio φ = " + String.valueOf(RaioPhi) + ". Rotacao φ = " + String.valueOf(RotacaoPhi) + ".<br>Raio de rotação = " + String.valueOf(RaioRot) + ". Rotacao = " + String.valueOf(Rotacao) + ".<br><br>Distância da tela = " + String.valueOf(DistanciaTela) + ".<br>Ângulo de visão = " + String.valueOf(AnguloVisao + MargemAnguloVisao) + ".<br>Aspect ratio = " + String.valueOf(AspectRatio) + "<br><br>P0 = " + String.valueOf(Parametro0) + ". P0S = " + String.valueOf(Parametro0Step) + ". P1 = " + String.valueOf(Parametro1) + ". P1S = " + String.valueOf(Parametro1Step) + ".<br>P2 = " + String.valueOf(Parametro2) + ". P2S = " + String.valueOf(Parametro2Step) + ". P3 = " + String.valueOf(Parametro3) + ". P3S = " + String.valueOf(Parametro3Step) + ".<br>P4 = " + String.valueOf(Parametro4) + ". P4S = " + String.valueOf(Parametro4Step) + ". P5 = " + String.valueOf(Parametro5) + ". P5S = " + String.valueOf(Parametro5Step) + ".<br>P6 = " + String.valueOf(Parametro6) + ". P6S = " + String.valueOf(Parametro6Step) + ". P7 = " + String.valueOf(Parametro7) + ". P7S = " + String.valueOf(Parametro7Step) + ".<br>P8 = " + String.valueOf(Parametro8) + ". P8S = " + String.valueOf(Parametro8Step) + ". P9 = " + String.valueOf(Parametro9) + ". P9S = " + String.valueOf(Parametro9Step) + ".<br><br>CameraMovePar = " + String.valueOf(CameraMovePar) + ". CameraMoveParStep = " + String.valueOf(CameraMoveParStep) + ".<br><br>Stretch = " + String.valueOf(StretchFlag) + ". Apfloat = " + String.valueOf(ApfloatFlag) + ". fillPolygon = " + String.valueOf(TrianguloPoligono) + ". ResolucaoTriangulos = " + String.valueOf(ResolucaoTriangulos) + ". SleepTime = " + String.valueOf(SleepTime) + "<br>. FlagTime = " + String.valueOf(FlagTime) + ". CamId = " + String.valueOf(CameraId) + ". FlagCoordRotOnce = " + String.valueOf(FlagCoordRotOnce) + ". CameraView = " + String.valueOf(CameraView) + ". CameraViewFollow = " + String.valueOf(CameraViewFollow) + ".<br><br>Aperte F1 para ajuda.</p></html>");
 
 				FrameEspaco.getContentPane().setBackground(CorBackground);
 
@@ -3244,29 +3250,6 @@ public class AV3DNavigator extends JComponent
 			TamanhoPlanoYAd = TamanhoPlanoXAd;
 			}
 
-		if (CameraView == 1)
-			{
-			Espaco = String.valueOf(x) + "," + String.valueOf(-y) + "," + String.valueOf(-z) + ";" + String.valueOf(x + TamanhoSetaCamera / 2 * Math.cos(Teta) * Math.cos(Phi)) + "," + String.valueOf(-y + TamanhoSetaCamera / 2 * Math.sin(Teta) * Math.cos(Phi)) + "," + String.valueOf(-z + TamanhoSetaCamera / 2 * Math.sin(Phi)) + "c255,0,0|" + String.valueOf(x + TamanhoSetaCamera / 2 * Math.cos(Teta) * Math.cos(Phi)) + "," + String.valueOf(-y + TamanhoSetaCamera / 2 * Math.sin(Teta) * Math.cos(Phi)) + "," + String.valueOf(-z + TamanhoSetaCamera / 2 * Math.sin(Phi)) + ";" + String.valueOf(x + TamanhoSetaCamera * Math.cos(Teta) * Math.cos(Phi)) + "," + String.valueOf(-y + TamanhoSetaCamera * Math.sin(Teta) * Math.cos(Phi)) + "," + String.valueOf(-z + TamanhoSetaCamera * Math.sin(Phi)) + "c0,255,0|" + String.valueOf(x + TamanhoSetaCamera / 2 * Math.cos(Teta + Math.PI / 4 * Math.cos(-Rot)) * Math.cos(Phi + Math.PI / 4 * Math.sin(-Rot))) + "," + String.valueOf(-y + TamanhoSetaCamera / 2 * Math.sin(Teta + Math.PI / 4 * Math.cos(-Rot)) * Math.cos(Phi + Math.PI / 4 * Math.sin(-Rot))) + "," + String.valueOf(-z + TamanhoSetaCamera / 2 * Math.sin(Phi + Math.PI / 4 * Math.sin(-Rot))) + ";" + String.valueOf(x + TamanhoSetaCamera * Math.cos(Teta) * Math.cos(Phi)) + "," + String.valueOf(-y + TamanhoSetaCamera * Math.sin(Teta) * Math.cos(Phi)) + "," + String.valueOf(-z + TamanhoSetaCamera * Math.sin(Phi)) + "c0,255,0|" + String.valueOf(x + TamanhoSetaCamera / 2 * Math.cos(Teta - Math.PI / 4 * Math.cos(-Rot)) * Math.cos(Phi - Math.PI / 4 * Math.sin(-Rot))) + "," + String.valueOf(-y + TamanhoSetaCamera / 2 * Math.sin(Teta - Math.PI / 4 * Math.cos(-Rot)) * Math.cos(Phi - Math.PI / 4 * Math.sin(-Rot))) + "," + String.valueOf(-z + TamanhoSetaCamera / 2 * Math.sin(Phi - Math.PI / 4 * Math.sin(-Rot))) + ";" + String.valueOf(x + TamanhoSetaCamera * Math.cos(Teta) * Math.cos(Phi)) + "," + String.valueOf(-y + TamanhoSetaCamera * Math.sin(Teta) * Math.cos(Phi)) + "," + String.valueOf(-z + TamanhoSetaCamera * Math.sin(Phi)) + "c0,255,0|" + EspacoBak;
-
-			xBak = x; yBak = y; zBak = z; TetaBak = Teta; PhiBak = Phi; RotBak = Rot;
-
-			Teta = ((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera) == 0) ? 0 : ((x - xCamera >= 0) ? Math.asin((-y - yCamera) / Math.sqrt((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera))) : -Math.asin((-y - yCamera) / Math.sqrt((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera))) + Math.PI);
-
-			Phi = ((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera) + -(z - zCamera)*(-z - zCamera) == 0) ? 0 : Math.asin((-z - zCamera) / Math.sqrt((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera) + (-z - zCamera)*(-z - zCamera)));
-
-			x = xCamera; y = -yCamera; z = -zCamera; Rot = RotCamera; xt = x; yt = y; zt = z; Tetat = Teta; Phit = Phi; Rott = Rot;
-
-			FlagCameraView = 1;
-			}
-		else if (FlagCameraView == 1)
-			{
-			Espaco = EspacoBak;
-
-			x = xBak; y = yBak; z = zBak; Teta = TetaBak; Phi = PhiBak; Rot = RotBak; xt = x; yt = y; zt = z; Tetat = Teta; Phit = Phi; Rott = Rot;
-
-			FlagCameraView = 0;
-			}
-
 		String [] EspacoStr2 = Espaco.split("@");
 
 		String EspacoP;
@@ -3277,8 +3260,39 @@ public class AV3DNavigator extends JComponent
 		String [] EspacoTriangulosShapePreenchidos = {};
 		String [] EspacoLegendas = {};
 
-		if (EspacoStr2.length >= 1)
-			EspacoLinhas = EspacoStr2[0].split("\\|");
+		EspacoLinhasBak = EspacoStr2[0];
+
+		if (CameraView == 1)
+			{
+			EspacoStr2[0] = EspacoLinhasBak + "|" + String.valueOf(x) + "," + String.valueOf(-y) + "," + String.valueOf(-z) + ";" + String.valueOf(x + TamanhoSetaCamera / 2 * Math.cos(Teta) * Math.cos(Phi)) + "," + String.valueOf(-y + TamanhoSetaCamera / 2 * Math.sin(Teta) * Math.cos(Phi)) + "," + String.valueOf(-z + TamanhoSetaCamera / 2 * Math.sin(Phi)) + "c255,0,0|" + String.valueOf(x + TamanhoSetaCamera / 2 * Math.cos(Teta) * Math.cos(Phi)) + "," + String.valueOf(-y + TamanhoSetaCamera / 2 * Math.sin(Teta) * Math.cos(Phi)) + "," + String.valueOf(-z + TamanhoSetaCamera / 2 * Math.sin(Phi)) + ";" + String.valueOf(x + TamanhoSetaCamera * Math.cos(Teta) * Math.cos(Phi)) + "," + String.valueOf(-y + TamanhoSetaCamera * Math.sin(Teta) * Math.cos(Phi)) + "," + String.valueOf(-z + TamanhoSetaCamera * Math.sin(Phi)) + "c0,255,0|" + String.valueOf(x + TamanhoSetaCamera / 2 * Math.cos(Teta + Math.PI / 4 * Math.cos(-Rot)) * Math.cos(Phi + Math.PI / 4 * Math.sin(-Rot))) + "," + String.valueOf(-y + TamanhoSetaCamera / 2 * Math.sin(Teta + Math.PI / 4 * Math.cos(-Rot)) * Math.cos(Phi + Math.PI / 4 * Math.sin(-Rot))) + "," + String.valueOf(-z + TamanhoSetaCamera / 2 * Math.sin(Phi + Math.PI / 4 * Math.sin(-Rot))) + ";" + String.valueOf(x + TamanhoSetaCamera * Math.cos(Teta) * Math.cos(Phi)) + "," + String.valueOf(-y + TamanhoSetaCamera * Math.sin(Teta) * Math.cos(Phi)) + "," + String.valueOf(-z + TamanhoSetaCamera * Math.sin(Phi)) + "c0,255,0|" + String.valueOf(x + TamanhoSetaCamera / 2 * Math.cos(Teta - Math.PI / 4 * Math.cos(-Rot)) * Math.cos(Phi - Math.PI / 4 * Math.sin(-Rot))) + "," + String.valueOf(-y + TamanhoSetaCamera / 2 * Math.sin(Teta - Math.PI / 4 * Math.cos(-Rot)) * Math.cos(Phi - Math.PI / 4 * Math.sin(-Rot))) + "," + String.valueOf(-z + TamanhoSetaCamera / 2 * Math.sin(Phi - Math.PI / 4 * Math.sin(-Rot))) + ";" + String.valueOf(x + TamanhoSetaCamera * Math.cos(Teta) * Math.cos(Phi)) + "," + String.valueOf(-y + TamanhoSetaCamera * Math.sin(Teta) * Math.cos(Phi)) + "," + String.valueOf(-z + TamanhoSetaCamera * Math.sin(Phi)) + "c0,255,0";
+
+			xBak = x; yBak = y; zBak = z; TetaBak = Teta; PhiBak = Phi; RotBak = Rot;
+
+			if (CameraViewFollow == 1)
+				{
+				Teta = ((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera) == 0) ? 0 : ((x - xCamera >= 0) ? Math.asin((-y - yCamera) / Math.sqrt((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera))) : -Math.asin((-y - yCamera) / Math.sqrt((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera))) + Math.PI);
+
+				Phi = ((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera) + -(z - zCamera)*(-z - zCamera) == 0) ? 0 : Math.asin((-z - zCamera) / Math.sqrt((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera) + (-z - zCamera)*(-z - zCamera)));
+
+				TetaViewBak = Teta; PhiViewBak = Phi;
+				}
+			else
+				{Teta = TetaViewBak; Phi = PhiViewBak;}
+
+			x = xCamera; y = -yCamera; z = -zCamera; Rot = RotCamera; xt = x; yt = y; zt = z; Tetat = Teta; Phit = Phi; Rott = Rot;
+
+			FlagCameraView = 1;
+			}
+		else if (FlagCameraView == 1)
+			{
+			EspacoStr2[0] = EspacoLinhasBak;
+
+			x = xBak; y = yBak; z = zBak; Teta = TetaBak; Phi = PhiBak; Rot = RotBak; xt = x; yt = y; zt = z; Tetat = Teta; Phit = Phi; Rott = Rot;
+
+			FlagCameraView = 0;
+			}
+
+		EspacoLinhas = EspacoStr2[0].split("\\|");
 
 		if (EspacoStr2.length >= 2)
 			EspacoTriangulosShapePreenchidos = EspacoStr2[1].split("\\|");
