@@ -3273,9 +3273,9 @@ public class AV3DNavigator extends JComponent
 
 			if (CameraViewFollow == 1)
 				{
-				Teta = ((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera) == 0) ? 0 : ((x - xCamera >= 0) ? Math.asin((-y - yCamera) / Math.sqrt((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera))) : -Math.asin((-y - yCamera) / Math.sqrt((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera))) + Math.PI);
+				Teta = (x - xCamera == 0) ? ((-y - yCamera >= 0) ? -Math.PI / 2 : Math.PI / 2) : (((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera) == 0) ? 0 : ((x - xCamera >= 0) ? Math.asin((-y - yCamera) / Math.sqrt((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera))) : -Math.asin((-y - yCamera) / Math.sqrt((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera))) + Math.PI));
 
-				Phi = ((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera) + -(z - zCamera)*(-z - zCamera) == 0) ? 0 : Math.asin((-z - zCamera) / Math.sqrt((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera) + (-z - zCamera)*(-z - zCamera)));
+				Phi = (x - xCamera == 0) ? ((-z - zCamera >= 0) ? Math.PI / 2 : -Math.PI / 2) : (((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera) + -(z - zCamera)*(-z - zCamera) == 0) ? 0 : Math.asin((-z - zCamera) / Math.sqrt((x - xCamera)*(x - xCamera) + (-y - yCamera)*(-y - yCamera) + (-z - zCamera)*(-z - zCamera))));
 
 				TetaViewBak = Teta; PhiViewBak = Phi;
 				}
