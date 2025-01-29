@@ -1396,9 +1396,6 @@ public class AV3DNavigator extends JComponent
 			{
 			public void keyPressed(KeyEvent ke)
 				{
-				if ((CameraView == 1) && (ContadorFrames != 0))
-					{x = xt; y = yt; z = zt; Teta = Tetat; Phi = Phit; Rot = Rott;}
-
 				if (ContadorFrames == FramesDeslocamento)
 					{
 					int keyCode = ke.getKeyCode();
@@ -3009,6 +3006,9 @@ public class AV3DNavigator extends JComponent
 			Point reference = FrameEspaco.getLocationOnScreen();
 			MouseX = MouseInfo.getPointerInfo().getLocation().x - reference.x;
 			MouseY = MouseInfo.getPointerInfo().getLocation().y - reference.y;
+
+			if ((CameraView == 1) && (ContadorFrames != 0))
+				{x = xt; y = yt; z = zt; Teta = Tetat; Phi = Phit; Rot = Rott;}
 
 			if (MouseDown == 0)
 				{
