@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Creative Commons Attribution ShareAlike License V3.0.
  * 
- * Última atualização: 28-01-2025. Não considerando alterações em variáveis globais.
+ * Última atualização: 29-01-2025. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -1396,6 +1396,9 @@ public class AV3DNavigator extends JComponent
 			{
 			public void keyPressed(KeyEvent ke)
 				{
+				if ((CameraView == 1) && (ContadorFrames != 0))
+					{x = xt; y = yt; z = zt; Teta = Tetat; Phi = Phit; Rot = Rott;}
+
 				if (ContadorFrames == FramesDeslocamento)
 					{
 					int keyCode = ke.getKeyCode();
