@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Creative Commons Attribution ShareAlike License V3.0.
  * 
- * Última atualização: 29-01-2025. Não considerando alterações em variáveis globais.
+ * Última atualização: 31-01-2025. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -344,7 +344,7 @@ public class AV3DNavigator extends JComponent
 			{
 			try
 				{
-				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorExecCount");
+				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigatorStats/releases/download/AV3DNavigatorStats/AV3DNavigatorExecCount");
 				BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
 				String inputLine;
 				while ((inputLine = in.readLine()) != null);
@@ -358,7 +358,7 @@ public class AV3DNavigator extends JComponent
 			{
 			try
 				{
-				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorEspacosPCount");
+				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigatorStats/releases/download/AV3DNavigatorStats/AV3DNavigatorEspacosPCount");
 				BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
 				String inputLine;
 				while ((inputLine = in.readLine()) != null);
@@ -372,7 +372,7 @@ public class AV3DNavigator extends JComponent
 			{
 			try
 				{
-				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorEspacosPFileCount");
+				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigatorStats/releases/download/AV3DNavigatorStats/AV3DNavigatorEspacosPFileCount");
 				BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
 				String inputLine;
 				while ((inputLine = in.readLine()) != null);
@@ -386,7 +386,7 @@ public class AV3DNavigator extends JComponent
 			{
 			try
 				{
-				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorEspacosPTimeCount");
+				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigatorStats/releases/download/AV3DNavigatorStats/AV3DNavigatorEspacosPTimeCount");
 				BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
 				String inputLine;
 				while ((inputLine = in.readLine()) != null);
@@ -400,7 +400,7 @@ public class AV3DNavigator extends JComponent
 			{
 			try
 				{
-				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorApfloatCount");
+				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigatorStats/releases/download/AV3DNavigatorStats/AV3DNavigatorApfloatCount");
 				BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
 				String inputLine;
 				while ((inputLine = in.readLine()) != null);
@@ -414,7 +414,7 @@ public class AV3DNavigator extends JComponent
 			{
 			try
 				{
-				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigator/releases/download/AV3DNavigatorStatsTag/AV3DNavigatorHelpCount");
+				URL ExecUrl = new URL("https://github.com/antoniovandre2/AV3DNavigatorStats/releases/download/AV3DNavigatorStats/AV3DNavigatorHelpCount");
 				BufferedReader in = new BufferedReader(new InputStreamReader(ExecUrl.openStream()));
 				String inputLine;
 				while ((inputLine = in.readLine()) != null);
