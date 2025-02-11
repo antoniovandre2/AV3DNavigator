@@ -160,9 +160,12 @@ public class AV3DNavigator extends JComponent
 	public int PrintG;
 	public int PrintB;
 	public long CiclesTimeIgn = 100; // Default: 100.
-	public double xCamera = 10; // Valor arbitrário: 10.
-	public double yCamera = -10; // Valor arbitrário: -10.
-	public double zCamera = -10; // Valor arbitrário: -10.
+	public double xCameraInit = 10; // Valor arbitrário: 10.
+	public double yCameraInit = -10; // Valor arbitrário: -10.
+	public double zCameraInit = -10; // Valor arbitrário: -10.
+	public double xCamera = xCameraInit;
+	public double yCamera = yCameraInit;
+	public double zCamera = zCameraInit;
 	public double RotCamera = 0; // Default: 0.
 	public double TamanhoSetaCamera = 2; // Default: 2.
 	// Variáveis de funcionamento interno.
@@ -1265,28 +1268,31 @@ public class AV3DNavigator extends JComponent
 
 									break;
 
-								case "xCamera":
+								case "xCameraInit":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										xCamera = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+										xCameraInit = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+										xCamera = xCameraInit;
 										FlagINI = 1;
 										}
 
 									break;
 
-								case "yCamera":
+								case "yCameraInit":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										yCamera = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+										yCameraInit = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+										yCamera = yCameraInit;
 										FlagINI = 1;
 										}
 
 									break;
 
-								case "zCamera":
+								case "zCameraInit":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										zCamera = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+										zCameraInit = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+										zCamera = zCameraInit;
 										FlagINI = 1;
 										}
 
@@ -1478,6 +1484,10 @@ public class AV3DNavigator extends JComponent
 							FlagCoordRotOnce = 0;
 							CameraView = 0;
 							CameraViewFollow = 1;
+							xCamera = xCameraInit;
+							yCamera = yCameraInit;
+							zCamera = zCameraInit;
+							RotCamera = 0;
 							xBak = 0;
 							yBak = 0;
 							zBak = 0;
