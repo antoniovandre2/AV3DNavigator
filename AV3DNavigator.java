@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Creative Commons Attribution ShareAlike License V3.0.
  * 
- * Última atualização: 31-01-2025. Não considerando alterações em variáveis globais.
+ * Última atualização: 11-02-2025. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -1477,6 +1477,15 @@ public class AV3DNavigator extends JComponent
 							FlagTime = 0;
 							FlagCoordRotOnce = 0;
 							CameraView = 0;
+							CameraViewFollow = 1;
+							xBak = 0;
+							yBak = 0;
+							zBak = 0;
+							TetaBak = 0;
+							PhiBak = 0;
+							RotBak = 0;
+							TetaViewBak = 0;
+							PhiViewBak = 0;
 							}
 						}
 
