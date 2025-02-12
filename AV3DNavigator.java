@@ -1006,7 +1006,7 @@ public class AV3DNavigator extends JComponent
 										{
 										int Temp = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
 
-										if (Math.abs(Temp) <= AntonioVandre.MaximoValorInteiro)
+										if ((Temp > 1) && (Math.abs(Temp) <= AntonioVandre.MaximoValorInteiro))
 											{
 											ResolucaoTriangulos = Temp;
 											FlagINI = 1;
