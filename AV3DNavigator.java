@@ -1963,7 +1963,7 @@ public class AV3DNavigator extends JComponent
 					if (keyCode == KeyEvent.VK_MINUS)
 						{if (ShiftVerticalLegendas > 20) ShiftVerticalLegendas--;}
 
-					if (keyCode == KeyEvent.VK_NUMPAD2) {ResolucaoTriangulos++;}
+					if (keyCode == KeyEvent.VK_NUMPAD2) {if (ResolucaoTriangulos < AntonioVandre.MaximoValorInteiro) ResolucaoTriangulos++;}
 
 					if (keyCode == KeyEvent.VK_NUMPAD1)
 						{if (ResolucaoTriangulos > 2) ResolucaoTriangulos--;}
@@ -2066,7 +2066,7 @@ public class AV3DNavigator extends JComponent
 							} catch (IOException e) {}
 						}
 
-					if (keyCode == KeyEvent.VK_PAGE_UP) {SleepTime++;}
+					if (keyCode == KeyEvent.VK_PAGE_UP) {if (SleepTime < AntonioVandre.MaximoValorInteiro) SleepTime++;}
 
 					if (keyCode == KeyEvent.VK_PAGE_DOWN)
 						{if (SleepTime > 1) SleepTime--;}
