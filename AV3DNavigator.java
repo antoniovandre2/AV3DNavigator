@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Creative Commons Attribution ShareAlike License V3.0.
  * 
- * Última atualização: 11-02-2025. Não considerando alterações em variáveis globais.
+ * Última atualização: 12-02-2025. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -703,7 +703,7 @@ public class AV3DNavigator extends JComponent
 			return;
 			}
 
-		if (AntonioVandre.Versao < 20240921)
+		if (AntonioVandre.Versao < 20250212)
 			{
 			System.out.println(MensagemErroAntonioVandreLib);
 			return;
@@ -776,9 +776,14 @@ public class AV3DNavigator extends JComponent
 								case "x":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										x = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										xt = x;
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											x = Temp;
+											xt = x;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -786,9 +791,14 @@ public class AV3DNavigator extends JComponent
 								case "y":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										y = -Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										yt = y;
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											y = -Temp;
+											yt = y;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -796,9 +806,14 @@ public class AV3DNavigator extends JComponent
 								case "z":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										z = -Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										zt = z;
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											z = -Temp;
+											zt = z;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -806,9 +821,14 @@ public class AV3DNavigator extends JComponent
 								case "Teta":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Teta = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										Tetat = Teta;
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= TetaMax)
+											{
+											Teta = Temp;
+											Tetat = Teta;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -816,9 +836,14 @@ public class AV3DNavigator extends JComponent
 								case "Phi":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Phi = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										Phit = Phi;
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= PhiMax)
+											{
+											Phi = Temp;
+											Phit = Phi;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -826,9 +851,14 @@ public class AV3DNavigator extends JComponent
 								case "Rot":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Rot = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										Rott = Rot;
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Rot = Temp;
+											Rott = Rot;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -836,8 +866,13 @@ public class AV3DNavigator extends JComponent
 								case "RaioTeta":
 									if (AntonioVandre.NumeroRealNaoNegativo(INIelements[1].replaceAll(" ", "")))
 										{
-										RaioTeta = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											RaioTeta = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -845,8 +880,13 @@ public class AV3DNavigator extends JComponent
 								case "RotacaoTeta":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										RotacaoTeta = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											RotacaoTeta = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -854,8 +894,13 @@ public class AV3DNavigator extends JComponent
 								case "RaioPhi":
 									if (AntonioVandre.NumeroRealNaoNegativo(INIelements[1].replaceAll(" ", "")))
 										{
-										RaioPhi = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											RaioPhi = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -863,8 +908,13 @@ public class AV3DNavigator extends JComponent
 								case "RotacaoPhi":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										RotacaoPhi = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											RotacaoPhi = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -872,8 +922,13 @@ public class AV3DNavigator extends JComponent
 								case "DistanciaTela":
 									if (AntonioVandre.NumeroRealPositivo(INIelements[1].replaceAll(" ", "")))
 										{
-										DistanciaTela = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											DistanciaTela = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -881,8 +936,13 @@ public class AV3DNavigator extends JComponent
 								case "FatorAnguloVisao":
 									if (AntonioVandre.NumeroRealPositivo(INIelements[1].replaceAll(" ", "")))
 										{
-										FatorAnguloVisao = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											FatorAnguloVisao = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -890,8 +950,13 @@ public class AV3DNavigator extends JComponent
 								case "MargemAnguloVisao":
 									if (AntonioVandre.NumeroRealNaoNegativo(INIelements[1].replaceAll(" ", "")))
 										{
-										MargemAnguloVisao = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											MargemAnguloVisao = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -939,8 +1004,13 @@ public class AV3DNavigator extends JComponent
 								case "ResolucaoTriangulos":
 									if (AntonioVandre.NumeroNaturalPositivo(INIelements[1].replaceAll(" ", "")))
 										{
-										ResolucaoTriangulos = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										int Temp = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorInteiro)
+											{
+											ResolucaoTriangulos = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -948,8 +1018,13 @@ public class AV3DNavigator extends JComponent
 								case "SleepTime":
 									if (AntonioVandre.NumeroNaturalPositivo(INIelements[1].replaceAll(" ", "")))
 										{
-										SleepTime = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										int Temp = Integer.parseInt(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorInteiro)
+											{
+											SleepTime = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1050,8 +1125,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro0":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro0 = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro0 = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1059,8 +1139,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro0Step":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro0Step = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro0Step = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1068,8 +1153,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro1":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro1 = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro1 = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1077,8 +1167,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro1Step":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro1Step = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro1Step = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1086,8 +1181,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro2":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro2 = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro2 = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1095,8 +1195,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro2Step":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro2Step = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro2Step = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1104,8 +1209,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro3":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro3 = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro3 = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1113,8 +1223,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro3Step":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro3Step = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro3Step = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1122,8 +1237,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro4":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro4 = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro4 = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1131,8 +1251,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro4Step":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro4Step = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro4Step = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1140,8 +1265,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro5":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro5 = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro5 = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1149,8 +1279,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro5Step":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro5Step = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro5Step = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1158,8 +1293,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro6":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro6 = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro6 = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1167,8 +1307,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro6Step":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro6Step = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro6Step = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1176,8 +1321,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro7":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro7 = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro7 = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1185,8 +1335,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro7Step":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro7Step = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro7Step = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1194,8 +1349,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro8":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro8 = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro8 = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1203,8 +1363,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro8Step":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro8Step = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro8Step = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1212,8 +1377,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro9":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro9 = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro9 = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1221,8 +1391,13 @@ public class AV3DNavigator extends JComponent
 								case "Parametro9Step":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										Parametro9Step = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											Parametro9Step = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1230,8 +1405,13 @@ public class AV3DNavigator extends JComponent
 								case "CameraMovePar":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										CameraMovePar = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											CameraMovePar = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1239,8 +1419,13 @@ public class AV3DNavigator extends JComponent
 								case "CameraMoveParStep":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										CameraMoveParStep = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											CameraMoveParStep = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1271,9 +1456,14 @@ public class AV3DNavigator extends JComponent
 								case "xCameraInit":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										xCameraInit = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										xCamera = xCameraInit;
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											xCameraInit = Temp;
+											xCamera = xCameraInit;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1281,9 +1471,14 @@ public class AV3DNavigator extends JComponent
 								case "yCameraInit":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										yCameraInit = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										yCamera = yCameraInit;
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											yCameraInit = Temp;
+											yCamera = yCameraInit;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1291,9 +1486,14 @@ public class AV3DNavigator extends JComponent
 								case "zCameraInit":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										zCameraInit = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										zCamera = zCameraInit;
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											zCameraInit = Temp;
+											zCamera = zCameraInit;
+											FlagINI = 1;
+											}
 										}
 
 									break;
@@ -1301,8 +1501,13 @@ public class AV3DNavigator extends JComponent
 								case "TamanhoSetaCamera":
 									if (AntonioVandre.NumeroReal(INIelements[1].replaceAll(" ", "")))
 										{
-										TamanhoSetaCamera = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
-										FlagINI = 1;
+										double Temp = Double.parseDouble(INIelements[1].replaceAll(" ", ""));
+
+										if (Math.abs(Temp) <= AntonioVandre.MaximoValorReal)
+											{
+											TamanhoSetaCamera = Temp;
+											FlagINI = 1;
+											}
 										}
 
 									break;
