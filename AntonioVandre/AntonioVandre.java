@@ -4,7 +4,7 @@
 
 // Licença de uso: Creative Commons Attribution ShareAlike License V3.0.
 
-// Última atualização: 21-09-2024.
+// Última atualização: 12-02-2025.
 
 // Início escopo desenvolvido por Antonio Vandré Pedrosa Furtunato Gomes.
 
@@ -12,7 +12,7 @@ package AntonioVandre;
 
 public class AntonioVandre
     {
-    public static long Versao = 20240921;
+    public static long Versao = 20250212;
 
     public static String MensagemErro = "Erro do Java (não meu) ou entrada inválida.";
 
@@ -21,6 +21,8 @@ public class AntonioVandre
     public static String MensagemErroNaoNumero = "Um argumento não é número.";
 
     public static double MaximoValorReal = Double.MAX_VALUE;
+
+	public static int MaximoValorInteiro = Integer.MAX_VALUE;
 
     public static String MensagemErroNumeroGrandeDemais = "Um dos números de módulo grande demais para ser trabalhado no Java.";
 
