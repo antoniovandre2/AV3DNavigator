@@ -11,7 +11,7 @@
  * 
  * Licença de uso: Creative Commons Attribution ShareAlike License V3.0.
  * 
- * Última atualização: 12-02-2025. Não considerando alterações em variáveis globais.
+ * Última atualização: 21-02-2025. Não considerando alterações em variáveis globais.
  */
 
 import java.lang.IllegalThreadStateException;
@@ -2982,26 +2982,45 @@ public class AV3DNavigator extends JComponent
 							try
 								{
 								BufferedReader br = new BufferedReader(new FileReader(file));
-								String Content = br.readLine();
 
-								if (AntonioVandre.NumeroReal(Content))
-									ParametroFile0 = Double.parseDouble(Content);
-								else
-									ParametroFile0 = 0;
+								do
+									{
+									String Content = br.readLine();
+
+									if (Content != null) if ((! (Content.replaceAll(" ", "").equals(""))) && (Content.replaceAll(" ", "").charAt(0) != '#'))
+										{
+										if (AntonioVandre.NumeroReal(Content))
+											{
+											ParametroFile0 = Double.parseDouble(Content);
+											break;
+											}
+										else
+											ParametroFile0 = 0;
+										}
+									} while (true);
 								} catch (IOException e) {ParametroFile0 = 0;}
-
 
 							file = new File("AV3DNParFile1.txt");
 
 							try
 								{
 								BufferedReader br = new BufferedReader(new FileReader(file));
-								String Content = br.readLine();
 
-								if (AntonioVandre.NumeroReal(Content))
-									ParametroFile1 = Double.parseDouble(Content);
-								else
-									ParametroFile1 = 0;
+								do
+									{
+									String Content = br.readLine();
+
+									if (Content != null) if ((! (Content.replaceAll(" ", "").equals(""))) && (Content.replaceAll(" ", "").charAt(0) != '#'))
+										{
+										if (AntonioVandre.NumeroReal(Content))
+											{
+											ParametroFile1 = Double.parseDouble(Content);
+											break;
+											}
+										else
+											ParametroFile1 = 0;
+										}
+									} while (true);
 								} catch (IOException e) {ParametroFile1 = 0;}
 
 							file = new File("AV3DNParFile2.txt");
@@ -3009,25 +3028,45 @@ public class AV3DNavigator extends JComponent
 							try
 								{
 								BufferedReader br = new BufferedReader(new FileReader(file));
-								String Content = br.readLine();
 
-								if (AntonioVandre.NumeroReal(Content))
-									ParametroFile2 = Double.parseDouble(Content);
-								else
-									ParametroFile2 = 0;
-								} catch (IOException e) {ParametroFile1 = 2;}
+								do
+									{
+									String Content = br.readLine();
+
+									if (Content != null) if ((! (Content.replaceAll(" ", "").equals(""))) && (Content.replaceAll(" ", "").charAt(0) != '#'))
+										{
+										if (AntonioVandre.NumeroReal(Content))
+											{
+											ParametroFile2 = Double.parseDouble(Content);
+											break;
+											}
+										else
+											ParametroFile2 = 0;
+										}
+									} while (true);
+								} catch (IOException e) {ParametroFile2 = 0;}
 
 							file = new File("AV3DNParFile3.txt");
 
 							try
 								{
 								BufferedReader br = new BufferedReader(new FileReader(file));
-								String Content = br.readLine();
 
-								if (AntonioVandre.NumeroReal(Content))
-									ParametroFile3 = Double.parseDouble(Content);
-								else
-									ParametroFile3 = 0;
+								do
+									{
+									String Content = br.readLine();
+
+									if (Content != null) if ((! (Content.replaceAll(" ", "").equals(""))) && (Content.replaceAll(" ", "").charAt(0) != '#'))
+										{
+										if (AntonioVandre.NumeroReal(Content))
+											{
+											ParametroFile3 = Double.parseDouble(Content);
+											break;
+											}
+										else
+											ParametroFile3 = 0;
+										}
+									} while (true);
 								} catch (IOException e) {ParametroFile3 = 0;}
 
 							file = new File("AV3DNParFile4.txt");
@@ -3035,12 +3074,22 @@ public class AV3DNavigator extends JComponent
 							try
 								{
 								BufferedReader br = new BufferedReader(new FileReader(file));
-								String Content = br.readLine();
 
-								if (AntonioVandre.NumeroReal(Content))
-									ParametroFile4 = Double.parseDouble(Content);
-								else
-									ParametroFile4 = 0;
+								do
+									{
+									String Content = br.readLine();
+
+									if (Content != null) if ((! (Content.replaceAll(" ", "").equals(""))) && (Content.replaceAll(" ", "").charAt(0) != '#'))
+										{
+										if (AntonioVandre.NumeroReal(Content))
+											{
+											ParametroFile4 = Double.parseDouble(Content);
+											break;
+											}
+										else
+											ParametroFile4 = 0;
+										}
+									} while (true);
 								} catch (IOException e) {ParametroFile4 = 0;}
 
 							file = new File("AV3DNParFile5.txt");
@@ -3048,12 +3097,22 @@ public class AV3DNavigator extends JComponent
 							try
 								{
 								BufferedReader br = new BufferedReader(new FileReader(file));
-								String Content = br.readLine();
 
-								if (AntonioVandre.NumeroReal(Content))
-									ParametroFile5 = Double.parseDouble(Content);
-								else
-									ParametroFile5 = 0;
+								do
+									{
+									String Content = br.readLine();
+
+									if (Content != null) if ((! (Content.replaceAll(" ", "").equals(""))) && (Content.replaceAll(" ", "").charAt(0) != '#'))
+										{
+										if (AntonioVandre.NumeroReal(Content))
+											{
+											ParametroFile5 = Double.parseDouble(Content);
+											break;
+											}
+										else
+											ParametroFile5 = 0;
+										}
+									} while (true);
 								} catch (IOException e) {ParametroFile5 = 0;}
 
 							file = new File("AV3DNParFile6.txt");
@@ -3061,12 +3120,22 @@ public class AV3DNavigator extends JComponent
 							try
 								{
 								BufferedReader br = new BufferedReader(new FileReader(file));
-								String Content = br.readLine();
 
-								if (AntonioVandre.NumeroReal(Content))
-									ParametroFile6 = Double.parseDouble(Content);
-								else
-									ParametroFile6 = 0;
+								do
+									{
+									String Content = br.readLine();
+
+									if (Content != null) if ((! (Content.replaceAll(" ", "").equals(""))) && (Content.replaceAll(" ", "").charAt(0) != '#'))
+										{
+										if (AntonioVandre.NumeroReal(Content))
+											{
+											ParametroFile6 = Double.parseDouble(Content);
+											break;
+											}
+										else
+											ParametroFile6 = 0;
+										}
+									} while (true);
 								} catch (IOException e) {ParametroFile6 = 0;}
 
 							file = new File("AV3DNParFile7.txt");
@@ -3074,12 +3143,22 @@ public class AV3DNavigator extends JComponent
 							try
 								{
 								BufferedReader br = new BufferedReader(new FileReader(file));
-								String Content = br.readLine();
 
-								if (AntonioVandre.NumeroReal(Content))
-									ParametroFile7 = Double.parseDouble(Content);
-								else
-									ParametroFile7 = 0;
+								do
+									{
+									String Content = br.readLine();
+
+									if (Content != null) if ((! (Content.replaceAll(" ", "").equals(""))) && (Content.replaceAll(" ", "").charAt(0) != '#'))
+										{
+										if (AntonioVandre.NumeroReal(Content))
+											{
+											ParametroFile7 = Double.parseDouble(Content);
+											break;
+											}
+										else
+											ParametroFile7 = 0;
+										}
+									} while (true);
 								} catch (IOException e) {ParametroFile7 = 0;}
 
 							file = new File("AV3DNParFile8.txt");
@@ -3087,12 +3166,22 @@ public class AV3DNavigator extends JComponent
 							try
 								{
 								BufferedReader br = new BufferedReader(new FileReader(file));
-								String Content = br.readLine();
 
-								if (AntonioVandre.NumeroReal(Content))
-									ParametroFile8 = Double.parseDouble(Content);
-								else
-									ParametroFile8 = 0;
+								do
+									{
+									String Content = br.readLine();
+
+									if (Content != null) if ((! (Content.replaceAll(" ", "").equals(""))) && (Content.replaceAll(" ", "").charAt(0) != '#'))
+										{
+										if (AntonioVandre.NumeroReal(Content))
+											{
+											ParametroFile8 = Double.parseDouble(Content);
+											break;
+											}
+										else
+											ParametroFile8 = 0;
+										}
+									} while (true);
 								} catch (IOException e) {ParametroFile8 = 0;}
 
 							file = new File("AV3DNParFile9.txt");
@@ -3100,12 +3189,22 @@ public class AV3DNavigator extends JComponent
 							try
 								{
 								BufferedReader br = new BufferedReader(new FileReader(file));
-								String Content = br.readLine();
 
-								if (AntonioVandre.NumeroReal(Content))
-									ParametroFile9 = Double.parseDouble(Content);
-								else
-									ParametroFile9 = 0;
+								do
+									{
+									String Content = br.readLine();
+
+									if (Content != null) if ((! (Content.replaceAll(" ", "").equals(""))) && (Content.replaceAll(" ", "").charAt(0) != '#'))
+										{
+										if (AntonioVandre.NumeroReal(Content))
+											{
+											ParametroFile9 = Double.parseDouble(Content);
+											break;
+											}
+										else
+											ParametroFile9 = 0;
+										}
+									} while (true);
 								} catch (IOException e) {ParametroFile9 = 0;}
 							}
 						}
