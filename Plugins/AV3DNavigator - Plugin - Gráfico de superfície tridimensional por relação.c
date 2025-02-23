@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de função.
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta do primeiro membro da igualdade, o segundo membro da igualdade, o menor valor atribuído a "X", o maior valor atribuído a "X", o menor valor atribuído a "Y", o maior valor atribuído a "Y", o menor valor atribuído a "Z", o maior valor atribuído a "Z", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução. 3: a acuidade.
 
-Última atualização: 22-02-2025. Sem considerar alterações em variáveis globais.
+Última atualização: 23-02-2025. Sem considerar alterações em variáveis globais.
 */
 
 #include "antoniovandre_eval/antoniovandre.c"
@@ -422,7 +422,7 @@ int main (int argc, char * argv[])
 							{
 							if (flag == NUMEROUM)
 								{
-								printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", (x + menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao) / 2, (y - menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao) / 2, (z - menoresz[i] + l * (maioresz[i] - menoresz[i]) / resolucao) / 2, (x + menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao) / 2, (y - menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao) / 2, (z - menoresz[i] + l * (maioresz[i] - menoresz[i]) / resolucao) / 2, rgb[i]);
+								printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", (x + menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao) / 2, (y - menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao) / 2, (z - menoresz[i] + (l - NUMEROUM) * (maioresz[i] - menoresz[i]) / resolucao) / 2, (x + menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao) / 2, (y - menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao) / 2, (z - menoresz[i] + (l - NUMEROUM) * (maioresz[i] - menoresz[i]) / resolucao) / 2, rgb[i]);
 
 								fflush(stdout);
 
@@ -433,6 +433,8 @@ int main (int argc, char * argv[])
 					}
 
 	printf("@@");
+
+	printf("%s|", titulo);
 
 	for (i = NUMEROZERO; i < argi; i++)
 		printf("%s = %s;%s|", membro1[i], membro2[i], rgb[i]);
