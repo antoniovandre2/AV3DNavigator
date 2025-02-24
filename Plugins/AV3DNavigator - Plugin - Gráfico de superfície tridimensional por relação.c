@@ -3,7 +3,7 @@ Proprietário: Antonio Vandré Pedrosa Furtunato Gomes (bit.ly/antoniovandre_leg
 
 AV3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
-Arquivo gerador de um espaço do AV3DNavigator gráfico de função.
+Arquivo gerador de um espaço do AV3DNavigator gráfico de superfície por relação.
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta do primeiro membro da igualdade, o segundo membro da igualdade, o menor valor atribuído a "X", o maior valor atribuído a "X", o menor valor atribuído a "Y", o maior valor atribuído a "Y", o menor valor atribuído a "Z", o maior valor atribuído a "Z", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução. 3: a acuidade.
 
