@@ -51,10 +51,6 @@ int main (int argc, char * argv[])
 	TIPONUMEROREAL maioresx [MAXITENS];
 	TIPONUMEROREAL menoresy [MAXITENS];
 	TIPONUMEROREAL maioresy [MAXITENS];
-	TIPONUMEROREAL menoresz [MAXITENS];
-	TIPONUMEROREAL maioresz [MAXITENS];
-	TIPONUMEROREAL x;
-	TIPONUMEROREAL y;
 	TIPONUMEROREAL matrizvalores [MAXRES] [MAXRES];
 	TIPONUMEROREAL valor;
 	char * err;
@@ -384,5 +380,5 @@ int main (int argc, char * argv[])
 	printf("%s|", titulo);
 
 	for (i = NUMEROZERO; i < argi; i++)
-		printf("z = %s;%s|", expressao[i], rgb[i]);
+		printf("Z = %s;%s|", expressao[i], rgb[i]);
 	}
