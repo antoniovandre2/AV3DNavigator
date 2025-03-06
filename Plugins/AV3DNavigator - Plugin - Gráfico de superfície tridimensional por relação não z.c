@@ -5,9 +5,9 @@ AV3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador de um espaço do AV3DNavigator gráfico de superfície tridimensional por relação (não z).
 
-Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da expressão em X e Y, o menor valor atribuído a "X", o maior valor atribuído a "X", o menor valor atribuído a "Y", o maior valor atribuído a "Y", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: a resolução.
+Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da expressão em X e Y, o menor valor atribuído a "X", o maior valor atribuído a "X", o menor valor atribuído a "Y", o maior valor atribuído a "Y", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: "grid" apenas para grid ou "fill" para polígonos preenchidos. 3: a resolução.
 
-Última atualização: 23-02-2025. Sem considerar alterações em variáveis globais.
+Última atualização: 05-03-2025. Sem considerar alterações em variáveis globais.
 */
 
 #include "antoniovandre_eval/antoniovandre.c"
@@ -35,6 +35,7 @@ int main (int argc, char * argv[])
 	char c;
 	int flag = NUMEROZERO;
 	char mainstring [MAXTAMANHOCAMPO];
+	char fillstring [MAXTAMANHOCAMPO];
 	char resstring [MAXTAMANHOCAMPO];
 	char item [MAXITENS] [MAXTAMANHOCAMPO];
 	char titulo [MAXTAMANHOCAMPO];
@@ -56,14 +57,14 @@ int main (int argc, char * argv[])
 	char * err;
 	char tc;
 	char * output;
-	char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da expressão em X e Y, o menor valor atribuído a \"X\", o maior valor atribuído a \"X\", o menor valor atribuído a \"Y\", o maior valor atribuído a \"Y\", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: a resolução.\n";
+	char * mensagemerro = "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da expressão em X e Y, o menor valor atribuído a \"X\", o maior valor atribuído a \"X\", o menor valor atribuído a \"Y\", o maior valor atribuído a \"Y\", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: \"grid\" apenas para grid ou \"fill\" para polígonos preenchidos. 3: a resolução.\n";
 	char * temp;
 
 	int precisao = antoniovandre_precisao_real ();
 
-	if (argc != 3) {printf(mensagemerro); return NUMEROUM;}
+	if (argc != 4) {printf(mensagemerro); return NUMEROUM;}
 
-	for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++) {mainstring[i] = '\0'; titulo[i] = '\0'; resstring[i] = '\0';}
+	for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++) {mainstring[i] = '\0'; titulo[i] = '\0'; fillstring[i] = '\0'; resstring[i] = '\0';}
 
 	for (i = NUMEROZERO; i < MAXITENS; i++)
 		for (j = NUMEROZERO; j < MAXTAMANHOCAMPO; j++)
@@ -82,7 +83,18 @@ int main (int argc, char * argv[])
 	for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++)
 		{
 		if (argv[2][i] == '\0') break;
-		resstring[j++] = argv[2][i];
+		fillstring[j++] = argv[2][i];
+		}
+
+	if ((strcmp(fillstring, "grid")) && (strcmp(fillstring, "fill")))
+		{printf(mensagemerro); return NUMEROUM;}
+
+	j = NUMEROZERO;
+
+	for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++)
+		{
+		if (argv[3][i] == '\0') break;
+		resstring[j++] = argv[3][i];
 		}
 
 	int resolucao = atoi(resstring);
@@ -291,91 +303,184 @@ int main (int argc, char * argv[])
 		if (++argi > MAXITENS) {printf(mensagemerro); return NUMEROUM;}
 		} while (flag == NUMEROZERO);
 
-	for (i = NUMEROZERO; i < argi; i++)
-		for (j = NUMEROZERO; j < resolucao; j++)
-			for (k = NUMEROZERO; k < resolucao; k++)
-				{
-				char valorstr [MAXTAMANHOCAMPO];
 
-				for (m = NUMEROZERO; m < MAXTAMANHOCAMPO; m++) valorstr[m] = '\0';
 
-				char tempstr [MAXTAMANHOCAMPO];
-
-				char pontostrx [MAXTAMANHOCAMPO];
-				char pontostry [MAXTAMANHOCAMPO];
-
-				for (m = NUMEROZERO; m < MAXTAMANHOCAMPO; m++) {tempstr[m] = '\0'; pontostrx[m] = '\0'; pontostry[m] = '\0';}
-
-				shift = NUMEROZERO;
-				n = NUMEROZERO;
-
-				sprintf(pontostrx, "%Lf", menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao);
-
-				sprintf(pontostry, "%Lf", menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao);
-
-				do
+	if (! strcmp(fillstring, "grid"))
+		{
+		for (i = NUMEROZERO; i < argi; i++)
+			for (j = NUMEROZERO; j < resolucao; j++)
+				for (k = NUMEROZERO; k < resolucao; k++)
 					{
-					c = expressao[i][shift++];
+					char valorstr [MAXTAMANHOCAMPO];
 
-					if ((c != 'X') && (c != 'Y'))
-						{tempstr[n++] = c;}
-					else
+					for (m = NUMEROZERO; m < MAXTAMANHOCAMPO; m++) valorstr[m] = '\0';
+
+					char tempstr [MAXTAMANHOCAMPO];
+
+					char pontostrx [MAXTAMANHOCAMPO];
+					char pontostry [MAXTAMANHOCAMPO];
+
+					for (m = NUMEROZERO; m < MAXTAMANHOCAMPO; m++) {tempstr[m] = '\0'; pontostrx[m] = '\0'; pontostry[m] = '\0';}
+
+					shift = NUMEROZERO;
+					n = NUMEROZERO;
+
+					sprintf(pontostrx, "%Lf", menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao);
+
+					sprintf(pontostry, "%Lf", menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao);
+
+					do
 						{
-						if (c == 'X')
+						c = expressao[i][shift++];
+
+						if ((c != 'X') && (c != 'Y'))
+							{tempstr[n++] = c;}
+						else
 							{
-							tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
-							strcat(tempstr, pontostrx);
-							tc = TOKENFIMEVAL; strncat(tempstr, & tc, NUMEROUM);
+							if (c == 'X')
+								{
+								tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
+								strcat(tempstr, pontostrx);
+								tc = TOKENFIMEVAL; strncat(tempstr, & tc, NUMEROUM);
 
-							n += strlen(pontostrx) + 2;
+								n += strlen(pontostrx) + 2;
+								}
+							else if (c == 'Y')
+								{
+								tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
+								strcat(tempstr, pontostry);
+								tc = TOKENFIMEVAL; strncat(tempstr, & tc, NUMEROUM);
+
+								n += strlen(pontostry) + 2;
+								}
 							}
-						else if (c == 'Y')
+						} while (c != '\0');
+
+					strcat(valorstr, tempstr);
+
+					output = antoniovandre_eval (valorstr, precisao);
+
+					valor = strtold (output, & err);
+
+					if (err == output) {free(output); return NUMEROUM;}
+
+					free(output);
+
+					matrizvalores[j][k] = valor;
+					}
+
+		for (i = NUMEROZERO; i < argi; i++)
+			for (j = NUMEROZERO; j < resolucao - NUMEROUM; j++)
+				for (k = NUMEROZERO; k < resolucao - NUMEROUM; k++)
+					{
+					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k], menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k], rgb[i]);
+
+					fflush(stdout);
+
+					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k], menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k + NUMEROUM], rgb[i]);
+
+					fflush(stdout);
+
+					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k + NUMEROUM], menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k + NUMEROUM], rgb[i]);
+
+					fflush(stdout);
+
+					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k + NUMEROUM], menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k], rgb[i]);
+
+					fflush(stdout);
+					}
+
+		printf("@@");
+		}
+
+	if (! strcmp(fillstring, "fill"))
+		{
+		for (i = NUMEROZERO; i < argi; i++)
+			for (j = NUMEROZERO; j < resolucao; j++)
+				for (k = NUMEROZERO; k < resolucao; k++)
+					{
+					char valorstr [MAXTAMANHOCAMPO];
+
+					for (m = NUMEROZERO; m < MAXTAMANHOCAMPO; m++) valorstr[m] = '\0';
+
+					char tempstr [MAXTAMANHOCAMPO];
+
+					char pontostrx [MAXTAMANHOCAMPO];
+					char pontostry [MAXTAMANHOCAMPO];
+
+					for (m = NUMEROZERO; m < MAXTAMANHOCAMPO; m++) {tempstr[m] = '\0'; pontostrx[m] = '\0'; pontostry[m] = '\0';}
+
+					shift = NUMEROZERO;
+					n = NUMEROZERO;
+
+					sprintf(pontostrx, "%Lf", menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao);
+
+					sprintf(pontostry, "%Lf", menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao);
+
+					do
+						{
+						c = expressao[i][shift++];
+
+						if ((c != 'X') && (c != 'Y'))
+							{tempstr[n++] = c;}
+						else
 							{
-							tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
-							strcat(tempstr, pontostry);
-							tc = TOKENFIMEVAL; strncat(tempstr, & tc, NUMEROUM);
+							if (c == 'X')
+								{
+								tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
+								strcat(tempstr, pontostrx);
+								tc = TOKENFIMEVAL; strncat(tempstr, & tc, NUMEROUM);
 
-							n += strlen(pontostry) + 2;
+								n += strlen(pontostrx) + 2;
+								}
+							else if (c == 'Y')
+								{
+								tc = TOKENINICIOEVAL; strncat(tempstr, & tc, NUMEROUM);
+								strcat(tempstr, pontostry);
+								tc = TOKENFIMEVAL; strncat(tempstr, & tc, NUMEROUM);
+
+								n += strlen(pontostry) + 2;
+								}
 							}
-						}
-					} while (c != '\0');
+						} while (c != '\0');
 
-				strcat(valorstr, tempstr);
+					strcat(valorstr, tempstr);
 
-				output = antoniovandre_eval (valorstr, precisao);
+					output = antoniovandre_eval (valorstr, precisao);
 
-				valor = strtold (output, & err);
+					valor = strtold (output, & err);
 
-				if (err == output) {free(output); return NUMEROUM;}
+					if (err == output) {free(output); return NUMEROUM;}
 
-				free(output);
+					free(output);
 
-				matrizvalores[j][k] = valor;
-				}
+					matrizvalores[j][k] = valor;
+					}
 
-	printf("@");
+		printf("@");
 
-	for (i = NUMEROZERO; i < argi; i++)
-		for (j = NUMEROZERO; j < resolucao - NUMEROUM; j++)
-			for (k = NUMEROZERO; k < resolucao - NUMEROUM; k++)
-				{
-				printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;", menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k], menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k]);
+		for (i = NUMEROZERO; i < argi; i++)
+			for (j = NUMEROZERO; j < resolucao - NUMEROUM; j++)
+				for (k = NUMEROZERO; k < resolucao - NUMEROUM; k++)
+					{
+					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;", menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k], menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k]);
 
-				fflush(stdout);
+					fflush(stdout);
 
-				printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf", menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k + NUMEROUM], menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k + NUMEROUM]);
+					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf", menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k + NUMEROUM], menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k + NUMEROUM]);
 
-				fflush(stdout);
+					fflush(stdout);
 
-				if ((j + k) % 2 == NUMEROZERO)
-					printf("c%s|", rgb[i]);
-				else
-					printf("c%s|", rgbs[i]);
+					if ((j + k) % 2 == NUMEROZERO)
+						printf("c%s|", rgb[i]);
+					else
+						printf("c%s|", rgbs[i]);
 
-				fflush(stdout);
-				}
+					fflush(stdout);
+					}
 
-	printf("@");
+		printf("@");
+		}
 
 	printf("%s|", titulo);
 
