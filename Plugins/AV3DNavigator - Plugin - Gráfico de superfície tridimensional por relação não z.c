@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator gráfico de superfície tridimens
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da expressão em X e Y, o menor valor atribuído a "X", o maior valor atribuído a "X", o menor valor atribuído a "Y", o maior valor atribuído a "Y", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: "grid" apenas para grid ou "fill" para polígonos preenchidos. 3: a resolução.
 
-Última atualização: 05-03-2025. Sem considerar alterações em variáveis globais.
+Última atualização: 06-03-2025. Sem considerar alterações em variáveis globais.
 */
 
 #include "antoniovandre_eval/antoniovandre.c"
@@ -381,13 +381,19 @@ int main (int argc, char * argv[])
 
 					fflush(stdout);
 
-					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k + NUMEROUM], menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k + NUMEROUM], rgb[i]);
+					if ((k % 2 == NUMEROZERO) || (k == resolucao - 2))
+						{
+						printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k + NUMEROUM], menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k + NUMEROUM], rgb[i]);
 
-					fflush(stdout);
+						fflush(stdout);
+						}
 
-					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k + NUMEROUM], menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k], rgb[i]);
+					if (j % 2 == NUMEROZERO)
+						{
+						printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k + NUMEROUM], menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k], rgb[i]);
 
-					fflush(stdout);
+						fflush(stdout);
+						}
 					}
 
 		printf("@@");
