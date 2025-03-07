@@ -5,9 +5,9 @@ AV3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
 Arquivo gerador de um espaço do AV3DNavigator superfície tridimensional por coordenadas polares.
 
-Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em \"VARIAVELDESUBSTITUICAO3\" e "VARIAVELDESUBSTITUICAO4" para "ρ", o menor valor atribuído a "VARIAVELDESUBSTITUICAO3", o maior valor atribuído a "VARIAVELDESUBSTITUICAO3", o menor valor atribuído a "VARIAVELDESUBSTITUICAO4", o maior valor atribuído a "V", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: "grid" apenas para grid ou "fill" para polígonos preenchidos. 3: a resolução.
+Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "VARIAVELDESUBSTITUICAO3" e "VARIAVELDESUBSTITUICAO4" para "ρ", o menor valor atribuído a "VARIAVELDESUBSTITUICAO3", o maior valor atribuído a "VARIAVELDESUBSTITUICAO3", o menor valor atribuído a "VARIAVELDESUBSTITUICAO4", o maior valor atribuído a "VARIAVELDESUBSTITUICAO4", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: "grid" apenas para grid ou "fill" para polígonos preenchidos. 3: a resolução. "VARIAVELDESUBSTITUICAO3" para "θ", "VARIAVELDESUBSTITUICAO4" para "φ".
 
-Última atualização: 06-08-2024. Sem considerar alterações em variáveis globais.
+Última atualização: 07-08-2024. Sem considerar alterações em variáveis globais.
 */
 
 #include "antoniovandre_eval/antoniovandre.c"
@@ -90,7 +90,7 @@ int main (int argc, char * argv[])
 
 	for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++) mensagemerro[i] = '\0';
 
-	strcpy(mensagemerro, "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em \"VARIAVELDESUBSTITUICAO3\" e \"VARIAVELDESUBSTITUICAO4\" para \"ρ\", o menor valor atribuído a \"VARIAVELDESUBSTITUICAO3\", o maior valor atribuído a \"VARIAVELDESUBSTITUICAO3\", o menor valor atribuído a \"VARIAVELDESUBSTITUICAO4\", o maior valor atribuído a \"VARIAVELDESUBSTITUICAO4\", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: \"grid\" apenas para grid ou \"fill\" para polígonos preenchidos. 3: a resolução.\n");
+	strcpy(mensagemerro, "Erro.\n\nArgumentos: 1: primeiramente a string título e, após barra vertical \"|\", strings separadas por barra vertical \"|\" com campos separados por ponto e vírgula \";\", composta da função em \"VARIAVELDESUBSTITUICAO3\" e \"VARIAVELDESUBSTITUICAO4\" para \"ρ\", o menor valor atribuído a \"VARIAVELDESUBSTITUICAO3\", o maior valor atribuído a \"VARIAVELDESUBSTITUICAO3\", o menor valor atribuído a \"VARIAVELDESUBSTITUICAO4\", o maior valor atribuído a \"VARIAVELDESUBSTITUICAO4\", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula \",\". 2: \"grid\" apenas para grid ou \"fill\" para polígonos preenchidos. 3: a resolução. \"VARIAVELDESUBSTITUICAO3\" para \"θ\", \"VARIAVELDESUBSTITUICAO4\" para \"φ\".\n");
 
 	for (i = NUMEROZERO; i < MAXTAMANHOCAMPO; i++) tempstr[i] = '\0';
 
@@ -394,7 +394,7 @@ int main (int argc, char * argv[])
 	if (! strcmp(fillstring, "grid"))
 		{
 		for (i = NUMEROZERO; i < argi; i++)
-			for (l = NUMEROZERO; l < resolucao; l++)
+			for (l = NUMEROZERO; l < resolucao + NUMEROUM; l++)
 				{
 				for (j = NUMEROZERO; j < resolucao; j++)
 					{
@@ -863,7 +863,7 @@ int main (int argc, char * argv[])
 				}
 
 		for (i = NUMEROZERO; i < argi; i++)
-			for (l = NUMEROZERO; l < resolucao; l++)
+			for (l = NUMEROZERO; l < resolucao + NUMEROUM; l++)
 				{
 				for (k = NUMEROZERO; k < MAXTAMANHOCAMPO; k++) pontostru[k] = '\0';
 
@@ -1337,7 +1337,7 @@ int main (int argc, char * argv[])
 	if (! strcmp(fillstring, "fill"))
 		{
 		for (i = NUMEROZERO; i < argi; i++)
-			for (l = NUMEROZERO; l < resolucao; l++)
+			for (l = NUMEROZERO; l < resolucao + NUMEROUM; l++)
 				{
 				for (j = NUMEROZERO; j < resolucao; j++)
 					{
