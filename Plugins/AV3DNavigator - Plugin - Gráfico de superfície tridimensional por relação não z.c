@@ -325,9 +325,9 @@ int main (int argc, char * argv[])
 					shift = NUMEROZERO;
 					n = NUMEROZERO;
 
-					sprintf(pontostrx, "%Lf", menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao);
+					sprintf(pontostrx, "%Lf", menoresx[i] + j * (maioresx[i] - menoresx[i]) / (resolucao - NUMEROUM));
 
-					sprintf(pontostry, "%Lf", menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao);
+					sprintf(pontostry, "%Lf", menoresy[i] + k * (maioresy[i] - menoresy[i]) / (resolucao - NUMEROUM));
 
 					do
 						{
@@ -373,24 +373,24 @@ int main (int argc, char * argv[])
 			for (j = NUMEROZERO; j < resolucao - NUMEROUM; j++)
 				for (k = NUMEROZERO; k < resolucao - NUMEROUM; k++)
 					{
-					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k], menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k], rgb[i]);
+					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + j * (maioresx[i] - menoresx[i]) / (resolucao - NUMEROUM), menoresy[i] + k * (maioresy[i] - menoresy[i]) / (resolucao - NUMEROUM), matrizvalores[j][k], menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / (resolucao - NUMEROUM), menoresy[i] + k * (maioresy[i] - menoresy[i]) / (resolucao - NUMEROUM), matrizvalores[j + NUMEROUM][k], rgb[i]);
 
 					fflush(stdout);
 
-					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k], menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k + NUMEROUM], rgb[i]);
+					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / (resolucao - NUMEROUM), menoresy[i] + k * (maioresy[i] - menoresy[i]) / (resolucao - NUMEROUM), matrizvalores[j + NUMEROUM][k], menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / (resolucao - NUMEROUM), menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / (resolucao - NUMEROUM), matrizvalores[j + NUMEROUM][k + NUMEROUM], rgb[i]);
 
 					fflush(stdout);
 
 					if ((k % 2 == NUMEROZERO) || (k == resolucao - 2))
 						{
-						printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k + NUMEROUM], menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k + NUMEROUM], rgb[i]);
+						printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / (resolucao - NUMEROUM), menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / (resolucao - NUMEROUM), matrizvalores[j + NUMEROUM][k + NUMEROUM], menoresx[i] + j * (maioresx[i] - menoresx[i]) / (resolucao - NUMEROUM), menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / (resolucao - NUMEROUM), matrizvalores[j][k + NUMEROUM], rgb[i]);
 
 						fflush(stdout);
 						}
 
 					if (j % 2 == NUMEROZERO)
 						{
-						printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k + NUMEROUM], menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k], rgb[i]);
+						printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lfc%s|", menoresx[i] + j * (maioresx[i] - menoresx[i]) / (resolucao - NUMEROUM), menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / (resolucao - NUMEROUM), matrizvalores[j][k + NUMEROUM], menoresx[i] + j * (maioresx[i] - menoresx[i]) / (resolucao - NUMEROUM), menoresy[i] + k * (maioresy[i] - menoresy[i]) / (resolucao - NUMEROUM), matrizvalores[j][k], rgb[i]);
 
 						fflush(stdout);
 						}
@@ -419,9 +419,9 @@ int main (int argc, char * argv[])
 					shift = NUMEROZERO;
 					n = NUMEROZERO;
 
-					sprintf(pontostrx, "%Lf", menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao);
+					sprintf(pontostrx, "%Lf", menoresx[i] + j * (maioresx[i] - menoresx[i]) / (resolucao - NUMEROUM));
 
-					sprintf(pontostry, "%Lf", menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao);
+					sprintf(pontostry, "%Lf", menoresy[i] + k * (maioresy[i] - menoresy[i]) / (resolucao - NUMEROUM));
 
 					do
 						{
@@ -469,11 +469,11 @@ int main (int argc, char * argv[])
 			for (j = NUMEROZERO; j < resolucao - NUMEROUM; j++)
 				for (k = NUMEROZERO; k < resolucao - NUMEROUM; k++)
 					{
-					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;", menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k], menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + k * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k]);
+					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf;", menoresx[i] + j * (maioresx[i] - menoresx[i]) / (resolucao - NUMEROUM), menoresy[i] + k * (maioresy[i] - menoresy[i]) / (resolucao - NUMEROUM), matrizvalores[j][k], menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / (resolucao - NUMEROUM), menoresy[i] + k * (maioresy[i] - menoresy[i]) / (resolucao - NUMEROUM), matrizvalores[j + NUMEROUM][k]);
 
 					fflush(stdout);
 
-					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf", menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j + NUMEROUM][k + NUMEROUM], menoresx[i] + j * (maioresx[i] - menoresx[i]) / resolucao, menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / resolucao, matrizvalores[j][k + NUMEROUM]);
+					printf("%Lf,%Lf,%Lf;%Lf,%Lf,%Lf", menoresx[i] + (j + NUMEROUM) * (maioresx[i] - menoresx[i]) / (resolucao - NUMEROUM), menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / (resolucao - NUMEROUM), matrizvalores[j + NUMEROUM][k + NUMEROUM], menoresx[i] + j * (maioresx[i] - menoresx[i]) / (resolucao - NUMEROUM), menoresy[i] + (k + NUMEROUM) * (maioresy[i] - menoresy[i]) / (resolucao - NUMEROUM), matrizvalores[j][k + NUMEROUM]);
 
 					fflush(stdout);
 
