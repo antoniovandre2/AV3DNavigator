@@ -7,7 +7,7 @@ Arquivo gerador de um espaço do AV3DNavigator superfície tridimensional por co
 
 Argumentos: 1: primeiramente a string título e, após barra vertical "|", strings separadas por barra vertical "|" com campos separados por ponto e vírgula ";", composta da função em "U" e "V" para "x", função em "U" e "V" para "y", função em "U" e "V" para "z", o menor valor atribuído a "U", o maior valor atribuído a "U", o menor valor atribuído a "V", o maior valor atribuído a "V", e a cor RGB com os menores para vermelho, verde e azul separados por vírgula ",". 2: "grid" apenas para grid ou "fill" para polígonos preenchidos. 3: a resolução.
 
-Última atualização: 23-06-2024. Sem considerar alterações em variáveis globais.
+Última atualização: 07-03-2025. Sem considerar alterações em variáveis globais.
 */
 
 import org.mariuszgromada.math.mxparser.*;
@@ -111,7 +111,7 @@ public class AV3DNgstcp
 		if (fillstring.equals("grid"))
 			{
 			for (i = 0; i < argi; i++)
-				for (j = 0; j < resolucao; j++)
+				for (j = 0; j < resolucao + 1; j++)
 					{
 					String pontostrv;
 
@@ -189,7 +189,7 @@ public class AV3DNgstcp
 					}
 
 			for (i = 0; i < argi; i++)
-				for (j = 0; j < resolucao; j++)
+				for (j = 0; j < resolucao + 1; j++)
 					{
 					String pontostru;
 
@@ -272,7 +272,7 @@ public class AV3DNgstcp
 		if (fillstring.equals("fill"))
 			{
 			for (i = 0; i < argi; i++)
-				for (j = 0; j < resolucao; j++)
+				for (j = 0; j < resolucao + 1; j++)
 					for (k = 0; k < resolucao; k++)
 						{
 						String valorstr;
