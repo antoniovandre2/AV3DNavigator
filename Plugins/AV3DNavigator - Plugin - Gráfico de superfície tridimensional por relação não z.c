@@ -1,5 +1,5 @@
 /*
-Proprietário: Antonio Vandré Pedrosa Furtunato Gomes (bit.ly/antoniovandre_legadoontologico)
+Proprietário: Antonio Vandré Pedrosa Furtunato Gomes
 
 AV3DNavigator: "https://github.com/antoniovandre2/AV3DNavigator".
 
