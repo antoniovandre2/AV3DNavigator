@@ -1,4 +1,4 @@
-# Proprietário: Antonio Vandré Pedrosa Furtunato Gomes (bit.ly/antoniovandre_legadoontologico).
+# Proprietário: Antonio Vandré Pedrosa Furtunato Gomes.
 
 # Arquivo de espaço "Casa.txt", exemplo simples de um espaço do AV3DNavigator.
 

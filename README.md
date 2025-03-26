@@ -2,7 +2,7 @@
 ![AV3DNavigator logo](https://antoniovandre2.github.io/AV3DNavigator/AV3DNavigator%20-%20Logo%20-%20200p.png)
 ____________________
 
-Proprietário: Antonio Vandré Pedrosa Furtunato Gomes ([bit.ly/antoniovandre_legadoontologico](https://bit.ly/antoniovandre_legadoontologico)).
+Proprietário: Antonio Vandré Pedrosa Furtunato Gomes.
 
 README do "AV3DNavigator".
 ____________________
