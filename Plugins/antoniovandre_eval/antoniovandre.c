@@ -1,6 +1,6 @@
-// Proprietário: Antonio Vandre Pedrosa Furtunato Gomes (bit.ly/antoniovandre_legadoontologico).
+// Proprietário: Antonio Vandre Pedrosa Furtunato Gomes.
 
-// Projeto Mathematical Ramblings (mathematicalramblings.blogspot.com).
+// Projeto Mathematical Ramblings.
 
 // Biblioteca C de funções e constantes pertencentes a Antonio Vandre Pedrosa Furtunato Gomes.
 
