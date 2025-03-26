@@ -1,5 +1,5 @@
 /*
- * Proprietário: Antonio Vandré Pedrosa Furtunato Gomes (bit.ly/antoniovandre_legadoontologico).
+ * Proprietário: Antonio Vandré Pedrosa Furtunato Gomes.
  * 
  * Software AV3DNavigator.
  * 
@@ -1520,7 +1520,7 @@ public class AV3DNavigator extends JComponent
 
 		// Licenciamento do mXparser.
 
-		boolean isCallSuccessful = License.iConfirmNonCommercialUse("Antonio Vandré Pedrosa Furtunato Gomes (bit.ly/antoniovandre_legadoontologico)");
+		boolean isCallSuccessful = License.iConfirmNonCommercialUse("Antonio Vandré Pedrosa Furtunato Gomes");
 
 		// Helper do Apfloat definindo a precisão do retorno de todas as funções.
 
