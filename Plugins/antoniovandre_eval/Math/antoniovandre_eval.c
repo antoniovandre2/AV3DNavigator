@@ -1,4 +1,4 @@
-// Projeto Mathematical Ramblings (mathematicalramblings.blogspot.com).
+// Projeto Mathematical Ramblings.
 
 // Retorna a avaliação (eval) da expressão passada como argumento.
 
